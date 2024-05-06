@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EDI - Layout</title>
+
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4H72FE76WD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-4H72FE76WD');
+</script>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+
+
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
+    <!-- External libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/moment"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <!-- Link to the Select2 files -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+    <script src="layout.js"></script>
+
+
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div class="row">
+        <nav class="navbar sticky-navbar col-4">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img id="mainLogo" src="edi-black.png" alt="EDI Dashboard" height="100">
+                </a>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <!-- Your navbar content goes here -->
+                </div>
+            </div>
+        </nav>
+        <div class="col-8"></div>
+    </div>
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-3">
+            <div class="sticky-sidebar ">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 ">
+                    <!-- Sidebar content -->
+                    <ul class="nav navbar nav-pills flex-column align-items-center align-items-sm-start" id="menu">
+                        <li>
+                            <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                                <a href="index.html" class="nav-link px-0"><i class="fs-4 bi-speedometer2"></i> <span
+                                    class="ms-1 d-none d-sm-inline">Dashboard</span></a>
+                                <span class="badge text-bg-info">alpha-release</span></a>
+                        </li>
+                        <hr />
+                        <li class="nav-item">
+                            <a href="#consensus-menu" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
+                                <i class="bi bi-boxes"></i> <span class="ms-1 d-none d-sm-inline">Consensus</span>
+                                <i class="bi bi-chevron-down ms-1"></i> <!-- Dropdown indicator icon --> </a>
+                            <ul class="collapse nav flex-column ms-1" id="consensus-menu" data-bs-parent="#menu">
+                                <li class="w-100">
+                                    <a href="consensus/" class="nav-link px-0"><i class="bi bi-graph-up"></i> <span
+                                            class="d-none d-sm-inline">Dashboard</span></a>
+                                    <ul class="collapse nav flex-column ms-1" id="layer-cons" data-bs-parent="#menu">
+                                    </ul>
+                                </li>
+                                
+                                <li class="w-100">
+                                    <a href="consensus/methodology.html" class="nav-link px-0"><i
+                                        class="bi bi-filter-square"></i> <span
+                                        class="d-none d-sm-inline">Methodology</span> </a>
+                                </li>
+                                <li>
+                                    <a href="https://github.com/Blockchain-Technology-Lab/consensus-decentralization"
+                                        target="_blank" class="nav-link px-0"><i class="bi bi-code-slash"></i> <span
+                                            class="d-none d-sm-inline">Source code</span> </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#tokenomics-menu" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
+                                <i class="bi bi-cash-stack"></i> <span class="ms-1 d-none d-sm-inline">Tokenomics</span>
+                                <i class="bi bi-chevron-down ms-1"></i> <!-- Dropdown indicator icon --> </a>
+                            <ul class="collapse nav flex-column ms-1" id="tokenomics-menu" data-bs-parent="#menu">
+                                
+                                <li>
+                                    <a href="index.html" class="nav-link px-0"> <i class="bi bi-graph-up"></i><span
+                                            class="d-none d-sm-inline">Dashboard</span></a>
+                                </li>
+                                <li class="w-100">
+                                    <a href="methodology.html" class="nav-link px-0"><i
+                                        class="bi bi-filter-square"></i> <span
+                                        class="d-none d-sm-inline">Methodology</span> </a>
+                                </li>
+                                <li class="w-100">
+                                    <a href="https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization"
+                                        target="_blank" class="nav-link px-0"><i class="bi bi-code-slash"></i> <span
+                                            class="d-none d-sm-inline">Source code</span> </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <div class="mt-auto"> <!-- This class ensures it sticks to the bottom -->
+                        <div class="mode-switch">
+                            <button title="Use dark mode" id="dark" class="btn btn-sm btn-default text-secondary">
+                                <i class="bi bi-moon"></i>
+                            </button>
+                            <button title="Use light mode" id="light" class="btn btn-sm btn-default text-secondary">
+                                <i class="bi bi-sun"></i>
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-9">
+            <!-- Main content area -->
+            <main class="main-content">
+                <!-- Main content -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Accessibility Statement</h2>
+                    </div>
+                    <div class="card-body">
+                        <!-- <h6 class="card-title">Info</h6> -->
+                        <p class="card-text">This website is run by the School of Informatics and is committed to
+                            ensuring accessibility of its digital products and services to all users, including those
+                            with disabilities. We strive to adhere to the Web Content Accessibility Guidelines (WCAG)
+                            2.1 at the AA level to provide an inclusive and accessible experience for all visitors.
+                        <ul>
+                            <li><b>Keyboard Navigation</b>: Most of our website can be navigated using standard keyboard
+                                commands.</li>
+                            <li><b>Alt Text for Images</b>: The images on our website are accompanied by descriptive
+                                alternative text.</li>
+                            <li><b>Color Contrast</b>: We maintain sufficient color contrast throughout our website to
+                                ensure readability for users with low vision or color blindness.</li>
+                            <li><b>Resizable Text</b>: Users can adjust text size and font styles using browser
+                                settings, allowing for greater readability and customization.</li>
+                        </ul>
+                        </p>
+                        <div class="divider mt-5 mb-5"></div>
+                        <p class="card-text">
+                            <b><u>Feedback</u></b>
+                            We welcome feedback on the accessibility of our website. If you encounter any accessibility
+                            barriers or have suggestions for improvement, please contact us at edi@ed.ac.uk. We are
+                            committed to addressing and resolving accessibility issues promptly.
+                        </p>
+
+                        <div class="divider mt-5 mb-5"></div>
+                        <p class="card-text">
+                            <b><u>Accessibility Compliance</u></b>
+                            Our team regularly evaluates our website to ensure compliance with accessibility standards.
+                            While we strive to adhere to WCAG guidelines, we recognise that achieving full accessibility
+                            may be an ongoing process. We are dedicated to continually improving the accessibility of
+                            our digital products and services.
+                        </p>
+
+                        <div class="divider mt-5 mb-5"></div>
+                        <p class="card-text">
+                            <b><u>Accessibility Statement Updates</u></b>
+                            This Accessibility Statement will be reviewed and updated regularly to reflect any changes
+                            in accessibility features or standards. The last update to this statement was on March 22,
+                            2024.
+                        </p>
+                        <div class="divider mt-5 mb-5"></div>
+                        <p class="card-text">
+                            <b><u>Contact Us</u></b>
+                            If you have any questions or concerns about the accessibility of our website, please contact
+                            us at edi@ed.ac.uk.
+                        </p>
+
+                    </div>
+                </div>
+
+                <div class="divider mt-5 mb-5"></div>
+
+
+
+                <!-- Chart containers -->
+
+
+
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer text-center">
+        <span id="bottom">
+            <hr>
+            <p class="pull-left"><a href="https://www.ed.ac.uk/informatics/blockchain/edi/" target="_blank">EDI</a> ©
+                2024 Edinburgh Decentralisation Index.</p>
+            <div class="row">
+                <ul class="list-unstyled">
+                    <li class="d-inline col-xs-4"><i class="bi bi-universal-access-circle"></i>&nbsp;<a
+                            href="#">Accessibility</a>&nbsp;</li>
+                    <li class="d-inline col-xs-4"><i class="bi bi-shield-shaded"></i>&nbsp;<a
+                            href="https://computing.help.inf.ed.ac.uk/logging-policy">Privacy</a>&nbsp;
+                    </li>
+                    <li class="d-inline col-xs-4"><i class="bi bi-envelope-at"></i>&nbsp;<a
+                            href="mailto:edi@ed.ac.uk">edi@ed.ac.uk</a>&nbsp;</li>
+                </ul>
+            </div>
+        </span>
+    </div>
+
+</body>
+
+</html>

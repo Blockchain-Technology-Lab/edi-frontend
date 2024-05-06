@@ -1,0 +1,83 @@
+/* Default styles for menu items */
+.nav-link {
+    color: black; /* Default color */
+}
+
+/* Dark theme styles */
+.dark .nav-link {
+    color: white; /* Change color for dark theme */
+}
+   /* Default color for light theme */
+    .light .page-heading {
+        color: black; /* Set desired color for light theme */
+    }
+
+    /* Color for dark theme */
+    .dark .page-heading {
+        color: white; /* Set desired color for dark theme */
+    }
+
+ /* Navbar style */
+.sticky-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1030;
+    width: 100%;
+}
+
+/* Sidebar style */
+.sticky-sidebar {
+    position: fixed; 
+    top: 150px; 
+    left: 0;
+    bottom: 0;
+    z-index: 1020;
+    /*max-width: 20%;*/
+    max-height: calc(100vh - 100px - 3rem); 
+    overflow-y: auto;
+    margin-bottom: 0;
+}
+
+/* Adjusted theme switcher position */
+.mode-switch {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+}
+
+.main-content {
+    padding-top: 3rem;
+    /*padding-left: 30%; */
+    padding-right: 1rem;
+}
+
+
+/* Ensure the footer stays at the bottom */
+.footer {
+    /*position: fixed; */
+    bottom: 0;
+    
+    /*width: calc(100% - 16rem); */
+    padding: 1rem;
+}
+
+/* Media query for smaller screens */
+
+@media (max-width: 768px) {
+    .sticky-navbar, .sticky-sidebar {
+        position: static;
+        width: 100%;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .footer {
+        left: 0;
+        width: 100%;
+    }
+}
