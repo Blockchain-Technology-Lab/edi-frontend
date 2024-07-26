@@ -8,8 +8,6 @@ $(document).ready(function () {
         ledgerSelectId: "ledger-select-1",
         sliderId: "timeframe-slider-1",
         onChange: (data, config, minValue, maxValue) => {
-          //console.log(`Range selected for Chart 1: ${minValue} to ${maxValue}`);
-          // Update Chart 1 based on selected range
           updateChart(data, config, minValue, maxValue);
         },
       },
@@ -20,8 +18,6 @@ $(document).ready(function () {
         ledgerSelectId: "ledger-select-2",
         sliderId: "timeframe-slider-2",
         onChange: (data, config, minValue, maxValue) => {
-          //console.log(`Range selected for Chart 1: ${minValue} to ${maxValue}`);
-          // Update Chart 1 based on selected range
           updateChart(data, config, minValue, maxValue);
         },
       },
@@ -32,8 +28,6 @@ $(document).ready(function () {
         ledgerSelectId: "ledger-select-3",
         sliderId: "timeframe-slider-3",
         onChange: (data, config, minValue, maxValue) => {
-          //console.log(`Range selected for Chart 1: ${minValue} to ${maxValue}`);
-          // Update Chart 1 based on selected range
           updateChart(data, config, minValue, maxValue);
         },
       },
@@ -43,8 +37,6 @@ $(document).ready(function () {
         ledgerSelectId: "ledger-select-4",
         sliderId: "timeframe-slider-4",
         onChange: (data, config, minValue, maxValue) => {
-          //console.log(`Range selected for Chart 1: ${minValue} to ${maxValue}`);
-          // Update Chart 1 based on selected range
           updateChart(data, config, minValue, maxValue);
         },
       },
@@ -54,8 +46,6 @@ $(document).ready(function () {
         ledgerSelectId: "ledger-select-5",
         sliderId: "timeframe-slider-5",
         onChange: (data, config, minValue, maxValue) => {
-          //console.log(`Range selected for Chart 1: ${minValue} to ${maxValue}`);
-          // Update Chart 1 based on selected range
           updateChart(data, config, minValue, maxValue);
         },
       },
@@ -135,6 +125,16 @@ $(document).ready(function () {
       // Create a new Date object with the year and month (day defaults to 1)
       return new Date(year, monthNumber);
     };
+
+      // Function to parse the date from 'MMM-YYYY' format
+      const parseExtendDate = (dateString) => {
+        // Split the date string by '-'
+        const [year, month, day] = dateString.split("-");
+        // Convert month name to a number (e.g., 'Jan' to 0, 'Feb' to 1, etc.)
+        //const monthNumber = moment().month(month).format("M") - 1;
+        // Create a new Date object with the year and month (day defaults to 1)
+        return new Date(year, month-1, day);
+      };
   
     // Parse CSV data into structured format
     function parseCSV(csv) {
@@ -153,7 +153,8 @@ $(document).ready(function () {
             //console.log('Header: ', valueColumns.includes(header.trim()));
             const value = values[index].trim();
             if (header.trim() === "date") {
-              entry[header.trim()] = parseDate(value);
+              entry[header.trim()] = parseExtendDate(value);
+              
             } else if (header.trim() === "repo") {
               entry[header.trim()] = value; // Store ledger name
             } else if (valueColumns.includes(header.trim())) {
@@ -312,7 +313,7 @@ $(document).ready(function () {
   
     function renderOneChart(data, config, index) {
       const dates = data.map((entry) => entry.date);
-      console.log('Dates: ', dates)
+      //console.log('Dates: ', dates)
       const minDate = new Date(Math.min(...dates));
       const maxDate = new Date(Math.max(...dates));
   
