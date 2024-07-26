@@ -5,7 +5,7 @@ $(document).ready(function () {
       {
         metric: "entropy",
         containerId: "chart-container-1",
-        ledgerSelectId: "ledger-select-1",
+        repoSelectId: "repo-select-1",
         sliderId: "timeframe-slider-1",
         onChange: (data, config, minValue, maxValue) => {
           updateChart(data, config, minValue, maxValue);
@@ -15,7 +15,7 @@ $(document).ready(function () {
       {
         metric: "hhi",
         containerId: "chart-container-2",
-        ledgerSelectId: "ledger-select-2",
+        repoSelectId: "repo-select-2",
         sliderId: "timeframe-slider-2",
         onChange: (data, config, minValue, maxValue) => {
           updateChart(data, config, minValue, maxValue);
@@ -25,7 +25,7 @@ $(document).ready(function () {
       {
         metric: "theil_index",
         containerId: "chart-container-3",
-        ledgerSelectId: "ledger-select-3",
+        repoSelectId: "repo-select-3",
         sliderId: "timeframe-slider-3",
         onChange: (data, config, minValue, maxValue) => {
           updateChart(data, config, minValue, maxValue);
@@ -34,7 +34,7 @@ $(document).ready(function () {
       {
         metric: "max_power_ratio",
         containerId: "chart-container-4",
-        ledgerSelectId: "ledger-select-4",
+        repoSelectId: "repo-select-4",
         sliderId: "timeframe-slider-4",
         onChange: (data, config, minValue, maxValue) => {
           updateChart(data, config, minValue, maxValue);
@@ -43,7 +43,7 @@ $(document).ready(function () {
       {
         metric: "total_entities",
         containerId: "chart-container-5",
-        ledgerSelectId: "ledger-select-5",
+        repoSelectId: "repo-select-5",
         sliderId: "timeframe-slider-5",
         onChange: (data, config, minValue, maxValue) => {
           updateChart(data, config, minValue, maxValue);
@@ -59,8 +59,8 @@ $(document).ready(function () {
       "total_entities",
     ];
   
-    // Define ledger names in the desired order
-    const ledgerNames = [
+    // Define repo names in the desired order
+    const repoNames = [
       "bitcoin",
       "bitcoin-cash-node",
       "cardano-node",
@@ -86,10 +86,10 @@ $(document).ready(function () {
       "rgba(114, 82, 49, 1)",
     ];
   
-    // Create a ledger-to-color mapping using the colours array
-    const ledgerColorMap = {};
-    ledgerNames.forEach((ledger, index) => {
-      ledgerColorMap[ledger] = colours[index % colours.length]; // Use modulo to cycle through colours
+    // Create a repo-to-color mapping using the colours array
+    const repoColorMap = {};
+    repoNames.forEach((repo, index) => {
+      repoColorMap[repo] = colours[index % colours.length]; // Use modulo to cycle through colours
     });
   
     // Store references to chart instances
@@ -156,7 +156,7 @@ $(document).ready(function () {
               entry[header.trim()] = parseExtendDate(value);
               
             } else if (header.trim() === "repo") {
-              entry[header.trim()] = value; // Store ledger name
+              entry[header.trim()] = value; // Store repo name
             } else if (valueColumns.includes(header.trim())) {
               entry[header.trim()] = parseFloat(value);
             }
@@ -190,7 +190,7 @@ $(document).ready(function () {
       const maxValue = maxDate.getTime();
   
       const checkboxes = document.querySelectorAll(
-        `#${config.ledgerSelectId} input[type="checkbox"]`
+        `#${config.repoSelectId} input[type="checkbox"]`
       );
       checkboxes.forEach((checkbox) => {
         checkbox.addEventListener("change", () => {
@@ -202,9 +202,9 @@ $(document).ready(function () {
     // Update chart based on selected checkboxes
     function updateChart(data, config, minValue, maxValue) {
       const checkboxes = document.querySelectorAll(
-        `#${config.ledgerSelectId} input[type="checkbox"]:checked`
+        `#${config.repoSelectId} input[type="checkbox"]:checked`
       );
-      const selectedLedgers = Array.from(checkboxes).map(
+      const selectedRepos = Array.from(checkboxes).map(
         (checkbox) => checkbox.value
       );
   
@@ -213,16 +213,16 @@ $(document).ready(function () {
         return snapshot_date >= minValue && snapshot_date <= maxValue;
       });
   
-      const datasets = selectedLedgers.map((ledger) => ({
-        label: ledger,
-        data: filteredData.map((entry) => entry[ledger]),
+      const datasets = selectedRepos.map((repo) => ({
+        label: repo,
+        data: filteredData.map((entry) => entry[repo]),
         borderColor: colours[index % colours.length],
         backgroundColor: colours[index % colours.length],
         fill: false,
         hidden: false, // Show all datasets initially
       }));
   
-      //console.log(`Slider: ${config.ledgerSelectId}`)
+      //console.log(`Slider: ${config.repoSelectId}`)
       renderLineChart(filteredData, config);
     }
   
@@ -322,9 +322,9 @@ $(document).ready(function () {
   
       //console.log('minDate: ', minDate, ' maxDate: ', maxDate)
 
-      // Initialize ledger datasets for the current metric
+      // Initialize repo datasets for the current metric
       metric = config.metric;
-      const ledgerDatasets = {};
+      const repoDatasets = {};
       const canvasId = `${metric}`; // Unique canvas ID for each metric
       const ctx = document.getElementById(canvasId).getContext("2d");
       if (!ctx) {
@@ -340,32 +340,32 @@ $(document).ready(function () {
   
       // Iterate through data entries
       data.forEach((entry) => {
-        const ledger = entry.repo;
+        const repo = entry.repo;
   
-        // Ensure ledger dataset for the current metric is initialized
-        if (!ledgerDatasets[ledger]) {
+        // Ensure repo dataset for the current metric is initialized
+        if (!repoDatasets[repo]) {
           const colorIndex = colours[index % colours.length];
-          ledgerDatasets[ledger] = {
-            label: ledger,
+          repoDatasets[repo] = {
+            label: repo,
             data: [],
-            borderColor: ledgerColorMap[ledger],
-            backgroundColor: ledgerColorMap[ledger],
+            borderColor: repoColorMap[repo],
+            backgroundColor: repoColorMap[repo],
             fill: false,
           };
         }
   
-        // Push data point (x: snapshot_date, y: metric value) to the ledger dataset
-        ledgerDatasets[ledger].data.push({
+        // Push data point (x: snapshot_date, y: metric value) to the repo dataset
+        repoDatasets[repo].data.push({
           x: entry.date,
           y: entry[metric],
         });
         //col = getRandomColor();
-        //ledgerDatasets[ledger].borderColor = colours[colorIndex];
-        //ledgerDatasets[ledger].backgroundColor = colours[colorIndex];
+        //repoDatasets[repo].borderColor = colours[colorIndex];
+        //repoDatasets[repo].backgroundColor = colours[colorIndex];
       });
   
       // Extract datasets for the current metric
-      const datasets = Object.values(ledgerDatasets);
+      const datasets = Object.values(repoDatasets);
   
       const filteredData = data.filter((entry) => {
         const timeframe = entry.date.getTime(); // Convert timeframe to milliseconds
@@ -666,7 +666,7 @@ const borderColors = values.map(() => getRandomColor(1));
             label: '# of Commits',
             data: values,
             backgroundColor: backgroundColors,
-            borderColor: borderColors,
+            //borderColor: borderColors,
             borderWidth: 1
         }]
         },
