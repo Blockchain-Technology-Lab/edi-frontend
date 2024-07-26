@@ -1,5 +1,5 @@
 // jQuery document ready function to ensure the DOM is fully loaded
-$(document).ready(function () {
+$(document).ready(function () { 
     // Define chart configurations
     const chartConfigs = [
       {
@@ -493,8 +493,7 @@ $(document).ready(function () {
   
     //  $("#toastMsg").text(`File: ${fileName} Loading...`);
   
-  //    toast = new bootstrap.Toast($("#liveToast"));
-  //    toast.show();
+ 
     });
   
     // Function to apply styles for the light theme
@@ -597,5 +596,157 @@ $(document).ready(function () {
     window
       .matchMedia("(prefers-color-scheme: light)")
       .addEventListener("change", () => setTheme());
+
+    const doughnutFileName = "output/for_dougnut_charts/by_lines_changed_per_author/bitcoin_commits_per_entity.csv";
+    
+    const doughnutCharts = ["bitcoin", "bitcoin_cash", "cardano", "go-ethereum", "litecoin", "nethermind", "polkadot-sdk", "solana", "tezos", "zcash"]
+
+    function loadDoughnutChartData(fileName) {
+      fetch(fileName)
+        .then((response) => response.text())
+        .then((csvData) => {
+          const authors = parseDoughnutData(csvData);
+
+          
+          //doughnutCharts.forEach((dougnut) => {
+            renderDougnutChart("doughnut_bitcoin", authors);
+          //});
+        })
+        .catch((error) => {
+          console.error(`Error loading data for ${fileName}:`, error);
+        });
+    }
+    
+    
+    function parseDoughnutData(data) {
+      const lines = data.trim().split("\n");
+      const labels = [];
+      const values = [];
+      const authors = [];
+
+  
+      lines.forEach(line => {
+          const [label, value] = line.split(",");
+          authors.push({ label, value: Number(value) });
+
+      });
+  
+      return authors;
+    }
+
+    function renderDougnutChart(doughnut, authors) {
+      
+                // Get the top 10 authors
+      const topAuthors = getTopAuthors(authors, 10);
+
+      // Extract labels and values for the chart
+const labels = topAuthors.map(author => author.label);
+const values = topAuthors.map(author => author.value);
+
+// Generate random colors for the chart
+const backgroundColors = values.map(() => getRandomColor(0.2));
+const borderColors = values.map(() => getRandomColor(1));
+
+
+
+      const canvasId = `${doughnut}`; // Unique canvas ID for each metric
+      const ctx = document.getElementById(canvasId).getContext("2d");
+      if (!ctx) {
+        console.error(`Canvas context not found for ID: ${canvasId}`);
+        return; // Skip rendering if canvas context is not found
+      }
+  
+     
+      // Determine chart options (e.g., title, axis labels) based on the metric
+      const doughnutChartOptions = {
+        type: "doughnut",
+        data: {
+          labels: labels,
+          datasets: [{
+            label: '# of Commits',
+            data: values,
+            backgroundColor: backgroundColors,
+            borderColor: borderColors,
+            borderWidth: 1
+        }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: {
+            duration: 1000,
+            easing: "easeInOutQuad",
+          },
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                    const label = context.label || '';
+                    const value = context.raw || 0;
+                    return `${label}: ${value} commits`;
+                }
+            }
+            },
+            watermark: chart_watermark,
+            legend: {
+              
+                position: 'top',
+              
+            },
+            title: {
+              display: true,
+              text: 'Top 10 Authors by Number of Commits'
+          }
+          },
+        },
+      };
+  
+      // Create and store a new chart instance for the current metric
+      const doughnut_chart = new Chart(ctx, doughnutChartOptions);
+      Chart.register(chart_watermark);
+    }
+
+    // Function to get the top N authors
+const getTopAuthors = (authors, topN) => {
+  // Sort authors by the number of commits in descending order
+  authors.sort((a, b) => b.value - a.value);
+
+  // Get the top N authors
+  const topAuthors = authors.slice(0, topN);
+
+     // Get the remaining authors
+     const otherAuthors = authors.slice(topN);
+
+
+  // Calculate total commits for percentage calculation
+  const totalCommits = topAuthors.reduce((sum, author) => sum + author.value, 0);
+
+  // Calculate percentages and format labels
+  topAuthors.forEach(author => {
+      author.percentage = ((author.value / totalCommits) * 100).toFixed(2);
+      author.label = `${author.label} (${author.percentage}%)`;
+  });
+
+  // Calculate the total commits and percentage for "Others"
+  const othersValue = otherAuthors.reduce((sum, author) => sum + author.value, 0);
+  const othersPercentage = ((othersValue / totalCommits) * 100).toFixed(2);
+
+    // Add "Others" to the top authors
+    topAuthors.push({ label: `Others (${othersPercentage}%)`, value: othersValue });
+
+
+  return topAuthors;
+};
+
+// Function to generate a random RGB color
+function getRandomColor(opacity) {
+  const r = Math.floor(Math.random() * 256);
+  const g = Math.floor(Math.random() * 256);
+  const b = Math.floor(Math.random() * 256);
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+}
+
+    loadDoughnutChartData(doughnutFileName)
+
   });
   
