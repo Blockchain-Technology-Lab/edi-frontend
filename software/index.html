@@ -75,7 +75,11 @@
     <div class="row">
       <nav class="navbar sticky-navbar col-4">
         <div class="container-fluid">
-          <a class="navbar-brand" href="https://informatics.ed.ac.uk/blockchain/edi" target="_blank">
+          <a
+            class="navbar-brand"
+            href="https://informatics.ed.ac.uk/blockchain/edi"
+            target="_blank"
+          >
             <img
               id="mainLogo"
               src="../edi-black.png"
@@ -201,6 +205,45 @@
                   </li>
                 </ul>
               </li>
+              <li class="nav-item">
+                <a
+                  href="#software-menu"
+                  data-bs-toggle="collapse"
+                  class="nav-link px-0 align-middle"
+                >
+                  <i class="bi bi-cash-stack"></i>
+                  <span class="ms-1 d-none d-sm-inline">Software</span>
+                  <i class="bi bi-chevron-down ms-1"></i>
+                  <!-- Dropdown indicator icon -->
+                </a>
+                <ul
+                  class="collapse nav flex-column ms-1"
+                  id="software-menu"
+                  data-bs-parent="#menu"
+                >
+                  <li>
+                    <a href="#" class="nav-link px-0">
+                      <i class="bi bi-graph-up"></i
+                      ><span class="d-none d-sm-inline">Dashboard</span></a
+                    >
+                  </li>
+                  <li class="w-100">
+                    <a href="methodology.html" class="nav-link px-0"
+                      ><i class="bi bi-filter-square"></i>
+                      <span class="d-none d-sm-inline">Methodology</span>
+                    </a>
+                  </li>
+                  <li class="w-100">
+                    <a
+                      href="https://github.com/Blockchain-Technology-Lab/software-decentralization"
+                      target="_blank"
+                      class="nav-link px-0"
+                      ><i class="bi bi-code-slash"></i>
+                      <span class="d-none d-sm-inline">Source code</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
             </ul>
 
             <div class="mt-auto">
@@ -301,7 +344,7 @@
           </div>
 
           <div class="divider mt-5 mb-5"></div>
-          
+
           <div class="card">
             <div class="card-header">
               <h5 class="card-title">HHI</h5>
@@ -385,9 +428,7 @@
               <h5 class="card-title">Total_entities</h5>
             </div>
             <div class="card-body">
-              <p class="fw-lighter font-monospace">
-                Total Entities
-              </p>
+              <p class="fw-lighter font-monospace">Total Entities</p>
               <div>
                 <canvas
                   id="total_entities"
@@ -406,9 +447,7 @@
               <h5 class="card-title">Bitcoin</h5>
             </div>
             <div class="card-body">
-              <p class="fw-lighter font-monospace">
-                Bitcoin repo
-              </p>
+              <p class="fw-lighter font-monospace">Bitcoin repo</p>
               <div>
                 <canvas
                   id="doughnut_bitcoin"
