@@ -1,4 +1,5 @@
 import "@/styles/globals.css"
+import { ThemeProvider } from "next-themes"
 import type { AppProps } from "next/app"
 import Head from "next/head"
 
@@ -8,7 +9,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <title>EDI - Tokenomics Layer</title>
       </Head>
-      <Component {...pageProps} />
+      <ThemeProvider attribute="class">
+        <Component {...pageProps} />
+      </ThemeProvider>
     </>
   )
 }
