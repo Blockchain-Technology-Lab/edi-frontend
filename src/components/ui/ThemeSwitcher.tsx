@@ -45,9 +45,7 @@ function ThemeButton({ icon, label, theme }: ThemeButtonProps) {
       onClick={() => setTheme(theme)}
       className={twJoin(
         "flex items-center justify-center w-8 h-8",
-        isActive
-          ? "text-black dark:text-white"
-          : "text-black/30 dark:text-white/60"
+        !isActive && "opacity-40"
       )}
     >
       {icon}
