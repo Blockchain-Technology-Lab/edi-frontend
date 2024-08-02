@@ -87,10 +87,14 @@ export function Menu() {
       </div>
       <ul className="flex flex-col gap-2">
         {NAV_ITEMS.map((item) => {
-          const isOpen = !!item.links.find((item) => item.href === asPath)
+          const isActive = !!item.links.find((item) => item.href === asPath)
           return (
             <li key={`nav-item=${item.label}`}>
-              <NavAccordion label={item.label} icon={item.icon} isOpen={isOpen}>
+              <NavAccordion
+                label={item.label}
+                icon={item.icon}
+                isActive={isActive}
+              >
                 <ul className="flex flex-col gap-1.5 pt-4 pb-5 px-3">
                   {item.links.map((link) => (
                     <li key={`${item.label}-${link.label}`}>
@@ -113,31 +117,39 @@ export function Menu() {
 type NavAccordionProps = {
   label: string
   icon: FunctionComponent<SVGProps<SVGSVGElement>>
-  isOpen?: boolean
+  isActive?: boolean
   children: ReactNode
 }
 
 function NavAccordion({
   label,
   icon,
-  isOpen = false,
+  isActive = false,
   children
 }: NavAccordionProps) {
   const Icon = icon
   return (
-    <Disclosure defaultOpen={isOpen}>
-      <DisclosureButton
-        className={twJoin(
-          "flex items-center gap-2 font-semibold",
-          LINK_STYLE,
-          isOpen && ACTIVE_LINK_STYLE
-        )}
-      >
-        <Icon width={14} height={14} />
-        {label}
-        <ChevronDown width={14} height={14} />
-      </DisclosureButton>
-      <DisclosurePanel>{children}</DisclosurePanel>
+    <Disclosure defaultOpen={isActive}>
+      {({ open }) => (
+        <>
+          <DisclosureButton
+            className={twJoin(
+              "flex items-center gap-2 font-semibold",
+              LINK_STYLE,
+              isActive && ACTIVE_LINK_STYLE
+            )}
+          >
+            <Icon width={14} height={14} />
+            {label}
+            <ChevronDown
+              width={14}
+              height={14}
+              className={twJoin("transition-transform", open && "rotate-180")}
+            />
+          </DisclosureButton>
+          <DisclosurePanel>{children}</DisclosurePanel>
+        </>
+      )}
     </Disclosure>
   )
 }
