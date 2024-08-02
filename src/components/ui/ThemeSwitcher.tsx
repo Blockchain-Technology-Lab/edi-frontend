@@ -37,8 +37,8 @@ type ThemeButtonProps = {
 }
 
 function ThemeButton({ icon, label, theme }: ThemeButtonProps) {
-  const { theme: activeTheme, setTheme } = useTheme()
-  const isActive = activeTheme === theme
+  const { resolvedTheme, setTheme } = useTheme()
+  const isActive = resolvedTheme === theme
   return (
     <button
       title={label}
