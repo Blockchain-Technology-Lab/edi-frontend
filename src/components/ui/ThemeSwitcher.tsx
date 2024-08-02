@@ -15,16 +15,20 @@ export const ThemeSwitcher = () => {
   }
 
   return (
-    <div className="flex">
-      <ThemeButton
-        theme="light"
-        label="Light Mode"
-        icon={<Sun width={13} height={13} />}
-      />
+    <div
+      role="group"
+      aria-label="Theme Switcher"
+      className="flex items-center gap-1 -ml-2"
+    >
       <ThemeButton
         theme="dark"
         label="Dark Mode"
-        icon={<Moon width={13} height={13} />}
+        icon={<Moon width={14} height={14} />}
+      />
+      <ThemeButton
+        theme="light"
+        label="Light Mode"
+        icon={<Sun width={16} height={16} />}
       />
     </div>
   )
@@ -41,6 +45,8 @@ function ThemeButton({ icon, label, theme }: ThemeButtonProps) {
   const isActive = resolvedTheme === theme
   return (
     <button
+      role="radio"
+      aria-checked={isActive}
       title={label}
       onClick={() => setTheme(theme)}
       className={twJoin(
