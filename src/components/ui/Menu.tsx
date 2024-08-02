@@ -89,8 +89,9 @@ export function Menu() {
         {NAV_ITEMS.map((item) => {
           const isActive = !!item.links.find((item) => item.href === asPath)
           return (
-            <li key={`nav-item=${item.label}`}>
+            <li key={`nav-item-${item.label}`}>
               <NavAccordion
+                key={`nav-accordion-${item.label}-${asPath}`}
                 label={item.label}
                 icon={item.icon}
                 isActive={isActive}
