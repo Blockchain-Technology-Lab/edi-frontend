@@ -4,9 +4,8 @@ import { twJoin } from "tailwind-merge"
 export default function UIPage() {
   return (
     <div className="pb-10">
-      <ThemeSwitcher />
       <section>
-        <div className="container mx-auto px-5 py-10">
+        <div className="container mx-auto">
           <h2 className="mb-4">Colors</h2>
           <p className="mb-4">
             All colors used should be defined in{" "}
