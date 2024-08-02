@@ -1,4 +1,5 @@
 export * from "./Badge"
+export * from "./Card"
 export * from "./Link"
 export * from "./Logo"
 export * from "./Menu"

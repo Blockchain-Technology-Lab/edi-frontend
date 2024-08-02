@@ -32,6 +32,10 @@ body {
 /**
  * Styled content
  */
+.styled-content > *:not(:last-child) {
+  @apply mb-2;
+}
+
 .styled-content a {
   @apply text-blue-700 hover:text-blue-800 underline underline-offset-2 transition-colors;
 }
