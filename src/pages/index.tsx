@@ -1,9 +1,7 @@
-import { ThemeSwitcher } from "@/components"
-
-export default function Home() {
+export default function HomePage() {
   return (
     <div>
-      <h1>Home</h1>
+      <h1>Tokenomics Dashboard Page</h1>
     </div>
   )
 }

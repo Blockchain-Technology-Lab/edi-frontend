@@ -7,7 +7,7 @@ export function Footer() {
   return (
     <footer
       className={twJoin(
-        "flex flex-col items-center text-center gap-3 pt-8 pb-10 mt-8",
+        "styled-content flex flex-col items-center text-center gap-3 pt-8 pb-10 mt-8",
         "border-t border-slate-800/25 dark:border-slate-200/25 gap-4"
       )}
     >
