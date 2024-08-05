@@ -3,7 +3,7 @@ import { Card, Link } from "@/components"
 export default function HomePage() {
   return (
     <section className="flex flex-col gap-12">
-      <Card title="Takonomics Layer">
+      <Card title="Takonomics Layer" titleAs="h2" titleAppearance="xl">
         <p>
           These graphs represent the historical decentralisation of token
           ownership for various blockchain systems. Each metric is calculated
