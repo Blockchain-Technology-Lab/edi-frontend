@@ -33,7 +33,7 @@ body {
  * Styled content
  */
 .styled-content > *:not(:last-child) {
-  @apply mb-2;
+  @apply mb-3;
 }
 
 .styled-content a {

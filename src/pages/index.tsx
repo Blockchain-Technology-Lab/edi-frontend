@@ -1,9 +1,11 @@
 import { Card, LineChart, Link } from "@/components"
 
+const CSV_PATH = "/output/takonomics/output-absolute_1000.csv"
+
 export default function HomePage() {
   return (
     <section className="flex flex-col gap-12">
-      <Card title="Takonomics Layer" titleAs="h2" titleAppearance="xl">
+      <Card title="Takonomics Layer" titleAs="h1" titleAppearance="xl">
         <p>
           These graphs represent the historical decentralisation of token
           ownership for various blockchain systems. Each metric is calculated
@@ -21,7 +23,7 @@ export default function HomePage() {
           that collectively control more than 50% of the resources (in this
           case, the majority of circulating tokens at a given point in time).
         </p>
-        <LineChart metric="tau=0.5" />
+        <LineChart metric="tau=0.5" csvPath={CSV_PATH} />
       </Card>
       <Card title="Gini coefficient" titleAppearance="lg">
         <p>
@@ -30,7 +32,7 @@ export default function HomePage() {
           system control the same amount of assets) and values close to 1
           indicate inequality (one entity holds most or all tokens).
         </p>
-        <LineChart metric="gini" />
+        <LineChart metric="gini" csvPath={CSV_PATH} />
       </Card>
       <Card title="Shannon Entropy" titleAppearance="lg">
         <p>
@@ -39,7 +41,7 @@ export default function HomePage() {
           value of entropy indicates higher decentralization (lower
           predictability).
         </p>
-        <LineChart metric="shannon_entropy" />
+        <LineChart metric="shannon_entropy" csvPath={CSV_PATH} />
       </Card>
       <Card title="HHI" titleAppearance="lg">
         <p>
@@ -50,7 +52,7 @@ export default function HomePage() {
           hold a similar number of tokens) and values close to 10,000 indicate
           high concentration (one entity controls most or all tokens).
         </p>
-        <LineChart metric="hhi" />
+        <LineChart metric="hhi" csvPath={CSV_PATH} />
       </Card>
       <Card title="Theil index" titleAppearance="lg">
         <p>
@@ -59,14 +61,14 @@ export default function HomePage() {
           entropy minus the observed entropy. Values close to 0 indicate
           equality and values towards infinity indicate inequality.
         </p>
-        <LineChart metric="theil" />
+        <LineChart metric="theil" csvPath={CSV_PATH} />
       </Card>
       <Card title="Max power ratio" titleAppearance="lg">
         <p>
           The max power ratio represents the share of tokens that are owned by
-          the most &quot;powerful&quot; entity, i.e. the wealthiest entity.
+          the most “powerful” entity, i.e. the wealthiest entity.
         </p>
-        <LineChart metric="mpr" />
+        <LineChart metric="mpr" csvPath={CSV_PATH} />
       </Card>
       <Card title="τ-decentralization index" titleAppearance="lg">
         <p>
@@ -75,7 +77,7 @@ export default function HomePage() {
           collectively control more than a fraction τ of the total resources (in
           this case more than 66% of the total tokens in circulation).
         </p>
-        <LineChart metric="tau=0.66" />
+        <LineChart metric="tau=0.66" csvPath={CSV_PATH} />
       </Card>
     </section>
   )

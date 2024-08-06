@@ -13,9 +13,10 @@ import {
 
 type LineProps = {
   metric: string
+  csvPath: string
 }
 
-export function LineChart({ metric }: LineProps) {
+export function LineChart({ metric, csvPath }: LineProps) {
   const [csvData, setCsvData] = useState<ChartDataEntry[] | null>(null)
   const [chartData, setChartData] = useState<ChartData | undefined>(undefined)
   const [sliderRange, setSliderRange] = useState({ min: 0, max: 0 })
@@ -24,7 +25,7 @@ export function LineChart({ metric }: LineProps) {
 
   useEffect(() => {
     async function load() {
-      const csv = await loadChartData("/output/output-absolute_1000.csv")
+      const csv = await loadChartData(csvPath)
       if (!csv) return
 
       const data = getChartData(metric, csv)
@@ -40,7 +41,7 @@ export function LineChart({ metric }: LineProps) {
       setSliderValue([min, max])
     }
     load()
-  }, [metric])
+  }, [metric, csvPath])
 
   useEffect(() => {
     if (csvData) {
