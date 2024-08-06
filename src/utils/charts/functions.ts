@@ -132,3 +132,64 @@ export async function loadChartData(fileName: string) {
     console.error(`Error loading data for ${fileName}:`, e)
   }
 }
+
+export function getFileName(threshold: string, clustering: string[]) {
+  const isExplorer = clustering.length === 1 && clustering[0] === "explorers"
+  const isStaking = clustering.length === 1 && clustering[0] === "staking"
+  const isBoth =
+    clustering.includes("explorers") && clustering.includes("staking")
+
+  if (threshold === "100") {
+    if (isExplorer) {
+      return "output-explorers-absolute_100.csv"
+    } else if (isStaking) {
+      return "output-staking_keys-absolute_100.csv"
+    } else if (isBoth) {
+      return "output-absolute_100.csv"
+    } else {
+      return "output-no_clustering-absolute_100.csv"
+    }
+  } else if (threshold === "1000") {
+    if (isExplorer) {
+      return "output-explorers-absolute_1000.csv"
+    } else if (isStaking) {
+      return "output-staking_keys-absolute_1000.csv"
+    } else if (isBoth) {
+      return "output-absolute_1000.csv"
+    } else {
+      return "output-no_clustering-absolute_1000.csv"
+    }
+  } else if (threshold === "50p") {
+    if (isExplorer) {
+      return "output-explorers-percentage_0.5.csv"
+    } else if (isStaking) {
+      return "output-staking_keys-percentage_0.5.csv"
+    } else if (isBoth) {
+      return "output-percentage_0.5.csv"
+    } else {
+      return "output-no_clustering-percentage_0.5.csv"
+    }
+  } else if (threshold === "above") {
+    if (isExplorer) {
+      return "output-explorers-exclude_below_usd_cent.csv"
+    } else if (isStaking) {
+      return "output-staking_keys-exclude_below_usd_cent.csv"
+    } else if (isBoth) {
+      return "output-exclude_below_usd_cent.csv"
+    } else {
+      return "output-no_clustering-exclude_below_usd_cent.csv"
+    }
+  } else if (threshold === "none") {
+    if (isExplorer) {
+      return "output-explorers.csv"
+    } else if (isStaking) {
+      return "output-staking_keys.csv"
+    } else if (isBoth) {
+      return "output.csv"
+    } else {
+      return "output-no_clustering.csv"
+    }
+  } else {
+    return "output-absolute_1000.csv"
+  }
+}

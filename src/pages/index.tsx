@@ -1,7 +1,6 @@
-import { Card, LineChart, Link, ListBox, ListBoxMulti } from "@/components"
 import { useState } from "react"
-
-const CSV_PATH = "/output/takonomics/output-absolute_1000.csv"
+import { getFileName } from "@/utils"
+import { Card, LineChart, Link, ListBox, ListBoxMulti } from "@/components"
 
 const THRESHOLDING_ITEMS = [
   { label: "100", value: "100" },
@@ -13,18 +12,24 @@ const THRESHOLDING_ITEMS = [
 
 const CLUSTERING_ITEMS = [
   { label: "Explorers", value: "explorers" },
-  { label: "Staking Keys", value: "staking" },
-  { label: "Multi-input transactions", value: "multi" }
+  { label: "Staking Keys", value: "staking" }
 ]
 
 export default function HomePage() {
   const [selectedThreshold, setSelectedThreshold] = useState(
-    THRESHOLDING_ITEMS[0]
+    THRESHOLDING_ITEMS[1]
   )
   const [selectedClusters, setSelectedClusters] = useState([
     CLUSTERING_ITEMS[0],
     CLUSTERING_ITEMS[1]
   ])
+
+  const filename = getFileName(
+    selectedThreshold.value,
+    selectedClusters.map((cluster) => cluster.value)
+  )
+
+  const csvPath = `/output/takonomics/${filename}`
 
   return (
     <section className="flex flex-col gap-12">
@@ -37,7 +42,7 @@ export default function HomePage() {
           <Link href="/methodology">Read more...</Link>
         </p>
       </Card>
-      <Card title="Options">
+      <Card title="Options" titleAs="h2">
         <div className="space-y-3">
           <ListBox
             label="Thresholding"
@@ -59,7 +64,7 @@ export default function HomePage() {
           that collectively control more than 50% of the resources (in this
           case, the majority of circulating tokens at a given point in time).
         </p>
-        <LineChart metric="tau=0.5" csvPath={CSV_PATH} />
+        <LineChart metric="tau=0.5" csvPath={csvPath} />
       </Card>
       <Card title="Gini coefficient" titleAppearance="lg">
         <p>
@@ -68,7 +73,7 @@ export default function HomePage() {
           system control the same amount of assets) and values close to 1
           indicate inequality (one entity holds most or all tokens).
         </p>
-        <LineChart metric="gini" csvPath={CSV_PATH} />
+        <LineChart metric="gini" csvPath={csvPath} />
       </Card>
       <Card title="Shannon Entropy" titleAppearance="lg">
         <p>
@@ -77,7 +82,7 @@ export default function HomePage() {
           value of entropy indicates higher decentralization (lower
           predictability).
         </p>
-        <LineChart metric="shannon_entropy" csvPath={CSV_PATH} />
+        <LineChart metric="shannon_entropy" csvPath={csvPath} />
       </Card>
       <Card title="HHI" titleAppearance="lg">
         <p>
@@ -88,7 +93,7 @@ export default function HomePage() {
           hold a similar number of tokens) and values close to 10,000 indicate
           high concentration (one entity controls most or all tokens).
         </p>
-        <LineChart metric="hhi" csvPath={CSV_PATH} />
+        <LineChart metric="hhi" csvPath={csvPath} />
       </Card>
       <Card title="Theil index" titleAppearance="lg">
         <p>
@@ -97,14 +102,14 @@ export default function HomePage() {
           entropy minus the observed entropy. Values close to 0 indicate
           equality and values towards infinity indicate inequality.
         </p>
-        <LineChart metric="theil" csvPath={CSV_PATH} />
+        <LineChart metric="theil" csvPath={csvPath} />
       </Card>
       <Card title="Max power ratio" titleAppearance="lg">
         <p>
           The max power ratio represents the share of tokens that are owned by
           the most “powerful” entity, i.e. the wealthiest entity.
         </p>
-        <LineChart metric="mpr" csvPath={CSV_PATH} />
+        <LineChart metric="mpr" csvPath={csvPath} />
       </Card>
       <Card title="τ-decentralization index" titleAppearance="lg">
         <p>
@@ -113,7 +118,7 @@ export default function HomePage() {
           collectively control more than a fraction τ of the total resources (in
           this case more than 66% of the total tokens in circulation).
         </p>
-        <LineChart metric="tau=0.66" csvPath={CSV_PATH} />
+        <LineChart metric="tau=0.66" csvPath={csvPath} />
       </Card>
     </section>
   )
