@@ -1,6 +1,7 @@
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { getFileName } from "@/utils"
 import { Card, LineChart, Link, ListBox, ListBoxMulti } from "@/components"
+import { useCsvLoader } from "@/hooks"
 
 const THRESHOLDING_ITEMS = [
   { label: "100", value: "100" },
@@ -19,17 +20,18 @@ export default function HomePage() {
   const [selectedThreshold, setSelectedThreshold] = useState(
     THRESHOLDING_ITEMS[1]
   )
-  const [selectedClusters, setSelectedClusters] = useState([
-    CLUSTERING_ITEMS[0],
-    CLUSTERING_ITEMS[1]
-  ])
+  const [selectedClusters, setSelectedClusters] = useState(CLUSTERING_ITEMS)
 
-  const filename = getFileName(
-    selectedThreshold.value,
-    selectedClusters.map((cluster) => cluster.value)
+  const filename = useMemo(
+    () =>
+      getFileName(
+        selectedThreshold.value,
+        selectedClusters.map((cluster) => cluster.value)
+      ),
+    [selectedThreshold, selectedClusters]
   )
-
   const csvPath = `/output/takonomics/${filename}`
+  const { data: csvData } = useCsvLoader(csvPath)
 
   return (
     <section className="flex flex-col gap-12">
@@ -64,7 +66,7 @@ export default function HomePage() {
           that collectively control more than 50% of the resources (in this
           case, the majority of circulating tokens at a given point in time).
         </p>
-        <LineChart metric="tau=0.5" csvPath={csvPath} />
+        <LineChart metric="tau=0.5" csvData={csvData} />
       </Card>
       <Card title="Gini coefficient" titleAppearance="lg">
         <p>
@@ -73,7 +75,7 @@ export default function HomePage() {
           system control the same amount of assets) and values close to 1
           indicate inequality (one entity holds most or all tokens).
         </p>
-        <LineChart metric="gini" csvPath={csvPath} />
+        <LineChart metric="gini" csvData={csvData} />
       </Card>
       <Card title="Shannon Entropy" titleAppearance="lg">
         <p>
@@ -82,7 +84,7 @@ export default function HomePage() {
           value of entropy indicates higher decentralization (lower
           predictability).
         </p>
-        <LineChart metric="shannon_entropy" csvPath={csvPath} />
+        <LineChart metric="shannon_entropy" csvData={csvData} />
       </Card>
       <Card title="HHI" titleAppearance="lg">
         <p>
@@ -93,7 +95,7 @@ export default function HomePage() {
           hold a similar number of tokens) and values close to 10,000 indicate
           high concentration (one entity controls most or all tokens).
         </p>
-        <LineChart metric="hhi" csvPath={csvPath} />
+        <LineChart metric="hhi" csvData={csvData} />
       </Card>
       <Card title="Theil index" titleAppearance="lg">
         <p>
@@ -102,14 +104,14 @@ export default function HomePage() {
           entropy minus the observed entropy. Values close to 0 indicate
           equality and values towards infinity indicate inequality.
         </p>
-        <LineChart metric="theil" csvPath={csvPath} />
+        <LineChart metric="theil" csvData={csvData} />
       </Card>
       <Card title="Max power ratio" titleAppearance="lg">
         <p>
           The max power ratio represents the share of tokens that are owned by
           the most “powerful” entity, i.e. the wealthiest entity.
         </p>
-        <LineChart metric="mpr" csvPath={csvPath} />
+        <LineChart metric="mpr" csvData={csvData} />
       </Card>
       <Card title="τ-decentralization index" titleAppearance="lg">
         <p>
@@ -118,7 +120,7 @@ export default function HomePage() {
           collectively control more than a fraction τ of the total resources (in
           this case more than 66% of the total tokens in circulation).
         </p>
-        <LineChart metric="tau=0.66" csvPath={csvPath} />
+        <LineChart metric="tau=0.66" csvData={csvData} />
       </Card>
     </section>
   )
