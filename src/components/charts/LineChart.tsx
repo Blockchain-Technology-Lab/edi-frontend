@@ -1,64 +1,27 @@
-import { useEffect, useState } from "react"
+import { useMemo } from "react"
 import { Line } from "react-chartjs-2"
 import { useTheme } from "next-themes"
+import { useChartData } from "@/hooks"
 import { RangeSlider } from "@/components"
-import {
-  ChartData,
-  ChartDataEntry,
-  findMinMaxValues,
-  getChartData,
-  getChartOptions,
-  loadChartData
-} from "@/utils"
+import { ChartDataEntry, getChartOptions } from "@/utils"
 
 type LineProps = {
   metric: string
-  csvPath: string
+  csvData?: ChartDataEntry[]
 }
 
-export function LineChart({ metric, csvPath }: LineProps) {
-  const [csvData, setCsvData] = useState<ChartDataEntry[] | null>(null)
-  const [chartData, setChartData] = useState<ChartData | undefined>(undefined)
-  const [sliderRange, setSliderRange] = useState({ min: 0, max: 0 })
-  const [sliderValue, setSliderValue] = useState([0, 0])
+export function LineChart({ metric, csvData }: LineProps) {
   const { resolvedTheme } = useTheme()
+  const { chartData, sliderValue, sliderRange, setSliderValue } = useChartData(
+    metric,
+    csvData
+  )
 
-  useEffect(() => {
-    async function load() {
-      const csv = await loadChartData(csvPath)
-      if (!csv) return
+  const options = useMemo(() => {
+    if (resolvedTheme) return getChartOptions(metric, resolvedTheme)
+  }, [metric, resolvedTheme])
 
-      const data = getChartData(metric, csv)
-      if (!data) return
-
-      const dates = csv.map((entry) => (entry.snapshot_date as Date).getTime())
-      const { minValue: min, maxValue: max } = findMinMaxValues(dates)
-
-      setCsvData(csv)
-      setChartData(data)
-
-      setSliderRange({ min, max })
-      setSliderValue([min, max])
-    }
-    load()
-  }, [metric, csvPath])
-
-  useEffect(() => {
-    if (csvData) {
-      const filteredData = csvData.filter((entry) => {
-        const snapshot_date = (entry.snapshot_date as Date).getTime() // Get timeframe in milliseconds
-        return (
-          snapshot_date >= sliderValue[0] && snapshot_date <= sliderValue[1]
-        )
-      })
-      const data = getChartData(metric, filteredData)
-      setChartData(data)
-    }
-  }, [sliderValue, csvData, metric])
-
-  if (!chartData || !resolvedTheme) return null
-
-  const options = getChartOptions(metric, resolvedTheme)
+  if (!chartData || !options) return null
 
   return (
     <div className="mt-8">

@@ -122,7 +122,7 @@ export function getChartData(
 }
 
 // Load CSV data
-export async function loadChartData(fileName: string) {
+export async function loadCsvData(fileName: string) {
   try {
     const response = await fetch(fileName)
     const csvData = await response.text()
