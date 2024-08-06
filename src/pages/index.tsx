@@ -1,8 +1,31 @@
-import { Card, LineChart, Link } from "@/components"
+import { Card, LineChart, Link, ListBox, ListBoxMulti } from "@/components"
+import { useState } from "react"
 
 const CSV_PATH = "/output/takonomics/output-absolute_1000.csv"
 
+const THRESHOLDING_ITEMS = [
+  { label: "100", value: "100" },
+  { label: "1000", value: "1000" },
+  { label: "50%", value: "50p" },
+  { label: "Above $0.01", value: "above" },
+  { label: "None", value: "none" }
+]
+
+const CLUSTERING_ITEMS = [
+  { label: "Explorers", value: "explorers" },
+  { label: "Staking Keys", value: "staking" },
+  { label: "Multi-input transactions", value: "multi" }
+]
+
 export default function HomePage() {
+  const [selectedThreshold, setSelectedThreshold] = useState(
+    THRESHOLDING_ITEMS[0]
+  )
+  const [selectedClusters, setSelectedClusters] = useState([
+    CLUSTERING_ITEMS[0],
+    CLUSTERING_ITEMS[1]
+  ])
+
   return (
     <section className="flex flex-col gap-12">
       <Card title="Takonomics Layer" titleAs="h1" titleAppearance="xl">
@@ -15,7 +38,20 @@ export default function HomePage() {
         </p>
       </Card>
       <Card title="Options">
-        <p>Some fields</p>
+        <div className="space-y-3">
+          <ListBox
+            label="Thresholding"
+            items={THRESHOLDING_ITEMS}
+            selectedItem={selectedThreshold}
+            onChange={setSelectedThreshold}
+          />
+          <ListBoxMulti
+            label="Clustering"
+            items={CLUSTERING_ITEMS}
+            selectedItems={selectedClusters}
+            onChange={setSelectedClusters}
+          />
+        </div>
       </Card>
       <Card title="Nakamoto coefficient" titleAppearance="lg">
         <p>
