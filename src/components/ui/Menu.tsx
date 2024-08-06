@@ -182,7 +182,7 @@ function NavLink({
     <Link
       href={href}
       className={twMerge(
-        "flex items-center gap-2",
+        "inline-flex items-center gap-2",
         LINK_STYLE,
         className,
         isActive && ACTIVE_LINK_STYLE
