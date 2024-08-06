@@ -1,4 +1,4 @@
-import { Card, Link } from "@/components"
+import { Card, LineChart, Link } from "@/components"
 
 export default function HomePage() {
   return (
@@ -15,33 +15,33 @@ export default function HomePage() {
       <Card title="Options">
         <p>Some fields</p>
       </Card>
-      <Card title="Nakamoto coefficient">
+      <Card title="Nakamoto coefficient" titleAppearance="lg">
         <p>
           The Nakamoto coefficient represents the minimum number of entities
           that collectively control more than 50% of the resources (in this
           case, the majority of circulating tokens at a given point in time).
         </p>
-        <p>[CHART]</p>
+        <LineChart metric="tau=0.5" />
       </Card>
-      <Card title="Gini coefficient">
+      <Card title="Gini coefficient" titleAppearance="lg">
         <p>
           The Gini coefficient represents the degree of inequality in a
           distribution. Values close to 0 indicate equality (all entities in the
           system control the same amount of assets) and values close to 1
           indicate inequality (one entity holds most or all tokens).
         </p>
-        <p>[CHART]</p>
+        <LineChart metric="gini" />
       </Card>
-      <Card title="Shannon Entropy">
+      <Card title="Shannon Entropy" titleAppearance="lg">
         <p>
           Shannon entropy (also known as information entropy) represents the
           expected amount of information in a distribution . Typically, a higher
           value of entropy indicates higher decentralization (lower
           predictability).
         </p>
-        <p>[CHART]</p>
+        <LineChart metric="shannon_entropy" />
       </Card>
-      <Card title="HHI">
+      <Card title="HHI" titleAppearance="lg">
         <p>
           The Herfindahl-Hirschman Index (HHI) is a measure of market
           concentration. It is defined as the sum of the squares of the market
@@ -50,32 +50,32 @@ export default function HomePage() {
           hold a similar number of tokens) and values close to 10,000 indicate
           high concentration (one entity controls most or all tokens).
         </p>
-        <p>[CHART]</p>
+        <LineChart metric="hhi" />
       </Card>
-      <Card title="Theil index">
+      <Card title="Theil index" titleAppearance="lg">
         <p>
           The Theil index captures the lack of diversity, or the redundancy, in
           a population. In practice, it is calculated as the maximum possible
           entropy minus the observed entropy. Values close to 0 indicate
           equality and values towards infinity indicate inequality.
         </p>
-        <p>[CHART]</p>
+        <LineChart metric="theil" />
       </Card>
-      <Card title="Max power ratio">
+      <Card title="Max power ratio" titleAppearance="lg">
         <p>
           The max power ratio represents the share of tokens that are owned by
           the most &quot;powerful&quot; entity, i.e. the wealthiest entity.
         </p>
-        <p>[CHART]</p>
+        <LineChart metric="mpr" />
       </Card>
-      <Card title="τ-decentralization index">
+      <Card title="τ-decentralization index" titleAppearance="lg">
         <p>
           The τ-decentralization index is a generalization of the Nakamoto
           coefficient. It is defined as the minimum number of entities that
           collectively control more than a fraction τ of the total resources (in
           this case more than 66% of the total tokens in circulation).
         </p>
-        <p>[CHART]</p>
+        <LineChart metric="tau=0.66" />
       </Card>
     </section>
   )
