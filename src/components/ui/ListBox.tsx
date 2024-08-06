@@ -36,7 +36,7 @@ export function ListBox({
         <ListboxButton
           className={twJoin(
             "group bg-white text-slate-800 px-4 py-2 flex items-center justify-between rounded-md",
-            "border border-slate-200 dark:border-transparent"
+            "border border-slate-200 dark:border-transparent bg-clip-padding"
           )}
         >
           {selectedItem.label}
@@ -45,7 +45,7 @@ export function ListBox({
         <ListboxOptions
           className={twJoin(
             "bg-white text-slate-800 rounded-md overflow-hidden",
-            "border border-slate-200 dark:border-transparent"
+            "border border-slate-200 dark:border-transparent bg-clip-padding"
           )}
         >
           {items.map((item) => (
