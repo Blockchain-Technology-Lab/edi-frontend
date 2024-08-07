@@ -30,7 +30,7 @@ export function ListBoxMulti({
       <Listbox
         multiple
         as="div"
-        className="flex flex-col gap-1.5"
+        className="flex flex-col"
         value={selectedItems}
         onChange={onChange}
       >
@@ -46,8 +46,9 @@ export function ListBoxMulti({
           <ChevronDown className="transition-transform group-data-[open]:rotate-180" />
         </ListboxButton>
         <ListboxOptions
+          anchor="bottom"
           className={twJoin(
-            "bg-white text-slate-800 rounded-md overflow-hidden",
+            "w-[var(--button-width)] mt-1 bg-white text-slate-800 rounded-md overflow-hidden",
             "border border-slate-200 dark:border-transparent bg-clip-padding"
           )}
         >

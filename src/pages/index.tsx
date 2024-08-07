@@ -45,7 +45,7 @@ export default function HomePage() {
         </p>
       </Card>
       <Card title="Options" titleAs="h2">
-        <div className="space-y-3">
+        <div className="grid laptop:grid-cols-2 gap-3">
           <ListBox
             label="Thresholding"
             items={THRESHOLDING_ITEMS}
