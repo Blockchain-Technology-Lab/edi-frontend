@@ -41,7 +41,7 @@ export function ListBoxMulti({
           )}
         >
           {selectedItems.length < 1
-            ? "Please select"
+            ? "None"
             : selectedItems.map((item) => item.label).join(", ")}
           <ChevronDown className="transition-transform group-data-[open]:rotate-180" />
         </ListboxButton>
