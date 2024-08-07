@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react"
-import {
-  ChartData,
-  ChartDataEntry,
-  findMinMaxValues,
-  getChartData
-} from "@/utils"
+import { ChartData, DataEntry, findMinMaxValues, getChartData } from "@/utils"
 
-export function useChartData(metric: string, csvData?: ChartDataEntry[]) {
+export function useChartData(
+  metric: string,
+  type: "tokenomics" | "consensus",
+  csvData?: DataEntry[]
+) {
   const [chartData, setChartData] = useState<ChartData>()
   const [sliderRange, setSliderRange] = useState({ min: 0, max: 0 })
   const [sliderValue, setSliderValue] = useState([0, 0])
@@ -14,13 +13,10 @@ export function useChartData(metric: string, csvData?: ChartDataEntry[]) {
   // Get initial chart data and slider range
   useEffect(() => {
     if (csvData) {
-      const data = getChartData(metric, csvData)
+      const data = getChartData(metric, type, csvData)
       setChartData(data)
 
-      const dates = csvData.map((entry) =>
-        (entry.snapshot_date as Date).getTime()
-      )
-      const { minValue: min, maxValue: max } = findMinMaxValues(dates)
+      const { minValue: min, maxValue: max } = findMinMaxValues(csvData)
 
       setSliderRange({ min, max })
       setSliderValue([min, max])
@@ -31,12 +27,10 @@ export function useChartData(metric: string, csvData?: ChartDataEntry[]) {
   useEffect(() => {
     if (csvData) {
       const filteredData = csvData.filter((entry) => {
-        const snapshot_date = (entry.snapshot_date as Date).getTime()
-        return (
-          snapshot_date >= sliderValue[0] && snapshot_date <= sliderValue[1]
-        )
+        const date = entry.snapshot_date.getTime()
+        return date >= sliderValue[0] && date <= sliderValue[1]
       })
-      const data = getChartData(metric, filteredData)
+      const data = getChartData(metric, type, filteredData)
       setChartData(data)
     }
   }, [sliderValue, csvData, metric])

@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react"
-import { ChartDataEntry, loadCsvData } from "@/utils"
+import { DataEntry, loadCsvData } from "@/utils"
 
-export function useCsvLoader(csvPath: string) {
-  const [data, setData] = useState<ChartDataEntry[]>()
+export function useCsvLoader(
+  csvPath: string,
+  type: "tokenomics" | "consensus"
+) {
+  const [data, setData] = useState<DataEntry[]>()
 
   useEffect(() => {
     async function load() {
-      const csvData = await loadCsvData(csvPath)
+      const csvData = await loadCsvData(csvPath, type)
       setData(csvData)
     }
     load()
-  }, [csvPath])
+  }, [csvPath, type])
 
   return { data }
 }

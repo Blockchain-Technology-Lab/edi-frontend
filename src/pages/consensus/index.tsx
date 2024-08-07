@@ -1,8 +1,24 @@
-import { Card, LineChart, Link } from "@/components"
+import { useMemo, useState } from "react"
+import { getConsensusCsvFileName } from "@/utils"
+import { useCsvLoader } from "@/hooks"
+import { Card, LineChart, Link, ListBoxMulti } from "@/components"
 
-const CSV_PATH = "/output/consensus/output_clustered.csv"
+const CLUSTERING_ITEMS = [
+  { label: "Explorers", value: "explorers" },
+  { label: "On-chain metadata", value: "onchain" }
+]
 
 export default function ConsensusPage() {
+  const [selectedClusters, setSelectedClusters] = useState(CLUSTERING_ITEMS)
+
+  const filename = useMemo(
+    () =>
+      getConsensusCsvFileName(selectedClusters.map((cluster) => cluster.value)),
+    [selectedClusters]
+  )
+  const csvPath = `/output/consensus/${filename}`
+  const { data: csvData } = useCsvLoader(csvPath, "consensus")
+
   return (
     <section className="flex flex-col gap-12">
       <Card title="Consensus Layer" titleAs="h1" titleAppearance="xl">
@@ -14,8 +30,15 @@ export default function ConsensusPage() {
           <Link href="/consensus/methodology">Read more...</Link>
         </p>
       </Card>
-      <Card title="Options">
-        <p>Some fields</p>
+      <Card title="Options" titleAs="h2">
+        <div className="space-y-3">
+          <ListBoxMulti
+            label="Clustering"
+            items={CLUSTERING_ITEMS}
+            selectedItems={selectedClusters}
+            onChange={setSelectedClusters}
+          />
+        </div>
       </Card>
       <Card title="Nakamoto coefficient" titleAppearance="lg">
         <p>
@@ -23,7 +46,11 @@ export default function ConsensusPage() {
           that collectively control more than 50% of the resources (in this
           case, the majority of mining / staking power).
         </p>
-        <LineChart metric="nakamoto_coefficient" csvPath={CSV_PATH} />
+        <LineChart
+          metric="nakamoto_coefficient"
+          csvData={csvData}
+          type="consensus"
+        />
       </Card>
       <Card title="Gini coefficient" titleAppearance="lg">
         <p>
@@ -33,7 +60,7 @@ export default function ConsensusPage() {
           values close to 1 indicate high inequality (one entity produces most
           or all blocks).
         </p>
-        <LineChart metric="gini" csvPath={CSV_PATH} />
+        <LineChart metric="gini" csvData={csvData} type="consensus" />
       </Card>
       <Card title="Shannon Entropy" titleAppearance="lg">
         <p>
@@ -42,7 +69,7 @@ export default function ConsensusPage() {
           value of entropy indicates higher decentralization (lower
           predictability).
         </p>
-        <LineChart metric="entropy" csvPath={CSV_PATH} />
+        <LineChart metric="entropy" csvData={csvData} type="consensus" />
       </Card>
       <Card title="HHI" titleAppearance="lg">
         <p>
@@ -53,7 +80,7 @@ export default function ConsensusPage() {
           produce a similar number of blocks) and values close to 10,000
           indicate high concentration (one entity produces most or all blocks).
         </p>
-        <LineChart metric="hhi" csvPath={CSV_PATH} />
+        <LineChart metric="hhi" csvData={csvData} type="consensus" />
       </Card>
       <Card title="Theil index" titleAppearance="lg">
         <p>
@@ -62,7 +89,7 @@ export default function ConsensusPage() {
           entropy minus the observed entropy. Values close to 0 indicate
           equality and values towards infinity indicate inequality.
         </p>
-        <LineChart metric="theil_index" csvPath={CSV_PATH} />
+        <LineChart metric="theil_index" csvData={csvData} type="consensus" />
       </Card>
       <Card title="Max power ratio" titleAppearance="lg">
         <p>
@@ -70,7 +97,11 @@ export default function ConsensusPage() {
           by the most “powerful” entity, i.e. the entity that produces the most
           blocks.
         </p>
-        <LineChart metric="max_power_ratio" csvPath={CSV_PATH} />
+        <LineChart
+          metric="max_power_ratio"
+          csvData={csvData}
+          type="consensus"
+        />
       </Card>
       <Card title="Tau Index" titleAppearance="lg">
         <p>
@@ -78,7 +109,7 @@ export default function ConsensusPage() {
           that collectively control more than a fraction τ of the total
           resources (in this case more than 66% of mining / staking power).
         </p>
-        <LineChart metric="tau_index" csvPath={CSV_PATH} />
+        <LineChart metric="tau_index" csvData={csvData} type="consensus" />
       </Card>
     </section>
   )
