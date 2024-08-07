@@ -31,14 +31,12 @@ export default function ConsensusPage() {
         </p>
       </Card>
       <Card title="Options" titleAs="h2">
-        <div className="space-y-3">
-          <ListBoxMulti
-            label="Clustering"
-            items={CLUSTERING_ITEMS}
-            selectedItems={selectedClusters}
-            onChange={setSelectedClusters}
-          />
-        </div>
+        <ListBoxMulti
+          label="Clustering"
+          items={CLUSTERING_ITEMS}
+          selectedItems={selectedClusters}
+          onChange={setSelectedClusters}
+        />
       </Card>
       <Card title="Nakamoto coefficient" titleAppearance="lg">
         <p>
