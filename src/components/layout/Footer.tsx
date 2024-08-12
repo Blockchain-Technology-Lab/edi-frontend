@@ -24,7 +24,7 @@ export function Footer() {
       <ul className="inline-flex justify-center flex-wrap gap-y-2 gap-x-4">
         <ListItem>
           <UniversalAccess />
-          <Link href="../accessibility.html">Accessibility</Link>
+          <Link href="/accessibility">Accessibility</Link>
         </ListItem>
         <ListItem>
           <ShieldShaded />
