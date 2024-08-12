@@ -1,5 +1,6 @@
 export * from "./Badge"
 export * from "./Card"
+export * from "./LineChart"
 export * from "./Link"
 export * from "./ListBox"
 export * from "./ListBoxMulti"
