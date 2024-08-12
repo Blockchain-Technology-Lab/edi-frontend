@@ -42,7 +42,7 @@ export function LineChart({
           datasets: chartData.datasets
         }}
         options={options}
-        className="w-full max-w-full"
+        className="max-w-full max-h-[425px]"
       />
       <RangeSlider
         min={sliderRange.min}
@@ -70,7 +70,7 @@ function getChartOptions(metric: string, theme: string): ChartOptions<"line"> {
   const mainColor = theme === "dark" ? "white" : "black"
   return {
     responsive: true,
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
     animation: {
       duration: 1000,
       easing: "easeInOutQuad",
