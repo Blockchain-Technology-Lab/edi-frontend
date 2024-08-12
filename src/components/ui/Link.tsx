@@ -5,7 +5,7 @@ type LinkPropsBasics = {
   href: string
 }
 
-type LinkProps = LinkPropsBasics &
+export type LinkProps = LinkPropsBasics &
   (
     | AnchorHTMLAttributes<HTMLAnchorElement>
     | LinkHTMLAttributes<HTMLLinkElement>

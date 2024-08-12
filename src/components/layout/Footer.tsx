@@ -1,44 +1,41 @@
-import Link from "next/link"
 import { ReactNode } from "react"
 import { twJoin } from "tailwind-merge"
-import { EnvelopeAt, ShieldShaded, UniversalAccess } from "@/components"
+import {
+  EnvelopeAt,
+  Link,
+  LinkProps,
+  ShieldShaded,
+  UniversalAccess
+} from "@/components"
 
 export function Footer() {
   return (
     <footer
       className={twJoin(
-        "styled-content flex flex-col items-center text-center gap-3 pt-8 pb-10 mt-8",
+        "flex flex-col items-center text-center gap-3 pt-8 pb-10 mt-8",
         "border-t border-slate-800/25 dark:border-slate-200/25 gap-4"
       )}
     >
-      <p>
-        <a
-          className="mr-1"
-          href="https://www.ed.ac.uk/informatics/blockchain/edi/"
-          target="_blank"
-        >
+      <p className="space-x-1">
+        <FooterLink href="https://www.ed.ac.uk/informatics/blockchain/edi/">
           EDI
-        </a>
+        </FooterLink>
         <span>© 2024 Edinburgh Decentralisation Index.</span>
       </p>
       <ul className="inline-flex justify-center flex-wrap gap-y-2 gap-x-4">
         <ListItem>
           <UniversalAccess />
-          <Link href="/accessibility">Accessibility</Link>
+          <FooterLink href="/accessibility">Accessibility</FooterLink>
         </ListItem>
         <ListItem>
           <ShieldShaded />
-          <a
-            href="https://computing.help.inf.ed.ac.uk/logging-policy"
-            rel="noopener noreferrer nofollow"
-            target="_blank"
-          >
+          <FooterLink href="https://computing.help.inf.ed.ac.uk/logging-policy">
             Privacy
-          </a>
+          </FooterLink>
         </ListItem>
         <ListItem>
           <EnvelopeAt />
-          <a href="mailto:edi@ed.ac.uk">edi@ed.ac.uk</a>
+          <FooterLink href="mailto:edi@ed.ac.uk">edi@ed.ac.uk</FooterLink>
         </ListItem>
       </ul>
     </footer>
@@ -47,4 +44,13 @@ export function Footer() {
 
 function ListItem({ children }: { children?: ReactNode }) {
   return <li className="flex items-center gap-1">{children}</li>
+}
+
+function FooterLink(props: LinkProps) {
+  return (
+    <Link
+      className="text-blue-700 hover:text-blue-800 underline underline-offset-2 transition-colors dark:text-blue-500 dark:hover:text-blue-400"
+      {...props}
+    />
+  )
 }
