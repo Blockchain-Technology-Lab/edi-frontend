@@ -75,11 +75,16 @@ export async function loadCsvData(
 ) {
   try {
     const response = await fetch(fileName)
+
+    if (!response.ok) {
+      throw new Error(`Error loading data for ${fileName}`)
+    }
+
     const csvData = await response.text()
     const data = parseCSV(csvData, type)
     return data
-  } catch (e) {
-    console.error(`Error loading data for ${fileName}:`, e)
+  } catch (error) {
+    throw error instanceof Error ? error : new Error("Unknown error occurred")
   }
 }
 

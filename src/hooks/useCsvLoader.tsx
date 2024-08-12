@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { DataEntry, loadCsvData } from "@/utils"
 
 export function useCsvLoader(
@@ -6,14 +6,27 @@ export function useCsvLoader(
   type: "tokenomics" | "consensus"
 ) {
   const [data, setData] = useState<DataEntry[]>()
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<Error | null>(null)
 
-  useEffect(() => {
-    async function load() {
+  const load = useCallback(async () => {
+    setLoading(true)
+    setError(null)
+    try {
       const csvData = await loadCsvData(csvPath, type)
       setData(csvData)
+    } catch (error) {
+      setError(
+        error instanceof Error ? error : new Error("Unknown error occurred")
+      )
+    } finally {
+      setLoading(false)
     }
-    load()
   }, [csvPath, type])
 
-  return { data }
+  useEffect(() => {
+    load()
+  }, [load])
+
+  return { data, loading, error }
 }

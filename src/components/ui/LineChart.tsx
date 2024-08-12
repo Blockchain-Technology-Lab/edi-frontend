@@ -9,10 +9,16 @@ import { ChartOptions } from "chart.js"
 type LineProps = {
   metric: string
   csvData?: DataEntry[]
+  isLoadingCsvData?: boolean
   type: "tokenomics" | "consensus"
 }
 
-export function LineChart({ metric, csvData, type }: LineProps) {
+export function LineChart({
+  type,
+  metric,
+  csvData,
+  isLoadingCsvData = false
+}: LineProps) {
   const { resolvedTheme } = useTheme()
   const { chartData, sliderValue, sliderRange, setSliderValue } = useChartData(
     metric,
@@ -24,6 +30,7 @@ export function LineChart({ metric, csvData, type }: LineProps) {
     if (resolvedTheme) return getChartOptions(metric, resolvedTheme)
   }, [metric, resolvedTheme])
 
+  if (isLoadingCsvData) return <LineChartSkeleton />
   if (!chartData || !options) return null
 
   return (
@@ -42,6 +49,18 @@ export function LineChart({ metric, csvData, type }: LineProps) {
         max={sliderRange.max}
         value={sliderValue}
         onValueChange={(newValue) => setSliderValue(newValue)}
+      />
+    </div>
+  )
+}
+
+function LineChartSkeleton() {
+  return (
+    <div className="mt-8" aria-busy="true" aria-live="polite">
+      <div
+        className="w-full h-72 bg-slate-300 dark:bg-slate-200/20 animate-pulse rounded-lg"
+        aria-label="Loading chart"
+        role="img"
       />
     </div>
   )
