@@ -7,7 +7,7 @@ import {
   ListboxOptions
 } from "@headlessui/react"
 import { twJoin } from "tailwind-merge"
-import { ChevronDown } from "@/components"
+import { Check, ChevronDown } from "@/components"
 
 type ListBoxItem = { label: string; value: string }
 
@@ -57,10 +57,11 @@ export function ListBoxMulti({
               key={item.value}
               value={item}
               className={twJoin(
-                "px-4 py-2 cursor-pointer",
+                "group flex items-center gap-1 p-2 cursor-pointer",
                 "data-[focus]:bg-slate-200 data-[selected]:bg-blue-700 data-[selected]:text-white"
               )}
             >
+              <Check className="invisible size-6 group-data-[selected]:visible" />
               {item.label}
             </ListboxOption>
           ))}

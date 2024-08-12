@@ -1,5 +1,6 @@
 export * from "./Boxes"
 export * from "./CashStack"
+export * from "./Check"
 export * from "./ChevronDown"
 export * from "./CodeSlash"
 export * from "./EnvelopeAt"
