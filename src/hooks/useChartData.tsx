@@ -21,7 +21,7 @@ export function useChartData(
       setSliderRange({ min, max })
       setSliderValue([min, max])
     }
-  }, [metric, csvData])
+  }, [metric, csvData, type])
 
   // Update data in case csv and slider values change
   useEffect(() => {
@@ -33,7 +33,7 @@ export function useChartData(
       const data = getChartData(metric, type, filteredData)
       setChartData(data)
     }
-  }, [sliderValue, csvData, metric])
+  }, [sliderValue, csvData, metric, type])
 
   return {
     chartData,
