@@ -84,7 +84,11 @@ function getChartOptions(metric: string, theme: string): ChartOptions<"line"> {
         mode: "x",
         intersect: false,
         backgroundColor: "rgba(0, 0, 0, 0.4)",
-        bodyColor: "white"
+        bodyColor: "white",
+        filter(item, _, items) {
+          // Ensure tooltips show items from the same date only, avoiding cross-date data in dense datasets
+          return items[0].label === item.label
+        }
       },
       legend: {
         labels: {
