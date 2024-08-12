@@ -3,6 +3,7 @@ import "chartjs-adapter-moment"
 import Head from "next/head"
 import type { AppProps } from "next/app"
 import { ThemeProvider } from "next-themes"
+import { GoogleAnalytics } from "@next/third-parties/google"
 import { Footer, MainLayout, Sidebar } from "@/components"
 import ChartjsPluginWatermark from "chartjs-plugin-watermark"
 import {
@@ -33,6 +34,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <title>EDI - Tokenomics Layer</title>
       </Head>
+      <GoogleAnalytics gaId="G-4H72FE76WD" />
       <ThemeProvider attribute="class">
         <MainLayout
           main={<Component {...pageProps} />}
