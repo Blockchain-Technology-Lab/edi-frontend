@@ -43,3 +43,9 @@ body {
 .dark .styled-content a {
   @apply text-blue-500 hover:text-blue-400;
 }
+
+.styled-content ul {
+  list-style: inherit;
+  margin: inherit;
+  padding: inherit;
+}
