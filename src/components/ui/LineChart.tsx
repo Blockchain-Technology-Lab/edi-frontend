@@ -5,8 +5,6 @@ import { useChartData } from "@/hooks"
 import { RangeSlider } from "@/components"
 import { DataEntry } from "@/utils"
 import { ChartOptions } from "chart.js"
-import LogoWhite from "@/assets/images/edi-white.png"
-import LogoBlack from "@/assets/images/edi-black.png"
 
 type LineProps = {
   metric: string
@@ -103,9 +101,12 @@ function getChartOptions(metric: string, theme: string): ChartOptions<"line"> {
     },
     // @ts-expect-error
     watermark: {
-      image: theme === "dark" ? LogoWhite.src : LogoBlack.src,
-      x: 50,
-      y: 50,
+      image:
+        theme === "dark"
+          ? "/images/edi-white-watermark.png"
+          : "/images/edi-black-watermark.png",
+      x: "5%",
+      y: "5%",
       width: 260,
       height: 161,
       opacity: 0.2,
