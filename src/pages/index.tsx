@@ -1,6 +1,13 @@
 import { useMemo, useState } from "react"
 import { getTokenomicsCsvFileName } from "@/utils"
-import { Card, LineChart, Link, ListBox, ListBoxMulti } from "@/components"
+import {
+  Alert,
+  Card,
+  LineChart,
+  Link,
+  ListBox,
+  ListBoxMulti
+} from "@/components"
 import { useCsvLoader } from "@/hooks"
 
 const THRESHOLDING_ITEMS = [
@@ -31,7 +38,7 @@ export default function HomePage() {
     [selectedThreshold, selectedClusters]
   )
   const csvPath = `/output/takonomics/${filename}`
-  const { data: csvData } = useCsvLoader(csvPath, "tokenomics")
+  const { data, loading, error } = useCsvLoader(csvPath, "tokenomics")
 
   return (
     <section className="flex flex-col gap-12">
@@ -60,72 +67,110 @@ export default function HomePage() {
           />
         </div>
       </Card>
-      <Card title="Nakamoto coefficient" titleAppearance="lg">
-        <p>
-          The Nakamoto coefficient represents the minimum number of entities
-          that collectively control more than 50% of the resources (in this
-          case, the majority of circulating tokens at a given point in time).
-        </p>
-        <LineChart metric="tau=0.5" csvData={csvData} type="tokenomics" />
-      </Card>
-      <Card title="Gini coefficient" titleAppearance="lg">
-        <p>
-          The Gini coefficient represents the degree of inequality in a
-          distribution. Values close to 0 indicate equality (all entities in the
-          system control the same amount of assets) and values close to 1
-          indicate inequality (one entity holds most or all tokens).
-        </p>
-        <LineChart metric="gini" csvData={csvData} type="tokenomics" />
-      </Card>
-      <Card title="Shannon Entropy" titleAppearance="lg">
-        <p>
-          Shannon entropy (also known as information entropy) represents the
-          expected amount of information in a distribution . Typically, a higher
-          value of entropy indicates higher decentralization (lower
-          predictability).
-        </p>
-        <LineChart
-          metric="shannon_entropy"
-          csvData={csvData}
-          type="tokenomics"
-        />
-      </Card>
-      <Card title="HHI" titleAppearance="lg">
-        <p>
-          The Herfindahl-Hirschman Index (HHI) is a measure of market
-          concentration. It is defined as the sum of the squares of the market
-          shares (as whole numbers, e.g. 40 for 40%) of the entities in the
-          system. Values close to 0 indicate low concentration (many entities
-          hold a similar number of tokens) and values close to 10,000 indicate
-          high concentration (one entity controls most or all tokens).
-        </p>
-        <LineChart metric="hhi" csvData={csvData} type="tokenomics" />
-      </Card>
-      <Card title="Theil index" titleAppearance="lg">
-        <p>
-          The Theil index captures the lack of diversity, or the redundancy, in
-          a population. In practice, it is calculated as the maximum possible
-          entropy minus the observed entropy. Values close to 0 indicate
-          equality and values towards infinity indicate inequality.
-        </p>
-        <LineChart metric="theil" csvData={csvData} type="tokenomics" />
-      </Card>
-      <Card title="Max power ratio" titleAppearance="lg">
-        <p>
-          The max power ratio represents the share of tokens that are owned by
-          the most “powerful” entity, i.e. the wealthiest entity.
-        </p>
-        <LineChart metric="mpr" csvData={csvData} type="tokenomics" />
-      </Card>
-      <Card title="τ-decentralization index" titleAppearance="lg">
-        <p>
-          The τ-decentralization index is a generalization of the Nakamoto
-          coefficient. It is defined as the minimum number of entities that
-          collectively control more than a fraction τ of the total resources (in
-          this case more than 66% of the total tokens in circulation).
-        </p>
-        <LineChart metric="tau=0.66" csvData={csvData} type="tokenomics" />
-      </Card>
+      {error && <Alert message="Error loading data" />}
+      {!error && (
+        <>
+          <Card title="Nakamoto coefficient" titleAppearance="lg">
+            <p>
+              The Nakamoto coefficient represents the minimum number of entities
+              that collectively control more than 50% of the resources (in this
+              case, the majority of circulating tokens at a given point in
+              time).
+            </p>
+            <LineChart
+              metric="tau=0.5"
+              type="tokenomics"
+              csvData={data}
+              isLoadingCsvData={loading}
+            />
+          </Card>
+          <Card title="Gini coefficient" titleAppearance="lg">
+            <p>
+              The Gini coefficient represents the degree of inequality in a
+              distribution. Values close to 0 indicate equality (all entities in
+              the system control the same amount of assets) and values close to
+              1 indicate inequality (one entity holds most or all tokens).
+            </p>
+            <LineChart
+              metric="gini"
+              type="tokenomics"
+              csvData={data}
+              isLoadingCsvData={loading}
+            />
+          </Card>
+          <Card title="Shannon Entropy" titleAppearance="lg">
+            <p>
+              Shannon entropy (also known as information entropy) represents the
+              expected amount of information in a distribution . Typically, a
+              higher value of entropy indicates higher decentralization (lower
+              predictability).
+            </p>
+            <LineChart
+              metric="shannon_entropy"
+              type="tokenomics"
+              csvData={data}
+              isLoadingCsvData={loading}
+            />
+          </Card>
+          <Card title="HHI" titleAppearance="lg">
+            <p>
+              The Herfindahl-Hirschman Index (HHI) is a measure of market
+              concentration. It is defined as the sum of the squares of the
+              market shares (as whole numbers, e.g. 40 for 40%) of the entities
+              in the system. Values close to 0 indicate low concentration (many
+              entities hold a similar number of tokens) and values close to
+              10,000 indicate high concentration (one entity controls most or
+              all tokens).
+            </p>
+            <LineChart
+              metric="hhi"
+              type="tokenomics"
+              csvData={data}
+              isLoadingCsvData={loading}
+            />
+          </Card>
+          <Card title="Theil index" titleAppearance="lg">
+            <p>
+              The Theil index captures the lack of diversity, or the redundancy,
+              in a population. In practice, it is calculated as the maximum
+              possible entropy minus the observed entropy. Values close to 0
+              indicate equality and values towards infinity indicate inequality.
+            </p>
+            <LineChart
+              metric="theil"
+              type="tokenomics"
+              csvData={data}
+              isLoadingCsvData={loading}
+            />
+          </Card>
+          <Card title="Max power ratio" titleAppearance="lg">
+            <p>
+              The max power ratio represents the share of tokens that are owned
+              by the most “powerful” entity, i.e. the wealthiest entity.
+            </p>
+            <LineChart
+              metric="mpr"
+              type="tokenomics"
+              csvData={data}
+              isLoadingCsvData={loading}
+            />
+          </Card>
+          <Card title="τ-decentralization index" titleAppearance="lg">
+            <p>
+              The τ-decentralization index is a generalization of the Nakamoto
+              coefficient. It is defined as the minimum number of entities that
+              collectively control more than a fraction τ of the total resources
+              (in this case more than 66% of the total tokens in circulation).
+            </p>
+            <LineChart
+              metric="tau=0.66"
+              type="tokenomics"
+              csvData={data}
+              isLoadingCsvData={loading}
+            />
+          </Card>
+        </>
+      )}
     </section>
   )
 }

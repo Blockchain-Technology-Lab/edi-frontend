@@ -21,6 +21,11 @@ const config: Config = {
         800: "#0a58ca"
       },
       current: "currentColor",
+      danger: {
+        100: "#f8d7da",
+        200: "#f5c6cb",
+        800: "#721c24"
+      },
       slate: {
         200: "#dee2e6",
         300: "#ced4da",
