@@ -42,7 +42,7 @@ export function LineChart({
           datasets: chartData.datasets
         }}
         options={options}
-        className="max-w-full max-h-[425px]"
+        className="max-w-full !h-[425px]"
       />
       <RangeSlider
         min={sliderRange.min}
@@ -58,7 +58,7 @@ function LineChartSkeleton() {
   return (
     <div className="mt-8" aria-busy="true" aria-live="polite">
       <div
-        className="w-full h-72 bg-slate-300 dark:bg-slate-200/20 animate-pulse rounded-lg"
+        className="w-full h-[457px] bg-slate-300 dark:bg-slate-200/20 animate-pulse rounded-lg"
         aria-label="Loading chart"
         role="img"
       />
