@@ -1,4 +1,5 @@
 import { ReactNode } from "react"
+import { twJoin } from "tailwind-merge"
 
 type CardsProps = {
   title: string
@@ -21,8 +22,10 @@ export function Card({
 
   return (
     <div className="border rounded-md border-black/[0.175] dark:border-white/15">
-      <div className="px-4 py-2 border-b border-black/[0.175] bg-slate-800/[0.03] dark:border-white/15 dark:bg-slate-200/[0.03]">
-        <Title className={titleClassName}>{title}</Title>
+      <div className="px-4 py-3 border-b border-black/[0.175] bg-slate-800/[0.03] dark:border-white/15 dark:bg-slate-200/[0.03]">
+        <Title className={twJoin(titleClassName, "font-bold leading-tight")}>
+          {title}
+        </Title>
       </div>
       <div className="styled-content p-4">{children}</div>
     </div>
