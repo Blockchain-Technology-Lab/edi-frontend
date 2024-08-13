@@ -37,12 +37,12 @@ export default function HomePage() {
       ),
     [selectedThreshold, selectedClusters]
   )
-  const csvPath = `/output/takonomics/${filename}`
+  const csvPath = `/output/tokenomics/${filename}`
   const { data, loading, error } = useCsvLoader(csvPath, "tokenomics")
 
   return (
     <section className="flex flex-col gap-12">
-      <Card title="Takonomics Layer" titleAs="h1" titleAppearance="xl">
+      <Card title="Tokenomics Layer" titleAs="h1" titleAppearance="xl">
         <p>
           These graphs represent the historical decentralisation of token
           ownership for various blockchain systems. Each metric is calculated
