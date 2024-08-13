@@ -18,7 +18,7 @@ export const ThemeSwitcher = () => {
     <div
       role="group"
       aria-label="Theme Switcher"
-      className="flex items-center gap-1 -ml-2"
+      className="flex items-center gap-1"
     >
       <ThemeButton
         theme="dark"
@@ -51,6 +51,7 @@ function ThemeButton({ icon, label, theme }: ThemeButtonProps) {
       onClick={() => setTheme(theme)}
       className={twJoin(
         "flex items-center justify-center w-8 h-8",
+        isActive && "bg-black/10 dark:bg-white/10 rounded-md",
         !isActive && "opacity-40"
       )}
     >
