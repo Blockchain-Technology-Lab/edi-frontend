@@ -5,7 +5,7 @@ import { twJoin } from "tailwind-merge"
 export function RangeSlider(props: RadixSlider.SliderProps) {
   return (
     <RadixSlider.Root
-      className="relative flex items-center h-[16px] mt-4"
+      className="relative flex items-center h-[16px] mt-4 select-none touch-none"
       {...props}
     >
       <RadixSlider.Track className="relative bg-slate-200 dark:bg-white/20 flex-grow h-[2px]">
