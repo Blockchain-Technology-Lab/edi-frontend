@@ -23,7 +23,7 @@ export default function ConsensusPage() {
     <section className="flex flex-col gap-12">
       <Card title="Consensus Layer" titleAs="h1" titleAppearance="xl">
         <p>
-          These graphs represent the historical decentralisation of
+          These graphs represent the historical decentralisation of{" "}
           <i>block production</i> for various blockchain systems. Each metric is
           calculated based on the distribution of blocks across the entities
           that produced them in each time period.{" "}
