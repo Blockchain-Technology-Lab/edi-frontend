@@ -1,7 +1,5 @@
-import Image from "next/image"
+/* eslint-disable @next/next/no-img-element */
 import { useTheme } from "next-themes"
-import LogoWhite from "@/assets/images/edi-white.png"
-import LogoBlack from "@/assets/images/edi-black.png"
 import { useIsMounted } from "@/hooks"
 import { Link } from "@/components"
 
@@ -11,7 +9,17 @@ export function Logo() {
 
   if (!mounted) return null
 
-  const src = resolvedTheme === "light" ? LogoBlack : LogoWhite
+  const src =
+    resolvedTheme === "light"
+      ? {
+          "1x": "/images/edi-black-1x.png",
+          "2x": "/images/edi-black-2x.png"
+        }
+      : {
+          "1x": "/images/edi-white-1x.png",
+          "2x": "/images/edi-white-2x.png"
+        }
+
   return (
     <Link
       className="inline-block"
@@ -19,7 +27,13 @@ export function Logo() {
       rel="noopener noreferrer nofollow"
       target="_blank"
     >
-      <Image src={src} alt="EDI Logo" width={116} height={72} priority />
+      <img
+        alt="EDI Logo"
+        width="116"
+        height="72"
+        srcSet={`${src["1x"]} 1x, ${src["2x"]} 2x`}
+        src={src["2x"]}
+      />
     </Link>
   )
 }
