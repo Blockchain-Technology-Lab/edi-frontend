@@ -70,7 +70,7 @@ const ACTIVE_LINK_STYLE = "text-blue-800 dark:text-blue-400"
 export function Menu() {
   const { asPath } = useRouter()
   return (
-    <nav className="flex flex-col gap-10">
+    <nav className="flex flex-col gap-6">
       <div>
         <NavLink
           href="/"
@@ -81,13 +81,14 @@ export function Menu() {
           className={twJoin("font-semibold", LINK_STYLE)}
           isActive={asPath === "/"}
         />
-        <div className="mt-4">
+        <div className="mt-2">
           <Badge>alpha-release</Badge>
         </div>
       </div>
       <ul className="flex flex-col gap-2">
-        {NAV_ITEMS.map((item) => {
+        {NAV_ITEMS.map((item, index) => {
           const isActive = !!item.links.find((item) => item.href === asPath)
+          const isLastItem = index === NAV_ITEMS.length - 1
           return (
             <li key={`nav-item-${item.label}`}>
               <NavAccordion
@@ -96,7 +97,12 @@ export function Menu() {
                 icon={item.icon}
                 isActive={isActive}
               >
-                <ul className="flex flex-col gap-1.5 pt-4 pb-5 px-3">
+                <ul
+                  className={twMerge(
+                    "flex flex-col gap-1.5 px-3 py-2 tablet:py-3",
+                    isLastItem && "pb-0"
+                  )}
+                >
                   {item.links.map((link) => (
                     <li key={`${item.label}-${link.label}`}>
                       <NavLink isActive={asPath === link.href} {...link} />
@@ -145,7 +151,10 @@ function NavAccordion({
             <ChevronDown
               width={14}
               height={14}
-              className={twJoin("transition-transform", open && "rotate-180")}
+              className={twJoin(
+                "mt-0.5 transition-transform",
+                open && "rotate-180"
+              )}
             />
           </DisclosureButton>
           <DisclosurePanel>{children}</DisclosurePanel>
