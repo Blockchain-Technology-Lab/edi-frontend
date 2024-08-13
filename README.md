@@ -29,7 +29,7 @@ These instructions will help you set up and run the project on your local machin
 Before you begin, ensure you have the following installed on your machine:
 
 - [Node.js](https://nodejs.org/) (v20.14 or later)
-- [Yarn](https://yarnpkg.com/) (v1.x or later)
+- [Yarn](https://yarnpkg.com/) (v1.x)
 
 #### Installation
 
@@ -77,7 +77,7 @@ export default function About() {
 }
 ```
 
-For nested routes, you can create a nested folder structure and files will automatically be routed in the same way still.
+For nested routes, you can create a nested folder structure and files will automatically be routed in the same way.
 
 - `src/pages/consensus/index.tsx` → `/consensus`
 - `src/pages/consensus/methodology.tsx` → `/consensus/methodology`
@@ -86,7 +86,7 @@ For nested routes, you can create a nested folder structure and files will autom
 
 Please see `src/pages/methodology.tsx` and `src/pages/accessibility.tsx` for examples on how a static page can be structured.
 
-[Learn more about Next.js pages](https://nextjs.org/docs/pages/building-your-application/routing/pages-and-layouts).
+[Learn more about Next.js pages](https://nextjs.org/docs/pages/building-your-application/routing/pages-and-layouts)
 
 ### Adding a new data source
 
@@ -94,9 +94,9 @@ Examples on how charts pages are structured can be found under `src/pages/index.
 
 **CSV files:**
 
-- All `.csv` files can be found under `public/output/`.
-- The filter/csv mapping happens under the `getTokenomicsCsvFileName` and can be found on `src/utils/csv.tsx`.
-- CSV data will be parsed according to the columns defined under `TOKENOMICS_COLUMNS` and `CONSENSUS_COLUMNS` on `src/utils/csv.tsx`.
+- All `.csv` files can be found under `public/output/`
+- The filter/csv mapping happens under the `getTokenomicsCsvFileName` and can be found on `src/utils/csv.tsx`
+- CSV data will be parsed according to the columns defined under `TOKENOMICS_COLUMNS` and `CONSENSUS_COLUMNS` on `src/utils/csv.tsx`
 
 **Chart data:**
 
