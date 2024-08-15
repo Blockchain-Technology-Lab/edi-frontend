@@ -16,7 +16,7 @@ export default function ConsensusPage() {
       getConsensusCsvFileName(selectedClusters.map((cluster) => cluster.value)),
     [selectedClusters]
   )
-  const csvPath = `/output/consensus/${filename}`
+  const csvPath = `/blockchainlab/edi-dashboard/output/consensus/${filename}`
   const { data, loading, error } = useCsvLoader(csvPath, "consensus")
 
   return (
