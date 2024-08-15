@@ -126,8 +126,8 @@ function getChartOptions(metric: string, theme: string): ChartOptions<"line"> {
     watermark: {
       image:
         theme === "dark"
-          ? "/images/edi-white-watermark.png"
-          : "/images/edi-black-watermark.png",
+          ? "/blockchainlab/edi-dashboard/images/edi-white-watermark.png"
+          : "/blockchainlab/edi-dashboard/images/edi-black-watermark.png",
       x: "5%",
       y: "5%",
       width: 260,

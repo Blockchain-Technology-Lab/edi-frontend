@@ -37,7 +37,7 @@ export default function HomePage() {
       ),
     [selectedThreshold, selectedClusters]
   )
-  const csvPath = `/output/tokenomics/${filename}`
+  const csvPath = `/blockchainlab/edi-dashboard/output/tokenomics/${filename}`
   const { data, loading, error } = useCsvLoader(csvPath, "tokenomics")
 
   return (

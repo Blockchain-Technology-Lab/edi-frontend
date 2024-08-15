@@ -12,12 +12,12 @@ export function Logo() {
   const src =
     resolvedTheme === "light"
       ? {
-          "1x": "/images/edi-black-1x.png",
-          "2x": "/images/edi-black-2x.png"
+          "1x": "/blockchainlab/edi-dashboard/images/edi-black-1x.png",
+          "2x": "/blockchainlab/edi-dashboard/images/edi-black-2x.png"
         }
       : {
-          "1x": "/images/edi-white-1x.png",
-          "2x": "/images/edi-white-2x.png"
+          "1x": "/blockchainlab/edi-dashboard/images/edi-white-1x.png",
+          "2x": "/blockchainlab/edi-dashboard/images/edi-white-2x.png"
         }
 
   return (
