@@ -1,0 +1,41 @@
+{
+  "name": "edi-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "serve ./dist",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@headlessui/react": "^2.1.2",
+    "@next/third-parties": "^14.2.5",
+    "@radix-ui/react-slider": "^1.2.0",
+    "chart.js": "^4.4.3",
+    "chartjs-adapter-moment": "^1.0.1",
+    "chartjs-plugin-watermark": "^2.0.2",
+    "moment": "^2.30.1",
+    "next": "^14.2.5",
+    "next-themes": "^0.3.0",
+    "react": "^18",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "^18",
+    "tailwind-merge": "^2.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.5",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "postcss": "^8",
+    "prettier": "3.3.3",
+    "serve": "^14.2.3",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}
