@@ -3,7 +3,9 @@ import {
   CONSENSUS_LEDGER_NAMES,
   DataEntry,
   TOKENOMICS_COLOURS,
-  TOKENOMICS_LEDGER_NAMES
+  TOKENOMICS_LEDGER_NAMES,
+  SOFTWARE_COLOURS,
+  SOFTWARE_LEDGER_NAMES
 } from "@/utils"
 
 type LedgerDataset = {
@@ -25,7 +27,7 @@ export type ChartData = {
 
 export function getChartData(
   metric: string,
-  type: "tokenomics" | "consensus",
+  type: "tokenomics" | "consensus" | "software",
   data: DataEntry[]
 ) {
   if (!data) return
@@ -34,7 +36,7 @@ export function getChartData(
   const ledgerColorMap =
     type === "tokenomics"
       ? getLedgerColorMap(TOKENOMICS_LEDGER_NAMES, TOKENOMICS_COLOURS)
-      : getLedgerColorMap(CONSENSUS_LEDGER_NAMES, CONSENSUS_COLOURS)
+      : (type === "consensus" ? getLedgerColorMap(CONSENSUS_LEDGER_NAMES, CONSENSUS_COLOURS) : getLedgerColorMap(SOFTWARE_LEDGER_NAMES, SOFTWARE_COLOURS))
 
   return {
     labels: buildLabels(data, minValue, maxValue),

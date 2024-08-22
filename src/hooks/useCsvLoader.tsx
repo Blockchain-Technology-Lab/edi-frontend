@@ -3,7 +3,7 @@ import { DataEntry, loadCsvData } from "@/utils"
 
 export function useCsvLoader(
   csvPath: string,
-  type: "tokenomics" | "consensus"
+  type: "tokenomics" | "consensus" | "software"
 ) {
   const [data, setData] = useState<DataEntry[]>()
   const [loading, setLoading] = useState<boolean>(true)
