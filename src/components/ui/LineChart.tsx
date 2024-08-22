@@ -10,7 +10,7 @@ type LineProps = {
   metric: string
   csvData?: DataEntry[]
   isLoadingCsvData?: boolean
-  type: "tokenomics" | "consensus"
+  type: "tokenomics" | "consensus" | "software"
 }
 
 export function LineChart({

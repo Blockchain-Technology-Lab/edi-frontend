@@ -20,6 +20,14 @@ const CONSENSUS_COLUMNS = [
   "tau_index"
 ]
 
+const SOFTWARE_COLUMNS = [
+  "entropy",
+  "hhi",
+  "max_power_ratio",
+  "total_entities",
+  "theil_index"
+]
+
 type BaseDataEntry = {
   ledger: string
   snapshot_date: Date
@@ -39,9 +47,9 @@ function parseDate(date: string) {
   return new Date(parseInt(year, 10), monthNumber)
 }
 
-function parseCSV(csvData: string, type: "tokenomics" | "consensus") {
+function parseCSV(csvData: string, type: "tokenomics" | "consensus" | "software") {
   const valueColumns =
-    type === "tokenomics" ? TOKENOMICS_COLUMNS : CONSENSUS_COLUMNS
+    type === "tokenomics" ? TOKENOMICS_COLUMNS : (type === "consensus" ? CONSENSUS_COLUMNS : SOFTWARE_COLUMNS)
 
   const lines = csvData.trim().split("\n")
   const headers = lines[0].split(",")
@@ -71,7 +79,7 @@ function parseCSV(csvData: string, type: "tokenomics" | "consensus") {
 
 export async function loadCsvData(
   fileName: string,
-  type: "tokenomics" | "consensus"
+  type: "tokenomics" | "consensus" | "software"
 ) {
   try {
     const response = await fetch(fileName)
@@ -167,4 +175,75 @@ export function getConsensusCsvFileName(clustering: string[]) {
   } else {
     return "output_clustered.csv"
   }
+}
+
+/*
+* function getSoftwareCsvFileName
+* parameters are:
+*   weight: lines changed or number of commits - represented by 0 and 1 respectively
+*   entity: author or committer 
+*   commits per sample window: 100, 250, 500, 1000
+*/
+
+export function getSoftwareCsvFileName(weight: string, entity: string, commits: string) {
+let csvFileName = 'all_metrics_by_lines_changed_per_author_per_1000_commits.csv'; //default file
+
+if (weight === "lines") { // if weight == lines changed
+  if(entity === "author") {
+    if (commits === "100") {
+      csvFileName = "all_metrics_by_lines_changed_per_author_per_100_commits.csv"
+    } else if (commits === "250") {
+      csvFileName = "all_metrics_by_lines_changed_per_author_per_250_commits.csv"
+    }
+    else if (commits === "500") {
+      csvFileName = "all_metrics_by_lines_changed_per_author_per_500_commits.csv"
+    } else if (commits === "1000") {
+      csvFileName = "all_metrics_by_lines_changed_per_author_per_1000_commits.csv"
+    }
+  } else if (entity === "committer"){ 
+    if (commits === "100") {
+      csvFileName = "all_metrics_by_lines_changed_per_committer_per_100_commits.csv"
+    } else if (commits === "250") {
+      csvFileName = "all_metrics_by_lines_changed_per_committer_per_250_commits.csv"
+    } else if (commits === "500") {
+      csvFileName = "all_metrics_by_lines_changed_per_committer_per_500_commits.csv"
+    } else if (commits === "1000") {
+      csvFileName = "all_metrics_by_lines_changed_per_committer_per_1000_commits.csv"
+    }
+
+  }
+} else if (weight === "commits") { // if weight === number of commits
+  if(entity === "author"){
+    if (commits === "100") {
+      csvFileName = "all_metrics_by_number_of_commits_per_author_per_100_commits.csv"
+    } else if (commits === "250") {
+      csvFileName = "all_metrics_by_number_of_commits_per_author_per_250_commits.csv"
+    }
+    else if (commits === "500") {
+      csvFileName = "all_metrics_by_number_of_commits_per_author_per_500_commits.csv"
+    }
+    else if (commits === "1000") {
+      csvFileName = "all_metrics_by_number_of_commits_per_author_per_1000_commits.csv"
+    }
+
+  } else if (entity === "committer") {
+    if (commits === "100") {
+      csvFileName = "all_metrics_by_number_of_commits_per_committer_per_100_commits.csv"
+
+    } else if (commits === "250") {
+csvFileName = "all_metrics_by_number_of_commits_per_committer_per_250_commits.csv"
+    }
+    else if (commits === "500") {
+      csvFileName = "all_metrics_by_number_of_commits_per_committer_per_500_commits.csv"
+    }
+    else if (commits === "1000") {
+      csvFileName = "all_metrics_by_number_of_commits_per_committer_per_1000_commits.csv"
+    }
+
+  }
+
+}
+
+return "line/"+csvFileName
+
 }

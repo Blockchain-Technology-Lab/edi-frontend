@@ -12,6 +12,7 @@ import {
   CashStack,
   ChevronDown,
   CodeSlash,
+  CodePoint,
   FilterSquare,
   GraphUp,
   Link,
@@ -56,6 +57,27 @@ const NAV_ITEMS = [
       },
       {
         href: "https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization",
+        label: "Source Code",
+        icon: CodeSlash
+      }
+    ]
+  },
+  {
+    label: "Software",
+    icon: CodePoint,
+    links: [
+      {
+        label: "Dashboard",
+        href: "/software",
+        icon: GraphUp
+      },
+      {
+        href: "/software/methodology",
+        label: "Methodology",
+        icon: FilterSquare
+      },
+      {
+        href: "https://github.com/Blockchain-Technology-Lab/software-decentralization",
         label: "Source Code",
         icon: CodeSlash
       }

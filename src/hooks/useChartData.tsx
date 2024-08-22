@@ -3,7 +3,7 @@ import { ChartData, DataEntry, findMinMaxValues, getChartData } from "@/utils"
 
 export function useChartData(
   metric: string,
-  type: "tokenomics" | "consensus",
+  type: "tokenomics" | "consensus" | "software",
   csvData?: DataEntry[]
 ) {
   const [chartData, setChartData] = useState<ChartData>()
