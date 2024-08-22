@@ -66,6 +66,15 @@ function LineChartSkeleton() {
   )
 }
 
+/*
+ * The dashboard is currently hosted at https://groups.inf.ed.ac.uk/blockchainlab/edi-dashboard/
+ * whereas the URL http://blockchainlab.inf.ed.ac.uk/edi-dashboard/ is also pointed at the groups' directory;
+ * therefore, we may need to have two different builds based upon the basePath;
+ * -> watermark -> image -> theme : "/blockchainlab/edi-dashboard/images/edi-white-watermark.png"
+ * OR
+ * -> watermark -> image -> theme : "/blockchainlab/edi-dashboard/images/edi-black-watermark.png",
+ */
+
 function getChartOptions(metric: string, theme: string): ChartOptions<"line"> {
   const mainColor = theme === "dark" ? "white" : "black"
   return {
@@ -126,8 +135,8 @@ function getChartOptions(metric: string, theme: string): ChartOptions<"line"> {
     watermark: {
       image:
         theme === "dark"
-          ? "/blockchainlab/edi-dashboard/images/edi-white-watermark.png"
-          : "/blockchainlab/edi-dashboard/images/edi-black-watermark.png",
+          ? "/images/edi-white-watermark.png"
+          : "/images/edi-black-watermark.png",
       x: "5%",
       y: "5%",
       width: 260,

@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   output: "export",
   distDir: "dist",
-  basePath: '/blockchainlab/edi-dashboard',
+//  basePath: '/blockchainlab/edi-dashboard', /* Use basePath for building for either groups or blockchainlab URLs */
   images: {
     unoptimized: true
   }
