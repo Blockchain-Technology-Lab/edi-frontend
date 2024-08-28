@@ -51,7 +51,7 @@ export default function SoftwarePage() {
    * OR
    * const csvPath = `/edi-dashboard/output/consensus/${filename}`
    */
-  const csvPath = `/output/software/${filename}`
+  const csvPath = `/output/software/line/${filename}`
   const { data, loading, error } = useCsvLoader(csvPath, "consensus")
 
   return (
@@ -62,7 +62,7 @@ export default function SoftwarePage() {
           <i>block production</i> for various blockchain systems. Each metric is
           calculated based on the distribution of blocks across the entities
           that produced them in each time period.{" "}
-          <Link href="/consensus/methodology">Read more...</Link>
+          <Link href="/software/methodology">Read more...</Link>
         </p>
       </Card>
       <Card title="Options" titleAs="h2">
@@ -98,7 +98,7 @@ export default function SoftwarePage() {
             </p>
             <LineChart
               metric="nakamoto_coefficient"
-              type="consensus"
+              type="software"
               csvData={data}
               isLoadingCsvData={loading}
             />
@@ -113,7 +113,7 @@ export default function SoftwarePage() {
             </p>
             <LineChart
               metric="gini"
-              type="consensus"
+              type="software"
               csvData={data}
               isLoadingCsvData={loading}
             />
@@ -127,7 +127,7 @@ export default function SoftwarePage() {
             </p>
             <LineChart
               metric="entropy"
-              type="consensus"
+              type="software"
               csvData={data}
               isLoadingCsvData={loading}
             />
@@ -144,7 +144,7 @@ export default function SoftwarePage() {
             </p>
             <LineChart
               metric="hhi"
-              type="consensus"
+              type="software"
               csvData={data}
               isLoadingCsvData={loading}
             />
@@ -158,7 +158,7 @@ export default function SoftwarePage() {
             </p>
             <LineChart
               metric="theil_index"
-              type="consensus"
+              type="software"
               csvData={data}
               isLoadingCsvData={loading}
             />
@@ -171,7 +171,7 @@ export default function SoftwarePage() {
             </p>
             <LineChart
               metric="max_power_ratio"
-              type="consensus"
+              type="software"
               csvData={data}
               isLoadingCsvData={loading}
             />
@@ -185,7 +185,7 @@ export default function SoftwarePage() {
             </p>
             <LineChart
               metric="tau_index"
-              type="consensus"
+              type="software"
               csvData={data}
               isLoadingCsvData={loading}
             />

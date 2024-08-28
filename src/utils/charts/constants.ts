@@ -72,3 +72,16 @@ export const SOFTWARE_COLOURS = [
   "rgba(117, 117, 117, 1)", // Gray
   "rgba(157, 102, 89, 1)"
 ]
+
+export const SOFTWARE_DOUGHNUT_LEDGER_NAMES = [
+  "bitcoin",
+  "bitcoin_cash",
+  "cardano",
+  "go-ethereum",
+  "litecoin",
+  "nethermind",
+  "polkadot-sdk",
+  "solana",
+  "tezos",
+  "zcash"
+]

@@ -36,7 +36,9 @@ export function getChartData(
   const ledgerColorMap =
     type === "tokenomics"
       ? getLedgerColorMap(TOKENOMICS_LEDGER_NAMES, TOKENOMICS_COLOURS)
-      : (type === "consensus" ? getLedgerColorMap(CONSENSUS_LEDGER_NAMES, CONSENSUS_COLOURS) : getLedgerColorMap(SOFTWARE_LEDGER_NAMES, SOFTWARE_COLOURS))
+      : type === "consensus"
+        ? getLedgerColorMap(CONSENSUS_LEDGER_NAMES, CONSENSUS_COLOURS)
+        : getLedgerColorMap(SOFTWARE_LEDGER_NAMES, SOFTWARE_COLOURS)
 
   return {
     labels: buildLabels(data, minValue, maxValue),
@@ -105,4 +107,12 @@ export function findMinMaxValues(data: DataEntry[]) {
     minValue: minDate.getTime(),
     maxValue: maxDate.getTime()
   }
+}
+// Function to generate a random RGB color
+export function getRandomColor(): string {
+  const r = Math.floor(Math.random() * 256)
+  const g = Math.floor(Math.random() * 256)
+  const b = Math.floor(Math.random() * 256)
+  const staticOpacity = 0.5 // Static opacity value
+  return `rgba(${r}, ${g}, ${b}, ${staticOpacity})`
 }
