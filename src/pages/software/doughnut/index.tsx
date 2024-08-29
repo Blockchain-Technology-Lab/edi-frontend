@@ -67,12 +67,6 @@ export default function SoftwareDoughnutPage() {
 
   const finalDataArray = prepareFinalDataForCharts(doughnutResults)
 
-  const options: any = {
-    plugins: {
-      responsive: true
-    }
-  }
-
   return (
     <section className="flex flex-col gap-12">
       <Card
@@ -110,11 +104,26 @@ export default function SoftwareDoughnutPage() {
 
       {!doughnutError[0] && (
         <>
+          {REPO_LIST.map((repoName, index) => (
+            <Card key={index} title={repoName} titleAppearance="lg">
+              <p>{REPO_LIST[index]}</p>
+              <DoughnuChart
+                key={index}
+                data={finalDataArray[index]}
+                isLoadingCsvData={doughnutLoading[index]}
+                fileName={repoName}
+                watermarkUrl="/images/edi-black-watermark.png"
+              ></DoughnuChart>
+            </Card>
+          ))}
+          {/*
           <Card title="Bitcoin" titleAppearance="lg">
             <p>{REPO_LIST[0]}</p>
             <DoughnuChart
               data={finalDataArray[0]}
               isLoadingCsvData={doughnutLoading[0]}
+              fileName="bitcoin-doughnut.png"
+              watermarkUrl="/images/edi-black-watermark.png"
             ></DoughnuChart>
           </Card>
           <Card title="Bitcoin-Cash" titleAppearance="lg">
@@ -122,6 +131,8 @@ export default function SoftwareDoughnutPage() {
             <DoughnuChart
               data={finalDataArray[1]}
               isLoadingCsvData={doughnutLoading[1]}
+              fileName="bitcoin-cash-doughnut.png"
+              watermarkUrl="/images/edi-black-watermark.png"
             ></DoughnuChart>
           </Card>
           <Card title="Cardano" titleAppearance="lg">
@@ -129,6 +140,8 @@ export default function SoftwareDoughnutPage() {
             <DoughnuChart
               data={finalDataArray[2]}
               isLoadingCsvData={doughnutLoading[2]}
+              fileName="cardano-doughnut.png"
+              watermarkUrl="/images/edi-black-watermark.png"
             ></DoughnuChart>
           </Card>
           <Card title="Ethereum" titleAppearance="lg">
@@ -136,6 +149,8 @@ export default function SoftwareDoughnutPage() {
             <DoughnuChart
               data={finalDataArray[3]}
               isLoadingCsvData={doughnutLoading[3]}
+              fileName="ethereum-doughnut.png"
+              watermarkUrl="/images/edi-black-watermark.png"
             ></DoughnuChart>
           </Card>
           <Card title="Litecoin" titleAppearance="lg">
@@ -143,6 +158,8 @@ export default function SoftwareDoughnutPage() {
             <DoughnuChart
               data={finalDataArray[4]}
               isLoadingCsvData={doughnutLoading[4]}
+              fileName="litecoin-doughnut.png"
+              watermarkUrl="/images/edi-black-watermark.png"
             ></DoughnuChart>
           </Card>
           <Card title="Ethereum (Nethermind)" titleAppearance="lg">
@@ -150,6 +167,8 @@ export default function SoftwareDoughnutPage() {
             <DoughnuChart
               data={finalDataArray[5]}
               isLoadingCsvData={doughnutLoading[5]}
+              fileName="ethereum-nethermind-doughnut.png"
+              watermarkUrl="/images/edi-black-watermark.png"
             ></DoughnuChart>
           </Card>
           <Card title="Polkadot" titleAppearance="lg">
@@ -157,6 +176,8 @@ export default function SoftwareDoughnutPage() {
             <DoughnuChart
               data={finalDataArray[6]}
               isLoadingCsvData={doughnutLoading[6]}
+              fileName="polkadot-doughnut.png"
+              watermarkUrl="/images/edi-black-watermark.png"
             ></DoughnuChart>
           </Card>
           <Card title="Solana" titleAppearance="lg">
@@ -164,6 +185,8 @@ export default function SoftwareDoughnutPage() {
             <DoughnuChart
               data={finalDataArray[7]}
               isLoadingCsvData={doughnutLoading[7]}
+              fileName="solana-doughnut.png"
+              watermarkUrl="/images/edi-black-watermark.png"
             ></DoughnuChart>
           </Card>
           <Card title="Tezos" titleAppearance="lg">
@@ -171,6 +194,8 @@ export default function SoftwareDoughnutPage() {
             <DoughnuChart
               data={finalDataArray[8]}
               isLoadingCsvData={doughnutLoading[8]}
+              fileName="tezos-doughnut.png"
+              watermarkUrl="/images/edi-black-watermark.png"
             ></DoughnuChart>
           </Card>
           <Card title="ZCash" titleAppearance="lg">
@@ -178,8 +203,11 @@ export default function SoftwareDoughnutPage() {
             <DoughnuChart
               data={finalDataArray[9]}
               isLoadingCsvData={doughnutLoading[9]}
+              fileName="zcash-doughnut.png"
+              watermarkUrl="/images/edi-black-watermark.png"
             ></DoughnuChart>
           </Card>
+          */}
         </>
       )}
     </section>
