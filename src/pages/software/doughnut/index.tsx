@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from "react"
 import {
   generateDoughnutPaths,
   getSoftwareDoughnutCsvFileName,
-  prepareFinalDataForCharts
+  prepareFinalDataForCharts,
+  SOFTWARE_DOUGHNUT_LEDGER_NAMES
 } from "@/utils"
 import { useDoughnutCsvLoader } from "@/hooks"
 import { Alert, Card, Link, ListBox } from "@/components"
@@ -17,7 +18,7 @@ const ENTITY_ITEMS = [
   { label: "Author", value: "author" },
   { label: "Committer", value: "committer" }
 ]
-
+/*
 const REPO_LIST = [
   "bitcoin",
   "bitcoin-cash-node",
@@ -30,6 +31,8 @@ const REPO_LIST = [
   "tezos",
   "zcash"
 ]
+*/
+const REPO_LIST = SOFTWARE_DOUGHNUT_LEDGER_NAMES
 
 export default function SoftwareDoughnutPage() {
   const [selectedEntity, setSelectedEntity] = useState(ENTITY_ITEMS[1])
