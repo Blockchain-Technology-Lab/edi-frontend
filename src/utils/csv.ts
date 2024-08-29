@@ -268,12 +268,99 @@ export function getSoftwareCsvFileName(
   return csvFileName
 }
 
-export function getSoftwareDoughnutCsvFileName() {
-  let csvFileName = "by_lines_changed_per_author/bitcoin_commits_per_entity.csv" //default file
+export function getSoftwareDoughnutCsvFileName(weight: string, entity: string) {
+  //let csvFileName = "by_lines_changed_per_author/bitcoin_commits_per_entity.csv" //default file
 
-  return csvFileName
+  const folderNames: string[] = [
+    "by_lines_changed_per_author",
+    "by_lines_changed_per_committer",
+    "by_number_of_commits_per_author",
+    "by_number_of_commits_per_committer"
+  ]
+
+  const fileNames: string[] = [
+    "bitcoin_commits_per_entity.csv",
+    "bitcoin-cash-node_commits_per_entity.csv",
+    "cardano-node_commits_per_entity.csv",
+    "go-ethereum_commits_per_entity.csv",
+    "litecoin_commits_per_entity.csv",
+    "nethermind_commits_per_entity.csv",
+    "polkadot-sdk_commits_per_entity.csv",
+    "solana_commits_per_entity.csv",
+    "tezos-mirror_commits_per_entity.csv",
+    "zcash_commits_per_entity.csv"
+  ]
+  let csvFiles: string[] = []
+  if (weight === "lines") {
+    if (entity === "author") {
+      csvFiles = generateDoughnutFileNames(folderNames[0], fileNames)
+    } else if (entity === "committer") {
+      csvFiles = generateDoughnutFileNames(folderNames[1], fileNames)
+    }
+  } else if (weight === "commits") {
+    if (entity === "author") {
+      csvFiles = generateDoughnutFileNames(folderNames[2], fileNames)
+    } else if (entity === "committer") {
+      csvFiles = generateDoughnutFileNames(folderNames[3], fileNames)
+    }
+  } else {
+    csvFiles = generateDoughnutFileNames(folderNames[0], fileNames)
+  }
+  return csvFiles
 }
 
+function generateDoughnutFileNames(folder: string, files: string[]): string[] {
+  // Map through each file and combine it with the folder name
+  return files.map((file) => `${folder}/${file}`)
+}
+
+export function generateDoughnutPaths(doughnutFileNames: string[]): string[] {
+  // Map over each item in doughnutFileNames to create the desired paths
+  return doughnutFileNames.map(
+    (fileName) => `/output/software/doughnut/${fileName}`
+  )
+}
+
+// Type for final data
+interface FinalData {
+  labels: string[]
+  datasets: {
+    data: number[]
+    backgroundColor: string[]
+    borderColor: string[]
+    borderWidth: number
+    dataVisibility: boolean[]
+  }[]
+}
+
+// Function to prepare finalData for each doughnutData
+export function prepareFinalDataForCharts(
+  doughnutResults: { doughnutData: DoughnutDataEntry[] }[]
+): FinalData[] {
+  return doughnutResults.map((result) => {
+    const doughnutData = result.doughnutData
+
+    return {
+      labels: doughnutData.map((item) => item.author),
+      datasets: [
+        {
+          data: doughnutData.map((item) => Math.round(item.commits)),
+          backgroundColor: doughnutData.map(() => getRandomColor()), // Ensure default color
+          borderColor: doughnutData.map(() => getRandomColor()), // Ensure default border color
+          borderWidth: 1,
+          dataVisibility: new Array(doughnutData.length).fill(true) // If you are using this option
+        }
+      ]
+    }
+  })
+}
+function getRandomColor(): string {
+  const r = Math.floor(Math.random() * 256)
+  const g = Math.floor(Math.random() * 256)
+  const b = Math.floor(Math.random() * 256)
+  const staticOpacity = 0.5 // Static opacity value
+  return `rgba(${r}, ${g}, ${b}, ${staticOpacity})`
+}
 export function parseDoughnutData(data: string): DoughnutDataEntry[] {
   const lines = data.trim().split("\n")
   const authors: DoughnutDataEntry[] = []

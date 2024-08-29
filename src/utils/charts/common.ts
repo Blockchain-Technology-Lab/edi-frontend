@@ -108,11 +108,3 @@ export function findMinMaxValues(data: DataEntry[]) {
     maxValue: maxDate.getTime()
   }
 }
-// Function to generate a random RGB color
-export function getRandomColor(): string {
-  const r = Math.floor(Math.random() * 256)
-  const g = Math.floor(Math.random() * 256)
-  const b = Math.floor(Math.random() * 256)
-  const staticOpacity = 0.5 // Static opacity value
-  return `rgba(${r}, ${g}, ${b}, ${staticOpacity})`
-}
