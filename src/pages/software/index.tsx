@@ -52,7 +52,7 @@ export default function SoftwarePage() {
    * const csvPath = `/edi-dashboard/output/consensus/${filename}`
    */
   const csvPath = `/output/software/line/${filename}`
-  const { data, loading, error } = useCsvLoader(csvPath, "consensus")
+  const { data, loading, error } = useCsvLoader(csvPath, "software")
 
   return (
     <section className="flex flex-col gap-12">
@@ -90,34 +90,6 @@ export default function SoftwarePage() {
       {error && <Alert message="Error loading data" />}
       {!error && (
         <>
-          <Card title="Nakamoto coefficient" titleAppearance="lg">
-            <p>
-              The Nakamoto coefficient represents the minimum number of entities
-              that collectively control more than 50% of the resources (in this
-              case, the majority of mining / staking power).
-            </p>
-            <LineChart
-              metric="nakamoto_coefficient"
-              type="software"
-              csvData={data}
-              isLoadingCsvData={loading}
-            />
-          </Card>
-          <Card title="Gini coefficient" titleAppearance="lg">
-            <p>
-              The Gini coefficient represents the degree of inequality in a
-              distribution. Values close to 0 indicate high equality (in our
-              case, all entities in the system produce the same number of
-              blocks) and values close to 1 indicate high inequality (one entity
-              produces most or all blocks).
-            </p>
-            <LineChart
-              metric="gini"
-              type="software"
-              csvData={data}
-              isLoadingCsvData={loading}
-            />
-          </Card>
           <Card title="Shannon Entropy" titleAppearance="lg">
             <p>
               Shannon entropy (also known as information entropy) represents the
@@ -176,15 +148,10 @@ export default function SoftwarePage() {
               isLoadingCsvData={loading}
             />
           </Card>
-          <Card title="Tau Index" titleAppearance="lg">
-            <p>
-              The τ-decentralization index represents the minimum number of
-              entities that collectively control more than a fraction τ of the
-              total resources (in this case more than 66% of mining / staking
-              power).
-            </p>
+          <Card title="Total Entities" titleAppearance="lg">
+            <p>The total_entities</p>
             <LineChart
-              metric="tau_index"
+              metric="total_entities"
               type="software"
               csvData={data}
               isLoadingCsvData={loading}

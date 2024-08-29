@@ -16,7 +16,8 @@ import {
   FilterSquare,
   GraphUp,
   Link,
-  Speedometer
+  Speedometer,
+  Doughnut
 } from "@/components"
 
 const NAV_ITEMS = [
@@ -70,6 +71,11 @@ const NAV_ITEMS = [
         label: "Dashboard",
         href: "/software",
         icon: GraphUp
+      },
+      {
+        label: "Doughnut",
+        href: "/software/doughnut",
+        icon: Doughnut
       },
       {
         href: "/software/methodology",

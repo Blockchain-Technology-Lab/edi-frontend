@@ -47,6 +47,22 @@ function parseDate(date: string) {
   return new Date(parseInt(year, 10), monthNumber)
 }
 
+// Utility function to parse different date formats into a Date object
+function parseDateString(dateString: string): Date {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+    // Format: YYYY-MM-DD
+    return new Date(dateString)
+  } else if (/^[A-Za-z]{3}-\d{4}$/.test(dateString)) {
+    // Format: MMM-YYYY
+    const [monthName, year] = dateString.split("-")
+    // Convert month name to a number (e.g., 'Jan' to 0, 'Feb' to 1, etc.)
+    const monthNumber = parseInt(moment().month(monthName).format("M"), 10) - 1
+    return new Date(Number(year), monthNumber) // Create Date object with year and month
+  } else {
+    throw new Error(`Unsupported date format: ${dateString}`)
+  }
+}
+
 function parseCSV(
   csvData: string,
   type: "tokenomics" | "consensus" | "software"
@@ -71,7 +87,7 @@ function parseCSV(
         const value = values[index].trim()
         if (header.trim() === "snapshot_date") {
           entry.snapshot_date =
-            type === "tokenomics" ? new Date(value) : parseDate(value)
+            type === "tokenomics" ? new Date(value) : parseDateString(value)
         } else if (header.trim() === "ledger") {
           entry.ledger = value // Store ledger name
         } else if (valueColumns.includes(header.trim())) {
