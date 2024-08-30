@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react"
-import { getConsensusCsvFileName } from "@/utils"
+import { CONSENSUS_CSV, getConsensusCsvFileName } from "@/utils"
 import { useCsvLoader } from "@/hooks"
 import { Alert, Card, LineChart, Link, ListBoxMulti } from "@/components"
 
@@ -24,7 +24,10 @@ export default function ConsensusPage() {
    * OR
    * const csvPath = `/edi-dashboard/output/consensus/${filename}`
    */
-  const csvPath = `/output/consensus/${filename}`
+  //const csvPath = `/output/consensus/${filename}`
+
+  const csvPath = `${CONSENSUS_CSV + filename}`
+
   const { data, loading, error } = useCsvLoader(csvPath, "consensus")
 
   return (
