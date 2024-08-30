@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react"
-import { getTokenomicsCsvFileName } from "@/utils"
+import { getTokenomicsCsvFileName, TOKENOMICS_CSV } from "@/utils"
 import {
   Alert,
   Card,
@@ -46,7 +46,10 @@ export default function HomePage() {
    * const csvPath = `/edi-dashboard/output/consensus/${filename}`
    */
 
-  const csvPath = `/output/tokenomics/${filename}`
+  //const csvPath = `/output/tokenomics/${filename}`
+
+  const csvPath = `${TOKENOMICS_CSV+filename}`
+
   const { data, loading, error } = useCsvLoader(csvPath, "tokenomics")
 
   return (

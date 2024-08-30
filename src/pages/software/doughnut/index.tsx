@@ -3,9 +3,10 @@ import {
   generateDoughnutPaths,
   getSoftwareDoughnutCsvFileName,
   prepareFinalDataForCharts,
+  SCREENSHOT_WATERMARK,
   SOFTWARE_DOUGHNUT_LEDGER_NAMES
 } from "@/utils"
-import { generateDoughnutResults, useDoughnutCsvLoader } from "@/hooks"
+import { generateDoughnutResults } from "@/hooks"
 import { Alert, Card, Link, ListBox } from "@/components"
 import { DoughnuChart } from "@/components/ui/DoughnutChart"
 
@@ -113,7 +114,7 @@ export default function SoftwareDoughnutPage() {
                 data={finalDataArray[index]}
                 isLoadingCsvData={doughnutLoading[index]}
                 fileName={repoName}
-                watermarkUrl="/images/edi-black-watermark.png"
+                watermarkUrl={SCREENSHOT_WATERMARK}
               ></DoughnuChart>
             </Card>
           ))}

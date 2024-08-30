@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react"
-import { getSoftwareCsvFileName } from "@/utils"
+import { getSoftwareCsvFileName, SOFTWARE_CSV } from "@/utils"
 import { useCsvLoader } from "@/hooks"
 import {
   Alert,
@@ -51,7 +51,9 @@ export default function SoftwarePage() {
    * OR
    * const csvPath = `/edi-dashboard/output/consensus/${filename}`
    */
-  const csvPath = `/output/software/line/${filename}`
+  //const csvPath = `/output/software/line/${filename}`
+
+  const csvPath = `${SOFTWARE_CSV + filename}`
   const { data, loading, error } = useCsvLoader(csvPath, "software")
 
   return (
