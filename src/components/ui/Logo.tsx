@@ -2,7 +2,12 @@
 import { useTheme } from "next-themes"
 import { useIsMounted } from "@/hooks"
 import { Link } from "@/components"
-import { WATERMARK_BLACK_1X, WATERMARK_BLACK_2X, WATERMARK_WHITE_1X, WATERMARK_WHITE_2x } from "@/utils"
+import {
+  WATERMARK_BLACK_1X,
+  WATERMARK_BLACK_2X,
+  WATERMARK_WHITE_1X,
+  WATERMARK_WHITE_2x
+} from "@/utils"
 
 export function Logo() {
   const mounted = useIsMounted()
