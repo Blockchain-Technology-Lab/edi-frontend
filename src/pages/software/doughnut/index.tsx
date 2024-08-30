@@ -5,7 +5,7 @@ import {
   prepareFinalDataForCharts,
   SOFTWARE_DOUGHNUT_LEDGER_NAMES
 } from "@/utils"
-import { useDoughnutCsvLoader } from "@/hooks"
+import { generateDoughnutResults, useDoughnutCsvLoader } from "@/hooks"
 import { Alert, Card, Link, ListBox } from "@/components"
 import { DoughnuChart } from "@/components/ui/DoughnutChart"
 
@@ -57,9 +57,7 @@ export default function SoftwareDoughnutPage() {
   //const { doughnutData, doughnutLoading, doughnutError } =    useDoughnutCsvLoader(csvDoughnutPath)
 
   // Map over doughnutPaths and call useDoughnutCsvLoader for each path
-  const doughnutResults = doughnutPaths.map((path) =>
-    useDoughnutCsvLoader(path)
-  )
+  const doughnutResults = generateDoughnutResults(doughnutPaths)
 
   // Extract data, loading, and error arrays
   //const doughnutData = doughnutResults.map((result) => result.doughnutData)
