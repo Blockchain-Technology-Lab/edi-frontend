@@ -48,7 +48,7 @@ export default function HomePage() {
 
   //const csvPath = `/output/tokenomics/${filename}`
 
-  const csvPath = `${TOKENOMICS_CSV+filename}`
+  const csvPath = `${TOKENOMICS_CSV + filename}`
 
   const { data, loading, error } = useCsvLoader(csvPath, "tokenomics")
 

@@ -3,7 +3,11 @@ import { Line } from "react-chartjs-2"
 import { useTheme } from "next-themes"
 import { useChartData } from "@/hooks"
 import { RangeSlider } from "@/components"
-import { DataEntry, LINECHART_WATERMARK_BLACK, LINECHART_WATERMARK_WHITE } from "@/utils"
+import {
+  DataEntry,
+  LINECHART_WATERMARK_BLACK,
+  LINECHART_WATERMARK_WHITE
+} from "@/utils"
 import { ChartOptions } from "chart.js"
 
 type LineProps = {
