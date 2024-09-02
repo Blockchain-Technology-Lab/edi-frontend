@@ -351,26 +351,22 @@ interface FinalData {
   }[]
 }
 
-// Function to prepare finalData for each doughnutData
-export function prepareFinalDataForCharts(
-  doughnutResults: { doughnutData: DoughnutDataEntry[] }[]
-): FinalData[] {
-  return doughnutResults.map((result) => {
-    const doughnutData = result.doughnutData
-
-    return {
-      labels: doughnutData.map((item) => item.author),
-      datasets: [
-        {
-          data: doughnutData.map((item) => Math.round(item.commits)),
-          backgroundColor: doughnutData.map(() => getRandomColor()), // Ensure default color
-          borderColor: doughnutData.map(() => getRandomColor()), // Ensure default border color
-          borderWidth: 0.1,
-          dataVisibility: new Array(doughnutData.length).fill(true) // If you are using this option
-        }
-      ]
-    }
-  })
+// Function to prepare finalData for single doughnutData
+export function prepareFinalDataForSingleChart(
+  doughnutData: DoughnutDataEntry[]
+): FinalData {
+  return {
+    labels: doughnutData.map((item) => item.author),
+    datasets: [
+      {
+        data: doughnutData.map((item) => Math.round(item.commits)),
+        backgroundColor: doughnutData.map(() => getRandomColor()), // Ensure default color
+        borderColor: doughnutData.map(() => getRandomColor()), // Ensure default border color
+        borderWidth: 0.1,
+        dataVisibility: new Array(doughnutData.length).fill(true) // If you are using this option
+      }
+    ]
+  }
 }
 function getRandomColor(): string {
   const r = Math.floor(Math.random() * 256)
