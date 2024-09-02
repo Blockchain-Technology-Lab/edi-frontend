@@ -1,14 +1,10 @@
-import { useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import {
   generateDoughnutPaths,
   getSoftwareDoughnutCsvFileName,
-  prepareFinalDataForCharts,
-  SCREENSHOT_WATERMARK,
   SOFTWARE_DOUGHNUT_LEDGER_NAMES
 } from "@/utils"
-import { generateDoughnutResults } from "@/hooks"
-import { Alert, Card, Link, ListBox } from "@/components"
-import { DoughnuChart } from "@/components/ui/DoughnutChart"
+import { Card, DoughnutChartRenderer, Link, ListBox } from "@/components"
 
 const WEIGHT_ITEMS = [
   { label: "Number of commits", value: "commits" },
@@ -37,10 +33,8 @@ const REPO_LIST = SOFTWARE_DOUGHNUT_LEDGER_NAMES
 
 export default function SoftwareDoughnutPage() {
   const [selectedEntity, setSelectedEntity] = useState(ENTITY_ITEMS[1])
-
   const [selectedWeight, setSelectedWeight] = useState(WEIGHT_ITEMS[1])
 
-  const [selectedDoughnut] = useState("")
   const doughnutFilenames = useMemo(
     () =>
       getSoftwareDoughnutCsvFileName(
@@ -50,24 +44,7 @@ export default function SoftwareDoughnutPage() {
     [selectedWeight, selectedEntity]
   )
 
-  //const csvDoughnutPath = `/output/software/doughnut/${doughnutFilename}`
-
-  // Generate the paths
   const doughnutPaths = generateDoughnutPaths(doughnutFilenames)
-
-  //const { doughnutData, doughnutLoading, doughnutError } =    useDoughnutCsvLoader(csvDoughnutPath)
-
-  // Map over doughnutPaths and call useDoughnutCsvLoader for each path
-  const doughnutResults = generateDoughnutResults(doughnutPaths)
-
-  // Extract data, loading, and error arrays
-  //const doughnutData = doughnutResults.map((result) => result.doughnutData)
-  const doughnutLoading = doughnutResults.map(
-    (result) => result.doughnutLoading
-  )
-  const doughnutError = doughnutResults.map((result) => result.doughnutError)
-
-  const finalDataArray = prepareFinalDataForCharts(doughnutResults)
 
   return (
     <section className="flex flex-col gap-12">
@@ -102,116 +79,16 @@ export default function SoftwareDoughnutPage() {
         </div>
       </Card>
 
-      {doughnutError[0] && <Alert message="Error loading data" />}
-
-      {!doughnutError[0] && (
-        <>
-          {REPO_LIST.map((repoName, index) => (
-            <Card key={index} title={repoName} titleAppearance="lg">
-              <p>{REPO_LIST[index]}</p>
-              <DoughnuChart
-                key={index}
-                data={finalDataArray[index]}
-                isLoadingCsvData={doughnutLoading[index]}
-                fileName={repoName}
-                watermarkUrl={SCREENSHOT_WATERMARK}
-              ></DoughnuChart>
-            </Card>
-          ))}
-          {/*
-          <Card title="Bitcoin" titleAppearance="lg">
-            <p>{REPO_LIST[0]}</p>
-            <DoughnuChart
-              data={finalDataArray[0]}
-              isLoadingCsvData={doughnutLoading[0]}
-              fileName="bitcoin-doughnut.png"
-              watermarkUrl="/images/edi-black-watermark.png"
-            ></DoughnuChart>
-          </Card>
-          <Card title="Bitcoin-Cash" titleAppearance="lg">
-            <p>{REPO_LIST[1]}</p>
-            <DoughnuChart
-              data={finalDataArray[1]}
-              isLoadingCsvData={doughnutLoading[1]}
-              fileName="bitcoin-cash-doughnut.png"
-              watermarkUrl="/images/edi-black-watermark.png"
-            ></DoughnuChart>
-          </Card>
-          <Card title="Cardano" titleAppearance="lg">
-            <p>{REPO_LIST[2]}</p>
-            <DoughnuChart
-              data={finalDataArray[2]}
-              isLoadingCsvData={doughnutLoading[2]}
-              fileName="cardano-doughnut.png"
-              watermarkUrl="/images/edi-black-watermark.png"
-            ></DoughnuChart>
-          </Card>
-          <Card title="Ethereum" titleAppearance="lg">
-            <p>{REPO_LIST[3]}</p>
-            <DoughnuChart
-              data={finalDataArray[3]}
-              isLoadingCsvData={doughnutLoading[3]}
-              fileName="ethereum-doughnut.png"
-              watermarkUrl="/images/edi-black-watermark.png"
-            ></DoughnuChart>
-          </Card>
-          <Card title="Litecoin" titleAppearance="lg">
-            <p>{REPO_LIST[4]}</p>
-            <DoughnuChart
-              data={finalDataArray[4]}
-              isLoadingCsvData={doughnutLoading[4]}
-              fileName="litecoin-doughnut.png"
-              watermarkUrl="/images/edi-black-watermark.png"
-            ></DoughnuChart>
-          </Card>
-          <Card title="Ethereum (Nethermind)" titleAppearance="lg">
-            <p>{REPO_LIST[5]}</p>
-            <DoughnuChart
-              data={finalDataArray[5]}
-              isLoadingCsvData={doughnutLoading[5]}
-              fileName="ethereum-nethermind-doughnut.png"
-              watermarkUrl="/images/edi-black-watermark.png"
-            ></DoughnuChart>
-          </Card>
-          <Card title="Polkadot" titleAppearance="lg">
-            <p>{REPO_LIST[6]}</p>
-            <DoughnuChart
-              data={finalDataArray[6]}
-              isLoadingCsvData={doughnutLoading[6]}
-              fileName="polkadot-doughnut.png"
-              watermarkUrl="/images/edi-black-watermark.png"
-            ></DoughnuChart>
-          </Card>
-          <Card title="Solana" titleAppearance="lg">
-            <p>{REPO_LIST[7]}</p>
-            <DoughnuChart
-              data={finalDataArray[7]}
-              isLoadingCsvData={doughnutLoading[7]}
-              fileName="solana-doughnut.png"
-              watermarkUrl="/images/edi-black-watermark.png"
-            ></DoughnuChart>
-          </Card>
-          <Card title="Tezos" titleAppearance="lg">
-            <p>{REPO_LIST[8]}</p>
-            <DoughnuChart
-              data={finalDataArray[8]}
-              isLoadingCsvData={doughnutLoading[8]}
-              fileName="tezos-doughnut.png"
-              watermarkUrl="/images/edi-black-watermark.png"
-            ></DoughnuChart>
-          </Card>
-          <Card title="ZCash" titleAppearance="lg">
-            <p>{REPO_LIST[9]}</p>
-            <DoughnuChart
-              data={finalDataArray[9]}
-              isLoadingCsvData={doughnutLoading[9]}
-              fileName="zcash-doughnut.png"
-              watermarkUrl="/images/edi-black-watermark.png"
-            ></DoughnuChart>
-          </Card>
-          */}
-        </>
-      )}
+      {REPO_LIST.map((repoName, index) => (
+        <Card key={index} title={repoName} titleAppearance="lg">
+          <p>{REPO_LIST[index]}</p>
+          <DoughnutChartRenderer
+            key={index}
+            path={doughnutPaths[index]}
+            repoName={repoName}
+          />
+        </Card>
+      ))}
     </section>
   )
 }
