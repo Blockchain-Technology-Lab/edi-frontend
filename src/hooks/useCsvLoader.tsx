@@ -65,10 +65,6 @@ export function useDoughnutCsvLoader(csvPath: string) {
   return { doughnutData, doughnutLoading, doughnutError }
 }
 
-export function generateDoughnutResults(paths: string[]) {
-  return paths.map((path) => useDoughnutCsvLoader(path))
-}
-
 // Function to get the top N authors based on their commit counts
 function getTopNAuthors(
   data: DoughnutDataEntry[],
