@@ -15,17 +15,11 @@ ChartJS.register(ArcElement, Tooltip, Legend)
 
 type DoughnutProps = {
   data: ChartData<"doughnut">
-  isLoadingCsvData?: boolean
   fileName: string // prop for file name
   watermarkUrl: string //  prop for watermark image URL
 }
 
-export function DoughnuChart({
-  data,
-  isLoadingCsvData = false,
-  fileName,
-  watermarkUrl
-}: DoughnutProps) {
+export function DoughnutChart({ data, fileName, watermarkUrl }: DoughnutProps) {
   const { resolvedTheme } = useTheme()
   const chartRef = useRef<HTMLCanvasElement | null>(null)
 
@@ -108,7 +102,6 @@ export function DoughnuChart({
     if (resolvedTheme) return getDoughnutChartOptions(resolvedTheme)
   }, [resolvedTheme])
 
-  if (isLoadingCsvData) return <DoughnutChartSkeleton />
   return (
     <div className="mt-8">
       <Doughnut
@@ -127,17 +120,6 @@ export function DoughnuChart({
       >
         Export as PNG
       </button>
-    </div>
-  )
-}
-function DoughnutChartSkeleton() {
-  return (
-    <div className="mt-8" aria-busy="true" aria-live="polite">
-      <div
-        className="w-full h-[457px] bg-slate-300 dark:bg-slate-200/20 animate-pulse rounded-lg"
-        aria-label="Loading chart"
-        role="img"
-      />
     </div>
   )
 }
