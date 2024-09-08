@@ -74,14 +74,50 @@ export const SOFTWARE_COLOURS = [
 ]
 
 export const SOFTWARE_DOUGHNUT_LEDGER_NAMES = [
-  "bitcoin",
-  "bitcoin_cash",
-  "cardano",
-  "go-ethereum",
-  "litecoin",
-  "nethermind",
-  "polkadot-sdk",
-  "solana",
-  "tezos",
-  "zcash"
+  {
+    repo: "bitcoin",
+    url: "https://github.com/bitcoin/bitcoin",
+    name: "Bitcoin"
+  },
+  {
+    repo: "bitcoin_cash",
+    url: "https://github.com/bitcoincashbch/bitcoin-cash",
+    name: "Bitcoin Cash"
+  },
+  {
+    repo: "cardano",
+    url: "https://github.com/IntersectMBO/cardano-node",
+    name: "Cardano"
+  },
+  {
+    repo: "go-ethereum",
+    url: "https://github.com/ethereum/go-ethereum",
+    name: "Go Ethereum"
+  },
+  {
+    repo: "nethermind",
+    url: "https://github.com/NethermindEth/nethermind",
+    name: "Nethermind (Ethereum)"
+  },
+  {
+    repo: "litecoin",
+    url: "https://github.com/litecoin-project/litecoin",
+    name: "Litecoin"
+  },
+  {
+    repo: "polkadot-sdk",
+    url: "https://github.com/paritytech/polkadot",
+    name: "Polkadot"
+  },
+  {
+    repo: "solana",
+    url: "https://github.com/solana-labs/solana",
+    name: "Solana"
+  },
+  {
+    repo: "tezos",
+    url: "https://github.com/tezos/tezos-mirror",
+    name: "Tezos"
+  },
+  { repo: "zcash", url: "https://github.com/zcash/zcash", name: "ZCash" }
 ]

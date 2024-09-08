@@ -73,7 +73,7 @@ const NAV_ITEMS = [
         icon: GraphUp
       },
       {
-        label: "Doughnut",
+        label: "Contributor Distribution",
         href: "/software/doughnut",
         icon: Doughnut
       },

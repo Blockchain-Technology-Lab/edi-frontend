@@ -1,14 +1,7 @@
 import { useMemo, useState } from "react"
 import { getSoftwareCsvFileName, SOFTWARE_CSV } from "@/utils"
 import { useCsvLoader } from "@/hooks"
-import {
-  Alert,
-  Card,
-  ListBox,
-  LineChart,
-  Link,
-  ListBoxMulti
-} from "@/components"
+import { Alert, Card, ListBox, LineChart, Link } from "@/components"
 
 const WEIGHT_ITEMS = [
   { label: "Number of commits", value: "commits" },
@@ -28,7 +21,7 @@ const COMMITS_ITEMS = [
 ]
 
 export default function SoftwarePage() {
-  const [selectedCommits, setSelectedCommits] = useState(COMMITS_ITEMS[1])
+  const [selectedCommits, setSelectedCommits] = useState(COMMITS_ITEMS[2])
 
   const [selectedEntity, setSelectedEntity] = useState(ENTITY_ITEMS[1])
 
@@ -70,7 +63,7 @@ export default function SoftwarePage() {
       <Card title="Options" titleAs="h2">
         <div className="grid laptop:grid-cols-2 gap-3">
           <ListBox
-            label="Weight"
+            label="Contribution Type"
             items={WEIGHT_ITEMS}
             selectedItem={selectedWeight}
             onChange={setSelectedWeight}
@@ -82,7 +75,7 @@ export default function SoftwarePage() {
             onChange={setSelectedEntity}
           />
           <ListBox
-            label="Commits"
+            label="Sample Window"
             items={COMMITS_ITEMS}
             selectedItem={selectedCommits}
             onChange={setSelectedCommits}
