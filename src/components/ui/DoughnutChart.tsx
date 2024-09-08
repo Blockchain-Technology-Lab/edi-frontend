@@ -59,7 +59,7 @@ export function DoughnutChart({ data, fileName, watermarkUrl }: DoughnutProps) {
         if (extendedCtx) {
           // Draw the text at the top of the extended canvas
           extendedCtx.fillStyle = "black" // Text color
-          extendedCtx.font = "20px Tahoma" // Font style
+          extendedCtx.font = "40px Tahoma" // Font style
           extendedCtx.textAlign = "center" // Center alignment
           extendedCtx.fillText(fileName, extendedCanvas.width / 2, 30) // Draw text at the top
 

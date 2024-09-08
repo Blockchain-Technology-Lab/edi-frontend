@@ -32,7 +32,7 @@ const REPO_LIST = [
 const REPO_LIST = SOFTWARE_DOUGHNUT_LEDGER_NAMES
 
 export default function SoftwareDoughnutPage() {
-  const [selectedEntity, setSelectedEntity] = useState(ENTITY_ITEMS[1])
+  const [selectedEntity, setSelectedEntity] = useState(ENTITY_ITEMS[0])
   const [selectedWeight, setSelectedWeight] = useState(WEIGHT_ITEMS[1])
 
   const doughnutFilenames = useMemo(
@@ -65,7 +65,7 @@ export default function SoftwareDoughnutPage() {
       <Card title="Options" titleAs="h2">
         <div className="grid laptop:grid-cols-2 gap-3">
           <ListBox
-            label="Weight"
+            label="Contribution Type"
             items={WEIGHT_ITEMS}
             selectedItem={selectedWeight}
             onChange={setSelectedWeight}
@@ -79,13 +79,18 @@ export default function SoftwareDoughnutPage() {
         </div>
       </Card>
 
-      {REPO_LIST.map((repoName, index) => (
-        <Card key={index} title={repoName} titleAppearance="lg">
-          <p>{REPO_LIST[index]}</p>
+      {REPO_LIST.map((repoItem, index) => (
+        <Card key={index} title={repoItem.name} titleAppearance="lg">
+          <p>
+            Repository:{" "}
+            <a href={repoItem.url} target="_blank" rel="noopener noreferrer">
+              {repoItem.repo}
+            </a>
+          </p>
           <DoughnutChartRenderer
             key={index}
             path={doughnutPaths[index]}
-            repoName={repoName}
+            repoName={repoItem.repo}
           />
         </Card>
       ))}
