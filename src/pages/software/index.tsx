@@ -1,7 +1,20 @@
 import { useMemo, useState } from "react"
-import { getSoftwareCsvFileName, SOFTWARE_CSV } from "@/utils"
+import {
+  generateDoughnutPaths,
+  getSoftwareCsvFileName,
+  getSoftwareDoughnutCsvFileName,
+  SOFTWARE_CSV,
+  SOFTWARE_DOUGHNUT_LEDGER_NAMES
+} from "@/utils"
 import { useCsvLoader } from "@/hooks"
-import { Alert, Card, ListBox, LineChart, Link } from "@/components"
+import {
+  Alert,
+  Card,
+  ListBox,
+  LineChart,
+  Link,
+  DoughnutChartRenderer
+} from "@/components"
 
 const WEIGHT_ITEMS = [
   { label: "Number of commits", value: "commits" },
@@ -20,12 +33,32 @@ const COMMITS_ITEMS = [
   { label: "1000", value: "1000" }
 ]
 
+const DOUGHNUT_WEIGHT_ITEMS = [
+  { label: "Number of commits", value: "commits" },
+  { label: "Number of lines changed", value: "lines" }
+]
+
+const DOUGHNUT_ENTITY_ITEMS = [
+  { label: "Author", value: "author" },
+  { label: "Committer", value: "committer" }
+]
+
+const REPO_LIST = SOFTWARE_DOUGHNUT_LEDGER_NAMES
+
 export default function SoftwarePage() {
   const [selectedCommits, setSelectedCommits] = useState(COMMITS_ITEMS[2])
 
   const [selectedEntity, setSelectedEntity] = useState(ENTITY_ITEMS[1])
 
   const [selectedWeight, setSelectedWeight] = useState(WEIGHT_ITEMS[1])
+
+  const [selectedDoughnutEntity, setSelectedDoughnutEntity] = useState(
+    DOUGHNUT_ENTITY_ITEMS[0]
+  )
+
+  const [selectedDoughnutWeight, setSelectedDoughnutWeight] = useState(
+    DOUGHNUT_WEIGHT_ITEMS[1]
+  )
 
   const filename = useMemo(
     () =>
@@ -36,6 +69,18 @@ export default function SoftwarePage() {
       ),
     [selectedWeight, selectedEntity, selectedCommits]
   )
+
+  const doughnutFilenames = useMemo(
+    () =>
+      getSoftwareDoughnutCsvFileName(
+        selectedDoughnutWeight.value,
+        selectedDoughnutEntity.value
+      ),
+    [selectedDoughnutWeight, selectedDoughnutEntity]
+  )
+
+  const doughnutPaths = generateDoughnutPaths(doughnutFilenames)
+
   /*
    * The dashboard is currently hosted at https://groups.inf.ed.ac.uk/blockchainlab/edi-dashboard/
    * whereas the URL http://blockchainlab.inf.ed.ac.uk/edi-dashboard/ is also pointed at the groups' directory;
@@ -158,6 +203,60 @@ export default function SoftwarePage() {
           </Card>
         </>
       )}
+
+      {/* New Contributor Distribution Section */}
+      <div id="doughnut">
+        <section className="flex flex-col gap-12">
+          <Card
+            title="Contributor Distribution"
+            titleAs="h1"
+            titleAppearance="xl"
+          >
+            <p>
+              These graphs represent the all-time distribution of contributors
+              for various blockchain implementations.{" "}
+              <Link href="/software/methodology">Read more...</Link>
+            </p>
+          </Card>
+
+          <Card title="Options" titleAs="h2">
+            <div className="grid laptop:grid-cols-2 gap-3">
+              <ListBox
+                label="Contribution Type"
+                items={DOUGHNUT_WEIGHT_ITEMS}
+                selectedItem={selectedDoughnutWeight}
+                onChange={setSelectedDoughnutWeight}
+              />
+              <ListBox
+                label="Entity"
+                items={DOUGHNUT_ENTITY_ITEMS}
+                selectedItem={selectedDoughnutEntity}
+                onChange={setSelectedDoughnutEntity}
+              />
+            </div>
+          </Card>
+
+          {REPO_LIST.map((repoItem, index) => (
+            <Card key={index} title={repoItem.name} titleAppearance="lg">
+              <p>
+                Repository:{" "}
+                <a
+                  href={repoItem.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {repoItem.repo}
+                </a>
+              </p>
+              <DoughnutChartRenderer
+                key={index}
+                path={doughnutPaths[index]}
+                repoName={repoItem.repo}
+              />
+            </Card>
+          ))}
+        </section>
+      </div>
     </section>
   )
 }

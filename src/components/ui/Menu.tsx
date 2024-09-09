@@ -74,7 +74,7 @@ const NAV_ITEMS = [
       },
       {
         label: "Contributor Distribution",
-        href: "/software/doughnut",
+        href: "/software#doughnut",
         icon: Doughnut
       },
       {
