@@ -54,10 +54,7 @@ export default function SoftwareDoughnutPage() {
         titleAppearance="xl"
       >
         <p>
-          These graphs represent the historical decentralisation of{" "}
-          <i>block production</i> for various blockchain systems. Each metric is
-          calculated based on the distribution of blocks across the entities
-          that produced them in each time period.{" "}
+        These graphs represent the all-time distribution of contributors for various blockchain implementations.{" "}
           <Link href="/software/methodology">Read more...</Link>
         </p>
       </Card>

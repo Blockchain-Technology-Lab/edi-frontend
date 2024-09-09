@@ -53,10 +53,7 @@ export default function SoftwarePage() {
     <section className="flex flex-col gap-12">
       <Card title="Software Layer" titleAs="h1" titleAppearance="xl">
         <p>
-          These graphs represent the historical decentralisation of{" "}
-          <i>block production</i> for various blockchain systems. Each metric is
-          calculated based on the distribution of blocks across the entities
-          that produced them in each time period.{" "}
+        These graphs represent the historical decentralisation of software development for various blockchain implementations. Each metric value is calculated based on the distribution of some contribution type (e.g. number of commits or lines changed) across contributors over a sample of commits.{" "}
           <Link href="/software/methodology">Read more...</Link>
         </p>
       </Card>
