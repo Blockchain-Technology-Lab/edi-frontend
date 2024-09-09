@@ -53,7 +53,11 @@ export default function SoftwarePage() {
     <section className="flex flex-col gap-12">
       <Card title="Software Layer" titleAs="h1" titleAppearance="xl">
         <p>
-        These graphs represent the historical decentralisation of software development for various blockchain implementations. Each metric value is calculated based on the distribution of some contribution type (e.g. number of commits or lines changed) across contributors over a sample of commits.{" "}
+          These graphs represent the historical decentralisation of software
+          development for various blockchain implementations. Each metric value
+          is calculated based on the distribution of some contribution type
+          (e.g. number of commits or lines changed) across contributors over a
+          sample of commits.{" "}
           <Link href="/software/methodology">Read more...</Link>
         </p>
       </Card>
@@ -141,7 +145,10 @@ export default function SoftwarePage() {
             />
           </Card>
           <Card title="Total Entities" titleAppearance="lg">
-            <p>The total_entities</p>
+            <p>
+              The total entities metric captures the number of contributors that
+              made at least one contribution in some sample window.
+            </p>
             <LineChart
               metric="total_entities"
               type="software"
