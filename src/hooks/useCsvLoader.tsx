@@ -102,12 +102,12 @@ function getTopNAuthorsWithOthers(
   return othersEntry ? [...topNData, othersEntry] : topNData
 }
 
-// Function to get the top percentage of authors based on their commit counts
-function getTopPercentageAuthorsWithOthers(
+// Function to get authors who have committed more than a given percentage of the total commits
+function getAuthorsAboveThresholdWithOthers(
   data: DoughnutDataEntry[],
-  percentage: number
+  minPercentage: number
 ): DoughnutDataEntry[] {
-  if (percentage <= 0 || percentage > 100) {
+  if (minPercentage <= 0 || minPercentage > 100) {
     throw new Error("Percentage must be between 0 and 100.")
   }
 
@@ -117,27 +117,23 @@ function getTopPercentageAuthorsWithOthers(
   // Calculate total commits
   const totalCommits = sortedData.reduce((sum, entry) => sum + entry.commits, 0)
 
-  // Calculate the threshold commits to achieve the desired percentage
-  const threshold = totalCommits * (percentage / 100)
+  // Calculate the minimum commits required to exceed the given percentage
+  const minCommits = totalCommits * (minPercentage / 100)
 
-  let cumulativeCommits = 0
-  const topData: DoughnutDataEntry[] = []
-  let othersCommits = 0
+  // Filter authors who have more commits than the threshold
+  const authorsAboveThreshold = sortedData.filter(
+    (entry) => entry.commits > minCommits
+  )
 
-  // Collect authors until the threshold is met
-  for (const entry of sortedData) {
-    cumulativeCommits += entry.commits
-    if (cumulativeCommits <= threshold) {
-      topData.push(entry)
-    } else {
-      othersCommits += entry.commits
-    }
-  }
+  // Calculate the remaining authors' commits to be grouped under "Others"
+  const othersCommits = sortedData
+    .filter((entry) => entry.commits <= minCommits)
+    .reduce((sum, entry) => sum + entry.commits, 0)
 
-  // Create "Others" entry if there are remaining commits
+  // If there are any authors in "Others," add them as a new entry
   if (othersCommits > 0) {
-    topData.push({ author: "Others", commits: othersCommits })
+    authorsAboveThreshold.push({ author: "Others", commits: othersCommits })
   }
 
-  return topData
+  return authorsAboveThreshold
 }
