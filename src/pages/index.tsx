@@ -25,7 +25,7 @@ const CLUSTERING_ITEMS = [
 
 export default function HomePage() {
   const [selectedThreshold, setSelectedThreshold] = useState(
-    THRESHOLDING_ITEMS[1]
+    THRESHOLDING_ITEMS[0]
   )
   const [selectedClusters, setSelectedClusters] = useState(CLUSTERING_ITEMS)
 
