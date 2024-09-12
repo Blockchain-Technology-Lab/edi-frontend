@@ -1,6 +1,6 @@
 import { Alert, DoughnutChart } from "@/components"
 import { useDoughnutCsvLoader } from "@/hooks"
-import { prepareFinalDataForSingleChart, SCREENSHOT_WATERMARK } from "@/utils"
+import { prepareFinalDataForSingleChart } from "@/utils"
 
 type DoughnutChartRendererProps = {
   path: string
@@ -19,13 +19,7 @@ export function DoughnutChartRenderer({
 
   const finalData = prepareFinalDataForSingleChart(doughnutData)
 
-  return (
-    <DoughnutChart
-      data={finalData}
-      fileName={repoName}
-      watermarkUrl={SCREENSHOT_WATERMARK}
-    />
-  )
+  return <DoughnutChart data={finalData} fileName={repoName} />
 }
 
 function DoughnutChartSkeleton() {
