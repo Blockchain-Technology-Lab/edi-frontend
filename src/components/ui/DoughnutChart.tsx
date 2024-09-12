@@ -9,9 +9,9 @@ import {
   ChartData
 } from "chart.js"
 
-import { useExportChart } from "@/hooks/exportChartAsPNG"
+import { useExportChart } from "@/hooks"
 
-import { useRef, useMemo, useCallback } from "react"
+import { useRef, useMemo } from "react"
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -23,6 +23,7 @@ type DoughnutProps = {
 export function DoughnutChart({ data, fileName }: DoughnutProps) {
   const { resolvedTheme } = useTheme()
   const chartRef = useRef<HTMLCanvasElement | null>(null)
+  const watermarkOption = { watermark: true }
   const exportChart = useExportChart()
   const options = useMemo(() => {
     if (resolvedTheme) return getDoughnutChartOptions(resolvedTheme)
@@ -41,7 +42,7 @@ export function DoughnutChart({ data, fileName }: DoughnutProps) {
         }}
       />
       <button
-        onClick={() => exportChart(chartRef, fileName)}
+        onClick={() => exportChart(chartRef, fileName, watermarkOption)}
         className="mt-4 p-2 bg-blue-500 text-white rounded"
       >
         Export as PNG

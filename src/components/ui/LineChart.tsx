@@ -1,7 +1,7 @@
-import { useMemo } from "react"
+import { useMemo, useRef } from "react"
 import { Line } from "react-chartjs-2"
 import { useTheme } from "next-themes"
-import { useChartData } from "@/hooks"
+import { useChartData, useExportChart } from "@/hooks"
 import { RangeSlider } from "@/components"
 import {
   DataEntry,
@@ -29,11 +29,14 @@ export function LineChart({
     type,
     csvData
   )
+  const exportChart = useExportChart()
 
   const options = useMemo(() => {
     if (resolvedTheme) return getChartOptions(metric, resolvedTheme)
   }, [metric, resolvedTheme])
 
+  const chartRef = useRef<HTMLCanvasElement | null>(null)
+  const watermarkOption = { watermark: false }
   if (isLoadingCsvData) return <LineChartSkeleton />
   if (!chartData || !options) return null
 
@@ -47,6 +50,11 @@ export function LineChart({
         }}
         options={options}
         className="max-w-full !h-[425px]"
+        ref={(ref) => {
+          if (ref) {
+            chartRef.current = ref.canvas
+          }
+        }}
       />
       <RangeSlider
         min={sliderRange.min}
@@ -54,6 +62,12 @@ export function LineChart({
         value={sliderValue}
         onValueChange={(newValue) => setSliderValue(newValue)}
       />
+      <button
+        onClick={() => exportChart(chartRef, metric, watermarkOption)}
+        className="mt-4 p-2 bg-blue-500 text-white rounded"
+      >
+        Export as PNG
+      </button>
     </div>
   )
 }
