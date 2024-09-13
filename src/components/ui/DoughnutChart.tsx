@@ -42,9 +42,12 @@ export function DoughnutChart({ data, fileName }: DoughnutProps) {
         }}
       />
       <button
-        onClick={() => exportChart(chartRef, fileName, watermarkOption)}
+        onClick={() =>
+          exportChart(chartRef, fileName + "-repo", watermarkOption)
+        }
         className="mt-4 p-2 bg-blue-500 text-white rounded"
       >
+        <i className="bi bi-save"></i>
         Export as PNG
       </button>
     </div>

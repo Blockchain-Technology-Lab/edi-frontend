@@ -63,7 +63,9 @@ export function LineChart({
         onValueChange={(newValue) => setSliderValue(newValue)}
       />
       <button
-        onClick={() => exportChart(chartRef, metric, watermarkOption)}
+        onClick={() =>
+          exportChart(chartRef, type + "-" + metric, watermarkOption)
+        }
         className="mt-4 p-2 bg-blue-500 text-white rounded"
       >
         Export as PNG
