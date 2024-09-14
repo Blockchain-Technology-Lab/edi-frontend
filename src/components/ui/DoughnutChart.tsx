@@ -6,7 +6,8 @@ import {
   Tooltip,
   Legend,
   ChartOptions,
-  ChartData
+  ChartData,
+  LegendItem
 } from "chart.js"
 
 import { useExportChart } from "@/hooks"
@@ -81,7 +82,28 @@ function getDoughnutChartOptions(theme: string): ChartOptions<"doughnut"> {
       },
       legend: {
         labels: {
-          color: mainColor
+          color: mainColor,
+          filter: (legendItem: LegendItem, data) => {
+            const sortable: Array<[string, number]> = []
+
+            // Sum up the data values for each label in the first dataset
+            if (data && data.datasets.length > 0) {
+              data.labels?.forEach((label, index) => {
+                const sumOfData = (data.datasets[0].data[index] as number) || 0
+                sortable.push([label as string, sumOfData])
+              })
+            }
+
+            // Sort labels based on their data values in descending order
+            sortable.sort((a, b) => b[1] - a[1])
+
+            // Return true only for the top 10 items
+            const numberOfLabels = 10
+            const top10Labels = sortable
+              .slice(0, numberOfLabels)
+              .map((item) => item[0])
+            return top10Labels.includes(legendItem.text)
+          }
         }
       }
     }
