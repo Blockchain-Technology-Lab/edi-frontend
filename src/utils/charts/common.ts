@@ -5,8 +5,12 @@ import {
   TOKENOMICS_COLOURS,
   TOKENOMICS_LEDGER_NAMES,
   SOFTWARE_COLOURS,
-  SOFTWARE_LEDGER_NAMES
+  SOFTWARE_LEDGER_NAMES,
+  LINECHART_WATERMARK_WHITE,
+  LINECHART_WATERMARK_BLACK
 } from "@/utils"
+
+import { Plugin } from "chart.js"
 
 type LedgerDataset = {
   label: string
@@ -106,5 +110,51 @@ export function findMinMaxValues(data: DataEntry[]) {
   return {
     minValue: minDate.getTime(),
     maxValue: maxDate.getTime()
+  }
+}
+
+// Define the plugin with theme support
+export function createWatermarkPlugin(theme?: string): Plugin<"doughnut"> {
+  // Determine the image source based on the theme
+  const imageSrc =
+    theme === "dark" ? LINECHART_WATERMARK_WHITE : LINECHART_WATERMARK_BLACK
+
+  return {
+    id: "customCanvasBackgroundImage",
+    beforeDraw: (chart) => {
+      // Check if `Image` is defined (only available in browser)
+      if (typeof window !== "undefined" && typeof Image !== "undefined") {
+        const { ctx, chartArea } = chart
+        // Ensure context and chartArea are available
+        if (!ctx || !chartArea) return
+
+        const image = new Image()
+        image.src = imageSrc
+
+        if (image.complete) {
+          // Image is loaded, draw it on the chart
+          const { top, left } = chartArea
+          const x = left
+          const y = top
+
+          // Set watermark opacity
+          ctx.save() // Save the current canvas state
+          ctx.globalAlpha = 0.2 // Set the opacity
+          ctx.drawImage(image, x, y) // Draw the image
+          ctx.restore() // Restore the canvas state to clear the opacity setting
+        } else {
+          // Image is not loaded, wait for it
+          image.onload = () => {
+            chart.draw() // Redraw the chart after the image is loaded
+          }
+
+          image.onerror = () => {
+            console.error("Failed to load watermark image.")
+          }
+        }
+      } else {
+        console.warn("Image object is not available.")
+      }
+    }
   }
 }
