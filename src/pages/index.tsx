@@ -1,5 +1,9 @@
 import { useMemo, useState } from "react"
-import { getTokenomicsCsvFileName, TOKENOMICS_CSV } from "@/utils"
+import {
+  ClusteringOption,
+  getTokenomicsCsvFileName,
+  TOKENOMICS_CSV
+} from "@/utils"
 import {
   Alert,
   Card,
@@ -20,7 +24,9 @@ const THRESHOLDING_ITEMS = [
 
 const CLUSTERING_ITEMS = [
   { label: "Explorers", value: "explorers" },
-  { label: "Staking Keys", value: "staking" }
+  { label: "Staking Keys", value: "staking" },
+  { label: "Multi-input Transactions", value: "multi" },
+  { label: "Crystal", value: "crystal" }
 ]
 
 export default function HomePage() {
@@ -33,7 +39,7 @@ export default function HomePage() {
     () =>
       getTokenomicsCsvFileName(
         selectedThreshold.value,
-        selectedClusters.map((cluster) => cluster.value)
+        selectedClusters.map((cluster) => cluster.value as ClusteringOption)
       ),
     [selectedThreshold, selectedClusters]
   )

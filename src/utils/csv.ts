@@ -120,85 +120,92 @@ export async function loadCsvData(
   }
 }
 
+export type ClusteringOption = "explorers" | "staking" | "multi" | "crystal"
+
 export function getTokenomicsCsvFileName(
   threshold: string,
-  clustering: string[]
+  clustering: ClusteringOption[]
 ) {
-  const isExplorer = clustering.length === 1 && clustering[0] === "explorers"
-  const isStaking = clustering.length === 1 && clustering[0] === "staking"
-  const isBoth =
-    clustering.includes("explorers") && clustering.includes("staking")
-
-  if (threshold === "100") {
-    if (isExplorer) {
-      return "output-explorers-absolute_100.csv"
-    } else if (isStaking) {
-      return "output-staking_keys-absolute_100.csv"
-    } else if (isBoth) {
-      return "output-absolute_100.csv"
-    } else {
-      return "output-no_clustering-absolute_100.csv"
-    }
-  } else if (threshold === "1000") {
-    if (isExplorer) {
-      return "output-explorers-absolute_1000.csv"
-    } else if (isStaking) {
-      return "output-staking_keys-absolute_1000.csv"
-    } else if (isBoth) {
-      return "output-absolute_1000.csv"
-    } else {
-      return "output-no_clustering-absolute_1000.csv"
-    }
-  } else if (threshold === "50p") {
-    if (isExplorer) {
-      return "output-explorers-percentage_0.5.csv"
-    } else if (isStaking) {
-      return "output-staking_keys-percentage_0.5.csv"
-    } else if (isBoth) {
-      return "output-percentage_0.5.csv"
-    } else {
-      return "output-no_clustering-percentage_0.5.csv"
-    }
-  } else if (threshold === "above") {
-    if (isExplorer) {
-      return "output-explorers-exclude_below_usd_cent.csv"
-    } else if (isStaking) {
-      return "output-staking_keys-exclude_below_usd_cent.csv"
-    } else if (isBoth) {
-      return "output-exclude_below_usd_cent.csv"
-    } else {
-      return "output-no_clustering-exclude_below_usd_cent.csv"
-    }
-  } else if (threshold === "none") {
-    if (isExplorer) {
-      return "output-explorers.csv"
-    } else if (isStaking) {
-      return "output-staking_keys.csv"
-    } else if (isBoth) {
-      return "output.csv"
-    } else {
-      return "output-no_clustering.csv"
-    }
-  } else {
-    return "output-absolute_1000.csv"
+  const fileSuffixes: Record<string, string> = {
+    "100": "output-absolute_100.csv",
+    "1000": "output-absolute_1000.csv",
+    "50p": "output-percentage_0.5.csv",
+    above: "output-exclude_below_usd_cent.csv",
+    none: "output.csv"
   }
+
+  const directoryMapping: Record<string, string> = {
+    "": "no_clustering", // No selection
+    crystal: "crystal",
+    "crystal-explorers": "crystal_explorers",
+    "crystal-explorers-multi": "crystal_explorers_multi_input_transactions",
+    "crystal-explorers-multi-staking":
+      "crystal_explorers_staking_keys_multi_input_transactions",
+    "crystal-explorers-staking": "crystal_explorers_staking_keys",
+    "crystal-multi": "crystal_multi_input_transactions",
+    "crystal-multi-staking": "crystal_staking_keys_multi_input_transactions",
+    "crystal-staking": "crystal_staking_keys",
+    explorers: "explorers",
+    "explorers-crystal": "crystal_explorers",
+    "explorers-crystal-multi": "crystal_explorers_multi_input_transactions",
+    "explorers-crystal-staking": "crystal_explorers_staking_keys",
+    "explorers-multi": "explorers_multi_input_transactions",
+    "explorers-multi-crystal": "crystal_explorers_multi_input_transactions",
+    "explorers-multi-staking":
+      "explorers_staking_keys_multi_input_transactions",
+    "explorers-staking": "explorers_staking_keys",
+    "explorers-staking-crystal": "crystal_explorers_staking_keys",
+    "explorers-staking-multi":
+      "explorers_staking_keys_multi_input_transactions",
+    "explorers-staking-multi-crystal":
+      "crystal_explorers_staking_keys_multi_input_transactions",
+    multi: "multi_input_transactions",
+    "multi-crystal": "crystal_multi_input_transactions",
+    "multi-crystal-explorers": "crystal_explorers_multi_input_transactions",
+    "multi-crystal-staking": "crystal_staking_keys_multi_input_transactions",
+    "multi-staking": "staking_keys_multi_input_transactions",
+    "multi-staking-crystal": "crystal_staking_keys_multi_input_transactions",
+    staking: "staking_keys",
+    "staking-crystal": "crystal_staking_keys",
+    "staking-crystal-multi": "crystal_staking_keys_multi_input_transactions",
+    "staking-multi": "staking_keys_multi_input_transactions",
+    "staking-multi-crystal": "crystal_staking_keys_multi_input_transactions"
+  }
+
+  // Function to create a sorted key from clustering selections
+  const createKey = (arr: ClusteringOption[]): string => {
+    return arr.slice().sort().join("-")
+  }
+
+  // Generate the key from the sorted clustering array
+  const sortedClusteringKey = createKey(clustering)
+
+  // Sort and join the clustering selection to create a unique key
+  const sortedClustering = clustering.slice().sort().join("-") // Ensure consistent order
+
+  const directory = directoryMapping[sortedClusteringKey] || "no_clustering"
+  const fileName = fileSuffixes[threshold] || "output-absolute_1000.csv"
+
+  // Return the full path to the desired file
+  console.log(`sortedClusteringKey: ${sortedClusteringKey}`)
+  console.log(`FileName: /output/tokenomics/${directory}/${fileName}`)
+  return `${directory}/${fileName}`
 }
 
-export function getConsensusCsvFileName(clustering: string[]) {
-  const isExplorer = clustering.length === 1 && clustering[0] === "explorers"
-  const isOnChain = clustering.length === 1 && clustering[0] === "onchain"
-  const isBoth =
-    clustering.includes("explorers") && clustering.includes("onchain")
+export function getConsensusCsvFileName(clustering: string[]): string {
+  const isExplorer = clustering.includes("explorers")
+  const isOnChain = clustering.includes("onchain")
 
-  if (isExplorer) {
-    return "output_explorers.csv"
-  } else if (isOnChain) {
-    return "output_metadata.csv"
-  } else if (isBoth) {
-    return "output_clustered.csv"
-  } else {
+  if (isExplorer && isOnChain) {
     return "output_clustered.csv"
   }
+  if (isExplorer) {
+    return "output_explorers.csv"
+  }
+  if (isOnChain) {
+    return "output_metadata.csv"
+  }
+  return "output_clustered.csv"
 }
 
 /*
@@ -213,76 +220,25 @@ export function getSoftwareCsvFileName(
   weight: string,
   entity: string,
   commits: string
-) {
-  let csvFileName =
-    "all_metrics_by_lines_changed_per_author_per_1000_commits.csv" //default file
-
-  if (weight === "lines") {
-    // if weight == lines changed
-    if (entity === "author") {
-      if (commits === "100") {
-        csvFileName =
-          "all_metrics_by_lines_changed_per_author_per_100_commits.csv"
-      } else if (commits === "250") {
-        csvFileName =
-          "all_metrics_by_lines_changed_per_author_per_250_commits.csv"
-      } else if (commits === "500") {
-        csvFileName =
-          "all_metrics_by_lines_changed_per_author_per_500_commits.csv"
-      } else if (commits === "1000") {
-        csvFileName =
-          "all_metrics_by_lines_changed_per_author_per_1000_commits.csv"
-      }
-    } else if (entity === "committer") {
-      if (commits === "100") {
-        csvFileName =
-          "all_metrics_by_lines_changed_per_committer_per_100_commits.csv"
-      } else if (commits === "250") {
-        csvFileName =
-          "all_metrics_by_lines_changed_per_committer_per_250_commits.csv"
-      } else if (commits === "500") {
-        csvFileName =
-          "all_metrics_by_lines_changed_per_committer_per_500_commits.csv"
-      } else if (commits === "1000") {
-        csvFileName =
-          "all_metrics_by_lines_changed_per_committer_per_1000_commits.csv"
-      }
-    }
-  } else if (weight === "commits") {
-    // if weight === number of commits
-    if (entity === "author") {
-      if (commits === "100") {
-        csvFileName =
-          "all_metrics_by_number_of_commits_per_author_per_100_commits.csv"
-      } else if (commits === "250") {
-        csvFileName =
-          "all_metrics_by_number_of_commits_per_author_per_250_commits.csv"
-      } else if (commits === "500") {
-        csvFileName =
-          "all_metrics_by_number_of_commits_per_author_per_500_commits.csv"
-      } else if (commits === "1000") {
-        csvFileName =
-          "all_metrics_by_number_of_commits_per_author_per_1000_commits.csv"
-      }
-    } else if (entity === "committer") {
-      if (commits === "100") {
-        csvFileName =
-          "all_metrics_by_number_of_commits_per_committer_per_100_commits.csv"
-      } else if (commits === "250") {
-        csvFileName =
-          "all_metrics_by_number_of_commits_per_committer_per_250_commits.csv"
-      } else if (commits === "500") {
-        csvFileName =
-          "all_metrics_by_number_of_commits_per_committer_per_500_commits.csv"
-      } else if (commits === "1000") {
-        csvFileName =
-          "all_metrics_by_number_of_commits_per_committer_per_1000_commits.csv"
-      }
-    }
+): string {
+  // Define the file naming conventions
+  const fileNameTemplates: Record<string, string> = {
+    lines_author: "all_metrics_by_lines_changed_per_author_per_%s_commits.csv",
+    lines_committer:
+      "all_metrics_by_lines_changed_per_committer_per_%s_commits.csv",
+    commits_author:
+      "all_metrics_by_number_of_commits_per_author_per_%s_commits.csv",
+    commits_committer:
+      "all_metrics_by_number_of_commits_per_committer_per_%s_commits.csv"
   }
+  // Generate the key for the mapping
+  const key = `${weight}_${entity}`
 
-  //return "line/" + csvFileName
-  return csvFileName
+  // Get the template for the filename
+  const template = fileNameTemplates[key] || fileNameTemplates.lines_author
+
+  // Format the filename with the commits value
+  return template.replace("%s", commits)
 }
 
 export function getSoftwareDoughnutCsvFileName(weight: string, entity: string) {
