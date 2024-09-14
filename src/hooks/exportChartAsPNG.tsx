@@ -1,18 +1,8 @@
 import { useCallback } from "react"
 
-import { SCREENSHOT_WATERMARK } from "@/utils"
-
-interface UseExportChartOptions {
-  watermark?: boolean // Use boolean to indicate whether to include a watermark
-}
-
 export function useExportChart() {
   const exportChart = useCallback(
-    (
-      chartRef: React.RefObject<HTMLCanvasElement>,
-      fileName: string,
-      options?: UseExportChartOptions
-    ) => {
+    (chartRef: React.RefObject<HTMLCanvasElement>, fileName: string) => {
       if (chartRef.current) {
         const canvas = chartRef.current
         const ctx = canvas.getContext("2d")
@@ -41,45 +31,12 @@ export function useExportChart() {
 
             // Draw the chart on the new canvas, offset by the extra height
             extendedCtx.drawImage(canvas, 0, extraHeight)
-
-            // Conditionally load the watermark image
-            if (options?.watermark) {
-              const watermarkImage = new Image()
-              watermarkImage.src = SCREENSHOT_WATERMARK
-
-              watermarkImage.onload = () => {
-                // Adjust the watermark size and position
-                const watermarkWidth = extendedCanvas.width * 0.2 // 20% of the canvas width
-                const watermarkHeight =
-                  watermarkWidth *
-                  (watermarkImage.height / watermarkImage.width) // Maintain aspect ratio
-                const xPos = extendedCanvas.width - watermarkWidth - 30 // pixels from the right edge
-                const yPos = extendedCanvas.height - watermarkHeight - 30 // pixels from the bottom edge
-
-                // Draw the watermark image on the canvas
-                extendedCtx.drawImage(
-                  watermarkImage,
-                  xPos,
-                  yPos,
-                  watermarkWidth,
-                  watermarkHeight
-                )
-
-                // Export the extended canvas as PNG
-                const url = extendedCanvas.toDataURL("image/png")
-                const link = document.createElement("a")
-                link.href = url
-                link.download = `${fileName}-chart.png`
-                link.click()
-              }
-            } else {
-              // Export the extended canvas as PNG without watermark
-              const url = extendedCanvas.toDataURL("image/png")
-              const link = document.createElement("a")
-              link.href = url
-              link.download = `${fileName}-chart.png`
-              link.click()
-            }
+            // Export the extended canvas as PNG without watermark
+            const url = extendedCanvas.toDataURL("image/png")
+            const link = document.createElement("a")
+            link.href = url
+            link.download = `${fileName}-chart.png`
+            link.click()
           }
         }
       }
