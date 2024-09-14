@@ -1,14 +1,10 @@
-import { useMemo, useRef } from "react"
+import { useEffect, useMemo, useRef } from "react"
 import { Line } from "react-chartjs-2"
 import { useTheme } from "next-themes"
 import { useChartData, useExportChart } from "@/hooks"
 import { RangeSlider } from "@/components"
-import {
-  DataEntry,
-  LINECHART_WATERMARK_BLACK,
-  LINECHART_WATERMARK_WHITE
-} from "@/utils"
-import { ChartOptions } from "chart.js"
+import { createWatermarkPlugin, DataEntry } from "@/utils"
+import { ChartOptions, Chart as ChartJS } from "chart.js"
 
 type LineProps = {
   metric: string
@@ -34,6 +30,17 @@ export function LineChart({
   const options = useMemo(() => {
     if (resolvedTheme) return getChartOptions(metric, resolvedTheme)
   }, [metric, resolvedTheme])
+
+  // Re-register plugin when theme changes
+  useEffect(() => {
+    const watermarkPlugin = createWatermarkPlugin(resolvedTheme)
+    ChartJS.register(watermarkPlugin)
+
+    // Cleanup function to unregister the plugin
+    return () => {
+      ChartJS.unregister(watermarkPlugin)
+    }
+  }, [resolvedTheme])
 
   const chartRef = useRef<HTMLCanvasElement | null>(null)
   if (isLoadingCsvData) return <LineChartSkeleton />

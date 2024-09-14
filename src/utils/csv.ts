@@ -31,7 +31,7 @@ const SOFTWARE_COLUMNS = [
 
 type BaseDataEntry = {
   ledger: string
-  snapshot_date: Date
+  date: Date
 }
 
 export type DataEntry = BaseDataEntry & {
@@ -86,8 +86,8 @@ function parseCSV(
       const entry = {} as DataEntry
       headers.forEach((header, index) => {
         const value = values[index].trim()
-        if (header.trim() === "snapshot_date") {
-          entry.snapshot_date =
+        if (header.trim() === "date") {
+          entry.date =
             type === "tokenomics" ? new Date(value) : parseDateString(value)
         } else if (header.trim() === "ledger") {
           entry.ledger = value // Store ledger name

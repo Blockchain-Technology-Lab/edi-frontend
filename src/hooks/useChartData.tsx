@@ -27,7 +27,7 @@ export function useChartData(
   useEffect(() => {
     if (csvData) {
       const filteredData = csvData.filter((entry) => {
-        const date = entry.snapshot_date.getTime()
+        const date = entry.date.getTime()
         return date >= sliderValue[0] && date <= sliderValue[1]
       })
       const data = getChartData(metric, type, filteredData)

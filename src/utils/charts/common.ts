@@ -60,13 +60,13 @@ function getLedgerColorMap(ledgerNames: string[], colors: string[]) {
 
 function buildLabels(data: DataEntry[], minValue: number, maxValue: number) {
   const filteredData = data.filter((entry) => {
-    const date = entry.snapshot_date.getTime()
+    const date = entry.date.getTime()
     return date >= minValue && date <= maxValue
   })
   const sortedData = filteredData.sort(
-    (a, b) => a.snapshot_date.getTime() - b.snapshot_date.getTime()
+    (a, b) => a.date.getTime() - b.date.getTime()
   )
-  return sortedData.map((entry) => entry.snapshot_date)
+  return sortedData.map((entry) => entry.date)
 }
 
 function buildDatasets(
@@ -94,7 +94,7 @@ function buildDatasets(
 
     // Push data point (x: snapshot_date, y: metric value) to the ledger dataset
     ledgerDatasets[ledger].data.push({
-      x: entry.snapshot_date,
+      x: entry.date,
       y: entry[metric]
     })
   })
@@ -104,7 +104,7 @@ function buildDatasets(
 }
 
 export function findMinMaxValues(data: DataEntry[]) {
-  const dates = data.map((entry) => entry.snapshot_date.getTime())
+  const dates = data.map((entry) => entry.date.getTime())
   const minDate = new Date(Math.min(...dates))
   const maxDate = new Date(Math.max(...dates))
   return {
