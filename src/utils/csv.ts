@@ -181,14 +181,12 @@ export function getTokenomicsCsvFileName(
   const sortedClusteringKey = createKey(clustering)
 
   // Sort and join the clustering selection to create a unique key
-  const sortedClustering = clustering.slice().sort().join("-") // Ensure consistent order
-
   const directory = directoryMapping[sortedClusteringKey] || "no_clustering"
   const fileName = fileSuffixes[threshold] || "output-absolute_1000.csv"
 
   // Return the full path to the desired file
-  console.log(`sortedClusteringKey: ${sortedClusteringKey}`)
-  console.log(`FileName: /output/tokenomics/${directory}/${fileName}`)
+
+  //console.log(`FileName: /output/tokenomics/${directory}/${fileName}`)
   return `${directory}/${fileName}`
 }
 
