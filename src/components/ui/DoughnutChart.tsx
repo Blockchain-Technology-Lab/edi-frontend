@@ -7,12 +7,104 @@ import {
   Legend,
   ChartOptions,
   ChartData,
-  LegendItem
+  LegendItem,
+  Chart,
+  Plugin
 } from "chart.js"
 
 import { useExportChart } from "@/hooks"
 
-import { useRef, useMemo } from "react"
+import { useRef, useMemo, useEffect } from "react"
+import { LINECHART_WATERMARK_BLACK, LINECHART_WATERMARK_WHITE } from "@/utils"
+
+//ChartJS.register(ArcElement, Tooltip, Legend)
+// Define the plugin
+//
+/*
+const plugin: Plugin<"doughnut"> = {
+  id: "customCanvasBackgroundImage",
+  beforeDraw: (chart) => {
+    // Check if `Image` is defined (only available in browser)
+    if (typeof window !== "undefined" && typeof Image !== "undefined") {
+      const { ctx, chartArea } = chart
+      // Ensure context and chartArea are available
+      if (!ctx || !chartArea) return
+
+      const image = new Image()
+      image.src = imageSrc
+
+      if (image.complete) {
+        // Image is loaded, draw it on the chart
+        const { top, left } = chartArea
+        const x = left
+        const y = top
+        // Set watermark opacity
+        ctx.save() // Save the current canvas state
+        ctx.globalAlpha = 0.2 // Set the opacity
+        ctx.drawImage(image, x, y) // Draw the image
+        ctx.restore() // Restore the canvas state to clear the opacity setting
+      } else {
+        // Image is not loaded, wait for it
+        image.onload = () => {
+          chart.draw() // Redraw the chart after the image is loaded
+        }
+
+        image.onerror = () => {
+          console.error("Failed to load watermark image.")
+        }
+      }
+    } else {
+      console.warn("Image object is not available.")
+    }
+  }
+}
+*/
+
+// Define the plugin with theme support
+const createWatermarkPlugin = (theme?: string): Plugin<"doughnut"> => {
+  // Determine the image source based on the theme
+  const imageSrc =
+    theme === "dark" ? LINECHART_WATERMARK_WHITE : LINECHART_WATERMARK_BLACK
+
+  return {
+    id: "customCanvasBackgroundImage",
+    beforeDraw: (chart) => {
+      // Check if `Image` is defined (only available in browser)
+      if (typeof window !== "undefined" && typeof Image !== "undefined") {
+        const { ctx, chartArea } = chart
+        // Ensure context and chartArea are available
+        if (!ctx || !chartArea) return
+
+        const image = new Image()
+        image.src = imageSrc
+
+        if (image.complete) {
+          // Image is loaded, draw it on the chart
+          const { top, left } = chartArea
+          const x = left
+          const y = top
+
+          // Set watermark opacity
+          ctx.save() // Save the current canvas state
+          ctx.globalAlpha = 0.2 // Set the opacity
+          ctx.drawImage(image, x, y) // Draw the image
+          ctx.restore() // Restore the canvas state to clear the opacity setting
+        } else {
+          // Image is not loaded, wait for it
+          image.onload = () => {
+            chart.draw() // Redraw the chart after the image is loaded
+          }
+
+          image.onerror = () => {
+            console.error("Failed to load watermark image.")
+          }
+        }
+      } else {
+        console.warn("Image object is not available.")
+      }
+    }
+  }
+}
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -24,10 +116,21 @@ type DoughnutProps = {
 export function DoughnutChart({ data, fileName }: DoughnutProps) {
   const { resolvedTheme } = useTheme()
   const chartRef = useRef<HTMLCanvasElement | null>(null)
-  const watermarkOption = { watermark: true }
+  //const watermarkOption = { watermark: false }
   const exportChart = useExportChart()
   const options = useMemo(() => {
     if (resolvedTheme) return getDoughnutChartOptions(resolvedTheme)
+  }, [resolvedTheme])
+
+  // Re-register plugin when theme changes
+  useEffect(() => {
+    const watermarkPlugin = createWatermarkPlugin(resolvedTheme)
+    ChartJS.register(watermarkPlugin)
+
+    // Cleanup function to unregister the plugin
+    return () => {
+      ChartJS.unregister(watermarkPlugin)
+    }
   }, [resolvedTheme])
 
   return (
@@ -43,9 +146,7 @@ export function DoughnutChart({ data, fileName }: DoughnutProps) {
         }}
       />
       <button
-        onClick={() =>
-          exportChart(chartRef, fileName + "-repo", watermarkOption)
-        }
+        onClick={() => exportChart(chartRef, fileName + "-repo")}
         className="mt-4 p-2 bg-blue-500 text-white rounded"
       >
         <i className="bi bi-save"></i>
@@ -54,6 +155,7 @@ export function DoughnutChart({ data, fileName }: DoughnutProps) {
     </div>
   )
 }
+
 function getDoughnutChartOptions(theme: string): ChartOptions<"doughnut"> {
   const mainColor = theme === "dark" ? "white" : "black"
   return {
@@ -97,10 +199,8 @@ function getDoughnutChartOptions(theme: string): ChartOptions<"doughnut"> {
                 sortable.push([label as string, sumOfData])
               })
             }
-
             // Sort labels based on their data values in descending order
             sortable.sort((a, b) => b[1] - a[1])
-
             // Return true only for the top 10 items
             const numberOfLabels = 10
             const top10Labels = sortable

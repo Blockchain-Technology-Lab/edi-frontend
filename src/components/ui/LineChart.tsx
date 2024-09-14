@@ -36,7 +36,6 @@ export function LineChart({
   }, [metric, resolvedTheme])
 
   const chartRef = useRef<HTMLCanvasElement | null>(null)
-  const watermarkOption = { watermark: false }
   if (isLoadingCsvData) return <LineChartSkeleton />
   if (!chartData || !options) return null
 
@@ -63,9 +62,7 @@ export function LineChart({
         onValueChange={(newValue) => setSliderValue(newValue)}
       />
       <button
-        onClick={() =>
-          exportChart(chartRef, type + "-" + metric, watermarkOption)
-        }
+        onClick={() => exportChart(chartRef, type + "-" + metric)}
         className="mt-4 p-2 bg-blue-500 text-white rounded"
       >
         Export as PNG
@@ -150,22 +147,6 @@ function getChartOptions(metric: string, theme: string): ChartOptions<"line"> {
           color: mainColor
         }
       }
-    },
-    // @ts-expect-error
-    watermark: {
-      image:
-        theme === "dark"
-          ? LINECHART_WATERMARK_WHITE
-          : LINECHART_WATERMARK_BLACK,
-      x: "5%",
-      y: "5%",
-      width: 260,
-      height: 161,
-      opacity: 0.2,
-      alignX: "left",
-      alignY: "top",
-      alignToChartArea: true,
-      position: "back"
     }
   }
 }
