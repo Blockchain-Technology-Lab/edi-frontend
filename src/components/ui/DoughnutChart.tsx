@@ -75,8 +75,12 @@ function getDoughnutChartOptions(theme: string): ChartOptions<"doughnut"> {
         bodyColor: "white",
         callbacks: {
           label: (tooltipItem) => {
-            // Customize the tooltip label as needed
-            return `${tooltipItem.label}: ${tooltipItem.raw}`
+            /*  Format the number of commits with commas */
+            // Assert the type of tooltipItem.raw to number
+            const commits = tooltipItem.raw as number
+            // Format the number of commits with commas
+            const formattedCommits = commits.toLocaleString()
+            return `${tooltipItem.label}: ${formattedCommits}`
           }
         }
       },

@@ -47,7 +47,7 @@ export function useDoughnutCsvLoader(csvPath: string) {
     try {
       const csvDoughnutData = await loadDoughnutCsvData(csvPath)
 
-      const topDoughnutData = getTopNAuthorsWithOthers(csvDoughnutData, 10)
+      const topDoughnutData = getTopNAuthorsWithOthers(csvDoughnutData, 20)
 
       setDoughnutData(topDoughnutData)
     } catch (error) {
@@ -63,16 +63,6 @@ export function useDoughnutCsvLoader(csvPath: string) {
     load()
   }, [load])
   return { doughnutData, doughnutLoading, doughnutError }
-}
-
-// Function to get the top N authors based on their commit counts
-function getTopNAuthors(
-  data: DoughnutDataEntry[],
-  topN: number
-): DoughnutDataEntry[] {
-  return data
-    .sort((a, b) => b.commits - a.commits) // Sort in descending order
-    .slice(0, topN) // Get top N entries
 }
 
 function getTopNAuthorsWithOthers(
@@ -105,7 +95,7 @@ function getTopNAuthorsWithOthers(
 // Function to get authors who have committed more than a given percentage of the total commits
 function getAuthorsAboveThresholdWithOthers(
   data: DoughnutDataEntry[],
-  minPercentage: number
+  minPercentage: number = 1 // Default to 1% if not provided
 ): DoughnutDataEntry[] {
   if (minPercentage <= 0 || minPercentage > 100) {
     throw new Error("Percentage must be between 0 and 100.")
@@ -122,12 +112,12 @@ function getAuthorsAboveThresholdWithOthers(
 
   // Filter authors who have more commits than the threshold
   const authorsAboveThreshold = sortedData.filter(
-    (entry) => entry.commits > minCommits
+    (entry) => entry.commits >= minCommits
   )
 
   // Calculate the remaining authors' commits to be grouped under "Others"
   const othersCommits = sortedData
-    .filter((entry) => entry.commits <= minCommits)
+    .filter((entry) => entry.commits < minCommits)
     .reduce((sum, entry) => sum + entry.commits, 0)
 
   // If there are any authors in "Others," add them as a new entry
@@ -136,4 +126,34 @@ function getAuthorsAboveThresholdWithOthers(
   }
 
   return authorsAboveThreshold
+}
+
+function getAuthorsAboveThreshold(
+  data: DoughnutDataEntry[],
+  minPercentage: number = 1 // Default to 1% if not provided
+): DoughnutDataEntry[] {
+  if (minPercentage <= 0 || minPercentage > 100) {
+    throw new Error("Percentage must be between 0 and 100.")
+  }
+
+  // Sort data by commits in descending order
+  const sortedData = data.sort((a, b) => b.commits - a.commits)
+
+  // Calculate total commits
+  const totalCommits = sortedData.reduce((sum, entry) => sum + entry.commits, 0)
+
+  // Calculate the minimum commits required to exceed the given percentage
+  const minCommits = totalCommits * (minPercentage / 100)
+
+  // Filter authors who have more commits than the threshold
+  const authorsAboveThreshold = sortedData.filter(
+    (entry) => entry.commits >= minCommits
+  )
+
+  return authorsAboveThreshold
+}
+
+function getAllAuthors(data: DoughnutDataEntry[]): DoughnutDataEntry[] {
+  // Return all authors without filtering
+  return data
 }
