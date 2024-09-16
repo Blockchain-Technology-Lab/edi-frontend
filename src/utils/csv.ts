@@ -227,7 +227,11 @@ export function getSoftwareCsvFileName(
     commits_author:
       "all_metrics_by_number_of_commits_per_author_per_%s_commits.csv",
     commits_committer:
-      "all_metrics_by_number_of_commits_per_committer_per_%s_commits.csv"
+      "all_metrics_by_number_of_commits_per_committer_per_%s_commits.csv",
+    merge_author:
+      "all_metrics_by_number_of_merge_commits_per_author_per_%s_commits.csv",
+    merge_committer:
+      "all_metrics_by_number_of_merge_commits_per_committer_per_%s_commits.csv"
   }
   // Generate the key for the mapping
   const key = `${weight}_${entity}`
