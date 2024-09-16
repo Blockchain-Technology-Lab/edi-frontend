@@ -18,7 +18,8 @@ import {
 
 const WEIGHT_ITEMS = [
   { label: "Number of commits", value: "commits" },
-  { label: "Number of lines changed", value: "lines" }
+  { label: "Number of lines changed", value: "lines" },
+  { label: "Number of merge commits", value: "merge" }
 ]
 
 const ENTITY_ITEMS = [
