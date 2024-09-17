@@ -116,7 +116,7 @@ export default function SoftwarePage() {
             onChange={setSelectedWeight}
           />
           <ListBox
-            label="Entity"
+            label="Contributor Type"
             items={ENTITY_ITEMS}
             selectedItem={selectedEntity}
             onChange={setSelectedEntity}
