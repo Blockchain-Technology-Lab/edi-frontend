@@ -12,6 +12,7 @@
     "@headlessui/react": "^2.1.2",
     "@next/third-parties": "^14.2.5",
     "@radix-ui/react-slider": "^1.2.0",
+    "bootstrap": "^5.3.3",
     "chart.js": "^4.4.3",
     "chartjs-adapter-moment": "^1.0.1",
     "chartjs-plugin-watermark": "^2.0.2",

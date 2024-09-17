@@ -1,3 +1,4 @@
+import "bootstrap/dist/css/bootstrap.min.css"
 import "@/styles/globals.css"
 import "chartjs-adapter-moment"
 import Head from "next/head"
