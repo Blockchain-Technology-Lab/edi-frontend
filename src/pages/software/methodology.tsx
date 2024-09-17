@@ -161,25 +161,6 @@ export default function MethodologyPage() {
           </li>
         </ul>
       </Card>
-      <Card title="Software layer - Thresholding options" titleAppearance="lg">
-        <p>
-          A user can apply the decentralization metrics on all or part of the
-          data by choosing the relevant thresholding option on each layer.
-        </p>
-        <p>
-          For example, if the option “Top 100” is chosen on the Tokenomics
-          layer, then the metrics will apply on the top 100 richest entities in
-          the system, while ignoring the rest. Similarly, if the option “Above
-          $0.01” is chosen in Tokenomics, the metrics will apply on entities
-          that control tokens that were worth, at the given point in time, at
-          least $0.01.
-        </p>
-        <p>
-          Thresholding options are: “Top 100”, “Top 1000”, “Top 50%”, “Above
-          $0.01”, “None”.
-        </p>
-        <p>By default, Top 1000 thresholding is applied.</p>
-      </Card>
     </section>
   )
 }
