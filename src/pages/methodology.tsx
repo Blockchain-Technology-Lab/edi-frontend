@@ -64,15 +64,28 @@ export default function MethodologyPage() {
           entity.
         </p>
         <p>
-          In the future, one more clustering option will be added, namely
-          “Multi-input transactions”. This option will enable attributing to the
-          same entity addresses that are used as input in the same transaction,
-          which is a known heuristic for clustering addresses in UTXO-based
-          ledgers.
+          We have now added the 'Multi-input transactions' clustering option.
+          This feature allows attributing addresses to the same entity when they
+          are used as inputs in the same transaction, a well-established
+          heuristic for clustering addresses in UTXO-based ledgers.
         </p>
         <p>
           Explorer data is used for all ledgers except Cardano, whereas staking
           keys are used only for Cardano.
+        </p>
+        <p>
+          Additionally, we have introduced a new third-party clustering option
+          called "Crystal Intelligence." This option leverages advanced
+          clustering algorithms from{" "}
+          <Link href="https://crystalintelligence.com/">
+            {" "}
+            Crystal Intelligence & Crypto Compliance
+          </Link>{" "}
+          to more accurately group public addresses belonging to the same
+          real-world entity. Unlike the other clustering methods, which are
+          developed in-house, "Crystal Intelligence" is an external integration.
+          You can select "Crystal Intelligence" individually or in combination
+          with our other clustering methods in the Clustering options.
         </p>
         <p>By default, all options (except “None”) are applied.</p>
       </Card>
