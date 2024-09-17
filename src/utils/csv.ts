@@ -1,5 +1,6 @@
 import moment from "moment"
 import { SOFTWARE_DOUGHNUT_CSV } from "./paths"
+import { getColorsForChart } from "./charts"
 
 const TOKENOMICS_COLUMNS = [
   "hhi",
@@ -313,26 +314,22 @@ interface FinalData {
 export function prepareFinalDataForSingleChart(
   doughnutData: DoughnutDataEntry[]
 ): FinalData {
+  const colors = getColorsForChart(doughnutData.length)
+
   return {
     labels: doughnutData.map((item) => item.author),
     datasets: [
       {
-        data: doughnutData.map((item) => Math.round(item.commits)),
-        backgroundColor: doughnutData.map(() => getRandomColor()), // Ensure default color
-        borderColor: doughnutData.map(() => getRandomColor()), // Ensure default border color
+        data: doughnutData.map((item) => Math.round(Number(item.commits))),
+        backgroundColor: colors, // Use generated or predefined colors
+        borderColor: colors,
         borderWidth: 0.1,
         dataVisibility: new Array(doughnutData.length).fill(true) // If you are using this option
       }
     ]
   }
 }
-function getRandomColor(): string {
-  const r = Math.floor(Math.random() * 256)
-  const g = Math.floor(Math.random() * 256)
-  const b = Math.floor(Math.random() * 256)
-  const staticOpacity = 1 // Static opacity value
-  return `rgba(${r}, ${g}, ${b}, ${staticOpacity})`
-}
+
 export function parseDoughnutData(data: string): DoughnutDataEntry[] {
   const lines = data.trim().split("\n")
   const authors: DoughnutDataEntry[] = []

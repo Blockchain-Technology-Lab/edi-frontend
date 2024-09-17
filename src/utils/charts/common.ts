@@ -158,3 +158,31 @@ export function createWatermarkPlugin(theme?: string): Plugin<"doughnut"> {
     }
   }
 }
+
+// Function to generate additional unique colors if needed
+function generateUniqueColor(existingColors: string[]): string {
+  // Simple function to generate random RGB color
+  let newColor
+  do {
+    // Ensure bright colors by keeping RGB values higher
+    const r = Math.floor(Math.random() * 128) + 128 // Range: 128-255
+    const g = Math.floor(Math.random() * 128) + 128 // Range: 128-255
+    const b = Math.floor(Math.random() * 128) + 128 // Range: 128-255
+    newColor = `rgba(${r}, ${g}, ${b}, 1)`
+  } while (existingColors.includes(newColor)) // Ensure no duplicates
+  return newColor
+}
+
+export function getColorsForChart(length: number): string[] {
+  const colors = [...SOFTWARE_COLOURS]
+
+  // If the number of data points exceeds the predefined colors, generate new ones
+  if (length > SOFTWARE_COLOURS.length) {
+    for (let i = SOFTWARE_COLOURS.length; i < length; i++) {
+      const newColor = generateUniqueColor(colors)
+      colors.push(newColor) // Add unique color
+    }
+  }
+
+  return colors.slice(0, length) // Ensure the correct number of colors
+}
