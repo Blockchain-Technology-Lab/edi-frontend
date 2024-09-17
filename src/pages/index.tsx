@@ -26,7 +26,7 @@ const CLUSTERING_ITEMS = [
   { label: "Explorers", value: "explorers" },
   { label: "Staking Keys", value: "staking" },
   { label: "Multi-input Transactions", value: "multi" },
-  { label: "Crystal", value: "crystal" }
+  { label: "Crystal Intelligence", value: "crystal" }
 ]
 
 export default function HomePage() {
