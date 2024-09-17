@@ -54,11 +54,11 @@ export default function SoftwarePage() {
   const [selectedWeight, setSelectedWeight] = useState(WEIGHT_ITEMS[1])
 
   const [selectedDoughnutEntity, setSelectedDoughnutEntity] = useState(
-    DOUGHNUT_ENTITY_ITEMS[0]
+    DOUGHNUT_ENTITY_ITEMS[1]
   )
 
   const [selectedDoughnutWeight, setSelectedDoughnutWeight] = useState(
-    DOUGHNUT_WEIGHT_ITEMS[1]
+    DOUGHNUT_WEIGHT_ITEMS[0]
   )
 
   const filename = useMemo(
