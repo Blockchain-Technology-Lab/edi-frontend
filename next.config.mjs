@@ -4,7 +4,7 @@ const nextConfig = {
   output: "export",
   distDir: "dist",
 //  basePath: '/blockchainlab/edi-dashboard', /* Use basePath for building for either groups or blockchainlab URLs */
-
+trailingSlash: true,
   images: {
     unoptimized: true
   }
