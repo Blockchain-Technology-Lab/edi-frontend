@@ -120,16 +120,16 @@ export default function MethodologyPage() {
           A user can choose which options will be taken into account when
           generating the graphs. These include:
         </p>
-        <ul>
+        <ul className="list-unstyled">
           <li>
-            <b>Sample Window</b>, i.e. how many consecutive commits to group
-            together before applying a metric. It can be one of: 100, 250, 500,
-            1000.
+            <strong>Sample Window</strong>, i.e. how many consecutive commits to
+            group together before applying a metric. It can be one of: 100, 250,
+            500, 1000.
           </li>
           <li>
-            <b>Contribution Type</b>, i.e. what counts as a contribution. The
-            options are:
-            <ul>
+            <strong>Contribution Type</strong>, i.e. what counts as a
+            contribution. The options are:
+            <ul className="list-unstyled ms-4">
               <li>
                 <i>
                   Number of commits: each commit is counted as a single
@@ -154,10 +154,10 @@ export default function MethodologyPage() {
             </ul>
           </li>
           <li>
-            <b>Contributor Type</b>, i.e. who is seen as responsible for the
-            contribution. Author: the person who wrote the code of the commit.
-            Committer: the person who committed the code on behalf of the
-            original author (can be the same or different from the author).
+            <strong>Contributor Type</strong>, i.e. who is seen as responsible
+            for the contribution. Author: the person who wrote the code of the
+            commit. Committer: the person who committed the code on behalf of
+            the original author (can be the same or different from the author).
           </li>
         </ul>
       </Card>
