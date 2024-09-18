@@ -49,7 +49,7 @@ const REPO_LIST = SOFTWARE_DOUGHNUT_LEDGER_NAMES
 export default function SoftwarePage() {
   const [selectedCommits, setSelectedCommits] = useState(COMMITS_ITEMS[2])
 
-  const [selectedEntity, setSelectedEntity] = useState(ENTITY_ITEMS[1])
+  const [selectedEntity, setSelectedEntity] = useState(ENTITY_ITEMS[0])
 
   const [selectedWeight, setSelectedWeight] = useState(WEIGHT_ITEMS[0])
 
