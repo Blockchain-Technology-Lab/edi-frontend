@@ -27,11 +27,11 @@ const NAV_ITEMS = [
     links: [
       {
         label: "Dashboard",
-        href: "/consensus",
+        href: "/consensus/",
         icon: GraphUp
       },
       {
-        href: "/consensus/methodology",
+        href: "/consensus/methodology/",
         label: "Methodology",
         icon: FilterSquare
       },
@@ -52,7 +52,7 @@ const NAV_ITEMS = [
         icon: GraphUp
       },
       {
-        href: "/methodology",
+        href: "/methodology/",
         label: "Methodology",
         icon: FilterSquare
       },
@@ -69,16 +69,16 @@ const NAV_ITEMS = [
     links: [
       {
         label: "Dashboard",
-        href: "/software",
+        href: "/software/",
         icon: GraphUp
       },
       {
         label: "Contributor Distribution",
-        href: "/software#doughnut",
+        href: "/software/#doughnut",
         icon: Doughnut
       },
       {
-        href: "/software/methodology",
+        href: "/software/methodology/",
         label: "Methodology",
         icon: FilterSquare
       },
