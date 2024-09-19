@@ -54,7 +54,7 @@ export default function SoftwarePage() {
   const [selectedWeight, setSelectedWeight] = useState(WEIGHT_ITEMS[0])
 
   const [selectedDoughnutEntity, setSelectedDoughnutEntity] = useState(
-    DOUGHNUT_ENTITY_ITEMS[1]
+    DOUGHNUT_ENTITY_ITEMS[0]
   )
 
   const [selectedDoughnutWeight, setSelectedDoughnutWeight] = useState(
