@@ -1,4 +1,21 @@
-const basePath = "" // "/edi-dashboard"
+/*
+ * The dashboard is currently hosted at https://groups.inf.ed.ac.uk/blockchainlab/edi-dashboard/
+ * whereas the URL http://blockchainlab.inf.ed.ac.uk/edi-dashboard/ is also pointed at the groups' directory;
+ * therefore, we may need to have two different builds based upon the basePath;
+ *
+ * For Groups' Build:
+ * const basePath = `/blockchainlab/edi-dashboard`
+ *
+ * For BlockchainLab's Build:
+ * const basePath = `/edi-dashboard`
+ *
+ * For localhost Build:
+ * const basePath = ""
+ *
+ * Please make sure the basePath is also updated in the file next.config.mjs
+ */
+
+const basePath = ""
 
 export const WATERMARK_BLACK_1X = basePath + "/images/edi-black-1x.png"
 
