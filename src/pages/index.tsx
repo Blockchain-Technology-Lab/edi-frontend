@@ -43,16 +43,6 @@ export default function HomePage() {
       ),
     [selectedThreshold, selectedClusters]
   )
-  /*
-   * The dashboard is currently hosted at https://groups.inf.ed.ac.uk/blockchainlab/edi-dashboard/
-   * whereas the URL http://blockchainlab.inf.ed.ac.uk/edi-dashboard/ is also pointed at the groups' directory;
-   * therefore, we may need to have two different builds based upon the basePath;
-   * const csvPath = `/blockchainlab/edi-dashboard/output/consensus/${filename}`
-   * OR
-   * const csvPath = `/edi-dashboard/output/consensus/${filename}`
-   */
-
-  //const csvPath = `/output/tokenomics/${filename}`
 
   const csvPath = `${TOKENOMICS_CSV + filename}`
 
