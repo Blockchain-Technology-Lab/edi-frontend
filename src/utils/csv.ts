@@ -251,7 +251,9 @@ export function getSoftwareDoughnutCsvFileName(weight: string, entity: string) {
     "by_lines_changed_per_author",
     "by_lines_changed_per_committer",
     "by_number_of_commits_per_author",
-    "by_number_of_commits_per_committer"
+    "by_number_of_commits_per_committer",
+    "by_merge_commits_per_author",
+    "by_merge_commits_per_committer"
   ]
 
   const fileNames: string[] = [
@@ -278,6 +280,12 @@ export function getSoftwareDoughnutCsvFileName(weight: string, entity: string) {
       csvFiles = generateDoughnutFileNames(folderNames[2], fileNames)
     } else if (entity === "committer") {
       csvFiles = generateDoughnutFileNames(folderNames[3], fileNames)
+    }
+  } else if (weight === "merge") {
+    if (entity === "author") {
+      csvFiles = generateDoughnutFileNames(folderNames[4], fileNames)
+    } else if (entity === "committer") {
+      csvFiles = generateDoughnutFileNames(folderNames[5], fileNames)
     }
   } else {
     csvFiles = generateDoughnutFileNames(folderNames[0], fileNames)
