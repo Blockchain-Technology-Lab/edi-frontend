@@ -230,7 +230,7 @@ export default function SoftwarePage() {
                 onChange={setSelectedDoughnutWeight}
               />
               <ListBox
-                label="Entity"
+                label="Contributor Type"
                 items={DOUGHNUT_ENTITY_ITEMS}
                 selectedItem={selectedDoughnutEntity}
                 onChange={setSelectedDoughnutEntity}
