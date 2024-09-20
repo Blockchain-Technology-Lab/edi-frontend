@@ -17,9 +17,9 @@ import {
 } from "@/components"
 
 const WEIGHT_ITEMS = [
-  { label: "Number of commits", value: "commits" },
-  { label: "Number of lines changed", value: "lines" },
-  { label: "Number of merge commits", value: "merge" }
+  { label: "Commits", value: "commits" },
+  { label: "Merge commits", value: "merge" },
+  { label: "Lines changed", value: "lines" }
 ]
 
 const ENTITY_ITEMS = [
@@ -35,8 +35,9 @@ const COMMITS_ITEMS = [
 ]
 
 const DOUGHNUT_WEIGHT_ITEMS = [
-  { label: "Number of commits", value: "commits" },
-  { label: "Number of lines changed", value: "lines" }
+  { label: "Commits", value: "commits" },
+  { label: "Merge commits", value: "merge" },
+  { label: "Lines changed", value: "lines" }
 ]
 
 const DOUGHNUT_ENTITY_ITEMS = [
@@ -122,7 +123,7 @@ export default function SoftwarePage() {
             onChange={setSelectedEntity}
           />
           <ListBox
-            label="Sample Window"
+            label="Commits per Sample Window"
             items={COMMITS_ITEMS}
             selectedItem={selectedCommits}
             onChange={setSelectedCommits}
