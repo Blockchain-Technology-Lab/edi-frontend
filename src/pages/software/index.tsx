@@ -153,9 +153,9 @@ export default function SoftwarePage() {
               concentration. It is defined as the sum of the squares of the
               market shares (as whole numbers, e.g. 40 for 40%) of the entities
               in the system. Values close to 0 indicate low concentration (many
-              entities produce a similar number of blocks) and values close to
-              10,000 indicate high concentration (one entity produces most or
-              all blocks).
+              entities are responsible for a similar number of contributions)
+              and values close to 10,000 indicate high concentration (one entity
+              responsible for most or all contributions).
             </p>
             <LineChart
               metric="hhi"
@@ -180,9 +180,9 @@ export default function SoftwarePage() {
           </Card>
           <Card title="Max power ratio" titleAppearance="lg">
             <p>
-              The max power ratio represents the share of blocks that are
-              produced by the most “powerful” entity, i.e. the entity that
-              produces the most blocks.
+              The max power ratio represents the share of contributions that are
+              made by the most “powerful” entity, i.e. the entity that is
+              responsible for the highest number of contributions.
             </p>
             <LineChart
               metric="max_power_ratio"
