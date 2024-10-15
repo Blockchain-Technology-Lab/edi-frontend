@@ -82,7 +82,7 @@ export default function MethodologyPage() {
       >
         <p>
           A user can apply the decentralization metrics on all or part of the
-          data by choosing the relevant thresholding option on each layer.
+          data by choosing the relevant inclusion threshold on each layer.
         </p>
         <p>
           For example, if the option “Top 100” is chosen on the Tokenomics
@@ -93,7 +93,7 @@ export default function MethodologyPage() {
           least $0.01.
         </p>
         <p>
-          Thresholding options are: “Top 100”, “Top 1000”, “Top 50%”, “Above
+          Threshold options are: “Top 100”, “Top 1000”, “Top 50%”, “Above
           $0.01”, “None”.
         </p>
         <p>By default, Top 1000 thresholding is applied.</p>
