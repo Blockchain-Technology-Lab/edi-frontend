@@ -110,13 +110,8 @@ export default function MethodologyPage() {
           given point in time, at least $0.01.
         </p>
         <p>
-<<<<<<< HEAD
-          Thresholding options are: &quot;Top 100&quot;, &quot;Top 1000&quot;,
-          &quot;Top 50%&quot;, &quot;Above $0.01&quot;, &quot;None&quot;.
-=======
           Threshold options are: “Top 100”, “Top 1000”, “Top 50%”, “Above
           $0.01”, “None”.
->>>>>>> main
         </p>
         <p>By default, no inclusion threshold is applied.</p>
       </Card>
