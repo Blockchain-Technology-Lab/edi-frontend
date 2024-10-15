@@ -2,6 +2,12 @@
 import { useTheme } from "next-themes"
 import { useIsMounted } from "@/hooks"
 import { Link } from "@/components"
+import {
+  WATERMARK_BLACK_1X,
+  WATERMARK_BLACK_2X,
+  WATERMARK_WHITE_1X,
+  WATERMARK_WHITE_2x
+} from "@/utils"
 
 export function Logo() {
   const mounted = useIsMounted()
@@ -33,12 +39,12 @@ export function Logo() {
   const src =
     resolvedTheme === "light"
       ? {
-          "1x": "/images/edi-black-1x.png",
-          "2x": "/images/edi-black-2x.png"
+          "1x": WATERMARK_BLACK_1X,
+          "2x": WATERMARK_BLACK_2X
         }
       : {
-          "1x": "/images/edi-white-1x.png",
-          "2x": "/images/edi-white-2x.png"
+          "1x": WATERMARK_WHITE_1X,
+          "2x": WATERMARK_WHITE_2x
         }
 
   return (

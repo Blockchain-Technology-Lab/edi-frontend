@@ -46,10 +46,12 @@ export default function MethodologyPage() {
           independent addresses to the same wallet.
         </p>
         <p>
-          Here, the clustering options are: “Explorers”, “Staking keys”, and
-          “None”. A user can choose either “None” or any combination of the
-          other options. “Explorers” refers to attribution and deanonymization
-          data collected from blockchain explorers, namely{" "}
+          Here, the clustering options are: &quot;Explorers&quot;, &quot;Staking
+          keys&quot;, &quot;Multi-input Transactions&quot;, &quot;Crystal
+          Intelligence&quot; and &quot;None&quot;. A user can choose either
+          &quot;None&quot; or any combination of the other options.
+          &quot;Explorers&quot; refers to attribution and deanonymization data
+          collected from blockchain explorers, namely{" "}
           <Link href="https://bitinfocharts.com/">BitInfoCharts</Link>,{" "}
           <Link href="https://etherscan.io/">Etherscan</Link>,{" "}
           <Link href="https://www.walletexplorer.com/">Wallet Explorer</Link>,{" "}
@@ -59,22 +61,37 @@ export default function MethodologyPage() {
           , <Link href="https://tzkt.io/">TzKT</Link>.
         </p>
         <p>
-          “Staking keys” refers to the data collected from stake pools and
-          validators that are used to attribute staking addresses to the same
-          entity.
+          &quot;Staking keys&quot; refers to the data collected from stake pools
+          and validators that are used to attribute staking addresses to the
+          same entity.
         </p>
         <p>
-          In the future, one more clustering option will be added, namely
-          “Multi-input transactions”. This option will enable attributing to the
-          same entity addresses that are used as input in the same transaction,
-          which is a known heuristic for clustering addresses in UTXO-based
+          We have now added the &apos;Multi-input Transactions&apos; clustering
+          option. This feature allows attributing addresses to the same entity
+          when they are used as inputs in the same transaction, a
+          well-established heuristic for clustering addresses in UTXO-based
           ledgers.
         </p>
         <p>
           Explorer data is used for all ledgers except Cardano, whereas staking
           keys are used only for Cardano.
         </p>
-        <p>By default, all options (except “None”) are applied.</p>
+        <p>
+          Additionally, we have introduced a new third-party clustering option
+          called &quot;Crystal Intelligence&quot;. This option leverages
+          advanced clustering algorithms from{" "}
+          <Link href="https://crystalintelligence.com/">
+            {" "}
+            Crystal Intelligence & Crypto Compliance
+          </Link>{" "}
+          to more accurately group public addresses belonging to the same
+          real-world entity. Unlike the other clustering methods, which are
+          developed in-house, &quot;Crystal Intelligence&quot; is an external
+          integration. You can select &quot;Crystal Intelligence&quot;
+          individually or in combination with our other clustering methods in
+          the Clustering options.
+        </p>
+        <p>By default, all options (except &quot;None&quot;) are applied.</p>
       </Card>
       <Card
         title="Tokenomics layer - Thresholding options"
@@ -85,16 +102,21 @@ export default function MethodologyPage() {
           data by choosing the relevant inclusion threshold on each layer.
         </p>
         <p>
-          For example, if the option “Top 100” is chosen on the Tokenomics
-          layer, then the metrics will apply on the top 100 richest entities in
-          the system, while ignoring the rest. Similarly, if the option “Above
-          $0.01” is chosen in Tokenomics, the metrics will apply on entities
-          that control tokens that were worth, at the given point in time, at
-          least $0.01.
+          For example, if the option &quot;Top 100&quot; is chosen on the
+          Tokenomics layer, then the metrics will apply on the top 100 richest
+          entities in the system, while ignoring the rest. Similarly, if the
+          option &quot;Above $0.01&quot; is chosen in Tokenomics, the metrics
+          will apply on entities that control tokens that were worth, at the
+          given point in time, at least $0.01.
         </p>
         <p>
+<<<<<<< HEAD
+          Thresholding options are: &quot;Top 100&quot;, &quot;Top 1000&quot;,
+          &quot;Top 50%&quot;, &quot;Above $0.01&quot;, &quot;None&quot;.
+=======
           Threshold options are: “Top 100”, “Top 1000”, “Top 50%”, “Above
           $0.01”, “None”.
+>>>>>>> main
         </p>
         <p>By default, no inclusion threshold is applied.</p>
       </Card>

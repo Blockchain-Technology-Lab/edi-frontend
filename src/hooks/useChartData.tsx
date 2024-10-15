@@ -3,7 +3,7 @@ import { ChartData, DataEntry, findMinMaxValues, getChartData } from "@/utils"
 
 export function useChartData(
   metric: string,
-  type: "tokenomics" | "consensus",
+  type: "tokenomics" | "consensus" | "software",
   csvData?: DataEntry[]
 ) {
   const [chartData, setChartData] = useState<ChartData>()
@@ -27,7 +27,7 @@ export function useChartData(
   useEffect(() => {
     if (csvData) {
       const filteredData = csvData.filter((entry) => {
-        const date = entry.snapshot_date.getTime()
+        const date = entry.date.getTime()
         return date >= sliderValue[0] && date <= sliderValue[1]
       })
       const data = getChartData(metric, type, filteredData)
