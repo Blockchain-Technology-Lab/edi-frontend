@@ -1,3 +1,4 @@
+import "bootstrap/dist/css/bootstrap.min.css"
 import "@/styles/globals.css"
 import "chartjs-adapter-moment"
 import Head from "next/head"
@@ -32,7 +33,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>EDI - Tokenomics Layer</title>
+        <title>EDI - Dashboard</title>
       </Head>
       <GoogleAnalytics gaId="G-4H72FE76WD" />
       <ThemeProvider attribute="class">

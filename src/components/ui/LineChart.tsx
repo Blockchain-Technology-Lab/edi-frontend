@@ -1,16 +1,16 @@
-import { useMemo } from "react"
+import { useEffect, useMemo, useRef } from "react"
 import { Line } from "react-chartjs-2"
 import { useTheme } from "next-themes"
-import { useChartData } from "@/hooks"
+import { useChartData, useExportChart } from "@/hooks"
 import { RangeSlider } from "@/components"
-import { DataEntry } from "@/utils"
-import { ChartOptions } from "chart.js"
+import { createWatermarkPlugin, DataEntry } from "@/utils"
+import { ChartOptions, Chart as ChartJS } from "chart.js"
 
 type LineProps = {
   metric: string
   csvData?: DataEntry[]
   isLoadingCsvData?: boolean
-  type: "tokenomics" | "consensus"
+  type: "tokenomics" | "consensus" | "software"
 }
 
 export function LineChart({
@@ -25,11 +25,24 @@ export function LineChart({
     type,
     csvData
   )
+  const exportChart = useExportChart()
 
   const options = useMemo(() => {
     if (resolvedTheme) return getChartOptions(metric, resolvedTheme)
   }, [metric, resolvedTheme])
 
+  // Re-register plugin when theme changes
+  useEffect(() => {
+    const watermarkPlugin = createWatermarkPlugin(resolvedTheme)
+    ChartJS.register(watermarkPlugin)
+
+    // Cleanup function to unregister the plugin
+    return () => {
+      ChartJS.unregister(watermarkPlugin)
+    }
+  }, [resolvedTheme])
+
+  const chartRef = useRef<HTMLCanvasElement | null>(null)
   if (isLoadingCsvData) return <LineChartSkeleton />
   if (!chartData || !options) return null
 
@@ -43,6 +56,11 @@ export function LineChart({
         }}
         options={options}
         className="max-w-full !h-[425px]"
+        ref={(ref) => {
+          if (ref) {
+            chartRef.current = ref.canvas
+          }
+        }}
       />
       <RangeSlider
         min={sliderRange.min}
@@ -50,6 +68,12 @@ export function LineChart({
         value={sliderValue}
         onValueChange={(newValue) => setSliderValue(newValue)}
       />
+      <button
+        onClick={() => exportChart(chartRef, type + "-" + metric)}
+        className="mt-4 p-2 bg-blue-500 text-white rounded"
+      >
+        Export as PNG
+      </button>
     </div>
   )
 }
@@ -130,22 +154,6 @@ function getChartOptions(metric: string, theme: string): ChartOptions<"line"> {
           color: mainColor
         }
       }
-    },
-    // @ts-expect-error
-    watermark: {
-      image:
-        theme === "dark"
-          ? "/images/edi-white-watermark.png"
-          : "/images/edi-black-watermark.png",
-      x: "5%",
-      y: "5%",
-      width: 260,
-      height: 161,
-      opacity: 0.2,
-      alignX: "left",
-      alignY: "top",
-      alignToChartArea: true,
-      position: "back"
     }
   }
 }

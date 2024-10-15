@@ -1,5 +1,9 @@
 import { useMemo, useState } from "react"
-import { getTokenomicsCsvFileName } from "@/utils"
+import {
+  ClusteringOption,
+  getTokenomicsCsvFileName,
+  TOKENOMICS_CSV
+} from "@/utils"
 import {
   Alert,
   Card,
@@ -20,12 +24,14 @@ const THRESHOLDING_ITEMS = [
 
 const CLUSTERING_ITEMS = [
   { label: "Explorers", value: "explorers" },
-  { label: "Staking Keys", value: "staking" }
+  { label: "Staking Keys", value: "staking" },
+  { label: "Multi-input Transactions", value: "multi" },
+  { label: "Crystal Intelligence", value: "crystal" }
 ]
 
 export default function HomePage() {
   const [selectedThreshold, setSelectedThreshold] = useState(
-    THRESHOLDING_ITEMS.at(-1)
+    THRESHOLDING_ITEMS[4]
   )
   const [selectedClusters, setSelectedClusters] = useState(CLUSTERING_ITEMS)
 
@@ -33,20 +39,13 @@ export default function HomePage() {
     () =>
       getTokenomicsCsvFileName(
         selectedThreshold.value,
-        selectedClusters.map((cluster) => cluster.value)
+        selectedClusters.map((cluster) => cluster.value as ClusteringOption)
       ),
     [selectedThreshold, selectedClusters]
   )
-  /*
-   * The dashboard is currently hosted at https://groups.inf.ed.ac.uk/blockchainlab/edi-dashboard/
-   * whereas the URL http://blockchainlab.inf.ed.ac.uk/edi-dashboard/ is also pointed at the groups' directory;
-   * therefore, we may need to have two different builds based upon the basePath;
-   * const csvPath = `/blockchainlab/edi-dashboard/output/consensus/${filename}`
-   * OR
-   * const csvPath = `/edi-dashboard/output/consensus/${filename}`
-   */
 
-  const csvPath = `/output/tokenomics/${filename}`
+  const csvPath = `${TOKENOMICS_CSV + filename}`
+
   const { data, loading, error } = useCsvLoader(csvPath, "tokenomics")
 
   return (

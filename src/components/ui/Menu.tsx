@@ -12,10 +12,12 @@ import {
   CashStack,
   ChevronDown,
   CodeSlash,
+  CodePoint,
   FilterSquare,
   GraphUp,
   Link,
-  Speedometer
+  Speedometer,
+  Doughnut
 } from "@/components"
 
 const NAV_ITEMS = [
@@ -25,11 +27,11 @@ const NAV_ITEMS = [
     links: [
       {
         label: "Dashboard",
-        href: "/consensus",
+        href: "/consensus/",
         icon: GraphUp
       },
       {
-        href: "/consensus/methodology",
+        href: "/consensus/methodology/",
         label: "Methodology",
         icon: FilterSquare
       },
@@ -50,12 +52,38 @@ const NAV_ITEMS = [
         icon: GraphUp
       },
       {
-        href: "/methodology",
+        href: "/methodology/",
         label: "Methodology",
         icon: FilterSquare
       },
       {
         href: "https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization",
+        label: "Source Code",
+        icon: CodeSlash
+      }
+    ]
+  },
+  {
+    label: "Software",
+    icon: CodePoint,
+    links: [
+      {
+        label: "Dashboard",
+        href: "/software/",
+        icon: GraphUp
+      },
+      {
+        label: "Contributor Distribution",
+        href: "/software/#doughnut",
+        icon: Doughnut
+      },
+      {
+        href: "/software/methodology/",
+        label: "Methodology",
+        icon: FilterSquare
+      },
+      {
+        href: "https://github.com/Blockchain-Technology-Lab/software-decentralization",
         label: "Source Code",
         icon: CodeSlash
       }
