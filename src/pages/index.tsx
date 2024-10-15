@@ -63,7 +63,7 @@ export default function HomePage() {
       <Card title="Options" titleAs="h2">
         <div className="grid laptop:grid-cols-2 gap-3">
           <ListBox
-            label="Thresholding"
+            label="Inclusion threshold"
             items={THRESHOLDING_ITEMS}
             selectedItem={selectedThreshold}
             onChange={setSelectedThreshold}
