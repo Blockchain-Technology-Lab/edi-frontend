@@ -96,7 +96,7 @@ export default function MethodologyPage() {
           Threshold options are: “Top 100”, “Top 1000”, “Top 50%”, “Above
           $0.01”, “None”.
         </p>
-        <p>By default, Top 1000 thresholding is applied.</p>
+        <p>By default, no inclusion threshold is applied.</p>
       </Card>
     </section>
   )
