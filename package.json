@@ -18,7 +18,7 @@
     "chartjs-adapter-moment": "^1.0.1",
     "chartjs-plugin-watermark": "^2.0.2",
     "moment": "^2.30.1",
-    "next": "^14.2.5",
+    "next": ">=14.2.10",
     "next-themes": "^0.3.0",
     "react": "^18",
     "react-chartjs-2": "^5.2.0",
