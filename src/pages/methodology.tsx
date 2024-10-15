@@ -99,7 +99,7 @@ export default function MethodologyPage() {
       >
         <p>
           A user can apply the decentralization metrics on all or part of the
-          data by choosing the relevant thresholding option on each layer.
+          data by choosing the relevant inclusion threshold on each layer.
         </p>
         <p>
           For example, if the option &quot;Top 100&quot; is chosen on the
@@ -110,10 +110,15 @@ export default function MethodologyPage() {
           given point in time, at least $0.01.
         </p>
         <p>
+<<<<<<< HEAD
           Thresholding options are: &quot;Top 100&quot;, &quot;Top 1000&quot;,
           &quot;Top 50%&quot;, &quot;Above $0.01&quot;, &quot;None&quot;.
+=======
+          Threshold options are: “Top 100”, “Top 1000”, “Top 50%”, “Above
+          $0.01”, “None”.
+>>>>>>> main
         </p>
-        <p>By default, Top 1000 thresholding is applied.</p>
+        <p>By default, no inclusion threshold is applied.</p>
       </Card>
     </section>
   )

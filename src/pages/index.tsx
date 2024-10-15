@@ -31,7 +31,7 @@ const CLUSTERING_ITEMS = [
 
 export default function HomePage() {
   const [selectedThreshold, setSelectedThreshold] = useState(
-    THRESHOLDING_ITEMS[0]
+    THRESHOLDING_ITEMS[4]
   )
   const [selectedClusters, setSelectedClusters] = useState(CLUSTERING_ITEMS)
 
@@ -62,7 +62,7 @@ export default function HomePage() {
       <Card title="Options" titleAs="h2">
         <div className="grid laptop:grid-cols-2 gap-3">
           <ListBox
-            label="Thresholding"
+            label="Inclusion threshold"
             items={THRESHOLDING_ITEMS}
             selectedItem={selectedThreshold}
             onChange={setSelectedThreshold}
@@ -78,20 +78,6 @@ export default function HomePage() {
       {error && <Alert message="Error loading data" />}
       {!error && (
         <>
-          <Card title="Nakamoto coefficient" titleAppearance="lg">
-            <p>
-              The Nakamoto coefficient represents the minimum number of entities
-              that collectively control more than 50% of the resources (in this
-              case, the majority of circulating tokens at a given point in
-              time).
-            </p>
-            <LineChart
-              metric="tau=0.5"
-              type="tokenomics"
-              csvData={data}
-              isLoadingCsvData={loading}
-            />
-          </Card>
           <Card title="Gini coefficient" titleAppearance="lg">
             <p>
               The Gini coefficient represents the degree of inequality in a
@@ -158,6 +144,20 @@ export default function HomePage() {
             </p>
             <LineChart
               metric="mpr"
+              type="tokenomics"
+              csvData={data}
+              isLoadingCsvData={loading}
+            />
+          </Card>
+          <Card title="Nakamoto coefficient" titleAppearance="lg">
+            <p>
+              The Nakamoto coefficient represents the minimum number of entities
+              that collectively control more than 50% of the resources (in this
+              case, the majority of circulating tokens at a given point in
+              time).
+            </p>
+            <LineChart
+              metric="tau=0.5"
               type="tokenomics"
               csvData={data}
               isLoadingCsvData={loading}
