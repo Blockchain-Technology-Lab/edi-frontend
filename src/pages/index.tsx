@@ -79,20 +79,6 @@ export default function HomePage() {
       {error && <Alert message="Error loading data" />}
       {!error && (
         <>
-          <Card title="Nakamoto coefficient" titleAppearance="lg">
-            <p>
-              The Nakamoto coefficient represents the minimum number of entities
-              that collectively control more than 50% of the resources (in this
-              case, the majority of circulating tokens at a given point in
-              time).
-            </p>
-            <LineChart
-              metric="tau=0.5"
-              type="tokenomics"
-              csvData={data}
-              isLoadingCsvData={loading}
-            />
-          </Card>
           <Card title="Gini coefficient" titleAppearance="lg">
             <p>
               The Gini coefficient represents the degree of inequality in a
@@ -159,6 +145,20 @@ export default function HomePage() {
             </p>
             <LineChart
               metric="mpr"
+              type="tokenomics"
+              csvData={data}
+              isLoadingCsvData={loading}
+            />
+          </Card>
+          <Card title="Nakamoto coefficient" titleAppearance="lg">
+            <p>
+              The Nakamoto coefficient represents the minimum number of entities
+              that collectively control more than 50% of the resources (in this
+              case, the majority of circulating tokens at a given point in
+              time).
+            </p>
+            <LineChart
+              metric="tau=0.5"
               type="tokenomics"
               csvData={data}
               isLoadingCsvData={loading}
