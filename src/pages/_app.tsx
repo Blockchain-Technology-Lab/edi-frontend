@@ -18,6 +18,8 @@ import {
   TimeScale
 } from "chart.js"
 
+import { NextUIProvider } from "@nextui-org/react"
+
 ChartJS.register(
   LinearScale,
   PointElement,
@@ -32,17 +34,19 @@ ChartJS.register(
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Head>
-        <title>EDI - Dashboard</title>
-      </Head>
-      <GoogleAnalytics gaId="G-4H72FE76WD" />
-      <ThemeProvider attribute="class">
-        <MainLayout
-          main={<Component {...pageProps} />}
-          footer={<Footer />}
-          sidebar={<Sidebar />}
-        />
-      </ThemeProvider>
+      <NextUIProvider>
+        <Head>
+          <title>EDI - Dashboard</title>
+        </Head>
+        <GoogleAnalytics gaId="G-4H72FE76WD" />
+        <ThemeProvider attribute="class">
+          <MainLayout
+            main={<Component {...pageProps} />}
+            footer={<Footer />}
+            sidebar={<Sidebar />}
+          />
+        </ThemeProvider>
+      </NextUIProvider>
     </>
   )
 }
