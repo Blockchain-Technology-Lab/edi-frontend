@@ -10,19 +10,24 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@headlessui/react": "^2.1.2",
     "@next/third-parties": "^14.2.5",
+    "@nextui-org/react": "^2.4.8",
     "@radix-ui/react-slider": "^1.2.0",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.3",
     "chartjs-adapter-moment": "^1.0.1",
     "chartjs-plugin-watermark": "^2.0.2",
+    "framer-motion": "^11.11.11",
     "moment": "^2.30.1",
-    "next": ">=14.2.10",
+    "next": "^14.2.15",
     "next-themes": "^0.3.0",
     "react": "^18",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
+    "reactstrap": "^9.2.3",
     "tailwind-merge": "^2.4.0"
   },
   "devDependencies": {

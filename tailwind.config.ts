@@ -1,11 +1,14 @@
 import type { Config } from "tailwindcss"
 
+const { nextui } = require("@nextui-org/react")
+
 const config: Config = {
   darkMode: "class",
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}"
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
     colors: {
@@ -68,6 +71,7 @@ const config: Config = {
       desktop: "1280px" // => @media (min-width: 1280px) { ... }
     }
   },
-  plugins: []
+  plugins: [nextui()]
+  //plugins: []
 }
 export default config
