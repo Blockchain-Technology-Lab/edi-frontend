@@ -1,6 +1,7 @@
 import { Card, CardBody, CardFooter } from "@nextui-org/react"
 //import { Card } from "@/components"
 import { useRouter } from "next/router" // Import useRouter
+import { HomepageCard, HomepageTitleCard } from "@/components"
 
 export default function HomePage() {
   const router = useRouter() // Create router instance
@@ -51,33 +52,18 @@ export default function HomePage() {
   return (
     <>
       <section className="flex flex-col gap-12 mb-8 pb-4">
-        <Card title="EDI Dashboard">
-          <p className="px-6 py-4">
-            These layers represent the historical decentralisation of various
-            blockchain implementations.
-          </p>
-        </Card>
+        <HomepageTitleCard /> {/* Use HomepageCard here */}
+        <div className="gap-2 grid grid-cols-2 sm:grid-cols-4">
+          {list.map((item, index) => (
+            <HomepageCard
+              key={index}
+              title={item.title}
+              desc={item.desc}
+              onPress={() => router.push(item.url)} // Use onPress for routing
+            />
+          ))}
+        </div>
       </section>
-      <div className="gap-2 grid grid-cols-2 sm:grid-cols-4">
-        {list.map((item, index) => (
-          <Card
-            shadow="sm"
-            key={index}
-            isPressable
-            onPress={() => router.push(item.url)}
-            className="mb-2 mr-2"
-          >
-            <CardBody className="overflow-visible p-4 h-32 mb-8">
-              <p className="text-left">{item.desc}</p>{" "}
-              {/* Display the description */}
-            </CardBody>
-            <CardFooter className="text-small justify-between">
-              <b>{item.title}</b>
-              <p className="text-default-500"></p>
-            </CardFooter>
-          </Card>
-        ))}
-      </div>
     </>
   )
 }
