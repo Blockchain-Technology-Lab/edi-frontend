@@ -22,8 +22,6 @@ export function HomepageTitleCard() {
       ? basePath + "/images/edi-black-logo.png"
       : basePath + "/images/edi-white-logo.png"
 
-  console.log("Image Source:", imageSrc) // Add this to check the image path in the console
-
   return (
     <Card className="w-full">
       {" "}
@@ -39,7 +37,7 @@ export function HomepageTitleCard() {
         <div className="flex flex-col justify-center items-center w-full h-full">
           {" "}
           {/* Center text both horizontally and vertically */}
-          <p className="text-md text-center">
+          <p className="text-md text-center font-mono">
             Edinburgh Decentralisation Index
           </p>
           <p className="text-xs text-default-500 text-center">EDI</p>
