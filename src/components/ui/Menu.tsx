@@ -48,11 +48,11 @@ const NAV_ITEMS = [
     links: [
       {
         label: "Dashboard",
-        href: "/",
+        href: "/tokenomics",
         icon: GraphUp
       },
       {
-        href: "/methodology/",
+        href: "/tokenomics/methodology/",
         label: "Methodology",
         icon: FilterSquare
       },
