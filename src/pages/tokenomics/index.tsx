@@ -29,7 +29,7 @@ const CLUSTERING_ITEMS = [
   { label: "Crystal Intelligence", value: "crystal" }
 ]
 
-export default function HomePage() {
+export default function TokenomicsPage() {
   const [selectedThreshold, setSelectedThreshold] = useState(
     THRESHOLDING_ITEMS[4]
   )
