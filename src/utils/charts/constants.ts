@@ -109,6 +109,7 @@ export const SOFTWARE_DOUGHNUT_LEDGER_NAMES = [
     url: "https://github.com/litecoin-project/litecoin",
     name: "Litecoin"
   },
+  /*
   {
     repo: "polkadot-sdk",
     url: "https://github.com/paritytech/polkadot",
@@ -119,6 +120,7 @@ export const SOFTWARE_DOUGHNUT_LEDGER_NAMES = [
     url: "https://github.com/solana-labs/solana",
     name: "Solana"
   },
+  */
   {
     repo: "tezos",
     url: "https://github.com/tezos/tezos-mirror",

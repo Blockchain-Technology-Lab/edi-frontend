@@ -10,7 +10,7 @@ const configs = [
   { basePath: "/edi-dashboard", outputDir: "dist/blockchainlab" }
 ]
 
-const FILES_TO_MODIFY = ["next.config.mjs", "src/utils/paths.ts"]
+const FILES_TO_MODIFY = ["next.config.mjs", "src/utils/paths.ts", "src/components/ui/HomepageTitleCard.tsx"]
 
 let originalContents = {}
 
