@@ -48,7 +48,7 @@ const NAV_ITEMS = [
     links: [
       {
         label: "Dashboard",
-        href: "/tokenomics",
+        href: "/tokenomics/",
         icon: GraphUp
       },
       {
