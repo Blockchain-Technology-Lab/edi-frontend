@@ -9,6 +9,7 @@ interface HomepageCardProps {
   icon: any
   github: string
   onPress: () => void
+  disabled?: boolean
 }
 
 export function HomepageCard({
@@ -16,7 +17,8 @@ export function HomepageCard({
   desc,
   icon,
   github,
-  onPress
+  onPress,
+  disabled = false // Default is not disabled
 }: HomepageCardProps) {
   const mounted = useIsMounted()
 
@@ -29,10 +31,10 @@ export function HomepageCard({
 
   return (
     <Card
-      isPressable
-      isHoverable
-      className="max-w-[400px] border border-default"
-      onPress={onPress} // Add the onPress functionality
+      isPressable={!disabled}
+      isHoverable={!disabled}
+      className={`min-w-[100px] border border-default mr-2 mb-3 ${disabled ? "opacity-50 cursor-not-allowed" : ""}`} // Visual indicator for disabled state
+      onPress={!disabled ? onPress : undefined} // Disable the click event
     >
       <CardHeader
         className={resolvedTheme === "light" ? "bg-gray-100" : "bg-gray-800"}
@@ -57,9 +59,11 @@ export function HomepageCard({
         <p className="pr-10">{desc}</p>
       </CardBody>{" "}
       <CardFooter>
-        <Link isExternal showAnchorIcon href={github}>
+        {/* 
+         <Link isExternal showAnchorIcon href={github}>
           GitHub.
         </Link>
+        */}
       </CardFooter>
     </Card>
   )

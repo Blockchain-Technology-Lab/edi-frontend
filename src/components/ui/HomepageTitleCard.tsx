@@ -38,9 +38,11 @@ export function HomepageTitleCard() {
           {" "}
           {/* Center text both horizontally and vertically */}
           <p className="text-md text-center font-mono">
-            Edinburgh Decentralisation Index
+            Edinburgh Decentralisation Index{" "}
           </p>
-          <p className="text-xs text-default-500 text-center">EDI</p>
+          <p className="text-xs text-default-500 text-center">
+            EDI<span className="text-sm align-super ml-1">™</span>
+          </p>
         </div>
       </CardHeader>
       <Divider />
@@ -59,7 +61,7 @@ export function HomepageTitleCard() {
           showAnchorIcon
           href="https://informatics.ed.ac.uk/blockchain/edi"
         >
-          Project.
+          EDI Website.
         </Link>
       </CardFooter>
     </Card>
