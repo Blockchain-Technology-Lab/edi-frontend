@@ -4,13 +4,14 @@ The Edinburgh Decentralisation Index ([EDI](https://informatics.ed.ac.uk/blockch
 
 ## Public URLs
 
-- Dashboard: http://blockchainlab.inf.ed.ac.uk/edi-dashboard/
-- Groups: https://groups.inf.ed.ac.uk/blockchainlab/edi-dashboard/
+- http://blockchainlab.inf.ed.ac.uk/edi-dashboard/
+- https://groups.inf.ed.ac.uk/blockchainlab/edi-dashboard/
 
 ## Code repos
 
 - [Consensus Layer](https://github.com/Blockchain-Technology-Lab/consensus-decentralization)
 - [Tokenomics Layer](https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization)
+- [Software Layer](https://github.com/Blockchain-Technology-Lab/software-decentralization)
 
 ## Team
 
