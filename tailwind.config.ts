@@ -1,11 +1,14 @@
 import type { Config } from "tailwindcss"
 
+const { nextui } = require("@nextui-org/react")
+
 const config: Config = {
   darkMode: "class",
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}"
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
     colors: {
@@ -32,7 +35,19 @@ const config: Config = {
         800: "#212529"
       },
       transparent: "transparent",
-      white: "#fff"
+      white: "#fff",
+      gray: {
+        50: "#f9fafb", // Very Light Gray
+        100: "#f3f4f6", // Light Gray
+        200: "#e5e7eb", // Lighter Gray
+        300: "#d1d5db", // Light Medium Gray
+        400: "#9ca3af", // Medium Gray
+        500: "#6b7280", // Neutral Gray
+        600: "#4b5563", // Darker Gray
+        700: "#374151", // Very Dark Gray
+        800: "#1f2937", // Almost Black
+        900: "#111827" // Near Black
+      }
     },
     // Same as bootstrap system fonts
     fontFamily: {
@@ -68,6 +83,7 @@ const config: Config = {
       desktop: "1280px" // => @media (min-width: 1280px) { ... }
     }
   },
-  plugins: []
+  plugins: [nextui()]
+  //plugins: []
 }
 export default config

@@ -12,6 +12,16 @@ const TOKENOMICS_COLUMNS = [
   "theil"
 ]
 
+const TOKENOMICS_LEDGERS = [
+  "bitcoin",
+  "bitcoin_cash",
+  "cardano",
+  "dogecoin",
+  "ethereum",
+  "litecoin",
+  "tezos"
+]
+
 const CONSENSUS_COLUMNS = [
   "entropy",
   "gini",
@@ -22,12 +32,36 @@ const CONSENSUS_COLUMNS = [
   "tau_index"
 ]
 
+const CONSENSUS_LEDGERS = [
+  "bitcoin",
+  "bitcoin_cash",
+  "cardano",
+  "dogecoin",
+  "ethereum",
+  "litecoin",
+  "tezos",
+  "zcash"
+]
+
 const SOFTWARE_COLUMNS = [
   "entropy",
   "hhi",
   "max_power_ratio",
   "total_entities",
   "theil_index"
+]
+
+const SOFTWARE_LEDGERS = [
+  "bitcoin",
+  "bitcoin-cash-node",
+  "cardano-node",
+  "go-ethereum",
+  "nethermind",
+  "litecoin",
+  //  "polkadot-sdk",
+  //  "solana",
+  "tezos-mirror",
+  "zcash"
 ]
 
 type BaseDataEntry = {
@@ -76,6 +110,13 @@ function parseCSV(
         ? CONSENSUS_COLUMNS
         : SOFTWARE_COLUMNS
 
+  const allowedLedgers =
+    type === "tokenomics"
+      ? TOKENOMICS_LEDGERS
+      : type === "consensus"
+        ? CONSENSUS_LEDGERS
+        : SOFTWARE_LEDGERS
+
   const lines = csvData.trim().split("\n")
   const headers = lines[0].split(",")
 
@@ -85,6 +126,8 @@ function parseCSV(
 
     if (values.length === headers.length) {
       const entry = {} as DataEntry
+      let includeEntry = true // Flag to include or exclude this row
+
       headers.forEach((header, index) => {
         const value = values[index].trim()
         if (header.trim() === "date") {
@@ -92,11 +135,17 @@ function parseCSV(
             type === "tokenomics" ? new Date(value) : parseDateString(value)
         } else if (header.trim() === "ledger") {
           entry.ledger = value // Store ledger name
+          if (!allowedLedgers.includes(value)) {
+            includeEntry = false // Exclude row if ledger is not allowed
+          }
         } else if (valueColumns.includes(header.trim())) {
           entry[header.trim()] = parseFloat(value)
         }
       })
-      data.push(entry)
+
+      if (includeEntry) {
+        data.push(entry)
+      }
     }
   }
   return data

@@ -10,7 +10,7 @@ const configs = [
   { basePath: "/edi-dashboard", outputDir: "dist/blockchainlab" }
 ]
 
-const FILES_TO_MODIFY = ["next.config.mjs", "src/utils/paths.ts"]
+const FILES_TO_MODIFY = ["next.config.mjs", "src/utils/paths.ts", "src/components/ui/HomepageTitleCard.tsx"]
 
 let originalContents = {}
 
@@ -41,28 +41,35 @@ function restoreFiles() {
 
 function updateConfig(basePath, outputDir) {
   // Update next.config.mjs
-  let nextConfig = fs.readFileSync("next.config.mjs", "utf8")
-  nextConfig = nextConfig.replace(
-    /basePath:\s*["'].*?["']/g,
-    `basePath: "${basePath}"`
-  )
-  nextConfig = nextConfig.replace(
-    /distDir:\s*["'].*?["']/g,
-    `distDir: "${outputDir}"`
-  )
-  fs.writeFileSync("next.config.mjs", nextConfig)
+  updateFile("next.config.mjs", [
+    [ /basePath:\s*["'].*?["']/g, `basePath: "${basePath}"` ],
+    [ /distDir:\s*["'].*?["']/g, `distDir: "${outputDir}"` ]
+  ])
 
   // Update src/utils/paths.ts
-  let pathsConfig = fs.readFileSync("src/utils/paths.ts", "utf8")
-  pathsConfig = pathsConfig.replace(
-    /basePath\s*=\s*["'].*?["']/g,
-    `basePath = "${basePath}"`
-  )
-  fs.writeFileSync("src/utils/paths.ts", pathsConfig)
+  updateFile("src/utils/paths.ts", [
+    [ /basePath\s*=\s*["'].*?["']/g, `basePath = "${basePath}"` ]
+  ])
+
+  // Update src/components/ui/HomepageTitleCard.tsx
+  updateFile("src/components/ui/HomepageTitleCard.tsx", [
+    [ /basePath\s*=\s*["'][^"']*["']/g, `basePath = "${basePath}"` ]
+  ])
 }
+
+
+function updateFile(filePath, replacements) {
+  let fileContent = fs.readFileSync(filePath, "utf8")
+  replacements.forEach(([regex, replacement]) => {
+    fileContent = fileContent.replace(regex, replacement)
+  })
+  fs.writeFileSync(filePath, fileContent)
+}
+
 
 function build(config) {
   console.log(`Building for basePath: ${config.basePath}`)
+  try{
   updateConfig(config.basePath, config.outputDir)
 
   // Ensure the output directory exists
@@ -75,6 +82,9 @@ function build(config) {
   execSync(`yarn build`, { stdio: "inherit" })
 
   console.log(`Build completed for ${config.basePath}`)
+  } catch (error) {
+    console.error(`Build failed for basePath: ${config.basePath}`, error)
+  }
 }
 
 // Main execution
