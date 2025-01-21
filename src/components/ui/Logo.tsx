@@ -48,12 +48,7 @@ export function Logo() {
         }
 
   return (
-    <Link
-      className="inline-block"
-      href="https://informatics.ed.ac.uk/blockchain/edi"
-      rel="noopener noreferrer nofollow"
-      target="_blank"
-    >
+    <Link className="inline-block" href="/" rel="noopener noreferrer nofollow">
       <img
         alt="EDI Logo"
         width="116"
