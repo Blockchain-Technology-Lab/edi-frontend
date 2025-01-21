@@ -5,12 +5,16 @@ const { execSync } = require("child_process")
 const configs = [
   {
     basePath: "/blockchainlab/edi-dashboard",
-    outputDir: "dist/groups"
+    outputDir: "upload/groups"
   },
-  { basePath: "/edi-dashboard", outputDir: "dist/blockchainlab" }
+  { basePath: "/edi-dashboard", outputDir: "upload/blockchainlab" }
 ]
 
-const FILES_TO_MODIFY = ["next.config.mjs", "src/utils/paths.ts", "src/components/ui/HomepageTitleCard.tsx"]
+const FILES_TO_MODIFY = [
+  "next.config.mjs",
+  "src/utils/paths.ts",
+  "src/components/ui/HomepageTitleCard.tsx"
+]
 
 let originalContents = {}
 
@@ -42,21 +46,20 @@ function restoreFiles() {
 function updateConfig(basePath, outputDir) {
   // Update next.config.mjs
   updateFile("next.config.mjs", [
-    [ /basePath:\s*["'].*?["']/g, `basePath: "${basePath}"` ],
-    [ /distDir:\s*["'].*?["']/g, `distDir: "${outputDir}"` ]
+    [/basePath:\s*["'].*?["']/g, `basePath: "${basePath}"`],
+    [/distDir:\s*["'].*?["']/g, `distDir: "${outputDir}"`]
   ])
 
   // Update src/utils/paths.ts
   updateFile("src/utils/paths.ts", [
-    [ /basePath\s*=\s*["'].*?["']/g, `basePath = "${basePath}"` ]
+    [/basePath\s*=\s*["'].*?["']/g, `basePath = "${basePath}"`]
   ])
 
   // Update src/components/ui/HomepageTitleCard.tsx
   updateFile("src/components/ui/HomepageTitleCard.tsx", [
-    [ /basePath\s*=\s*["'][^"']*["']/g, `basePath = "${basePath}"` ]
+    [/basePath\s*=\s*["'][^"']*["']/g, `basePath = "${basePath}"`]
   ])
 }
-
 
 function updateFile(filePath, replacements) {
   let fileContent = fs.readFileSync(filePath, "utf8")
@@ -66,22 +69,21 @@ function updateFile(filePath, replacements) {
   fs.writeFileSync(filePath, fileContent)
 }
 
-
 function build(config) {
   console.log(`Building for basePath: ${config.basePath}`)
-  try{
-  updateConfig(config.basePath, config.outputDir)
+  try {
+    updateConfig(config.basePath, config.outputDir)
 
-  // Ensure the output directory exists
-  ensureDirectoryExists("output")
+    // Ensure the output directory exists
+    ensureDirectoryExists("output")
 
-  // Clean the specific output directory
-  cleanDirectory(config.outputDir)
+    // Clean the specific output directory
+    cleanDirectory(config.outputDir)
 
-  // Run the build
-  execSync(`yarn build`, { stdio: "inherit" })
+    // Run the build
+    execSync(`yarn build`, { stdio: "inherit" })
 
-  console.log(`Build completed for ${config.basePath}`)
+    console.log(`Build completed for ${config.basePath}`)
   } catch (error) {
     console.error(`Build failed for basePath: ${config.basePath}`, error)
   }
