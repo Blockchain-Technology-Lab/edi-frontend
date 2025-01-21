@@ -140,10 +140,6 @@ export function createWatermarkPlugin(theme?: string): Plugin<"doughnut"> {
           year: "numeric"
         }).format(new Date())
 
-        const drawWatermarkWithDate = () => {
-          drawWatermark(ctx, chartArea, image, currentDate, fontColor)
-        }
-
         if (image.complete) {
           // Image is loaded, draw it on the chart
           /*
