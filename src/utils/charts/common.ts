@@ -119,6 +119,8 @@ export function createWatermarkPlugin(theme?: string): Plugin<"doughnut"> {
   const imageSrc =
     theme === "dark" ? LINECHART_WATERMARK_WHITE : LINECHART_WATERMARK_BLACK
 
+  const fontColor = theme === "dark" ? "white" : "black"
+
   return {
     id: "customCanvasBackgroundImage",
     beforeDraw: (chart) => {
@@ -130,6 +132,17 @@ export function createWatermarkPlugin(theme?: string): Plugin<"doughnut"> {
 
         const image = new Image()
         image.src = imageSrc
+
+        //const currentDate = new Date().toLocaleDateString()
+        const currentDate = new Intl.DateTimeFormat("en-US", {
+          month: "long",
+          day: "numeric",
+          year: "numeric"
+        }).format(new Date())
+
+        const drawWatermarkWithDate = () => {
+          drawWatermark(ctx, chartArea, image, currentDate, fontColor)
+        }
 
         if (image.complete) {
           // Image is loaded, draw it on the chart
@@ -144,13 +157,20 @@ export function createWatermarkPlugin(theme?: string): Plugin<"doughnut"> {
           ctx.drawImage(image, x, y) // Draw the image
           ctx.restore() // Restore the canvas state to clear the opacity setting
           */
-          drawWatermark(ctx, chartArea, image)
+          drawWatermark(ctx, chartArea, image, currentDate, fontColor)
         } else {
           // Image is not loaded, wait for it
           image.onload = () => {
             //chart.draw() // Redraw the chart after the image is loaded
             if (chart && chart.ctx && chartArea) {
-              drawWatermark(chart.ctx, chart.chartArea, image)
+              drawWatermark(
+                chart.ctx,
+                chart.chartArea,
+                image,
+                currentDate,
+                fontColor
+              )
+
               chart.draw() // Redraw the chart after watermark is applied
             }
           }
@@ -169,16 +189,26 @@ export function createWatermarkPlugin(theme?: string): Plugin<"doughnut"> {
 // Helper function to draw the watermark
 function drawWatermark(
   ctx: CanvasRenderingContext2D,
-  chartArea: { top: number; left: number },
-  image: HTMLImageElement
+  chartArea: { top: number; left: number; width: number; height: number },
+  image: HTMLImageElement,
+  date: string,
+  fontColor: string
 ) {
-  const { top, left } = chartArea
-  const x = left
-  const y = top
+  const { top, left, width, height } = chartArea
+  const x_image = left + 10
+  const y_image = top + 10
+
+  const x_date = left + 200
+  const y_date = top + 230
 
   ctx.save() // Save the current canvas state
-  ctx.globalAlpha = 0.2 // Set the opacity
-  ctx.drawImage(image, x, y) // Draw the image
+  ctx.globalAlpha = 0.3 // the opacity
+  ctx.drawImage(image, x_image, y_image) // Draw the image
+  ctx.font = "18px Courier New" // font size and style
+  ctx.textAlign = "right"
+  ctx.textBaseline = "middle"
+  ctx.fillStyle = fontColor // text color
+  ctx.fillText(date, x_date, y_date)
   ctx.restore() // Restore the canvas state
 }
 
