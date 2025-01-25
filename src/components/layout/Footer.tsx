@@ -5,7 +5,8 @@ import {
   Link,
   LinkProps,
   ShieldShaded,
-  UniversalAccess
+  UniversalAccess,
+  CodePoint
 } from "@/components"
 
 export function Footer() {
@@ -23,6 +24,10 @@ export function Footer() {
         <span>© 2024 Edinburgh Decentralisation Index.</span>
       </p>
       <ul className="inline-flex justify-center flex-wrap gap-y-2 gap-x-4">
+        <ListItem>
+          <CodePoint />
+          <FooterLink href="/changelog">Changelog</FooterLink>
+        </ListItem>
         <ListItem>
           <UniversalAccess />
           <FooterLink href="/accessibility">Accessibility</FooterLink>

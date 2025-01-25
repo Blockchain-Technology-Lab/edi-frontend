@@ -1,0 +1,40 @@
+[
+    {
+      "date": "2024-08-15",
+      "title": "Consensus layer released",
+      "description": [
+        "Initial release of the consensus layer.",
+        "Graphs added for metrics."
+      ],
+      "icon": "faHive"
+    },
+    {
+      "date": "2024-08-15",
+      "title": "Tokenomics layer released",
+      "description": [
+        "Initial release of the tokenomics layer.",
+        "Graphs added for metrics.",
+        "Dark mode added."
+      ],
+      "icon": "faBitcoin"
+    }, {
+        "date": "2024-09-19",
+        "title": "Softwar layer released",
+        "description": [
+          "Initial release of the software layer.",
+          "Doughnut charts added.", 
+          "Options added for ContributionType, ContributorType and Commits per Sample Window.",
+          "Button added for Exporting a chart as a PNG."
+        ],
+        "icon": "faGithub"
+      },
+      {
+        "date": "2024-11-24",
+        "title": "Homepage added",
+        "description": [
+          "Set the home page as default."
+        ],
+        "icon": "faHouse"
+      }
+  ]
+  
