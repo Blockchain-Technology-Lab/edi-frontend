@@ -8,7 +8,8 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/flowbite/**/*.js"
   ],
   theme: {
     colors: {
@@ -81,9 +82,10 @@ const config: Config = {
       tablet: "768px", // => @media (min-width: 768px) { ... }
       laptop: "1024px", // => @media (min-width: 1024px) { ... }
       desktop: "1280px" // => @media (min-width: 1280px) { ... }
-    }
+    },
+    extend: {}
   },
-  plugins: [nextui()]
+  plugins: [nextui(), require("flowbite/plugin")]
   //plugins: []
 }
 export default config
