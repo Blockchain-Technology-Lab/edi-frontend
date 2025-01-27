@@ -134,8 +134,8 @@ export function createWatermarkPlugin(theme?: string): Plugin<"doughnut"> {
         image.src = imageSrc
 
         //const currentDate = new Date().toLocaleDateString()
-        const currentDate = new Intl.DateTimeFormat("en-US", {
-          month: "long",
+        const currentDate = new Intl.DateTimeFormat("en-GB", {
+          month: "short", //long
           day: "numeric",
           year: "numeric"
         }).format(new Date())
