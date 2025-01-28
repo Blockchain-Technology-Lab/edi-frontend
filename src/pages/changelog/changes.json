@@ -40,7 +40,7 @@
       "description": [
         "Added option to export individual charts as PNG files."
       ],
-      "icon": "fa-picture-o"
+      "icon": "faImage"
     },
     {
       "date": "2024-11-24",
