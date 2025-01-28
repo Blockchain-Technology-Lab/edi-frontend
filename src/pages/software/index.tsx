@@ -191,7 +191,7 @@ export default function SoftwarePage() {
               isLoadingCsvData={loading}
             />
           </Card>
-          <Card title="Total Entities" titleAppearance="lg">
+          <Card title="Total entities" titleAppearance="lg">
             <p>
               The total entities metric captures the number of contributors that
               made at least one contribution in some sample window.
