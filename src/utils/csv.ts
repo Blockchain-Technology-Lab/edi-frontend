@@ -148,6 +148,8 @@ function parseCSV(
       }
     }
   }
+  // Sort the data alphabetically by ledger name
+  data.sort((a, b) => a.ledger.localeCompare(b.ledger))
   return data
 }
 
