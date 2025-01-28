@@ -71,7 +71,7 @@ export default function ConsensusPage() {
               isLoadingCsvData={loading}
             />
           </Card>
-          <Card title="Shannon Entropy" titleAppearance="lg">
+          <Card title="Shannon entropy" titleAppearance="lg">
             <p>
               Shannon entropy (also known as information entropy) represents the
               expected amount of information in a distribution. Typically, a
