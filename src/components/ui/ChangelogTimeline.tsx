@@ -31,7 +31,7 @@ export function ChangelogTimeline() {
             <li className="mb-10 ml-6" key={`${entry.date}-${index}`}>
               {" "}
               <span
-                className="absolute flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full -left-4 ring-6 ring-white dark:ring-gray-900 dark:bg-blue-900"
+                className="absolute flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full -left-4 ring-6 ring-white dark:ring-gray-900 dark:bg-blue-500"
                 aria-hidden="true"
               >
                 {IconComponent ? (
@@ -46,10 +46,10 @@ export function ChangelogTimeline() {
               <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
                 {entry.title}
               </h3>
-              <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+              <time className="inline-block px-2 py-1 mb-2 text-xs font-serif font-medium text-gray-700 border border-gray-300 rounded-full dark:border-gray-900 dark:text-gray-200 shadow-sm bg-gray-50 dark:bg-gray-700 ">
                 {entry.date}
               </time>
-              <div className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400 ml-5">
+              <div className="mb-4 text-base font-normal text-gray-700 dark:text-gray-300 ml-5">
                 <ul className="list-disc ml-5">
                   {entry.description.map((point, i) => (
                     <li key={i} className="ml-2">
