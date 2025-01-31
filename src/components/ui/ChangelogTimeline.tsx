@@ -52,9 +52,9 @@ export function ChangelogTimeline() {
               <div className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400 ml-5">
                 <ul className="list-disc ml-5">
                   {entry.description.map((point, i) => (
-                    <p key={i} className="list-disc">
-                      <li key={i}>{point}</li>
-                    </p>
+                    <li key={i} className="ml-2">
+                      {point}
+                    </li>
                   ))}
                 </ul>
               </div>
