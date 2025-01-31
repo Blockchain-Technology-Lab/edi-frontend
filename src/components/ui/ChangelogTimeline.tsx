@@ -50,11 +50,13 @@ export function ChangelogTimeline() {
                 {entry.date}
               </time>
               <div className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400 ml-5">
-                {entry.description.map((point, i) => (
-                  <p key={i} className="list-disc">
-                    {point}
-                  </p>
-                ))}
+                <ul className="list-disc ml-5">
+                  {entry.description.map((point, i) => (
+                    <p key={i} className="list-disc">
+                      <li key={i}>{point}</li>
+                    </p>
+                  ))}
+                </ul>
               </div>
             </li>
           )
