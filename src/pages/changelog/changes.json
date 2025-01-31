@@ -23,7 +23,7 @@
       "icon": "faBitcoin"
     }, 
     {
-      "date": "2024-09-19",
+      "date": "2024-08-28",
       "title": "Software layer released",
       "description": [
         "Initial release of the software layer.",
@@ -35,7 +35,7 @@
       "icon": "faGithub"
     },
     {
-      "date": "2024-09-19",
+      "date": "2024-09-14",
       "title": "PNG exports",
       "description": [
         "Added option to export individual charts as PNG files."
