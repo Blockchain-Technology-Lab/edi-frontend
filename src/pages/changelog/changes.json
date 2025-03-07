@@ -49,6 +49,14 @@
         "Added home page and set it as the dashboard landing page."
       ],
       "icon": "faHouse"
+    },
+    {
+      "date": "2025-01-16",
+      "title": "Cardano tokenomics graphs updated",
+      "description": [
+        "Updated the query used to fetch address balance data for Cardano from BigQuery and updated the relevant tokenomics graphs to reflect the  changes."
+      ],
+      "icon": ""
     }
   ]
   
