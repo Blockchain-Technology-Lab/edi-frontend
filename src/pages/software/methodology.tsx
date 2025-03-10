@@ -11,12 +11,11 @@ export default function MethodologyPage() {
           is a methodology framework for defining, analyzing, and evaluating the
           decentralization level of blockchain systems across multiple layers.
           These layers are: Hardware, Software, Network, Consensus, Tokenomics,
-          Client API, Governance, and Geography. This dashboard offers
-          visualizations of results from the Consensus, Tokenomics and Software
-          layers.
+          Client API, Governance, and Geography. 
         </p>
         <p>
-          The Software layer is evaluated by looking at the open source
+          This dashboard offers visualizations of the Software layer results.
+          This layer is evaluated by looking at the open source
           repositories that are associated with different blockchain clients,
           and specifically looking at their commit history. The dashboard
           currently provides results for the following projects:
