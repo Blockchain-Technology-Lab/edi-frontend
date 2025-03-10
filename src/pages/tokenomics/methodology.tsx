@@ -14,26 +14,21 @@ export default function MethodologyPage() {
           Client API, Governance, and Geography.
         </p>
         <p>
-          This dashboard offers visualizations of the results for the Consensus
-          and Tokenomics layers. The ledgers that are currently supported are:
-          Bitcoin, Bitcoin Cash, Cardano, Ethereum, Litecoin, and Tezos. On the
-          Consensus layer, decentralization is evaluated by applying metrics on
-          the distribution of blocks across the entities that produced them. On
-          the Tokenomics layer, it is the distribution of tokens across token
-          holders that guides the results. The blockchain data that is needed to
+          This dashboard offers visualizations of the Tokenomics layer results. 
+          The ledgers that are currently supported are:
+          Bitcoin, Bitcoin Cash, Cardano, Ethereum, Litecoin, and Tezos. 
+          On the Tokenomics layer, decentralization is evaluated based on 
+          the distribution of tokens across token holders. 
+          The blockchain data that is needed to
           determine these distributions are collected from{" "}
           <Link href="https://console.cloud.google.com/bigquery">BigQuery</Link>{" "}
           and self-hosted full nodes. For more information on how data is
           processed you can refer to the documentation of the open-source GitHub
-          repositories for the{" "}
-          <Link href="https://github.com/Blockchain-Technology-Lab/consensus-decentralization">
-            Consensus
-          </Link>{" "}
-          and{" "}
+          repositories for the relevant GitHub {" "}
           <Link href="https://blockchain-technology-lab.github.io/tokenomics-decentralization/">
-            Tokenomics
+            repository
           </Link>{" "}
-          layers. The dashboard offers various options to the users for
+          . The dashboard offers various options to the users for
           customizing the results.
         </p>
       </Card>

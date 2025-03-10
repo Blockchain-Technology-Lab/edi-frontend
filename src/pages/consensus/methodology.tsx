@@ -27,7 +27,7 @@ export default function MethodologyPage() {
           Historical block data for each blockchain is collected from{" "}
           <Link href="https://console.cloud.google.com/bigquery">BigQuery</Link>{" "}
           and self-hosted full nodes. 
-          Each block is mapped to its creator (see Clustering options below) and then 
+          Each block is mapped to its creator (see clustering options below) and then 
           the distribution of blocks across entities is calculated for each 30-day interval
           of the observation period.
 
@@ -45,7 +45,7 @@ export default function MethodologyPage() {
           .           
         </p>
       </Card>
-      <Card title="Clustering options" titleAppearance="lg">
+      <Card title="Consensus layer - Clustering options" titleAppearance="lg">
         <p>
           A user can choose which off-chain sources to use to attribute
           blockchain data to real world entities. This enables the clustering of
