@@ -133,7 +133,7 @@ export default function SoftwarePage() {
       {error && <Alert message="Error loading data" />}
       {!error && (
         <>
-          <Card title="Shannon Entropy" titleAppearance="lg">
+          <Card title="Shannon entropy" titleAppearance="lg">
             <p>
               Shannon entropy (also known as information entropy) represents the
               expected amount of information in a distribution. Typically, a
@@ -191,7 +191,7 @@ export default function SoftwarePage() {
               isLoadingCsvData={loading}
             />
           </Card>
-          <Card title="Total Entities" titleAppearance="lg">
+          <Card title="Total entities" titleAppearance="lg">
             <p>
               The total entities metric captures the number of contributors that
               made at least one contribution in some sample window.

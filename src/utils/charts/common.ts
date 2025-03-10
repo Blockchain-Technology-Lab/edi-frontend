@@ -134,11 +134,14 @@ export function createWatermarkPlugin(theme?: string): Plugin<"doughnut"> {
         image.src = imageSrc
 
         //const currentDate = new Date().toLocaleDateString()
-        const currentDate = new Intl.DateTimeFormat("en-US", {
-          month: "long",
+        /*
+        const currentDate = new Intl.DateTimeFormat("en-GB", {
+          month: "short", //long
           day: "numeric",
           year: "numeric"
         }).format(new Date())
+        */
+        const currentDate = new Date().toISOString().split("T")[0]
 
         if (image.complete) {
           // Image is loaded, draw it on the chart
