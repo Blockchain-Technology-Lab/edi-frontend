@@ -57,6 +57,15 @@
         "Updated the query used to fetch address balance data for Cardano from BigQuery and updated the relevant tokenomics graphs to reflect the  changes."
       ],
       "icon": "faCoins"
+    },
+    {
+      "date": "2025-03-10",
+      "title": "Consensus layer methodology updated",
+      "description": [
+        "Updated the window that is used to determine if an entity is active in a given time period. For each 30-day window, an entity is now considered active if it has produced at least one block in that window, in the preceding 30-day window, or in the following 30-day window.",
+        "Also updated the displayed name of one metric, from 'Max power ratio' to '1-concentration ratio'."
+      ],
+      "icon": "faHive"
     }
   ]
   
