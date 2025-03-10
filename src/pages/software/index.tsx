@@ -178,9 +178,9 @@ export default function SoftwarePage() {
               isLoadingCsvData={loading}
             />
           </Card>
-          <Card title="Max power ratio" titleAppearance="lg">
+          <Card title="1-concentration ratio" titleAppearance="lg">
             <p>
-              The max power ratio represents the share of contributions that are
+              The 1-concentration ratio represents the share of contributions that are
               made by the most “powerful” entity, i.e. the entity that is
               responsible for the highest number of contributions.
             </p>

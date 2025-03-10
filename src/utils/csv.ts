@@ -28,7 +28,7 @@ const CONSENSUS_COLUMNS = [
   "hhi",
   "nakamoto_coefficient",
   "theil_index",
-  "max_power_ratio",
+  "concentration_ratio=1",
   "tau_index"
 ]
 
