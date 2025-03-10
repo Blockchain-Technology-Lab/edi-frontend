@@ -56,7 +56,7 @@
       "description": [
         "Updated the query used to fetch address balance data for Cardano from BigQuery and updated the relevant tokenomics graphs to reflect the  changes."
       ],
-      "icon": ""
+      "icon": "faCoins"
     }
   ]
   
