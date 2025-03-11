@@ -118,9 +118,9 @@ export default function ConsensusPage() {
           </Card>
           <Card title="1-concentration ratio" titleAppearance="lg">
             <p>
-              The 1-concentration  ratio represents the share of blocks that are
-              produced by the single most “powerful” entity, i.e. the entity that
-              produces the most blocks.
+              The 1-concentration ratio represents the share of blocks that are
+              produced by the single most &quot;powerful&quot; entity, i.e. the
+              entity that produces the most blocks.
             </p>
             <LineChart
               metric="concentration_ratio=1"

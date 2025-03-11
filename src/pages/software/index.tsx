@@ -180,9 +180,9 @@ export default function SoftwarePage() {
           </Card>
           <Card title="1-concentration ratio" titleAppearance="lg">
             <p>
-              The 1-concentration ratio represents the share of contributions that are
-              made by the most “powerful” entity, i.e. the entity that is
-              responsible for the highest number of contributions.
+              The 1-concentration ratio represents the share of contributions
+              that are made by the most “powerful” entity, i.e. the entity that
+              is responsible for the highest number of contributions.
             </p>
             <LineChart
               metric="max_power_ratio"

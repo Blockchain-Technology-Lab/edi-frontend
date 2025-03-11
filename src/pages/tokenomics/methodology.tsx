@@ -14,22 +14,21 @@ export default function MethodologyPage() {
           Client API, Governance, and Geography.
         </p>
         <p>
-          This dashboard offers visualizations of the Tokenomics layer results. 
-          The ledgers that are currently supported are:
-          Bitcoin, Bitcoin Cash, Cardano, Ethereum, Litecoin, and Tezos. 
-          On the Tokenomics layer, decentralization is evaluated based on 
-          the distribution of tokens across token holders. 
-          The blockchain data that is needed to
-          determine these distributions are collected from{" "}
+          This dashboard offers visualizations of the Tokenomics layer results.
+          The ledgers that are currently supported are: Bitcoin, Bitcoin Cash,
+          Cardano, Ethereum, Litecoin, and Tezos. On the Tokenomics layer,
+          decentralization is evaluated based on the distribution of tokens
+          across token holders. The blockchain data that is needed to determine
+          these distributions are collected from{" "}
           <Link href="https://console.cloud.google.com/bigquery">BigQuery</Link>{" "}
           and self-hosted full nodes. For more information on how data is
           processed you can refer to the documentation of the open-source GitHub
-          repositories for the relevant GitHub {" "}
+          repositories for the relevant GitHub{" "}
           <Link href="https://blockchain-technology-lab.github.io/tokenomics-decentralization/">
             repository
           </Link>{" "}
-          . The dashboard offers various options to the users for
-          customizing the results.
+          . The dashboard offers various options to the users for customizing
+          the results.
         </p>
       </Card>
       <Card title="Tokenomics layer - Clustering options" titleAppearance="lg">

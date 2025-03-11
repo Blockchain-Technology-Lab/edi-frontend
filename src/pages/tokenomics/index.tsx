@@ -139,8 +139,9 @@ export default function TokenomicsPage() {
           </Card>
           <Card title="1-concentration ratio" titleAppearance="lg">
             <p>
-              The 1-concentration ratio represents the share of tokens that are owned
-              by the single most “powerful” entity, i.e. the wealthiest entity.
+              The 1-concentration ratio represents the share of tokens that are
+              owned by the single most “powerful” entity, i.e. the wealthiest
+              entity.
             </p>
             <LineChart
               metric="mpr"
