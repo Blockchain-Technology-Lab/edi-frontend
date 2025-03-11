@@ -79,7 +79,7 @@ export default function ConsensusPage() {
               predictability).
             </p>
             <LineChart
-              metric="entropy"
+              metric="entropy=1"
               type="consensus"
               csvData={data}
               isLoadingCsvData={loading}
@@ -137,7 +137,7 @@ export default function ConsensusPage() {
               power).
             </p>
             <LineChart
-              metric="tau_index"
+              metric="tau_index=0.66"
               type="consensus"
               csvData={data}
               isLoadingCsvData={loading}
