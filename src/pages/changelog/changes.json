@@ -1,62 +1,67 @@
 [
-    {
-      "date": "2024-01-30",
-      "title": "Consensus layer released",
-      "description": [
-        "Initial release of the consensus layer.",
-        "Graphs added for 7 metrics and 8 projects.",
-        "Metrics: Nakamoto coefficient, Gini coefficient, Shannon entropy, Herfindahl-Hirschman index (HHI), Theil index, Max power ratio, Tau-decentralization index",
-        "Projects: Bitcoin, Bitcoin Cash, Cardano, Dogecoin, Ethereum, Litecoin, Tezos, Zcash."
-      ],
-      "icon": "faHive"
-    },
-    {
-      "date": "2024-03-06",
-      "title": "Tokenomics layer released",
-      "description": [
-        "Initial release of the tokenomics layer.",
-        "Graphs added for 7 metrics and 7 projects.",
-        "Metrics: Gini coefficient, Shannon entropy, Herfindahl-Hirschman index (HHI), Theil index, Max power ratio, Nakamoto coefficient, Tau-decentralization index",
-        "Projects: Bitcoin, Bitcoin Cash, Cardano, Dogecoin, Ethereum, Litecoin, Tezos."
-
-      ],
-      "icon": "faBitcoin"
-    }, 
-    {
-      "date": "2024-08-28",
-      "title": "Software layer released",
-      "description": [
-        "Initial release of the software layer.",
-        "Graphs added for 5 metrics and 8 projects.",
-        "Metrics: Shannon entropy, Herfindahl-Hirschman index (HHI), Theil index, Max power ratio, Total entities",
-        "Projects: Bitcoin, Bitcoin Cash, Cardano, Go-Ethereum (Ethereum), Nethermind (Ethereum), Litecoin, Tezos, Zcash.",
-        "Doughnut charts added for the contributor distributions of the 8 projects."
-      ],
-      "icon": "faGithub"
-    },
-    {
-      "date": "2024-09-14",
-      "title": "PNG exports",
-      "description": [
-        "Added option to export individual charts as PNG files."
-      ],
-      "icon": "faImage"
-    },
-    {
-      "date": "2024-11-24",
-      "title": "Homepage",
-      "description": [
-        "Added home page and set it as the dashboard landing page."
-      ],
-      "icon": "faHouse"
-    },
-    {
-      "date": "2025-01-16",
-      "title": "Cardano tokenomics graphs updated",
-      "description": [
-        "Updated the query used to fetch address balance data for Cardano from BigQuery and updated the relevant tokenomics graphs to reflect the  changes."
-      ],
-      "icon": "faCoins"
-    }
-  ]
-  
+  {
+    "date": "2024-01-30",
+    "title": "Consensus layer released",
+    "description": [
+      "Initial release of the consensus layer.",
+      "Graphs added for 7 metrics and 8 projects.",
+      "Metrics: Nakamoto coefficient, Gini coefficient, Shannon entropy, Herfindahl-Hirschman index (HHI), Theil index, Max power ratio, Tau-decentralization index",
+      "Projects: Bitcoin, Bitcoin Cash, Cardano, Dogecoin, Ethereum, Litecoin, Tezos, Zcash."
+    ],
+    "icon": "faHive"
+  },
+  {
+    "date": "2024-03-06",
+    "title": "Tokenomics layer released",
+    "description": [
+      "Initial release of the tokenomics layer.",
+      "Graphs added for 7 metrics and 7 projects.",
+      "Metrics: Gini coefficient, Shannon entropy, Herfindahl-Hirschman index (HHI), Theil index, Max power ratio, Nakamoto coefficient, Tau-decentralization index",
+      "Projects: Bitcoin, Bitcoin Cash, Cardano, Dogecoin, Ethereum, Litecoin, Tezos."
+    ],
+    "icon": "faBitcoin"
+  },
+  {
+    "date": "2024-08-28",
+    "title": "Software layer released",
+    "description": [
+      "Initial release of the software layer.",
+      "Graphs added for 5 metrics and 8 projects.",
+      "Metrics: Shannon entropy, Herfindahl-Hirschman index (HHI), Theil index, Max power ratio, Total entities",
+      "Projects: Bitcoin, Bitcoin Cash, Cardano, Go-Ethereum (Ethereum), Nethermind (Ethereum), Litecoin, Tezos, Zcash.",
+      "Doughnut charts added for the contributor distributions of the 8 projects."
+    ],
+    "icon": "faGithub"
+  },
+  {
+    "date": "2024-09-14",
+    "title": "PNG exports",
+    "description": ["Added option to export individual charts as PNG files."],
+    "icon": "faImage"
+  },
+  {
+    "date": "2024-11-24",
+    "title": "Homepage",
+    "description": [
+      "Added home page and set it as the dashboard landing page."
+    ],
+    "icon": "faHouse"
+  },
+  {
+    "date": "2025-01-16",
+    "title": "Cardano tokenomics graphs updated",
+    "description": [
+      "Updated the query used to fetch address balance data for Cardano from BigQuery and updated the relevant tokenomics graphs to reflect the  changes."
+    ],
+    "icon": "faCoins"
+  },
+  {
+    "date": "2025-03-10",
+    "title": "Consensus layer methodology updated",
+    "description": [
+      "Updated the window that is used to determine if an entity is active in a given time period. For each 30-day window, an entity is now considered active if it has produced at least one block in that window, in the preceding 30-day window, or in the following 30-day window.",
+      "Also updated the displayed name of one metric, from 'Max power ratio' to '1-concentration ratio'."
+    ],
+    "icon": "faHive"
+  }
+]

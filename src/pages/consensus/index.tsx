@@ -79,7 +79,7 @@ export default function ConsensusPage() {
               predictability).
             </p>
             <LineChart
-              metric="entropy"
+              metric="entropy=1"
               type="consensus"
               csvData={data}
               isLoadingCsvData={loading}
@@ -116,14 +116,14 @@ export default function ConsensusPage() {
               isLoadingCsvData={loading}
             />
           </Card>
-          <Card title="Max power ratio" titleAppearance="lg">
+          <Card title="1-concentration ratio" titleAppearance="lg">
             <p>
-              The max power ratio represents the share of blocks that are
-              produced by the most “powerful” entity, i.e. the entity that
-              produces the most blocks.
+              The 1-concentration ratio represents the share of blocks that are
+              produced by the single most &quot;powerful&quot; entity, i.e. the
+              entity that produces the most blocks.
             </p>
             <LineChart
-              metric="max_power_ratio"
+              metric="concentration_ratio=1"
               type="consensus"
               csvData={data}
               isLoadingCsvData={loading}
@@ -137,7 +137,7 @@ export default function ConsensusPage() {
               power).
             </p>
             <LineChart
-              metric="tau_index"
+              metric="tau_index=0.66"
               type="consensus"
               csvData={data}
               isLoadingCsvData={loading}
