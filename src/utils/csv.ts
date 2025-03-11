@@ -23,13 +23,13 @@ const TOKENOMICS_LEDGERS = [
 ]
 
 const CONSENSUS_COLUMNS = [
-  "entropy",
+  "entropy=1",
   "gini",
   "hhi",
   "nakamoto_coefficient",
   "theil_index",
   "concentration_ratio=1",
-  "tau_index"
+  "tau_index=0.66"
 ]
 
 const CONSENSUS_LEDGERS = [
