@@ -255,7 +255,7 @@ export function getConsensusCsvFileName(clustering: string[]): string {
   if (isOnChain) {
     return "output_metadata.csv"
   }
-  return "output_clustered.csv"
+  return "output_non_clustered.csv"
 }
 
 /*
