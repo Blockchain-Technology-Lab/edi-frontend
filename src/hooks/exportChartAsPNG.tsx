@@ -11,45 +11,59 @@ export function useExportChart() {
           // Save the current canvas state
           ctx.save()
 
-          // Get original dimensions
+          // Get the original dimensions of the chart
           const originalWidth = canvas.width
           const originalHeight = canvas.height
-          const extraHeight = 100 // Extra height for text
+          const extraHeight = 0 // Extra space for text
 
-          // Define 4K base width while maintaining aspect ratio
-          const targetWidth = 3840
-          const scale = targetWidth / originalWidth // Single scale factor
+          // Define 4K target resolution
+          const maxWidth = 3840 // 4K width
+          const maxHeight = 2160 // 4K height
 
-          // Compute new dimensions (maintaining aspect ratio)
-          const newWidth = originalWidth * scale
-          const newHeight = (originalHeight + extraHeight) * scale
+          // Calculate the aspect ratio of the original chart
+          const aspectRatio = originalWidth / originalHeight // Should always be >1 for wide charts
 
-          // Create high-resolution canvas
+          // Determine final width & height while keeping x-axis longer
+          let finalWidth, finalHeight, scale
+
+          if (aspectRatio >= 1) {
+            // Chart is naturally wider (x-axis longer), prioritize width
+            finalWidth = maxWidth
+            finalHeight = maxWidth / aspectRatio + extraHeight // Maintain proportions
+            scale = finalWidth / originalWidth
+          } else {
+            // Chart is naturally taller, prioritize height
+            finalHeight = maxHeight
+            finalWidth = maxHeight * aspectRatio
+            scale = finalHeight / (originalHeight + extraHeight)
+          }
+
+          // Create a high-resolution canvas
           const hdCanvas = document.createElement("canvas")
-          hdCanvas.width = newWidth
-          hdCanvas.height = newHeight
+          hdCanvas.width = finalWidth
+          hdCanvas.height = finalHeight
           const hdCtx = hdCanvas.getContext("2d")
 
           if (hdCtx) {
-            // Scale the context proportionally
+            // Scale proportionally to avoid distortion
             hdCtx.scale(scale, scale)
 
-            // Draw the text at the top (adjusted for scale)
-            hdCtx.fillStyle = "black"
-            hdCtx.font = `${20 * scale}px Tahoma`
-            hdCtx.textAlign = "center"
-            //hdCtx.fillText(fileName, newWidth / (2 * scale), 30)
+            // Draw title text at the top
+            //hdCtx.fillStyle = "black"
+            //hdCtx.font = `${20 * scale}px Tahoma`
+            //hdCtx.textAlign = "center"
+            //hdCtx.fillText(fileName, originalWidth / 2, 30)
 
-            // Draw the original chart proportionally
+            // Draw the chart at correct proportions, ensuring no cropping
             hdCtx.drawImage(
               canvas,
               0,
-              extraHeight / scale,
+              extraHeight,
               originalWidth,
               originalHeight
             )
 
-            // Export the 4K image
+            // Export the properly scaled 4K image
             const url = hdCanvas.toDataURL("image/png")
             const link = document.createElement("a")
             link.href = url
