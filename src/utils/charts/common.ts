@@ -6,6 +6,8 @@ import {
   TOKENOMICS_LEDGER_NAMES,
   SOFTWARE_COLOURS,
   SOFTWARE_LEDGER_NAMES,
+  NETWORK_LEDGER_NAMES,
+  NETWORK_COLOURS,
   LINECHART_WATERMARK_WHITE,
   LINECHART_WATERMARK_BLACK
 } from "@/utils"
@@ -31,7 +33,7 @@ export type ChartData = {
 
 export function getChartData(
   metric: string,
-  type: "tokenomics" | "consensus" | "software",
+  type: "tokenomics" | "consensus" | "software" | "network",
   data: DataEntry[]
 ) {
   if (!data) return
@@ -42,7 +44,9 @@ export function getChartData(
       ? getLedgerColorMap(TOKENOMICS_LEDGER_NAMES, TOKENOMICS_COLOURS)
       : type === "consensus"
         ? getLedgerColorMap(CONSENSUS_LEDGER_NAMES, CONSENSUS_COLOURS)
-        : getLedgerColorMap(SOFTWARE_LEDGER_NAMES, SOFTWARE_COLOURS)
+        : type === "software"
+          ? getLedgerColorMap(SOFTWARE_LEDGER_NAMES, SOFTWARE_COLOURS)
+          : getLedgerColorMap(NETWORK_LEDGER_NAMES, NETWORK_COLOURS)
 
   return {
     labels: buildLabels(data, minValue, maxValue),

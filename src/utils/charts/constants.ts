@@ -128,3 +128,19 @@ export const SOFTWARE_DOUGHNUT_LEDGER_NAMES = [
   },
   { repo: "zcash", url: "https://github.com/zcash/zcash", name: "ZCash" }
 ]
+
+export const NETWORK_LEDGER_NAMES = [
+  "bitcoin",
+  "bitcoin_cash",
+  "dogecoin",
+  "litecoin",
+  "zcash"
+]
+
+export const NETWORK_COLOURS = [
+  "#F7931A", // Bitcoin
+  "#8DC351", // Bitcoin Cash
+  "#C2A633", // Dogecoin
+  "#A6A9AA", // Litecoin
+  "#333333" // Zcash
+]
