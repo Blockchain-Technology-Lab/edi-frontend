@@ -10,7 +10,7 @@ type LineProps = {
   metric: string
   csvData?: DataEntry[]
   isLoadingCsvData?: boolean
-  type: "tokenomics" | "consensus" | "software" | "network"
+  type: "tokenomics" | "consensus" | "software" | "network" | "geography"
   timeUnit?: "year" | "month" | "day"
 }
 
@@ -29,9 +29,13 @@ export function LineChart({
   )
   const exportChart = useExportChart()
 
-  const options = useMemo(() => {
-    if (resolvedTheme) return getChartOptions(metric, resolvedTheme, timeUnit)
-  }, [metric, resolvedTheme, timeUnit])
+  const options = useMemo(
+    () =>
+      resolvedTheme
+        ? getChartOptions(metric, resolvedTheme, timeUnit)
+        : undefined,
+    [metric, resolvedTheme, timeUnit]
+  )
 
   // Re-register plugin when theme changes
   useEffect(() => {

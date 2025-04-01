@@ -92,7 +92,7 @@ export function useNetworkCsvLoader(
     } finally {
       setLoading(false)
     }
-  }, [csvPath, fileType])
+  }, [csvPath, fileType, overrideLedgerName])
 
   useEffect(() => {
     load()

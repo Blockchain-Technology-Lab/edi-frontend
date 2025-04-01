@@ -9,7 +9,9 @@ import {
   NETWORK_LEDGER_NAMES,
   NETWORK_COLOURS,
   LINECHART_WATERMARK_WHITE,
-  LINECHART_WATERMARK_BLACK
+  LINECHART_WATERMARK_BLACK,
+  GEOGRAPHY_LEDGER_NAMES,
+  GEOGRAPHY_COLOURS
 } from "@/utils"
 
 import { Plugin } from "chart.js"
@@ -33,20 +35,44 @@ export type ChartData = {
 
 export function getChartData(
   metric: string,
-  type: "tokenomics" | "consensus" | "software" | "network",
+  type: "tokenomics" | "consensus" | "software" | "network" | "geography",
   data: DataEntry[]
 ) {
   if (!data) return
   const { minValue, maxValue } = findMinMaxValues(data)
 
-  const ledgerColorMap =
-    type === "tokenomics"
-      ? getLedgerColorMap(TOKENOMICS_LEDGER_NAMES, TOKENOMICS_COLOURS)
-      : type === "consensus"
-        ? getLedgerColorMap(CONSENSUS_LEDGER_NAMES, CONSENSUS_COLOURS)
-        : type === "software"
-          ? getLedgerColorMap(SOFTWARE_LEDGER_NAMES, SOFTWARE_COLOURS)
-          : getLedgerColorMap(NETWORK_LEDGER_NAMES, NETWORK_COLOURS)
+  let ledgerColorMap
+  switch (type) {
+    case "tokenomics":
+      ledgerColorMap = getLedgerColorMap(
+        TOKENOMICS_LEDGER_NAMES,
+        TOKENOMICS_COLOURS
+      )
+      break
+    case "consensus":
+      ledgerColorMap = getLedgerColorMap(
+        CONSENSUS_LEDGER_NAMES,
+        CONSENSUS_COLOURS
+      )
+      break
+    case "software":
+      ledgerColorMap = getLedgerColorMap(
+        SOFTWARE_LEDGER_NAMES,
+        SOFTWARE_COLOURS
+      )
+      break
+    case "network":
+      ledgerColorMap = getLedgerColorMap(NETWORK_LEDGER_NAMES, NETWORK_COLOURS)
+      break
+    case "geography":
+      ledgerColorMap = getLedgerColorMap(
+        GEOGRAPHY_LEDGER_NAMES,
+        GEOGRAPHY_COLOURS
+      )
+      break
+    default:
+      ledgerColorMap = {}
+  }
 
   return {
     labels: buildLabels(data, minValue, maxValue),
@@ -54,12 +80,14 @@ export function getChartData(
   }
 }
 
-function getLedgerColorMap(ledgerNames: string[], colors: string[]) {
-  const map = {} as { [key: string]: string }
-  ledgerNames.forEach((ledger, index) => {
-    map[ledger] = colors[index % colors.length]
-  })
-  return map
+function getLedgerColorMap(ledgerNames: string[], colours: string[]) {
+  return ledgerNames.reduce(
+    (acc, ledger, index) => {
+      acc[ledger] = colours[index % colours.length]
+      return acc
+    },
+    {} as Record<string, string>
+  )
 }
 
 function buildLabels(data: DataEntry[], minValue: number, maxValue: number) {
