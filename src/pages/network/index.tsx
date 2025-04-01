@@ -25,6 +25,18 @@ export default function NetworkPage() {
 
   const isLoadingCountries = countriesData.some((entry) => !entry)
 
+  // === Load without_tor countries CSV ===
+  const countriesWithoutTorFile = `${NETWORK_CSV}${getNetworkCsvFileName(
+    "countries",
+    "bitcoin",
+    { withoutTor: true }
+  )}`
+  const { data: countriesWithoutTorData } = useNetworkCsvLoader(
+    countriesWithoutTorFile,
+    "countries",
+    "bitcoin_without_tor"
+  )
+
   // === Load Organizations CSVs ===
   const orgData = ledgers.flatMap((ledger) => {
     const fileName = getNetworkCsvFileName("organizations", ledger)
@@ -34,6 +46,24 @@ export default function NetworkPage() {
   })
 
   const isLoadingOrg = orgData.some((entry) => !entry)
+  // === Load without_tor organizations CSV ===
+  const orgWithoutTorFile = `${NETWORK_CSV}${getNetworkCsvFileName(
+    "organizations",
+    "bitcoin",
+    { withoutTor: true }
+  )}`
+  const { data: orgWithoutTorData } = useNetworkCsvLoader(
+    orgWithoutTorFile,
+    "organizations",
+    "bitcoin_without_tor"
+  )
+
+  const allCountriesData = [
+    ...countriesData.flat(),
+    ...(countriesWithoutTorData || [])
+  ]
+
+  const allOrgData = [...orgData.flat(), ...(orgWithoutTorData || [])]
 
   return (
     <section className="flex flex-col gap-12">
@@ -74,7 +104,7 @@ export default function NetworkPage() {
             <LineChart
               metric="hhi"
               type="network"
-              csvData={countriesData.flat()}
+              csvData={allCountriesData}
               isLoadingCsvData={isLoadingCountries}
               timeUnit="day"
             />
@@ -87,7 +117,7 @@ export default function NetworkPage() {
             <LineChart
               metric="nakamoto_coefficient"
               type="network"
-              csvData={countriesData.flat()}
+              csvData={allCountriesData}
               isLoadingCsvData={isLoadingCountries}
               timeUnit="day"
             />
@@ -97,7 +127,7 @@ export default function NetworkPage() {
             <LineChart
               metric="max_power_ratio"
               type="network"
-              csvData={countriesData.flat()}
+              csvData={allCountriesData}
               isLoadingCsvData={isLoadingCountries}
               timeUnit="day"
             />
@@ -107,7 +137,7 @@ export default function NetworkPage() {
             <LineChart
               metric="entropy_1"
               type="network"
-              csvData={countriesData.flat()}
+              csvData={allCountriesData}
               isLoadingCsvData={isLoadingCountries}
               timeUnit="day"
             />
@@ -128,7 +158,7 @@ export default function NetworkPage() {
             <LineChart
               metric="hhi"
               type="network"
-              csvData={orgData.flat()}
+              csvData={allOrgData}
               isLoadingCsvData={isLoadingOrg}
               timeUnit="day"
             />
@@ -140,7 +170,7 @@ export default function NetworkPage() {
             <LineChart
               metric="nakamoto_coefficient"
               type="network"
-              csvData={orgData.flat()}
+              csvData={allOrgData}
               isLoadingCsvData={isLoadingOrg}
               timeUnit="day"
             />
@@ -150,7 +180,7 @@ export default function NetworkPage() {
             <LineChart
               metric="max_power_ratio"
               type="network"
-              csvData={orgData.flat()}
+              csvData={allOrgData}
               isLoadingCsvData={isLoadingOrg}
               timeUnit="day"
             />

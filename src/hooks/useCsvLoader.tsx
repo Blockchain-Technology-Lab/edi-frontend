@@ -68,7 +68,8 @@ export function useDoughnutCsvLoader(csvPath: string) {
 
 export function useNetworkCsvLoader(
   csvPath: string,
-  fileType: "nodes" | "countries" | "organizations"
+  fileType: "nodes" | "countries" | "organizations",
+  overrideLedgerName?: string
 ) {
   const [data, setData] = useState<DataEntry[]>()
   const [loading, setLoading] = useState<boolean>(true)
@@ -78,7 +79,11 @@ export function useNetworkCsvLoader(
     setLoading(true)
     setError(null)
     try {
-      const csvData = await loadNetworkCsvData(csvPath, fileType)
+      const csvData = await loadNetworkCsvData(
+        csvPath,
+        fileType,
+        overrideLedgerName
+      )
       setData(csvData)
     } catch (error) {
       setError(
