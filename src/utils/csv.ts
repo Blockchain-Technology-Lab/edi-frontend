@@ -64,6 +64,21 @@ const SOFTWARE_LEDGERS = [
   "zcash"
 ]
 
+export const NETWORK_NODES_COLUMNS = ["number_nodes"]
+
+export const NETWORK_COUNTRIES_COLUMNS = [
+  "entropy=1",
+  "hhi",
+  "nakamoto_coefficient",
+  "max_power_ratio"
+]
+
+export const NETWORK_ORGANIZATIONS_COLUMNS = [
+  "hhi",
+  "nakamoto_coefficient",
+  "max_power_ratio"
+]
+
 type BaseDataEntry = {
   ledger: string
   date: Date
@@ -153,6 +168,52 @@ function parseCSV(
   return data
 }
 
+export function parseNetworkCSV(
+  csvData: string,
+  fileType: "nodes" | "countries" | "organizations"
+) {
+  const valueColumns =
+    fileType === "nodes"
+      ? NETWORK_NODES_COLUMNS
+      : fileType === "countries"
+        ? NETWORK_COUNTRIES_COLUMNS
+        : NETWORK_ORGANIZATIONS_COLUMNS
+
+  const lines = csvData.trim().split("\n")
+  const headers = lines[0].split(",")
+
+  const data: DataEntry[] = []
+  for (let i = 1; i < lines.length; i++) {
+    const values = lines[i].split(",")
+
+    if (values.length === headers.length) {
+      const entry = {} as DataEntry
+      let includeEntry = true
+
+      headers.forEach((header, index) => {
+        const value = values[index].trim()
+        if (header.trim() === "date") {
+          entry.date = parseDateString(value)
+        } else if (header.trim() === "ledger") {
+          entry.ledger = value
+        } else if (valueColumns.includes(header.trim())) {
+          const cleanHeader = header.trim().replace("=", "_") // For entropy=1 → entropy_1
+          entry[cleanHeader] = parseFloat(value)
+        }
+      })
+
+      if (includeEntry) {
+        data.push(entry)
+      }
+    }
+  }
+
+  // Sort by ledger
+  data.sort((a, b) => a.ledger.localeCompare(b.ledger))
+
+  return data
+}
+
 export async function loadCsvData(
   fileName: string,
   type: "tokenomics" | "consensus" | "software"
@@ -166,6 +227,25 @@ export async function loadCsvData(
 
     const csvData = await response.text()
     const data = parseCSV(csvData, type)
+    return data
+  } catch (error) {
+    throw error instanceof Error ? error : new Error("Unknown error occurred")
+  }
+}
+
+export async function loadNetworkCsvData(
+  fileName: string,
+  fileType: "nodes" | "countries" | "organizations"
+) {
+  try {
+    const response = await fetch(fileName)
+
+    if (!response.ok) {
+      throw new Error(`Error loading network data for ${fileName}`)
+    }
+
+    const csvData = await response.text()
+    const data = parseNetworkCSV(csvData, fileType)
     return data
   } catch (error) {
     throw error instanceof Error ? error : new Error("Unknown error occurred")
@@ -355,6 +435,27 @@ export function generateDoughnutPaths(doughnutFileNames: string[]): string[] {
     //(fileName) => `/output/software/doughnut/${fileName}`
     (fileName) => `${SOFTWARE_DOUGHNUT_CSV + fileName}`
   )
+}
+
+export function getNetworkCsvFileName(
+  fileType: "nodes" | "countries" | "organizations",
+  ledger: string,
+  options?: { withoutTor?: boolean } // Optional flag only relevant to countries & organizations
+): string {
+  const fileNamePrefix =
+    fileType === "nodes"
+      ? "number_nodes"
+      : fileType === "countries"
+        ? "output_countries"
+        : "output_organizations"
+
+  let fileName = `${fileNamePrefix}_${ledger}.csv`
+
+  if (options?.withoutTor) {
+    fileName = `${fileNamePrefix}_${ledger}_without_tor.csv`
+  }
+
+  return fileName
 }
 
 // Type for final data

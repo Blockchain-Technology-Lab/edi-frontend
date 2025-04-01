@@ -17,7 +17,8 @@ import {
   GraphUp,
   Link,
   Speedometer,
-  Doughnut
+  Doughnut,
+  RouterIcon
 } from "@/components"
 
 const NAV_ITEMS = [
@@ -84,6 +85,27 @@ const NAV_ITEMS = [
       },
       {
         href: "https://github.com/Blockchain-Technology-Lab/software-decentralization",
+        label: "Source Code",
+        icon: CodeSlash
+      }
+    ]
+  },
+  {
+    label: "Network",
+    icon: RouterIcon,
+    links: [
+      {
+        label: "Dashboard",
+        href: "/network/",
+        icon: GraphUp
+      },
+      {
+        href: "/network/methodology/",
+        label: "Methodology",
+        icon: FilterSquare
+      },
+      {
+        href: "https://github.com/Blockchain-Technology-Lab/network-decentralization",
         label: "Source Code",
         icon: CodeSlash
       }

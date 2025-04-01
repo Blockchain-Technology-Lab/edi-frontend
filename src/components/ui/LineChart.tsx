@@ -10,14 +10,16 @@ type LineProps = {
   metric: string
   csvData?: DataEntry[]
   isLoadingCsvData?: boolean
-  type: "tokenomics" | "consensus" | "software"
+  type: "tokenomics" | "consensus" | "software" | "network"
+  timeUnit?: "year" | "month" | "day"
 }
 
 export function LineChart({
   type,
   metric,
   csvData,
-  isLoadingCsvData = false
+  isLoadingCsvData = false,
+  timeUnit = "year"
 }: LineProps) {
   const { resolvedTheme } = useTheme()
   const { chartData, sliderValue, sliderRange, setSliderValue } = useChartData(
@@ -28,8 +30,8 @@ export function LineChart({
   const exportChart = useExportChart()
 
   const options = useMemo(() => {
-    if (resolvedTheme) return getChartOptions(metric, resolvedTheme)
-  }, [metric, resolvedTheme])
+    if (resolvedTheme) return getChartOptions(metric, resolvedTheme, timeUnit)
+  }, [metric, resolvedTheme, timeUnit])
 
   // Re-register plugin when theme changes
   useEffect(() => {
@@ -99,7 +101,11 @@ function LineChartSkeleton() {
  * -> watermark -> image -> theme : "/blockchainlab/edi-dashboard/images/edi-black-watermark.png",
  */
 
-function getChartOptions(metric: string, theme: string): ChartOptions<"line"> {
+function getChartOptions(
+  metric: string,
+  theme: string,
+  timeUnit: "year" | "month" | "day" = "year"
+): ChartOptions<"line"> {
   const mainColor = theme === "dark" ? "white" : "black"
   return {
     responsive: true,
@@ -133,11 +139,13 @@ function getChartOptions(metric: string, theme: string): ChartOptions<"line"> {
       x: {
         type: "time",
         time: {
-          unit: "year",
+          unit: timeUnit,
           parser: "YYYY-MM-DD",
           tooltipFormat: "ll",
           displayFormats: {
-            year: "YYYY"
+            year: "YYYY",
+            month: "MMM YYYY",
+            day: "DD MMM YYYY"
           }
         },
         ticks: {
