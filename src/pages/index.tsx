@@ -1,14 +1,12 @@
 import { useRouter } from "next/router" // Import useRouter
 import { HomepageCard, HomepageTitleCard } from "@/components"
 import {
-  faHandshake,
   faCubes,
   faBitcoinSign,
-  faNetworkWired,
   faLaptopCode,
-  faServer,
-  faLayerGroup,
-  faEarthAmericas,
+  faLandmarkFlag,
+  faHexagonNodes,
+  faGlobe,
   faHome
 } from "@fortawesome/free-solid-svg-icons"
 
@@ -43,11 +41,27 @@ export default function HomePage() {
       disabled: false
     },
     {
-      title: "Network (Coming Soon)",
-      url: "/",
-      icon: faHome,
+      title: "Network",
+      url: "/network",
+      icon: faHexagonNodes,
       github: "",
-      desc: "We plan to publish the network layer soon. ", // "This layer describes the decentralisation of the network of full-nodes over time."
+      desc: "This layer describes the decentralisation of the network of full nodes over time.",
+      disabled: false
+    },
+    {
+      title: "Geography",
+      url: "/geography",
+      icon: faGlobe,
+      github: "",
+      desc: "This layer describes the decentralisation of the geography of full nodes over time.",
+      disabled: false
+    },
+    {
+      title: "Governance (Coming Soon)",
+      url: "/",
+      icon: faLandmarkFlag,
+      github: "",
+      desc: "We plan to publish the governance layer soon. ", // "This layer describes the decentralisation of the network of full-nodes over time."
       disabled: true
     }
     /*

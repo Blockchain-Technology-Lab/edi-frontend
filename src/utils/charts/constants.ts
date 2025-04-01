@@ -146,3 +146,24 @@ export const NETWORK_COLOURS = [
   "rgba(255, 159, 64, 1)", // Orange
   "rgba(117, 117, 117, 1)" // Gray
 ]
+
+/**
+ * Geography
+ */
+export const GEOGRAPHY_LEDGER_NAMES = [
+  "bitcoin",
+  "bitcoin_without_tor",
+  "bitcoin_cash",
+  "dogecoin",
+  "litecoin",
+  "zcash"
+]
+
+export const GEOGRAPHY_COLOURS = [
+  "rgba(54, 162, 235, 1)", // Blue
+  "rgba(75, 192, 192, 1)", // Aqua
+  "rgba(255, 206, 86, 1)", // Yellow
+  "rgba(255, 99, 132, 1)", // Red
+  "rgba(153, 102, 255, 1)", // Purple
+  "rgba(117, 117, 117, 1)" // Gray
+]

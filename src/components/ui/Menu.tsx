@@ -15,6 +15,7 @@ import {
   CodePoint,
   FilterSquare,
   GraphUp,
+  Globe,
   Link,
   Speedometer,
   Doughnut,
@@ -106,6 +107,27 @@ const NAV_ITEMS = [
       },
       {
         href: "https://github.com/Blockchain-Technology-Lab/network-decentralization",
+        label: "Source Code",
+        icon: CodeSlash
+      }
+    ]
+  },
+  {
+    label: "Geography",
+    icon: Globe,
+    links: [
+      {
+        label: "Dashboard",
+        href: "/geography/",
+        icon: GraphUp
+      },
+      {
+        href: "/geography/methodology/",
+        label: "Methodology",
+        icon: FilterSquare
+      },
+      {
+        href: "https://github.com/Blockchain-Technology-Lab/geography-decentralization",
         label: "Source Code",
         icon: CodeSlash
       }

@@ -11,55 +11,37 @@ const ledgers = [
   { ledger: "zcash", overrideName: undefined }
 ]
 
-export default function NetworkPage() {
-  const nodesData = ledgers.flatMap(({ ledger, overrideName }) => {
-    const fileName = getNetworkCsvFileName("nodes", ledger)
+export default function GeographyPage() {
+  const countriesData = ledgers.flatMap(({ ledger, overrideName }) => {
+    const fileName = getNetworkCsvFileName("countries", ledger)
     const csvPath = `${NETWORK_CSV}${fileName}`
-    const { data } = useNetworkCsvLoader(csvPath, "nodes", overrideName)
-    return data || []
-  })
-
-  const orgData = ledgers.flatMap(({ ledger, overrideName }) => {
-    const fileName = getNetworkCsvFileName("organizations", ledger)
-    const csvPath = `${NETWORK_CSV}${fileName}`
-    const { data } = useNetworkCsvLoader(csvPath, "organizations", overrideName)
+    const { data } = useNetworkCsvLoader(csvPath, "countries", overrideName)
     return data || []
   })
 
   return (
     <section className="flex flex-col gap-12">
-      <Card title="Network Layer" titleAppearance="xl">
+      <Card title="Geography Layer" titleAppearance="xl">
         <p>
-          Decentralization metrics based on node count & organization mapping.
+          Decentralization metrics based on geographical distribution of nodes.
         </p>
       </Card>
 
-      <Card title="Number of Nodes">
-        <LineChart
-          metric="number_nodes"
-          type="network"
-          csvData={nodesData}
-          isLoadingCsvData={false}
-          timeUnit="day"
-        />
-      </Card>
-
-      <Card title="Organizations">
+      <Card title="Countries">
         <Card title="HHI">
           <LineChart
             metric="hhi"
-            type="network"
-            csvData={orgData}
+            type="geography"
+            csvData={countriesData}
             isLoadingCsvData={false}
             timeUnit="day"
           />
         </Card>
-
         <Card title="Nakamoto Coefficient">
           <LineChart
             metric="nakamoto_coefficient"
-            type="network"
-            csvData={orgData}
+            type="geography"
+            csvData={countriesData}
             isLoadingCsvData={false}
             timeUnit="day"
           />
@@ -67,8 +49,17 @@ export default function NetworkPage() {
         <Card title="Max Power Ratio">
           <LineChart
             metric="max_power_ratio"
-            type="network"
-            csvData={orgData}
+            type="geography"
+            csvData={countriesData}
+            isLoadingCsvData={false}
+            timeUnit="day"
+          />
+        </Card>
+        <Card title="Entropy">
+          <LineChart
+            metric="entropy_1"
+            type="geography"
+            csvData={countriesData}
             isLoadingCsvData={false}
             timeUnit="day"
           />
