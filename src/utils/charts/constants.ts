@@ -131,6 +131,7 @@ export const SOFTWARE_DOUGHNUT_LEDGER_NAMES = [
 
 export const NETWORK_LEDGER_NAMES = [
   "bitcoin",
+  "bitcoin_without_tor",
   "bitcoin_cash",
   "dogecoin",
   "litecoin",
@@ -138,9 +139,10 @@ export const NETWORK_LEDGER_NAMES = [
 ]
 
 export const NETWORK_COLOURS = [
-  "#F7931A", // Bitcoin
-  "#8DC351", // Bitcoin Cash
-  "#C2A633", // Dogecoin
-  "#A6A9AA", // Litecoin
-  "#333333" // Zcash
+  "rgba(255, 206, 86, 1)", // Yellow
+  "rgba(54, 162, 235, 1)", // Blue
+  "rgba(75, 192, 192, 1)", // Aqua
+  "rgba(255, 99, 132, 1)", // Red
+  "rgba(255, 159, 64, 1)", // Orange
+  "rgba(117, 117, 117, 1)" // Gray
 ]

@@ -170,7 +170,8 @@ function parseCSV(
 
 export function parseNetworkCSV(
   csvData: string,
-  fileType: "nodes" | "countries" | "organizations"
+  fileType: "nodes" | "countries" | "organizations",
+  overrideLedgerName?: string
 ) {
   const valueColumns =
     fileType === "nodes"
@@ -195,7 +196,7 @@ export function parseNetworkCSV(
         if (header.trim() === "date") {
           entry.date = parseDateString(value)
         } else if (header.trim() === "ledger") {
-          entry.ledger = value
+          entry.ledger = overrideLedgerName || value
         } else if (valueColumns.includes(header.trim())) {
           const cleanHeader = header.trim().replace("=", "_") // For entropy=1 → entropy_1
           entry[cleanHeader] = parseFloat(value)
@@ -235,7 +236,8 @@ export async function loadCsvData(
 
 export async function loadNetworkCsvData(
   fileName: string,
-  fileType: "nodes" | "countries" | "organizations"
+  fileType: "nodes" | "countries" | "organizations",
+  overrideLedgerName?: string
 ) {
   try {
     const response = await fetch(fileName)
@@ -245,7 +247,7 @@ export async function loadNetworkCsvData(
     }
 
     const csvData = await response.text()
-    const data = parseNetworkCSV(csvData, fileType)
+    const data = parseNetworkCSV(csvData, fileType, overrideLedgerName)
     return data
   } catch (error) {
     throw error instanceof Error ? error : new Error("Unknown error occurred")
