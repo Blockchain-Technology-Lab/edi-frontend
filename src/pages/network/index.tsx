@@ -1,6 +1,12 @@
+import { useEffect, useState } from "react"
 import { Card, LineChart } from "@/components"
 import { useNetworkCsvLoader } from "@/hooks"
-import { getNetworkCsvFileName, NETWORK_CSV } from "@/utils"
+import {
+  getNetworkCsvFileName,
+  NETWORK_CSV,
+  DataEntry,
+  loadNetworkCsvData
+} from "@/utils"
 
 const ledgers = [
   { ledger: "bitcoin", overrideName: undefined },
@@ -12,19 +18,52 @@ const ledgers = [
 ]
 
 export default function NetworkPage() {
-  const nodesData = ledgers.flatMap(({ ledger, overrideName }) => {
-    const fileName = getNetworkCsvFileName("nodes", ledger)
-    const csvPath = `${NETWORK_CSV}${fileName}`
-    const { data } = useNetworkCsvLoader(csvPath, "nodes", overrideName)
-    return data || []
-  })
+  const [nodesData, setNodesData] = useState<DataEntry[]>([])
+  const [orgData, setOrgData] = useState<DataEntry[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  const orgData = ledgers.flatMap(({ ledger, overrideName }) => {
-    const fileName = getNetworkCsvFileName("organizations", ledger)
-    const csvPath = `${NETWORK_CSV}${fileName}`
-    const { data } = useNetworkCsvLoader(csvPath, "organizations", overrideName)
-    return data || []
-  })
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const allNodesData: DataEntry[] = []
+        const allOrgData: DataEntry[] = []
+
+        for (const { ledger, overrideName } of ledgers) {
+          // Only include ledgers that have number_nodes CSVs
+          if (ledger !== "bitcoin_without_tor") {
+            const nodesFile = getNetworkCsvFileName("nodes", ledger)
+            const nodesPath = `${NETWORK_CSV}${nodesFile}`
+            const nodes = await loadNetworkCsvData(
+              nodesPath,
+              "nodes",
+              overrideName
+            )
+            allNodesData.push(...nodes)
+          }
+
+          // Load organizations data (has _without_tor)
+          const orgFile = getNetworkCsvFileName("organizations", ledger)
+          const orgPath = `${NETWORK_CSV}${orgFile}`
+          const orgs = await loadNetworkCsvData(
+            orgPath,
+            "organizations",
+            overrideName
+          )
+          allOrgData.push(...orgs)
+        }
+
+        setNodesData(allNodesData)
+        setOrgData(allOrgData)
+      } catch (err) {
+        setError((err as Error).message)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadData()
+  }, [])
 
   return (
     <section className="flex flex-col gap-12">

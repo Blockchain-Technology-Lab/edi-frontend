@@ -1,6 +1,12 @@
+import { useEffect, useState } from "react"
 import { Card, LineChart } from "@/components"
 import { useNetworkCsvLoader } from "@/hooks"
-import { getNetworkCsvFileName, NETWORK_CSV } from "@/utils"
+import {
+  getNetworkCsvFileName,
+  NETWORK_CSV,
+  DataEntry,
+  loadNetworkCsvData
+} from "@/utils"
 
 const ledgers = [
   { ledger: "bitcoin", overrideName: undefined },
@@ -12,12 +18,33 @@ const ledgers = [
 ]
 
 export default function GeographyPage() {
-  const countriesData = ledgers.flatMap(({ ledger, overrideName }) => {
-    const fileName = getNetworkCsvFileName("countries", ledger)
-    const csvPath = `${NETWORK_CSV}${fileName}`
-    const { data } = useNetworkCsvLoader(csvPath, "countries", overrideName)
-    return data || []
-  })
+  const [countriesData, setCountriesData] = useState<DataEntry[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const allData: DataEntry[] = []
+        for (const { ledger, overrideName } of ledgers) {
+          const fileName = getNetworkCsvFileName("countries", ledger)
+          const csvPath = `${NETWORK_CSV}${fileName}`
+          const data = await loadNetworkCsvData(
+            csvPath,
+            "countries",
+            overrideName
+          )
+          allData.push(...data)
+        }
+        setCountriesData(allData)
+      } catch (err) {
+        setError((err as Error).message)
+      } finally {
+        setLoading(false)
+      }
+    }
+    loadData()
+  }, [])
 
   return (
     <section className="flex flex-col gap-12">
