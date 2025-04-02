@@ -4,7 +4,7 @@ const { execSync } = require("child_process")
 
 // === CONFIG ===
 const config = {
-  basePath: "/demo",
+  basePath: "/blockchainlab/demo",
   outputDir: "upload/demo"
 }
 
