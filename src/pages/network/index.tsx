@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
-import { Card, LineChart } from "@/components"
-import { useNetworkCsvLoader } from "@/hooks"
+import { Card, LineChart, ToggleSwitch } from "@/components"
 import {
   getNetworkCsvFileName,
   NETWORK_CSV,
   DataEntry,
   loadNetworkCsvData
 } from "@/utils"
+import { useWithoutTorToggle } from "@/hooks"
 
 const ledgers = [
   { ledger: "bitcoin", overrideName: undefined },
@@ -21,49 +21,59 @@ export default function NetworkPage() {
   const [nodesData, setNodesData] = useState<DataEntry[]>([])
   const [orgData, setOrgData] = useState<DataEntry[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+
+  const { showWithoutTor, handleToggle } = useWithoutTorToggle()
 
   useEffect(() => {
     async function loadData() {
+      setLoading(true)
       try {
-        const allNodesData: DataEntry[] = []
-        const allOrgData: DataEntry[] = []
+        const nodes: DataEntry[] = []
+        const orgs: DataEntry[] = []
 
-        for (const { ledger, overrideName } of ledgers) {
-          // Only include ledgers that have number_nodes CSVs
+        const activeLedgers = ledgers.filter((l) => {
+          if (showWithoutTor) return l.ledger !== "bitcoin"
+          return l.ledger !== "bitcoin_without_tor"
+        })
+
+        const bitcoinLedger = showWithoutTor
+          ? {
+              ledger: "bitcoin_without_tor",
+              overrideName: "bitcoin_without_tor"
+            }
+          : { ledger: "bitcoin", overrideName: undefined }
+
+        for (const { ledger, overrideName } of [
+          ...activeLedgers,
+          bitcoinLedger
+        ]) {
           if (ledger !== "bitcoin_without_tor") {
             const nodesFile = getNetworkCsvFileName("nodes", ledger)
             const nodesPath = `${NETWORK_CSV}${nodesFile}`
-            const nodes = await loadNetworkCsvData(
-              nodesPath,
-              "nodes",
-              overrideName
-            )
-            allNodesData.push(...nodes)
+            const n = await loadNetworkCsvData(nodesPath, "nodes", overrideName)
+            nodes.push(...n)
           }
 
-          // Load organizations data (has _without_tor)
           const orgFile = getNetworkCsvFileName("organizations", ledger)
           const orgPath = `${NETWORK_CSV}${orgFile}`
-          const orgs = await loadNetworkCsvData(
+          const o = await loadNetworkCsvData(
             orgPath,
             "organizations",
             overrideName
           )
-          allOrgData.push(...orgs)
+          orgs.push(...o)
         }
 
-        setNodesData(allNodesData)
-        setOrgData(allOrgData)
+        setNodesData(nodes)
+        setOrgData(orgs)
       } catch (err) {
-        setError((err as Error).message)
+        console.error(err)
       } finally {
         setLoading(false)
       }
     }
-
     loadData()
-  }, [])
+  }, [showWithoutTor])
 
   return (
     <section className="flex flex-col gap-12">
@@ -78,28 +88,34 @@ export default function NetworkPage() {
           metric="number_nodes"
           type="network"
           csvData={nodesData}
-          isLoadingCsvData={false}
+          isLoadingCsvData={loading}
           timeUnit="day"
         />
       </Card>
 
       <Card title="Organizations">
+        <div className="flex justify-end mb-4">
+          <ToggleSwitch
+            label="Show without Tor"
+            checked={showWithoutTor}
+            onChange={handleToggle}
+          />
+        </div>
         <Card title="HHI">
           <LineChart
             metric="hhi"
             type="network"
             csvData={orgData}
-            isLoadingCsvData={false}
+            isLoadingCsvData={loading}
             timeUnit="day"
           />
         </Card>
-
         <Card title="Nakamoto Coefficient">
           <LineChart
             metric="nakamoto_coefficient"
             type="network"
             csvData={orgData}
-            isLoadingCsvData={false}
+            isLoadingCsvData={loading}
             timeUnit="day"
           />
         </Card>
@@ -108,7 +124,7 @@ export default function NetworkPage() {
             metric="max_power_ratio"
             type="network"
             csvData={orgData}
-            isLoadingCsvData={false}
+            isLoadingCsvData={loading}
             timeUnit="day"
           />
         </Card>
