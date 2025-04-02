@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
-import { Card, LineChart } from "@/components"
-import { useNetworkCsvLoader } from "@/hooks"
+import { Card, LineChart, ToggleSwitch } from "@/components"
 import {
   getNetworkCsvFileName,
   NETWORK_CSV,
   DataEntry,
   loadNetworkCsvData
 } from "@/utils"
+import { useWithoutTorToggle } from "@/hooks"
 
 const ledgers = [
   { ledger: "bitcoin", overrideName: undefined },
@@ -21,30 +21,37 @@ export default function GeographyPage() {
   const [countriesData, setCountriesData] = useState<DataEntry[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const { showWithoutTor, handleToggle } = useWithoutTorToggle()
 
   useEffect(() => {
     async function loadData() {
       try {
-        const allData: DataEntry[] = []
+        const countries: DataEntry[] = []
+
         for (const { ledger, overrideName } of ledgers) {
-          const fileName = getNetworkCsvFileName("countries", ledger)
-          const csvPath = `${NETWORK_CSV}${fileName}`
-          const data = await loadNetworkCsvData(
-            csvPath,
+          if (ledger === "bitcoin" && showWithoutTor) continue
+          if (ledger === "bitcoin_without_tor" && !showWithoutTor) continue
+
+          const countriesFile = getNetworkCsvFileName("countries", ledger)
+          const countriesPath = `${NETWORK_CSV}${countriesFile}`
+          const c = await loadNetworkCsvData(
+            countriesPath,
             "countries",
             overrideName
           )
-          allData.push(...data)
+          countries.push(...c)
         }
-        setCountriesData(allData)
+
+        setCountriesData(countries)
       } catch (err) {
+        console.error(err)
         setError((err as Error).message)
       } finally {
         setLoading(false)
       }
     }
     loadData()
-  }, [])
+  }, [showWithoutTor])
 
   return (
     <section className="flex flex-col gap-12">
@@ -55,12 +62,20 @@ export default function GeographyPage() {
       </Card>
 
       <Card title="Countries">
+        <div className="flex justify-end mb-4">
+          <ToggleSwitch
+            label="Show without Tor"
+            checked={showWithoutTor}
+            onChange={handleToggle}
+          />
+        </div>
+
         <Card title="HHI">
           <LineChart
             metric="hhi"
             type="geography"
             csvData={countriesData}
-            isLoadingCsvData={false}
+            isLoadingCsvData={loading}
             timeUnit="day"
           />
         </Card>
@@ -69,7 +84,7 @@ export default function GeographyPage() {
             metric="nakamoto_coefficient"
             type="geography"
             csvData={countriesData}
-            isLoadingCsvData={false}
+            isLoadingCsvData={loading}
             timeUnit="day"
           />
         </Card>
@@ -78,7 +93,7 @@ export default function GeographyPage() {
             metric="max_power_ratio"
             type="geography"
             csvData={countriesData}
-            isLoadingCsvData={false}
+            isLoadingCsvData={loading}
             timeUnit="day"
           />
         </Card>
@@ -87,7 +102,7 @@ export default function GeographyPage() {
             metric="entropy_1"
             type="geography"
             csvData={countriesData}
-            isLoadingCsvData={false}
+            isLoadingCsvData={loading}
             timeUnit="day"
           />
         </Card>
