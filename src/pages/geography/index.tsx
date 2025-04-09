@@ -1,27 +1,23 @@
 import { useEffect, useState } from "react"
-import { Card, LineChart, ToggleSwitch } from "@/components"
+import { Card, LineChart } from "@/components"
+import { GEOGRAPHY_CSV, DataEntry } from "@/utils"
 import {
-  getNetworkCsvFileName,
-  NETWORK_CSV,
-  DataEntry,
-  loadNetworkCsvData
-} from "@/utils"
-import { useWithoutTorToggle } from "@/hooks"
+  getGeographyCsvFileName,
+  loadGeographyCsvData
+} from "@/utils/geography"
 
 const ledgers = [
-  { ledger: "bitcoin", overrideName: undefined },
-  { ledger: "bitcoin_without_tor", overrideName: "bitcoin_without_tor" },
-  { ledger: "bitcoin_cash", overrideName: undefined },
-  { ledger: "dogecoin", overrideName: undefined },
-  { ledger: "litecoin", overrideName: undefined },
-  { ledger: "zcash", overrideName: undefined }
+  { ledger: "bitcoin_without_tor", overrideName: "bitcoin" },
+  { ledger: "bitcoin_cash" },
+  { ledger: "dogecoin" },
+  { ledger: "litecoin" },
+  { ledger: "zcash" }
 ]
 
 export default function GeographyPage() {
   const [countriesData, setCountriesData] = useState<DataEntry[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const { showWithoutTor, handleToggle } = useWithoutTorToggle()
 
   useEffect(() => {
     async function loadData() {
@@ -29,12 +25,9 @@ export default function GeographyPage() {
         const countries: DataEntry[] = []
 
         for (const { ledger, overrideName } of ledgers) {
-          if (ledger === "bitcoin" && showWithoutTor) continue
-          if (ledger === "bitcoin_without_tor" && !showWithoutTor) continue
-
-          const countriesFile = getNetworkCsvFileName("countries", ledger)
-          const countriesPath = `${NETWORK_CSV}${countriesFile}`
-          const c = await loadNetworkCsvData(
+          const countriesFile = getGeographyCsvFileName("countries", ledger)
+          const countriesPath = `${GEOGRAPHY_CSV}${countriesFile}`
+          const c = await loadGeographyCsvData(
             countriesPath,
             "countries",
             overrideName
@@ -51,7 +44,7 @@ export default function GeographyPage() {
       }
     }
     loadData()
-  }, [showWithoutTor])
+  }, [])
 
   return (
     <section className="flex flex-col gap-12">
@@ -62,14 +55,6 @@ export default function GeographyPage() {
       </Card>
 
       <Card title="Countries">
-        <div className="flex justify-end mb-4">
-          <ToggleSwitch
-            label="Show without Tor"
-            checked={showWithoutTor}
-            onChange={handleToggle}
-          />
-        </div>
-
         <Card title="HHI">
           <LineChart
             metric="hhi"

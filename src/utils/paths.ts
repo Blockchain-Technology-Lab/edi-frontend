@@ -41,6 +41,8 @@ export const SOFTWARE_DOUGHNUT_CSV = basePath + "/output/software/doughnut/"
 
 export const NETWORK_CSV = basePath + "/output/network/"
 
+export const GEOGRAPHY_CSV = basePath + "/output/geography/"
+
 export const SCREENSHOT_WATERMARK = basePath + "/images/edi-black-watermark.png"
 
 export const CHANGELOG_JSON = basePath + "/changelog/changes.json"
