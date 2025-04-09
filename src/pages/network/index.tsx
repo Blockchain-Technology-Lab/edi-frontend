@@ -1,28 +1,23 @@
 import { useEffect, useState } from "react"
-import { Card, LineChart, ToggleSwitch } from "@/components"
+import { Card, LineChart } from "@/components"
 import {
   getNetworkCsvFileName,
   NETWORK_CSV,
   DataEntry,
   loadNetworkCsvData
 } from "@/utils"
-import { useWithoutTorToggle } from "@/hooks"
 
 const ledgers = [
-  { ledger: "bitcoin", overrideName: undefined },
-  { ledger: "bitcoin_without_tor", overrideName: "bitcoin_without_tor" },
-  { ledger: "bitcoin_cash", overrideName: undefined },
-  { ledger: "dogecoin", overrideName: undefined },
-  { ledger: "litecoin", overrideName: undefined },
-  { ledger: "zcash", overrideName: undefined }
+  "bitcoin_without_tor",
+  "bitcoin_cash",
+  "dogecoin",
+  "litecoin",
+  "zcash"
 ]
-
 export default function NetworkPage() {
   const [nodesData, setNodesData] = useState<DataEntry[]>([])
   const [orgData, setOrgData] = useState<DataEntry[]>([])
   const [loading, setLoading] = useState(true)
-
-  const { showWithoutTor, handleToggle } = useWithoutTorToggle()
 
   useEffect(() => {
     async function loadData() {
@@ -31,37 +26,40 @@ export default function NetworkPage() {
         const nodes: DataEntry[] = []
         const orgs: DataEntry[] = []
 
-        const activeLedgers = ledgers.filter((l) => {
-          if (showWithoutTor) return l.ledger !== "bitcoin"
-          return l.ledger !== "bitcoin_without_tor"
-        })
+        // 1. Load bitcoin (original) for nodes
+        const bitcoinNodesPath = `${NETWORK_CSV}${getNetworkCsvFileName(
+          "nodes",
+          "bitcoin"
+        )}`
+        const bitcoinNodeData = await loadNetworkCsvData(
+          bitcoinNodesPath,
+          "nodes"
+        )
+        nodes.push(...bitcoinNodeData)
 
-        const bitcoinLedger = showWithoutTor
-          ? {
-              ledger: "bitcoin_without_tor",
-              overrideName: "bitcoin_without_tor"
-            }
-          : { ledger: "bitcoin", overrideName: undefined }
-
-        for (const { ledger, overrideName } of [
-          ...activeLedgers,
-          bitcoinLedger
-        ]) {
+        // 2. Load ledgers for both nodes and organizations
+        for (const ledger of ledgers) {
           if (ledger !== "bitcoin_without_tor") {
-            const nodesFile = getNetworkCsvFileName("nodes", ledger)
-            const nodesPath = `${NETWORK_CSV}${nodesFile}`
-            const n = await loadNetworkCsvData(nodesPath, "nodes", overrideName)
-            nodes.push(...n)
+            // load normal nodes file
+            const nodesPath = `${NETWORK_CSV}${getNetworkCsvFileName(
+              "nodes",
+              ledger
+            )}`
+            const nodeData = await loadNetworkCsvData(nodesPath, "nodes")
+            nodes.push(...nodeData)
           }
 
-          const orgFile = getNetworkCsvFileName("organizations", ledger)
-          const orgPath = `${NETWORK_CSV}${orgFile}`
-          const o = await loadNetworkCsvData(
+          // load organizations file
+          const orgPath = `${NETWORK_CSV}${getNetworkCsvFileName(
+            "organizations",
+            ledger
+          )}`
+          const orgDataForLedger = await loadNetworkCsvData(
             orgPath,
             "organizations",
-            overrideName
+            ledger === "bitcoin_without_tor" ? "bitcoin" : undefined // rename ledger for chart labels
           )
-          orgs.push(...o)
+          orgs.push(...orgDataForLedger)
         }
 
         setNodesData(nodes)
@@ -72,8 +70,9 @@ export default function NetworkPage() {
         setLoading(false)
       }
     }
+
     loadData()
-  }, [showWithoutTor])
+  }, [])
 
   return (
     <section className="flex flex-col gap-12">
@@ -94,13 +93,6 @@ export default function NetworkPage() {
       </Card>
 
       <Card title="Organizations">
-        <div className="flex justify-end mb-4">
-          <ToggleSwitch
-            label="Show without Tor"
-            checked={showWithoutTor}
-            onChange={handleToggle}
-          />
-        </div>
         <Card title="HHI">
           <LineChart
             metric="hhi"
