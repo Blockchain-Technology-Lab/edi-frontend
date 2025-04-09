@@ -4,12 +4,12 @@ import { prepareFinalDataForSingleChart } from "@/utils"
 
 type DoughnutChartRendererProps = {
   path: string
-  repoName: string
+  fileName: string
 }
 
 export function DoughnutChartRenderer({
   path,
-  repoName
+  fileName
 }: DoughnutChartRendererProps) {
   const { doughnutData, doughnutLoading, doughnutError } =
     useDoughnutCsvLoader(path)
@@ -19,7 +19,7 @@ export function DoughnutChartRenderer({
 
   const finalData = prepareFinalDataForSingleChart(doughnutData)
 
-  return <DoughnutChart data={finalData} fileName={repoName} />
+  return <DoughnutChart data={finalData} fileName={fileName} />
 }
 
 function DoughnutChartSkeleton() {
