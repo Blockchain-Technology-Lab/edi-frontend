@@ -14,8 +14,8 @@ export function Footer() {
   return (
     <footer
       className={twJoin(
-        "flex flex-col items-center text-center gap-3 pt-8 pb-10 mt-8",
-        "border-t border-slate-800/25 dark:border-slate-200/25 gap-4"
+        "flex flex-col items-center text-center gap-2 pt-2 pb-4 mt-4",
+        "border-t border-slate-800/25 dark:border-slate-200/25 gap-2"
       )}
     >
       <p className="space-x-1">
@@ -24,7 +24,7 @@ export function Footer() {
         </FooterLink>
         <span>© 2024 Edinburgh Decentralisation Index.</span>
       </p>
-      <ul className="inline-flex justify-center flex-wrap gap-y-2 gap-x-4">
+      <ul className="inline-flex justify-center flex-wrap gap-y-1 gap-x-3 text-sm">
         <ListItem>
           <Infograph />
           <FooterLink href={"/infographics"}>Infographics</FooterLink>
