@@ -253,7 +253,7 @@ export default function SoftwarePage() {
               <DoughnutChartRenderer
                 key={index}
                 path={doughnutPaths[index]}
-                repoName={repoItem.repo}
+                fileName={repoItem.repo}
               />
             </Card>
           ))}

@@ -1,5 +1,7 @@
-import { GEOGRAPHY_COUNTRIES_COLUMNS } from "@/utils"
+import { DoughnutDataEntry, GEOGRAPHY_COUNTRIES_COLUMNS } from "@/utils"
 import { DataEntry } from "@/utils"
+
+const GEOGRAPHY_DISTRIBUTION_PREFIX = "countries"
 
 export function getGeographyCsvFileName(
   fileType: "countries",
@@ -74,4 +76,36 @@ export function parseGeographyCSV(
 
   data.sort((a, b) => a.ledger.localeCompare(b.ledger))
   return data
+}
+
+export async function loadCountryNodesDoughnutData(
+  fileName: string
+): Promise<DoughnutDataEntry[]> {
+  const response = await fetch(fileName)
+  if (!response.ok) {
+    throw new Error(`Failed to load ${fileName}`)
+  }
+
+  const csv = await response.text()
+  return parseCountryNodesDoughnutCSV(csv)
+}
+
+export function parseCountryNodesDoughnutCSV(
+  csvData: string
+): DoughnutDataEntry[] {
+  const lines = csvData.trim().split("\n")
+  const [, dateLine] = lines
+  const dataLines = lines.slice(2)
+
+  return dataLines.map((line) => {
+    const [label, value] = line.split(",")
+    return {
+      author: label.trim(), // You may rename this to `label` if preferred
+      commits: parseInt(value.trim(), 10)
+    }
+  })
+}
+
+export function getGeographyDoughnutCsvFileName(ledger: string): string {
+  return `${GEOGRAPHY_DISTRIBUTION_PREFIX}_${ledger}.csv`
 }

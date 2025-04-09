@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
-import { Card, LineChart } from "@/components"
+import { Card, LineChart, DoughnutChartRenderer } from "@/components"
 import { GEOGRAPHY_CSV, DataEntry } from "@/utils"
 import {
   getGeographyCsvFileName,
-  loadGeographyCsvData
+  loadGeographyCsvData,
+  getGeographyDoughnutCsvFileName
 } from "@/utils/geography"
 
 const ledgers = [
@@ -13,6 +14,8 @@ const ledgers = [
   { ledger: "litecoin" },
   { ledger: "zcash" }
 ]
+
+const doughnut_ledgers = ["bitcoin", "bitcoin_cash", "litecoin", "dogecoin"]
 
 export default function GeographyPage() {
   const [countriesData, setCountriesData] = useState<DataEntry[]>([])
@@ -92,6 +95,25 @@ export default function GeographyPage() {
           />
         </Card>
       </Card>
+      <Card
+        title="Node Distribution by Country"
+        titleAs="h1"
+        titleAppearance="xl"
+      >
+        <p>
+          These doughnut charts represent the country-wise distribution of nodes
+          across different blockchain networks.
+        </p>
+      </Card>
+
+      {doughnut_ledgers.map((ledger) => (
+        <Card key={ledger} title={ledger.toUpperCase()} titleAppearance="lg">
+          <DoughnutChartRenderer
+            path={`${GEOGRAPHY_CSV}${getGeographyDoughnutCsvFileName(ledger)}`}
+            fileName={ledger}
+          />
+        </Card>
+      ))}
     </section>
   )
 }
