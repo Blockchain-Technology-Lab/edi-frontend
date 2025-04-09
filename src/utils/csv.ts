@@ -64,16 +64,8 @@ const SOFTWARE_LEDGERS = [
   "zcash"
 ]
 
-export const NETWORK_NODES_COLUMNS = ["number_nodes"]
-
-export const NETWORK_COUNTRIES_COLUMNS = [
+export const GEOGRAPHY_COUNTRIES_COLUMNS = [
   "entropy=1",
-  "hhi",
-  "nakamoto_coefficient",
-  "max_power_ratio"
-]
-
-export const NETWORK_ORGANIZATIONS_COLUMNS = [
   "hhi",
   "nakamoto_coefficient",
   "max_power_ratio"
@@ -168,6 +160,7 @@ function parseCSV(
   return data
 }
 
+/*
 export function parseNetworkCSV(
   csvData: string,
   fileType: "nodes" | "countries" | "organizations",
@@ -177,7 +170,7 @@ export function parseNetworkCSV(
     fileType === "nodes"
       ? NETWORK_NODES_COLUMNS
       : fileType === "countries"
-        ? NETWORK_COUNTRIES_COLUMNS
+        ? GEOGRAPHY_COUNTRIES_COLUMNS
         : NETWORK_ORGANIZATIONS_COLUMNS
 
   const lines = csvData.trim().split("\n")
@@ -215,6 +208,8 @@ export function parseNetworkCSV(
   return data
 }
 
+*/
+
 export async function loadCsvData(
   fileName: string,
   type: "tokenomics" | "consensus" | "software"
@@ -234,6 +229,7 @@ export async function loadCsvData(
   }
 }
 
+/*
 export async function loadNetworkCsvData(
   fileName: string,
   fileType: "nodes" | "countries" | "organizations",
@@ -253,6 +249,8 @@ export async function loadNetworkCsvData(
     throw error instanceof Error ? error : new Error("Unknown error occurred")
   }
 }
+
+*/
 
 export type ClusteringOption = "explorers" | "staking" | "multi" | "crystal"
 
@@ -438,7 +436,7 @@ export function generateDoughnutPaths(doughnutFileNames: string[]): string[] {
     (fileName) => `${SOFTWARE_DOUGHNUT_CSV + fileName}`
   )
 }
-
+/*
 export function getNetworkCsvFileName(
   fileType: "nodes" | "countries" | "organizations",
   ledger: string,
@@ -459,6 +457,7 @@ export function getNetworkCsvFileName(
 
   return fileName
 }
+*/
 
 // Type for final data
 interface FinalData {

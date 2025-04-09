@@ -1,19 +1,29 @@
 import { useEffect, useState } from "react"
 import { Card, LineChart } from "@/components"
+import { NETWORK_CSV } from "@/utils"
+import type { DataEntry } from "@/utils"
 import {
-  getNetworkCsvFileName,
-  NETWORK_CSV,
-  DataEntry,
-  loadNetworkCsvData
-} from "@/utils"
+  getNetworkNodesCsvFileName,
+  getNetworkOrganizationsCsvFileName,
+  loadNetworkNodesCsvData,
+  loadNetworkOrganizationsCsvData
+} from "@/utils/network"
 
-const ledgers = [
+const NODE_LEDGERS = [
+  "bitcoin",
+  "bitcoin_cash",
+  "dogecoin",
+  "litecoin",
+  "zcash"
+]
+const ORG_LEDGERS = [
   "bitcoin_without_tor",
   "bitcoin_cash",
   "dogecoin",
   "litecoin",
   "zcash"
 ]
+
 export default function NetworkPage() {
   const [nodesData, setNodesData] = useState<DataEntry[]>([])
   const [orgData, setOrgData] = useState<DataEntry[]>([])
@@ -21,45 +31,23 @@ export default function NetworkPage() {
 
   useEffect(() => {
     async function loadData() {
-      setLoading(true)
       try {
         const nodes: DataEntry[] = []
         const orgs: DataEntry[] = []
 
-        // 1. Load bitcoin (original) for nodes
-        const bitcoinNodesPath = `${NETWORK_CSV}${getNetworkCsvFileName(
-          "nodes",
-          "bitcoin"
-        )}`
-        const bitcoinNodeData = await loadNetworkCsvData(
-          bitcoinNodesPath,
-          "nodes"
-        )
-        nodes.push(...bitcoinNodeData)
+        for (const ledger of NODE_LEDGERS) {
+          const file = getNetworkNodesCsvFileName(ledger)
+          const path = `${NETWORK_CSV}${file}`
+          const data = await loadNetworkNodesCsvData(path)
 
-        // 2. Load ledgers for both nodes and organizations
-        for (const ledger of ledgers) {
-          if (ledger !== "bitcoin_without_tor") {
-            // load normal nodes file
-            const nodesPath = `${NETWORK_CSV}${getNetworkCsvFileName(
-              "nodes",
-              ledger
-            )}`
-            const nodeData = await loadNetworkCsvData(nodesPath, "nodes")
-            nodes.push(...nodeData)
-          }
+          nodes.push(...data)
+        }
 
-          // load organizations file
-          const orgPath = `${NETWORK_CSV}${getNetworkCsvFileName(
-            "organizations",
-            ledger
-          )}`
-          const orgDataForLedger = await loadNetworkCsvData(
-            orgPath,
-            "organizations",
-            ledger === "bitcoin_without_tor" ? "bitcoin" : undefined // rename ledger for chart labels
-          )
-          orgs.push(...orgDataForLedger)
+        for (const ledger of ORG_LEDGERS) {
+          const file = getNetworkOrganizationsCsvFileName(ledger)
+          const path = `${NETWORK_CSV}${file}`
+          const data = await loadNetworkOrganizationsCsvData(path)
+          orgs.push(...data)
         }
 
         setNodesData(nodes)
