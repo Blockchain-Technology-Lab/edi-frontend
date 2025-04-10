@@ -120,16 +120,6 @@ export default function GeographyPage() {
         />
       </Card>
 
-      <Card
-        title="Node Distribution by Country"
-        titleAs="h1"
-        titleAppearance="xl"
-      >
-        <p>
-          These doughnut charts represent the country-wise distribution of nodes
-          across different blockchain networks.
-        </p>
-      </Card>
       <Card title="Countries">
         <p>
           These graphs represent the distribution of nodes across countries.
