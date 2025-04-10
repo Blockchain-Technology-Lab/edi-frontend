@@ -53,11 +53,21 @@ export default function GeographyPage() {
     <section className="flex flex-col gap-12">
       <Card title="Geography Layer" titleAppearance="xl">
         <p>
-          Decentralization metrics based on geographical distribution of nodes.
+          These graphs represent the geographic decentralisation. Each metric
+          value is calculated based on the distribution of nodes across
+          countries.
         </p>
       </Card>
 
       <Card title="HHI">
+        <p>
+          The Herfindahl-Hirschman Index (HHI) is a measure of market
+          concentration. It is defined as the sum of the squares of the market
+          shares (as whole numbers, e.g. 40 for 40%) of the entities in the
+          system. Values close to 0 indicate low concentration (many countries
+          host a similar number of nodes) and values close to 10,000 indicate
+          high concentration (one country hosts most or all nodes).
+        </p>
         <LineChart
           metric="hhi"
           type="geography"
@@ -67,6 +77,11 @@ export default function GeographyPage() {
         />
       </Card>
       <Card title="Nakamoto Coefficient">
+        <p>
+          The Nakamoto coefficient represents the minimum number of entities
+          that collectively host more than 50% of the resources (in this case,
+          the majority of nodes).
+        </p>
         <LineChart
           metric="nakamoto_coefficient"
           type="geography"
@@ -75,7 +90,12 @@ export default function GeographyPage() {
           timeUnit="day"
         />
       </Card>
-      <Card title="Max Power Ratio">
+      <Card title="1-concentration ratio">
+        <p>
+          The 1-concentration ratio represents the share of nodes that are owned
+          by the single most “powerful” entity, i.e. the entity that hosts the
+          most nodes.
+        </p>
         <LineChart
           metric="max_power_ratio"
           type="geography"
@@ -84,7 +104,13 @@ export default function GeographyPage() {
           timeUnit="day"
         />
       </Card>
-      <Card title="Entropy">
+      <Card title="Shannon entropy">
+        <p>
+          Shannon entropy (also known as information entropy) represents the
+          expected amount of information in a distribution. Typically, a higher
+          value of entropy indicates higher decentralisation (lower
+          predictability)
+        </p>
         <LineChart
           metric="entropy_1"
           type="geography"
@@ -104,15 +130,23 @@ export default function GeographyPage() {
           across different blockchain networks.
         </p>
       </Card>
-
-      {doughnut_ledgers.map((ledger) => (
-        <Card key={ledger} title={ledger} titleAppearance="lg">
-          <DoughnutChartRenderer
-            path={`${GEOGRAPHY_CSV}${getGeographyDoughnutCsvFileName(ledger)}`}
-            fileName={ledger}
-          />
-        </Card>
-      ))}
+      <Card title="Countries">
+        <p>
+          These graphs represent the distribution of nodes across countries.
+          Regarding the Bitcoin network, more than half of the nodes use Tor,
+          and it is impossible to know in which countries they are located. For
+          the metrics shown below, it was therefore decided to distribute these
+          nodes proportionally among the different countries.
+        </p>
+        {doughnut_ledgers.map((ledger) => (
+          <Card key={ledger} title={ledger} titleAppearance="lg">
+            <DoughnutChartRenderer
+              path={`${GEOGRAPHY_CSV}${getGeographyDoughnutCsvFileName(ledger)}`}
+              fileName={ledger}
+            />
+          </Card>
+        ))}
+      </Card>
     </section>
   )
 }
