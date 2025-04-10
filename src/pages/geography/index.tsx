@@ -57,44 +57,43 @@ export default function GeographyPage() {
         </p>
       </Card>
 
-      <Card title="Countries">
-        <Card title="HHI">
-          <LineChart
-            metric="hhi"
-            type="geography"
-            csvData={countriesData}
-            isLoadingCsvData={loading}
-            timeUnit="day"
-          />
-        </Card>
-        <Card title="Nakamoto Coefficient">
-          <LineChart
-            metric="nakamoto_coefficient"
-            type="geography"
-            csvData={countriesData}
-            isLoadingCsvData={loading}
-            timeUnit="day"
-          />
-        </Card>
-        <Card title="Max Power Ratio">
-          <LineChart
-            metric="max_power_ratio"
-            type="geography"
-            csvData={countriesData}
-            isLoadingCsvData={loading}
-            timeUnit="day"
-          />
-        </Card>
-        <Card title="Entropy">
-          <LineChart
-            metric="entropy_1"
-            type="geography"
-            csvData={countriesData}
-            isLoadingCsvData={loading}
-            timeUnit="day"
-          />
-        </Card>
+      <Card title="HHI">
+        <LineChart
+          metric="hhi"
+          type="geography"
+          csvData={countriesData}
+          isLoadingCsvData={loading}
+          timeUnit="day"
+        />
       </Card>
+      <Card title="Nakamoto Coefficient">
+        <LineChart
+          metric="nakamoto_coefficient"
+          type="geography"
+          csvData={countriesData}
+          isLoadingCsvData={loading}
+          timeUnit="day"
+        />
+      </Card>
+      <Card title="Max Power Ratio">
+        <LineChart
+          metric="max_power_ratio"
+          type="geography"
+          csvData={countriesData}
+          isLoadingCsvData={loading}
+          timeUnit="day"
+        />
+      </Card>
+      <Card title="Entropy">
+        <LineChart
+          metric="entropy_1"
+          type="geography"
+          csvData={countriesData}
+          isLoadingCsvData={loading}
+          timeUnit="day"
+        />
+      </Card>
+
       <Card
         title="Node Distribution by Country"
         titleAs="h1"
@@ -107,7 +106,7 @@ export default function GeographyPage() {
       </Card>
 
       {doughnut_ledgers.map((ledger) => (
-        <Card key={ledger} title={ledger.toUpperCase()} titleAppearance="lg">
+        <Card key={ledger} title={ledger} titleAppearance="lg">
           <DoughnutChartRenderer
             path={`${GEOGRAPHY_CSV}${getGeographyDoughnutCsvFileName(ledger)}`}
             fileName={ledger}
