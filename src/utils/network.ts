@@ -8,6 +8,7 @@ const NETWORK_ORGANIZATIONS_COLUMNS = [
 ]
 const NETWORK_NODES_PREFIX = "number_nodes"
 const NETWORK_ORGS_PREFIX = "output_organizations"
+const NETWORK_ORG_DISTRIBUTION_PREFIX = "organizations"
 
 /**
  * Returns the filename for node count CSV of a given ledger.
@@ -129,4 +130,8 @@ function sortByLedgerAndDate(a: DataEntry, b: DataEntry): number {
   return ledgerCompare !== 0
     ? ledgerCompare
     : a.date.getTime() - b.date.getTime()
+}
+
+export function getNetworkDoughnutCsvFileName(ledger: string): string {
+  return `${NETWORK_ORG_DISTRIBUTION_PREFIX}_${ledger}.csv`
 }

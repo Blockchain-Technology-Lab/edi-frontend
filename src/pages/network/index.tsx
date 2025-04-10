@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react"
-import { Card, LineChart } from "@/components"
-import { NETWORK_CSV } from "@/utils"
-import type { DataEntry } from "@/utils"
+import { Card, DoughnutChartRenderer, LineChart } from "@/components"
+
 import {
+  DataEntry,
+  NETWORK_CSV,
+  getNetworkDoughnutCsvFileName,
   getNetworkNodesCsvFileName,
   getNetworkOrganizationsCsvFileName,
   loadNetworkNodesCsvData,
   loadNetworkOrganizationsCsvData
-} from "@/utils/network"
+} from "@/utils"
 
 const NODE_LEDGERS = [
   "bitcoin",
@@ -18,6 +20,14 @@ const NODE_LEDGERS = [
 ]
 const ORG_LEDGERS = [
   "bitcoin_without_tor",
+  "bitcoin_cash",
+  "dogecoin",
+  "litecoin",
+  "zcash"
+]
+
+const DOUGHNUT_LEDGERS = [
+  "bitcoin",
   "bitcoin_cash",
   "dogecoin",
   "litecoin",
@@ -107,6 +117,15 @@ export default function NetworkPage() {
           timeUnit="day"
         />
       </Card>
+
+      {DOUGHNUT_LEDGERS.map((ledger) => (
+        <Card key={ledger} title={ledger} titleAppearance="lg">
+          <DoughnutChartRenderer
+            path={`${NETWORK_CSV}${getNetworkDoughnutCsvFileName(ledger)}`}
+            fileName={ledger}
+          />
+        </Card>
+      ))}
     </section>
   )
 }
