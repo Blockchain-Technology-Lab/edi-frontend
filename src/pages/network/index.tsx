@@ -80,34 +80,32 @@ export default function NetworkPage() {
         />
       </Card>
 
-      <Card title="Organizations">
-        <Card title="HHI">
-          <LineChart
-            metric="hhi"
-            type="network"
-            csvData={orgData}
-            isLoadingCsvData={loading}
-            timeUnit="day"
-          />
-        </Card>
-        <Card title="Nakamoto Coefficient">
-          <LineChart
-            metric="nakamoto_coefficient"
-            type="network"
-            csvData={orgData}
-            isLoadingCsvData={loading}
-            timeUnit="day"
-          />
-        </Card>
-        <Card title="Max Power Ratio">
-          <LineChart
-            metric="max_power_ratio"
-            type="network"
-            csvData={orgData}
-            isLoadingCsvData={loading}
-            timeUnit="day"
-          />
-        </Card>
+      <Card title="HHI">
+        <LineChart
+          metric="hhi"
+          type="network"
+          csvData={orgData}
+          isLoadingCsvData={loading}
+          timeUnit="day"
+        />
+      </Card>
+      <Card title="Nakamoto Coefficient">
+        <LineChart
+          metric="nakamoto_coefficient"
+          type="network"
+          csvData={orgData}
+          isLoadingCsvData={loading}
+          timeUnit="day"
+        />
+      </Card>
+      <Card title="Max Power Ratio">
+        <LineChart
+          metric="max_power_ratio"
+          type="network"
+          csvData={orgData}
+          isLoadingCsvData={loading}
+          timeUnit="day"
+        />
       </Card>
     </section>
   )
