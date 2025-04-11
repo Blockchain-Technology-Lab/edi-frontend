@@ -9,7 +9,7 @@ type Props = {
 export function MainLayout({ main, footer, sidebar }: Props) {
   return (
     <div className="flex h-screen overflow-hidden">
-      <aside className="w-64 min-w-[16rem] overflow-y-auto border-r border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 pl-4">
+      <aside className="w-64 min-w-[16rem] overflow-y-auto border-r pl-4">
         {sidebar}
       </aside>
 
@@ -19,9 +19,7 @@ export function MainLayout({ main, footer, sidebar }: Props) {
           {main}
         </main>
 
-        <footer className="py-1 text-sm border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
-          {footer}
-        </footer>
+        <footer className="py-1 text-sm border-t ">{footer}</footer>
       </div>
     </div>
   )
