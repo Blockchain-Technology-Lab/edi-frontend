@@ -15,7 +15,13 @@ const ledgers = [
   { ledger: "zcash" }
 ]
 
-const doughnut_ledgers = ["bitcoin", "bitcoin_cash", "litecoin", "dogecoin"]
+const doughnut_ledgers = [
+  "bitcoin",
+  "bitcoin_cash",
+  "litecoin",
+  "dogecoin",
+  "zcash"
+]
 
 export default function GeographyPage() {
   const [countriesData, setCountriesData] = useState<DataEntry[]>([])
