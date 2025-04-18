@@ -28,7 +28,7 @@ const NAV_ITEMS = [
     icon: Boxes,
     links: [
       {
-        label: "Dashboard",
+        label: "Metrics",
         href: "/consensus/",
         icon: GraphUp
       },
@@ -49,7 +49,7 @@ const NAV_ITEMS = [
     icon: CashStack,
     links: [
       {
-        label: "Dashboard",
+        label: "Metrics",
         href: "/tokenomics/",
         icon: GraphUp
       },
@@ -70,7 +70,7 @@ const NAV_ITEMS = [
     icon: CodePoint,
     links: [
       {
-        label: "Dashboard",
+        label: "Metrics",
         href: "/software/",
         icon: GraphUp
       },
@@ -96,7 +96,7 @@ const NAV_ITEMS = [
     icon: RouterIcon,
     links: [
       {
-        label: "Dashboard",
+        label: "Metrics",
         href: "/network/",
         icon: GraphUp
       },
@@ -117,7 +117,7 @@ const NAV_ITEMS = [
     icon: Globe,
     links: [
       {
-        label: "Dashboard",
+        label: "Metrics",
         href: "/geography/",
         icon: GraphUp
       },
