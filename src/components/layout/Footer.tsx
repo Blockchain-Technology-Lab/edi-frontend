@@ -14,8 +14,8 @@ export function Footer() {
   return (
     <footer
       className={twJoin(
-        "flex flex-col items-center text-center gap-2 pt-2 pb-4 mt-4",
-        "border-t border-slate-800/25 dark:border-slate-200/25 gap-2"
+        "flex flex-col items-center text-center pt-2 pb-2 ",
+        "border-slate-800/25 dark:border-slate-200/25 gap-2"
       )}
     >
       <p className="space-x-1">
