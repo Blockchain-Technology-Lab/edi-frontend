@@ -16,11 +16,11 @@ const ledgers = [
 ]
 
 const doughnut_ledgers = [
-  "bitcoin",
-  "bitcoin_cash",
-  "litecoin",
-  "dogecoin",
-  "zcash"
+  { chain: "bitcoin", name: "Bitcoin" },
+  { chain: "bitcoin_cash", name: "Bitcoin Cash" },
+  { chain: "dogecoin", name: "Dogecoin" },
+  { chain: "litecoin", name: "Litecoin" },
+  { chain: "zcash", name: "ZCash" }
 ]
 
 export default function GeographyPage() {
@@ -134,11 +134,11 @@ export default function GeographyPage() {
           the metrics shown below, it was therefore decided to distribute these
           nodes proportionally among the different countries.
         </p>
-        {doughnut_ledgers.map((ledger) => (
-          <Card key={ledger} title={ledger} titleAppearance="lg">
+        {doughnut_ledgers.map((ledger, index) => (
+          <Card key={index} title={ledger.name} titleAppearance="lg">
             <DoughnutChartRenderer
-              path={`${GEOGRAPHY_CSV}${getGeographyDoughnutCsvFileName(ledger)}`}
-              fileName={ledger}
+              path={`${GEOGRAPHY_CSV}${getGeographyDoughnutCsvFileName(ledger.chain)}`}
+              fileName={ledger.chain}
             />
           </Card>
         ))}
