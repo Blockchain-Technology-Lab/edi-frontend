@@ -27,11 +27,11 @@ const ORG_LEDGERS = [
 ]
 
 const DOUGHNUT_LEDGERS = [
-  "bitcoin",
-  "bitcoin_cash",
-  "dogecoin",
-  "litecoin",
-  "zcash"
+  { chain: "bitcoin", name: "Bitcoin" },
+  { chain: "bitcoin_cash", name: "Bitcoin Cash" },
+  { chain: "dogecoin", name: "Dogecoin" },
+  { chain: "litecoin", name: "Litecoin" },
+  { chain: "zcash", name: "ZCash" }
 ]
 
 export default function NetworkPage() {
@@ -147,11 +147,11 @@ export default function NetworkPage() {
           distribute these nodes proportionally among the different
           organisations.
         </p>
-        {DOUGHNUT_LEDGERS.map((ledger) => (
-          <Card key={ledger} title={ledger} titleAppearance="lg">
+        {DOUGHNUT_LEDGERS.map((ledger, index) => (
+          <Card key={index} title={ledger.name} titleAppearance="lg">
             <DoughnutChartRenderer
-              path={`${NETWORK_CSV}${getNetworkDoughnutCsvFileName(ledger)}`}
-              fileName={ledger}
+              path={`${NETWORK_CSV}${getNetworkDoughnutCsvFileName(ledger.chain)}`}
+              fileName={ledger.chain}
             />
           </Card>
         ))}
