@@ -1,5 +1,12 @@
-import { useEffect, useState } from "react"
-import { Card, LineChart, DoughnutChartRenderer, Link } from "@/components"
+import { useEffect, useRef, useState } from "react"
+import { useRouter } from "next/router"
+import {
+  Card,
+  LineChart,
+  DoughnutChartRenderer,
+  Link,
+  useScroll
+} from "@/components"
 import { GEOGRAPHY_CSV, DataEntry } from "@/utils"
 import {
   getGeographyCsvFileName,
@@ -24,6 +31,21 @@ const doughnut_ledgers = [
 ]
 
 export default function GeographyPage() {
+  const { asPath } = useRouter()
+  const { registerRef, scrollToSection } = useScroll()
+
+  const topRef = useRef<HTMLElement>(null)
+  const doughnutRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && asPath.includes("#")) {
+      const [, hash] = asPath.split("#")
+      setTimeout(() => scrollToSection(hash), 100)
+    }
+    registerRef("top", topRef)
+    registerRef("doughnut", doughnutRef)
+  }, [asPath, registerRef, scrollToSection])
+
   const [countriesData, setCountriesData] = useState<DataEntry[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -56,7 +78,7 @@ export default function GeographyPage() {
   }, [])
 
   return (
-    <section className="flex flex-col gap-12">
+    <section ref={topRef} className="flex flex-col gap-12">
       <Card title="Geography Layer" titleAppearance="xl">
         <p>
           These graphs represent the geographic decentralisation. Each metric
@@ -134,15 +156,16 @@ export default function GeographyPage() {
           timeUnit="day"
         />
       </Card>
-
-      {doughnut_ledgers.map((ledger, index) => (
-        <Card key={index} title={ledger.name} titleAppearance="lg">
-          <DoughnutChartRenderer
-            path={`${GEOGRAPHY_CSV}${getGeographyDoughnutCsvFileName(ledger.chain)}`}
-            fileName={ledger.chain}
-          />
-        </Card>
-      ))}
+      <div ref={doughnutRef} id="doughnut">
+        {doughnut_ledgers.map((ledger, index) => (
+          <Card key={index} title={ledger.name} titleAppearance="lg">
+            <DoughnutChartRenderer
+              path={`${GEOGRAPHY_CSV}${getGeographyDoughnutCsvFileName(ledger.chain)}`}
+              fileName={ledger.chain}
+            />
+          </Card>
+        ))}
+      </div>
     </section>
   )
 }
