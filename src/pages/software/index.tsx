@@ -116,7 +116,7 @@ export default function SoftwarePage() {
   const { data, loading, error } = useCsvLoader(csvPath, "software")
 
   return (
-    <section ref={topRef} className="flex flex-col gap-12">
+    <section ref={topRef} id="top" className="flex flex-col gap-12">
       <Card title="Software Layer" titleAs="h1" titleAppearance="xl">
         <p>
           These graphs represent the historical decentralisation of software
