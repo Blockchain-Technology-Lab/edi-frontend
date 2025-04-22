@@ -28,6 +28,9 @@ export function ScrollProvider({ children }: { children: ReactNode }) {
     const ref = refMap[id]
     if (ref?.current) {
       ref.current.scrollIntoView({ behavior: "smooth" })
+    } else {
+      // fallback in case ref was not registered yet
+      window.scrollTo({ top: 0, behavior: "smooth" })
     }
   }, [])
 
