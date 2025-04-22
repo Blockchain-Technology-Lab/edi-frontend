@@ -52,7 +52,10 @@ export default function NetworkPage() {
   useEffect(() => {
     if (typeof window !== "undefined" && asPath.includes("#")) {
       const [, hash] = asPath.split("#")
-      setTimeout(() => scrollToSection(hash), 300)
+      setTimeout(() => scrollToSection(hash), 100)
+    } else {
+      // fallback when no hash: scroll to top explicitly
+      setTimeout(() => scrollToSection("top"), 100)
     }
     registerRef("top", topRef)
     registerRef("doughnut", doughnutRef)
