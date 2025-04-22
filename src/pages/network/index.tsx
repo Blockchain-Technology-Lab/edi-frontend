@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Card, DoughnutChartRenderer, LineChart } from "@/components"
+import { Card, DoughnutChartRenderer, LineChart, Link } from "@/components"
 
 import {
   DataEntry,
@@ -77,7 +77,19 @@ export default function NetworkPage() {
       <Card title="Network Layer" titleAppearance="xl">
         <p>
           These graphs represent the network decentralisation. Each metric value
-          is calculated based on the distribution of nodes across organisations.
+          is calculated based on the distribution of nodes across organisations.{" "}
+          <Link href="/network/methodology">Read more...</Link>
+        </p>
+      </Card>
+
+      <Card title="Organizations">
+        <p>
+          These graphs represent the distribution of nodes between
+          organisations. Regarding the Bitcoin network, more than half of the
+          nodes use Tor, and it is impossible to know which organisations own
+          them. For the metrics shown below, it was therefore decided to
+          distribute these nodes proportionally among the different
+          organisations.
         </p>
       </Card>
 
@@ -138,24 +150,15 @@ export default function NetworkPage() {
           timeUnit="day"
         />
       </Card>
-      <Card title="Organizations">
-        <p>
-          These graphs represent the distribution of nodes between
-          organisations. Regarding the Bitcoin network, more than half of the
-          nodes use Tor, and it is impossible to know which organisations own
-          them. For the metrics shown below, it was therefore decided to
-          distribute these nodes proportionally among the different
-          organisations.
-        </p>
-        {DOUGHNUT_LEDGERS.map((ledger, index) => (
-          <Card key={index} title={ledger.name} titleAppearance="lg">
-            <DoughnutChartRenderer
-              path={`${NETWORK_CSV}${getNetworkDoughnutCsvFileName(ledger.chain)}`}
-              fileName={ledger.chain}
-            />
-          </Card>
-        ))}
-      </Card>
+
+      {DOUGHNUT_LEDGERS.map((ledger, index) => (
+        <Card key={index} title={ledger.name} titleAppearance="lg">
+          <DoughnutChartRenderer
+            path={`${NETWORK_CSV}${getNetworkDoughnutCsvFileName(ledger.chain)}`}
+            fileName={ledger.chain}
+          />
+        </Card>
+      ))}
     </section>
   )
 }
