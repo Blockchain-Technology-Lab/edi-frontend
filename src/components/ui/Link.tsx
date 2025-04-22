@@ -1,5 +1,21 @@
 import NextLink from "next/link"
-import { AnchorHTMLAttributes, ReactNode } from "react"
+import {
+  AnchorHTMLAttributes,
+  ComponentProps,
+  LinkHTMLAttributes,
+  ReactNode
+} from "react"
+
+type LinkPropsBasics = {
+  href: string
+}
+
+export type LinkProps = LinkPropsBasics &
+  (
+    | AnchorHTMLAttributes<HTMLAnchorElement>
+    | LinkHTMLAttributes<HTMLLinkElement>
+    | ComponentProps<typeof NextLink>
+  )
 
 type InternalLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   href: string
