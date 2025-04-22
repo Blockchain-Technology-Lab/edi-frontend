@@ -1,25 +1,10 @@
+// src/components/ui/Link.tsx
 import NextLink from "next/link"
-import {
-  AnchorHTMLAttributes,
-  ComponentProps,
-  LinkHTMLAttributes,
-  ReactNode
-} from "react"
+import { AnchorHTMLAttributes, ReactNode } from "react"
 
-type LinkPropsBasics = {
+export type LinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   href: string
-}
-
-export type LinkProps = LinkPropsBasics &
-  (
-    | AnchorHTMLAttributes<HTMLAnchorElement>
-    | LinkHTMLAttributes<HTMLLinkElement>
-    | ComponentProps<typeof NextLink>
-  )
-
-type InternalLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
-  href: string
-  children: ReactNode
+  children?: ReactNode
   scroll?: boolean
 }
 
@@ -29,7 +14,7 @@ export function Link({
   className,
   scroll,
   ...rest
-}: InternalLinkProps) {
+}: LinkProps) {
   const isExternal = href.startsWith("http")
 
   if (isExternal) {
