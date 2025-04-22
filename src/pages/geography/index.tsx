@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Card, LineChart, DoughnutChartRenderer } from "@/components"
+import { Card, LineChart, DoughnutChartRenderer, Link } from "@/components"
 import { GEOGRAPHY_CSV, DataEntry } from "@/utils"
 import {
   getGeographyCsvFileName,
@@ -61,7 +61,16 @@ export default function GeographyPage() {
         <p>
           These graphs represent the geographic decentralisation. Each metric
           value is calculated based on the distribution of nodes across
-          countries.
+          countries. <Link href="/geography/methodology">Read more...</Link>
+        </p>
+      </Card>
+      <Card title="Countries">
+        <p>
+          These graphs represent the distribution of nodes across countries.
+          Regarding the Bitcoin network, more than half of the nodes use Tor,
+          and it is impossible to know in which countries they are located. For
+          the metrics shown below, it was therefore decided to distribute these
+          nodes proportionally among the different countries.
         </p>
       </Card>
 
@@ -126,23 +135,14 @@ export default function GeographyPage() {
         />
       </Card>
 
-      <Card title="Countries">
-        <p>
-          These graphs represent the distribution of nodes across countries.
-          Regarding the Bitcoin network, more than half of the nodes use Tor,
-          and it is impossible to know in which countries they are located. For
-          the metrics shown below, it was therefore decided to distribute these
-          nodes proportionally among the different countries.
-        </p>
-        {doughnut_ledgers.map((ledger, index) => (
-          <Card key={index} title={ledger.name} titleAppearance="lg">
-            <DoughnutChartRenderer
-              path={`${GEOGRAPHY_CSV}${getGeographyDoughnutCsvFileName(ledger.chain)}`}
-              fileName={ledger.chain}
-            />
-          </Card>
-        ))}
-      </Card>
+      {doughnut_ledgers.map((ledger, index) => (
+        <Card key={index} title={ledger.name} titleAppearance="lg">
+          <DoughnutChartRenderer
+            path={`${GEOGRAPHY_CSV}${getGeographyDoughnutCsvFileName(ledger.chain)}`}
+            fileName={ledger.chain}
+          />
+        </Card>
+      ))}
     </section>
   )
 }
