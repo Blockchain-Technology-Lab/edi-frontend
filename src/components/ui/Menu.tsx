@@ -331,7 +331,7 @@ function NavLink({
           setTimeout(() => {
             scrollToSection("top")
             window.history.replaceState({}, "", href) // Remove #top from URL
-          }, 100)
+          }, 300)
         })
       }
     }

@@ -34,7 +34,7 @@ export default function GeographyPage() {
   const { asPath } = useRouter()
   const { registerRef, scrollToSection } = useScroll()
 
-  const topRef = useRef<HTMLElement>(null)
+  const topRef = useRef<HTMLDivElement>(null)
   const doughnutRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -78,7 +78,7 @@ export default function GeographyPage() {
   }, [])
 
   return (
-    <section ref={topRef} className="flex flex-col gap-12">
+    <section ref={topRef} id="top" className="flex flex-col gap-12">
       <Card title="Geography Layer" titleAppearance="xl">
         <p>
           These graphs represent the geographic decentralisation. Each metric
