@@ -43,6 +43,7 @@ const DOUGHNUT_LEDGERS = [
 
 export default function NetworkPage() {
   const { asPath } = useRouter()
+  const router = useRouter()
   const { registerRef, scrollToSection } = useScroll()
 
   const topRef = useRef<HTMLDivElement>(null)
@@ -56,6 +57,18 @@ export default function NetworkPage() {
     registerRef("top", topRef)
     registerRef("doughnut", doughnutRef)
   }, [asPath, registerRef, scrollToSection])
+
+  useEffect(() => {
+    const handleRouteChange = (url: string) => {
+      if (!url.includes("#")) {
+        window.scrollTo({ top: 0, behavior: "smooth" })
+      }
+    }
+    router.events.on("routeChangeComplete", handleRouteChange)
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange)
+    }
+  }, [router.events])
 
   const [nodesData, setNodesData] = useState<DataEntry[]>([])
   const [orgData, setOrgData] = useState<DataEntry[]>([])
