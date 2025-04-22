@@ -72,7 +72,7 @@ function build(config) {
   try {
     updateConfig(config.basePath, config.outputDir)
 
-    ensureDirectoryExists("output")
+    ensureDirectoryExists("upload")
     cleanDirectory(config.outputDir)
 
     execSync(`yarn build`, { stdio: "inherit" })
