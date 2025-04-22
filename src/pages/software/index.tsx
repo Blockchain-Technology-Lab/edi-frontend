@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import {
   generateDoughnutPaths,
   getSoftwareCsvFileName,
@@ -13,8 +13,10 @@ import {
   ListBox,
   LineChart,
   Link,
-  DoughnutChartRenderer
+  DoughnutChartRenderer,
+  useScroll
 } from "@/components"
+import { useRouter } from "next/router"
 
 const WEIGHT_ITEMS = [
   { label: "Commits", value: "commits" },
@@ -48,6 +50,23 @@ const DOUGHNUT_ENTITY_ITEMS = [
 const REPO_LIST = SOFTWARE_DOUGHNUT_LEDGER_NAMES
 
 export default function SoftwarePage() {
+  const { scrollToSection } = useScroll()
+  const { asPath } = useRouter()
+
+  const topRef = useRef<HTMLDivElement>(null)
+
+  const doughnutRef = useRef<HTMLDivElement>(null)
+  const { registerRef } = useScroll()
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && asPath.includes("#")) {
+      const [, hash] = asPath.split("#")
+      setTimeout(() => scrollToSection(hash), 100) // delay to wait for render
+    }
+    registerRef("doughnut", doughnutRef)
+    registerRef("top", topRef)
+  }, [asPath, scrollToSection, registerRef])
+
   const [selectedCommits, setSelectedCommits] = useState(COMMITS_ITEMS[2])
 
   const [selectedEntity, setSelectedEntity] = useState(ENTITY_ITEMS[0])
@@ -97,7 +116,7 @@ export default function SoftwarePage() {
   const { data, loading, error } = useCsvLoader(csvPath, "software")
 
   return (
-    <section className="flex flex-col gap-12">
+    <section ref={topRef} className="flex flex-col gap-12">
       <Card title="Software Layer" titleAs="h1" titleAppearance="xl">
         <p>
           These graphs represent the historical decentralisation of software
@@ -207,7 +226,7 @@ export default function SoftwarePage() {
       )}
 
       {/* New Contributor Distribution Section */}
-      <div id="doughnut">
+      <div ref={doughnutRef} id="doughnut">
         <section className="flex flex-col gap-12">
           <Card
             title="Contributor Distribution"

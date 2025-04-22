@@ -1,5 +1,11 @@
-import { useEffect, useState } from "react"
-import { Card, DoughnutChartRenderer, LineChart, Link } from "@/components"
+import { useEffect, useRef, useState } from "react"
+import {
+  Card,
+  DoughnutChartRenderer,
+  LineChart,
+  Link,
+  useScroll
+} from "@/components"
 
 import {
   DataEntry,
@@ -10,6 +16,7 @@ import {
   loadNetworkNodesCsvData,
   loadNetworkOrganizationsCsvData
 } from "@/utils"
+import { useRouter } from "next/router"
 
 const NODE_LEDGERS = [
   "bitcoin",
@@ -35,6 +42,21 @@ const DOUGHNUT_LEDGERS = [
 ]
 
 export default function NetworkPage() {
+  const { asPath } = useRouter()
+  const { registerRef, scrollToSection } = useScroll()
+
+  const topRef = useRef<HTMLElement>(null)
+  const doughnutRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && asPath.includes("#")) {
+      const [, hash] = asPath.split("#")
+      setTimeout(() => scrollToSection(hash), 100)
+    }
+    registerRef("top", topRef)
+    registerRef("doughnut", doughnutRef)
+  }, [asPath, registerRef, scrollToSection])
+
   const [nodesData, setNodesData] = useState<DataEntry[]>([])
   const [orgData, setOrgData] = useState<DataEntry[]>([])
   const [loading, setLoading] = useState(true)
@@ -73,7 +95,7 @@ export default function NetworkPage() {
   }, [])
 
   return (
-    <section className="flex flex-col gap-12">
+    <section ref={topRef} className="flex flex-col gap-12">
       <Card title="Network Layer" titleAppearance="xl">
         <p>
           These graphs represent the network decentralisation. Each metric value
@@ -150,15 +172,16 @@ export default function NetworkPage() {
           timeUnit="day"
         />
       </Card>
-
-      {DOUGHNUT_LEDGERS.map((ledger, index) => (
-        <Card key={index} title={ledger.name} titleAppearance="lg">
-          <DoughnutChartRenderer
-            path={`${NETWORK_CSV}${getNetworkDoughnutCsvFileName(ledger.chain)}`}
-            fileName={ledger.chain}
-          />
-        </Card>
-      ))}
+      <div ref={doughnutRef} id="doughnut">
+        {DOUGHNUT_LEDGERS.map((ledger, index) => (
+          <Card key={index} title={ledger.name} titleAppearance="lg">
+            <DoughnutChartRenderer
+              path={`${NETWORK_CSV}${getNetworkDoughnutCsvFileName(ledger.chain)}`}
+              fileName={ledger.chain}
+            />
+          </Card>
+        ))}
+      </div>
     </section>
   )
 }
