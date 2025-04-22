@@ -45,7 +45,7 @@ export default function NetworkPage() {
   const { asPath } = useRouter()
   const { registerRef, scrollToSection } = useScroll()
 
-  const topRef = useRef<HTMLElement>(null)
+  const topRef = useRef<HTMLDivElement>(null)
   const doughnutRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -95,7 +95,7 @@ export default function NetworkPage() {
   }, [])
 
   return (
-    <section ref={topRef} className="flex flex-col gap-12">
+    <section ref={topRef} id="top" className="flex flex-col gap-12">
       <Card title="Network Layer" titleAppearance="xl">
         <p>
           These graphs represent the network decentralisation. Each metric value
