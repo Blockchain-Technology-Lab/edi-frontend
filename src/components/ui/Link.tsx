@@ -1,31 +1,38 @@
-import { AnchorHTMLAttributes, LinkHTMLAttributes, ComponentProps } from "react"
 import NextLink from "next/link"
+import { AnchorHTMLAttributes, ReactNode } from "react"
 
-type LinkPropsBasics = {
+type InternalLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   href: string
+  children: ReactNode
+  scroll?: boolean
 }
 
-export type LinkProps = LinkPropsBasics &
-  (
-    | AnchorHTMLAttributes<HTMLAnchorElement>
-    | LinkHTMLAttributes<HTMLLinkElement>
-    | ComponentProps<typeof NextLink>
-  )
+export function Link({
+  href,
+  children,
+  className,
+  scroll,
+  ...rest
+}: InternalLinkProps) {
+  const isExternal = href.startsWith("http")
 
-export function Link({ href, children, ...rest }: LinkProps) {
-  const isExternalLink = href?.startsWith("http")
-  const Component = isExternalLink ? "a" : NextLink
+  if (isExternal) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer nofollow"
+        className={className}
+        {...rest}
+      >
+        {children}
+      </a>
+    )
+  }
 
   return (
-    <Component
-      href={href}
-      {...(isExternalLink && {
-        target: "_blank",
-        rel: "noopener noreferrer nofollow"
-      })}
-      {...(rest as any)}
-    >
+    <NextLink href={href} scroll={scroll} className={className} {...rest}>
       {children}
-    </Component>
+    </NextLink>
   )
 }

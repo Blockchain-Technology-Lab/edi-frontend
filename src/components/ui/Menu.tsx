@@ -341,6 +341,7 @@ function NavLink({
     <Link
       href={href}
       onClick={handleClick}
+      scroll={false}
       className={twMerge(
         "inline-flex items-center gap-2",
         LINK_STYLE,
