@@ -173,6 +173,15 @@ export function Menu() {
     setMounted(true)
   }, [])
 
+  useEffect(() => {
+    // strip off any #fragment so "/network/#top" still matches "/network/"
+    const cleanPath = asPath.split("#")[0]
+    const match = NAV_ITEMS.find((item) =>
+      item.links.some((link) => link.href === cleanPath)
+    )
+    setOpenSection(match ? match.label : null)
+  }, [asPath])
+
   if (!mounted) return null
 
   return (
