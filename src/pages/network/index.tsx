@@ -188,6 +188,13 @@ export default function NetworkPage() {
           timeUnit="day"
         />
       </Card>
+
+      <Card title="Organisations Distribution">
+        <p>
+          The following pie charts represent the distribution of nodes across
+          organisations.
+        </p>
+      </Card>
       <div ref={doughnutRef} id="doughnut">
         {DOUGHNUT_LEDGERS.map((ledger, index) => (
           <Card key={index} title={ledger.name} titleAppearance="lg">

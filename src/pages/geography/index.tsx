@@ -159,6 +159,14 @@ export default function GeographyPage() {
           timeUnit="day"
         />
       </Card>
+
+      <Card title="Countries Distribution">
+        <p>
+          The following pie charts represent the distribution of nodes across
+          countries.
+        </p>
+      </Card>
+
       <div ref={doughnutRef} id="doughnut">
         {doughnut_ledgers.map((ledger, index) => (
           <Card key={index} title={ledger.name} titleAppearance="lg">
