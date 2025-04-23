@@ -160,56 +160,6 @@ function parseCSV(
   return data
 }
 
-/*
-export function parseNetworkCSV(
-  csvData: string,
-  fileType: "nodes" | "countries" | "organizations",
-  overrideLedgerName?: string
-) {
-  const valueColumns =
-    fileType === "nodes"
-      ? NETWORK_NODES_COLUMNS
-      : fileType === "countries"
-        ? GEOGRAPHY_COUNTRIES_COLUMNS
-        : NETWORK_ORGANIZATIONS_COLUMNS
-
-  const lines = csvData.trim().split("\n")
-  const headers = lines[0].split(",")
-
-  const data: DataEntry[] = []
-  for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(",")
-
-    if (values.length === headers.length) {
-      const entry = {} as DataEntry
-      let includeEntry = true
-
-      headers.forEach((header, index) => {
-        const value = values[index].trim()
-        if (header.trim() === "date") {
-          entry.date = parseDateString(value)
-        } else if (header.trim() === "ledger") {
-          entry.ledger = overrideLedgerName || value
-        } else if (valueColumns.includes(header.trim())) {
-          const cleanHeader = header.trim().replace("=", "_") // For entropy=1 → entropy_1
-          entry[cleanHeader] = parseFloat(value)
-        }
-      })
-
-      if (includeEntry) {
-        data.push(entry)
-      }
-    }
-  }
-
-  // Sort by ledger
-  data.sort((a, b) => a.ledger.localeCompare(b.ledger))
-
-  return data
-}
-
-*/
-
 export async function loadCsvData(
   fileName: string,
   type: "tokenomics" | "consensus" | "software"
@@ -228,29 +178,6 @@ export async function loadCsvData(
     throw error instanceof Error ? error : new Error("Unknown error occurred")
   }
 }
-
-/*
-export async function loadNetworkCsvData(
-  fileName: string,
-  fileType: "nodes" | "countries" | "organizations",
-  overrideLedgerName?: string
-) {
-  try {
-    const response = await fetch(fileName)
-
-    if (!response.ok) {
-      throw new Error(`Error loading network data for ${fileName}`)
-    }
-
-    const csvData = await response.text()
-    const data = parseNetworkCSV(csvData, fileType, overrideLedgerName)
-    return data
-  } catch (error) {
-    throw error instanceof Error ? error : new Error("Unknown error occurred")
-  }
-}
-
-*/
 
 export type ClusteringOption = "explorers" | "staking" | "multi" | "crystal"
 
@@ -320,22 +247,6 @@ export function getTokenomicsCsvFileName(
 
   //console.log(`FileName: /output/tokenomics/${directory}/${fileName}`)
   return `${directory}/${fileName}`
-}
-
-export function getConsensusCsvFileName(clustering: string[]): string {
-  const isExplorer = clustering.includes("explorers")
-  const isOnChain = clustering.includes("onchain")
-
-  if (isExplorer && isOnChain) {
-    return "output_clustered.csv"
-  }
-  if (isExplorer) {
-    return "output_explorers.csv"
-  }
-  if (isOnChain) {
-    return "output_metadata.csv"
-  }
-  return "output_non_clustered.csv"
 }
 
 /*
