@@ -114,20 +114,9 @@ export default function NetworkPage() {
     <section ref={topRef} id="top" className="flex flex-col gap-12">
       <Card title="Network Layer" titleAppearance="xl">
         <p>
-          These graphs represent the network decentralisation. Each metric value
-          is calculated based on the distribution of nodes across organisations.{" "}
-          <Link href="/network/methodology">Read more...</Link>
-        </p>
-      </Card>
-
-      <Card title="Organizations">
-        <p>
-          These graphs represent the distribution of nodes between
-          organisations. Regarding the Bitcoin network, more than half of the
-          nodes use Tor, and it is impossible to know which organisations own
-          them. For the metrics shown below, it was therefore decided to
-          distribute these nodes proportionally among the different
-          organisations.
+          These graphs represent the network decentralisation. The results are
+          based only on data we have collected and do not include any historical
+          data. <Link href="/network/methodology">Read more...</Link>
         </p>
       </Card>
 
@@ -140,6 +129,18 @@ export default function NetworkPage() {
           isLoadingCsvData={loading}
           timeUnit="day"
         />
+      </Card>
+
+      <Card title="Organisations metrics">
+        <p>
+          The following graphs represent different metrics concerning the
+          distribution of nodes across organisations. Regarding the Bitcoin
+          network, more than half of the nodes use Tor (see organisations
+          distribution (clickable link)), and it is impossible to know which
+          organisations own them. For the metrics shown below, it was therefore
+          decided to distribute these nodes proportionally among the different
+          organisations.
+        </p>
       </Card>
 
       <Card title="HHI">
@@ -177,7 +178,7 @@ export default function NetworkPage() {
       <Card title="1-concentration Ratio">
         <p>
           The 1-concentration ratio represents the share of nodes that are owned
-          by the single most “powerful” entity, i.e. the entity that owns the
+          by the single most "powerful" entity, i.e. the entity that owns the
           most nodes.
         </p>
         <LineChart
@@ -188,14 +189,14 @@ export default function NetworkPage() {
           timeUnit="day"
         />
       </Card>
-
-      <Card title="Organisations Distribution">
-        <p>
-          The following pie charts represent the distribution of nodes across
-          organisations.
-        </p>
-      </Card>
       <div ref={doughnutRef} id="doughnut">
+        <Card title="Organisations Distribution">
+          <p>
+            The following pie charts represent the distribution of nodes across
+            organisations.
+          </p>
+        </Card>
+
         {DOUGHNUT_LEDGERS.map((ledger, index) => (
           <Card key={index} title={ledger.name} titleAppearance="lg">
             <DoughnutChartRenderer
