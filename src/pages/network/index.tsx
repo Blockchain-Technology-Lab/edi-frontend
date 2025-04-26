@@ -178,8 +178,8 @@ export default function NetworkPage() {
       <Card title="1-concentration Ratio">
         <p>
           The 1-concentration ratio represents the share of nodes that are owned
-          by the single most "powerful" entity, i.e. the entity that owns the
-          most nodes.
+          by the single most &quot;powerful&quot; entity, i.e. the entity that
+          owns the most nodes.
         </p>
         <LineChart
           metric="max_power_ratio"

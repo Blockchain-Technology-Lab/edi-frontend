@@ -1,11 +1,14 @@
 const fs = require("fs")
 const path = require("path")
-const { execSync } = require("child_process")
+const { execSync, spawnSync} = require("child_process")
+const readline = require("readline")
+
 
 // === CONFIG ===
 const config = {
   basePath: "/blockchainlab/demo",
-  outputDir: "upload/demo"
+  outputDir: "upload/demo",
+  afsDeployPath: "/afs/inf.ed.ac.uk/group/project/blockchainlab/html/demo"
 }
 
 const FILES_TO_MODIFY = [
@@ -82,15 +85,84 @@ function build(config) {
     console.error(` Build failed for basePath: ${config.basePath}`, error)
   }
 }
+function deployToAFS(localDir, afsDir) {
+  console.log("\nDeploying to AFS...");
+
+  try {
+    console.log(`Copying files from ${localDir} to ${afsDir}...`);
+    execSync(`cp -R ${localDir}/* ${afsDir}/`, { stdio: "inherit" });
+
+    console.log("Deployment to AFS successful.");
+  } catch (error) {
+    console.error("Deployment failed:", error);
+    process.exit(1);
+  }
+}
+
+
+async function prompt(question, defaultValue = "") {
+  const rl = require("readline").createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  return new Promise((resolve) => {
+    rl.question(question, (answer) => {
+      rl.close();
+      if (answer.trim() === "") {
+        resolve(defaultValue);
+      } else {
+        resolve(answer.trim());
+      }
+    });
+  });
+}
+
+
+async function loginToAFS() {
+  const username = await prompt("Enter your AFS username (default: zjan@INF.ED.AC.UK): ", "zjan@INF.ED.AC.UK");
+
+  console.log(`Running kinit for ${username}...`);
+  const kinit = spawnSync("kinit", [username], { stdio: "inherit" })
+
+  if (kinit.status !== 0) {
+    console.error("kinit failed.")
+    process.exit(1)
+  }
+
+  console.log("Running aklog...")
+  const aklog = spawnSync("aklog", { stdio: "inherit" })
+
+  if (aklog.status !== 0) {
+    console.error("aklog failed.")
+    process.exit(1)
+  }
+
+  console.log("AFS login successful.")
+}
+
 
 // === Execution ===
-try {
-  backupFiles()
-  build(config)
-  console.log("Demo build completed.")
-} catch (error) {
-  console.error("An error occurred:", error)
-} finally {
-  restoreFiles()
-  console.log("Configuration files restored to original state.")
-}
+(async () => {
+  const shouldDeploy = process.argv.includes("--deploy")
+
+  try {
+    if (shouldDeploy) {
+      await loginToAFS()
+    }
+
+    backupFiles()
+    build(config)
+
+    if (shouldDeploy) {
+      deployToAFS(config.outputDir, config.afsDeployPath)
+    }
+
+    console.log("\nDemo build script completed successfully.")
+  } catch (error) {
+    console.error("An error occurred:", error)
+  } finally {
+    restoreFiles()
+    console.log("Configuration files restored to original state.")
+  }
+})()
