@@ -136,8 +136,8 @@ export default function GeographyPage() {
       <Card title="1-concentration ratio">
         <p>
           The 1-concentration ratio represents the share of nodes that are owned
-          by the single most “powerful” entity, i.e. the entity that hosts the
-          most nodes.
+          by the single most &quot;powerful&quot; entity, i.e. the entity that
+          hosts the most nodes.
         </p>
         <LineChart
           metric="max_power_ratio"
