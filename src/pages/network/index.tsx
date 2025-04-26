@@ -190,12 +190,14 @@ export default function NetworkPage() {
         />
       </Card>
       <div ref={doughnutRef} id="doughnut">
-        <Card title="Organisations Distribution">
-          <p>
-            The following pie charts represent the distribution of nodes across
-            organisations.
-          </p>
-        </Card>
+        <div className="mb-4">
+          <Card title="Organisations Distribution">
+            <p>
+              The following pie charts represent the distribution of nodes
+              across organisations.
+            </p>
+          </Card>
+        </div>
 
         {DOUGHNUT_LEDGERS.map((ledger, index) => (
           <Card key={index} title={ledger.name} titleAppearance="lg">
