@@ -163,12 +163,14 @@ export default function GeographyPage() {
         />
       </Card>
       <div ref={doughnutRef} id="doughnut">
-        <Card title="Countries Distribution">
-          <p>
-            The following pie charts represent the distribution of nodes across
-            countries.
-          </p>
-        </Card>
+        <div className="mb-4">
+          <Card title="Countries Distribution">
+            <p>
+              The following pie charts represent the distribution of nodes
+              across countries.
+            </p>
+          </Card>
+        </div>
 
         {doughnut_ledgers.map((ledger, index) => (
           <Card key={index} title={ledger.name} titleAppearance="lg">
