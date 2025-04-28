@@ -173,12 +173,14 @@ export default function GeographyPage() {
         </div>
 
         {doughnut_ledgers.map((ledger, index) => (
-          <Card key={index} title={ledger.name} titleAppearance="lg">
-            <DoughnutChartRenderer
-              path={`${GEOGRAPHY_CSV}${getGeographyDoughnutCsvFileName(ledger.chain)}`}
-              fileName={ledger.chain}
-            />
-          </Card>
+          <div className="mb-4">
+            <Card key={index} title={ledger.name} titleAppearance="lg">
+              <DoughnutChartRenderer
+                path={`${GEOGRAPHY_CSV}${getGeographyDoughnutCsvFileName(ledger.chain)}`}
+                fileName={ledger.chain}
+              />
+            </Card>
+          </div>
         ))}
       </div>
     </section>
