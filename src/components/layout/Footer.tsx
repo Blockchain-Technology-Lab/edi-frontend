@@ -22,7 +22,7 @@ export function Footer() {
         <FooterLink href="https://www.ed.ac.uk/informatics/blockchain/edi/">
           EDI
         </FooterLink>
-        <span>© 2024 Edinburgh Decentralisation Index.</span>
+        <span>© 2025 Edinburgh Decentralisation Index.</span>
       </p>
       <ul className="inline-flex justify-center flex-wrap gap-y-1 gap-x-3 text-sm">
         <ListItem>
