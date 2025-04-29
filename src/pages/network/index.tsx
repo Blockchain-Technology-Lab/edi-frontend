@@ -200,7 +200,7 @@ export default function NetworkPage() {
         </div>
 
         {DOUGHNUT_LEDGERS.map((ledger, index) => (
-          <div className="mb-4">
+          <div className="mb-4" key={index}>
             <Card key={index} title={ledger.name} titleAppearance="lg">
               <DoughnutChartRenderer
                 path={`${NETWORK_CSV}${getNetworkDoughnutCsvFileName(ledger.chain)}`}
