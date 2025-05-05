@@ -135,11 +135,11 @@ export default function NetworkPage() {
         <p>
           The following graphs represent different metrics concerning the
           distribution of nodes across organisations. Regarding the Bitcoin
-          network, more than half of the nodes use Tor (see organisations
-          distribution (clickable link)), and it is impossible to know which
-          organisations own them. For the metrics shown below, it was therefore
-          decided to distribute these nodes proportionally among the different
-          organisations.
+          network, more than half of the nodes use Tor (see{" "}
+          <Link href="#doughnut">Organisations Distribution</Link> ), and it is
+          impossible to know which organisations own them. For the metrics shown
+          below, it was therefore decided to distribute these nodes
+          proportionally among the different organisations.
         </p>
       </Card>
 

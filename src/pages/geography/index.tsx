@@ -94,11 +94,11 @@ export default function GeographyPage() {
         <p>
           The following graphs represent different metrics concerning the
           distribution of nodes across countries. Regarding the Bitcoin network,
-          more than half of the nodes use Tor (see countries distribution
-          (clickable link)), and it is impossible to know in which countries
-          they are located. For the metrics shown below, it was therefore
-          decided to distribute these nodes proportionally among the different
-          countries.
+          more than half of the nodes use Tor (see{" "}
+          <Link href="#doughnut">Countries Distribution</Link>
+          ), and it is impossible to know in which countries they are located.
+          For the metrics shown below, it was therefore decided to distribute
+          these nodes proportionally among the different countries.
         </p>
       </Card>
 
