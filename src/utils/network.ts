@@ -133,5 +133,5 @@ function sortByLedgerAndDate(a: DataEntry, b: DataEntry): number {
 }
 
 export function getNetworkDoughnutCsvFileName(ledger: string): string {
-  return `${NETWORK_ORG_DISTRIBUTION_PREFIX}_${ledger}.csv`
+  return `clustered_${NETWORK_ORG_DISTRIBUTION_PREFIX}_${ledger}.csv`
 }
