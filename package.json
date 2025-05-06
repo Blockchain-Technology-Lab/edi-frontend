@@ -19,6 +19,7 @@
     "@nextui-org/react": "^2.4.8",
     "@radix-ui/react-slider": "^1.2.0",
     "bootstrap": "^5.3.3",
+    "chalk": "^5.4.1",
     "chart.js": "^4.4.3",
     "chartjs-adapter-moment": "^1.0.1",
     "chartjs-plugin-watermark": "^2.0.2",
@@ -37,7 +38,8 @@
     "react-dom": "^18",
     "react-photoswipe-gallery": "^3.0.2",
     "reactstrap": "^9.2.3",
-    "tailwind-merge": "^2.4.0"
+    "tailwind-merge": "^2.4.0",
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
     "@types/node": "^20",
