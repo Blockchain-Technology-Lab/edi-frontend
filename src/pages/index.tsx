@@ -15,21 +15,21 @@ export default function HomePage() {
 
   const list = [
     {
-      title: "Tokenomics",
-      url: "/tokenomics",
-      icon: faBitcoinSign,
-      github:
-        "https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization/",
-      desc: "This layer describes the decentralisation of token ownership over time.",
-      disabled: false
-    },
-    {
       title: "Consensus",
       url: "/consensus",
       icon: faCubes,
       github:
         "https://github.com/Blockchain-Technology-Lab/consensus-decentralization",
       desc: "This layer describes the decentralisation of block production over time.",
+      disabled: false
+    },
+    {
+      title: "Tokenomics",
+      url: "/tokenomics",
+      icon: faBitcoinSign,
+      github:
+        "https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization/",
+      desc: "This layer describes the decentralisation of token ownership over time.",
       disabled: false
     },
     {
