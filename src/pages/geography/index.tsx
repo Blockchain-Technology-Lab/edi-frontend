@@ -117,6 +117,7 @@ export default function GeographyPage() {
           csvData={countriesData}
           isLoadingCsvData={loading}
           timeUnit="day"
+          tooltipDecimals={0}
         />
       </Card>
       <Card title="Nakamoto Coefficient">
@@ -131,6 +132,7 @@ export default function GeographyPage() {
           csvData={countriesData}
           isLoadingCsvData={loading}
           timeUnit="day"
+          padYAxis={true}
         />
       </Card>
       <Card title="1-concentration ratio">
@@ -145,6 +147,7 @@ export default function GeographyPage() {
           csvData={countriesData}
           isLoadingCsvData={loading}
           timeUnit="day"
+          tooltipDecimals={2}
         />
       </Card>
       <Card title="Shannon entropy">
@@ -160,6 +163,7 @@ export default function GeographyPage() {
           csvData={countriesData}
           isLoadingCsvData={loading}
           timeUnit="day"
+          tooltipDecimals={2}
         />
       </Card>
       <div ref={doughnutRef} id="doughnut">
