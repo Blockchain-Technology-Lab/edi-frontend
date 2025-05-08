@@ -54,6 +54,7 @@ export default function ConsensusPage() {
               type="consensus"
               csvData={data}
               isLoadingCsvData={loading}
+              tooltipDecimals={0}
             />
           </Card>
           <Card title="Gini coefficient" titleAppearance="lg">
@@ -69,6 +70,7 @@ export default function ConsensusPage() {
               type="consensus"
               csvData={data}
               isLoadingCsvData={loading}
+              tooltipDecimals={2}
             />
           </Card>
           <Card title="Shannon entropy" titleAppearance="lg">
@@ -83,6 +85,7 @@ export default function ConsensusPage() {
               type="consensus"
               csvData={data}
               isLoadingCsvData={loading}
+              tooltipDecimals={2}
             />
           </Card>
           <Card title="HHI" titleAppearance="lg">
@@ -144,6 +147,7 @@ export default function ConsensusPage() {
               type="consensus"
               csvData={data}
               isLoadingCsvData={loading}
+              tooltipDecimals={0}
             />
           </Card>
         </>
