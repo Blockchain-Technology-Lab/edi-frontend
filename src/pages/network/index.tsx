@@ -159,6 +159,7 @@ export default function NetworkPage() {
           csvData={orgData}
           isLoadingCsvData={loading}
           timeUnit="day"
+          tooltipDecimals={0}
         />
       </Card>
       <Card title="Nakamoto Coefficient">
@@ -173,6 +174,7 @@ export default function NetworkPage() {
           csvData={orgData}
           isLoadingCsvData={loading}
           timeUnit="day"
+          padYAxis={true}
         />
       </Card>
       <Card title="1-concentration Ratio">
@@ -187,6 +189,7 @@ export default function NetworkPage() {
           csvData={orgData}
           isLoadingCsvData={loading}
           timeUnit="day"
+          tooltipDecimals={2}
         />
       </Card>
       <div ref={doughnutRef} id="doughnut">

@@ -12,6 +12,8 @@ type LineProps = {
   isLoadingCsvData?: boolean
   type: "tokenomics" | "consensus" | "software" | "network" | "geography"
   timeUnit?: "year" | "month" | "day"
+  padYAxis?: boolean
+  tooltipDecimals?: number
 }
 
 export function LineChart({
@@ -19,7 +21,9 @@ export function LineChart({
   metric,
   csvData,
   isLoadingCsvData = false,
-  timeUnit = "year"
+  timeUnit = "year",
+  padYAxis,
+  tooltipDecimals
 }: LineProps) {
   const { resolvedTheme } = useTheme()
   const { chartData, sliderValue, sliderRange, setSliderValue } = useChartData(
@@ -29,13 +33,20 @@ export function LineChart({
   )
   const exportChart = useExportChart()
 
-  const options = useMemo(
-    () =>
-      resolvedTheme
-        ? getChartOptions(metric, resolvedTheme, timeUnit)
-        : undefined,
-    [metric, resolvedTheme, timeUnit]
-  )
+  const options = useMemo(() => {
+    if (!resolvedTheme || !chartData) return undefined
+    const allYValues: number[] = chartData.datasets.flatMap((ds) => {
+      return (ds.data as { x: Date; y: number }[]).map((point) => point.y)
+    })
+    return getChartOptions(
+      metric,
+      resolvedTheme,
+      timeUnit,
+      allYValues,
+      padYAxis,
+      tooltipDecimals
+    )
+  }, [metric, resolvedTheme, timeUnit, chartData, padYAxis, tooltipDecimals])
 
   // Re-register plugin when theme changes
   useEffect(() => {
@@ -108,9 +119,14 @@ function LineChartSkeleton() {
 function getChartOptions(
   metric: string,
   theme: string,
-  timeUnit: "year" | "month" | "day" = "year"
+  timeUnit: "year" | "month" | "day" = "year",
+  yValues: number[] = [],
+  padYAxis: boolean = false,
+  tooltipDecimals?: number
 ): ChartOptions<"line"> {
   const mainColor = theme === "dark" ? "white" : "black"
+  const minYRaw = Math.min(...yValues)
+  const minY = minYRaw > 1 ? minYRaw * 0.95 : minYRaw - 0.1
   return {
     responsive: true,
     maintainAspectRatio: false,
@@ -131,6 +147,17 @@ function getChartOptions(
         filter(item, _, items) {
           // Ensure tooltips show items from the same date only, avoiding cross-date data in dense datasets
           return items[0].label === item.label
+        },
+        callbacks: {
+          label(ctx) {
+            const value = ctx.parsed.y
+            const label = ctx.dataset.label || ""
+            const digits =
+              typeof tooltipDecimals === "number"
+                ? value.toFixed(tooltipDecimals)
+                : value
+            return `${label}: ${digits}`
+          }
         }
       },
       legend: {
@@ -164,7 +191,24 @@ function getChartOptions(
         },
         ticks: {
           color: mainColor
-        }
+        },
+        // Add dynamic min/max padding using `afterBuildTicks`
+        ...(padYAxis && {
+          afterDataLimits(scale) {
+            const values = scale.chart.data.datasets.flatMap((ds) =>
+              ds.data.map((point: any) =>
+                typeof point === "number" ? point : point.y
+              )
+            )
+            if (!values.length) return
+            const min = Math.min(...values)
+            const max = Math.max(...values)
+            const range = max - min || 1
+            const pad = range * 0.25
+            scale.min = Math.floor(min - pad)
+            scale.max = Math.ceil(max + pad)
+          }
+        })
       }
     }
   }
