@@ -154,7 +154,10 @@ function getChartOptions(
             const label = ctx.dataset.label || ""
             const digits =
               typeof tooltipDecimals === "number"
-                ? value.toFixed(tooltipDecimals)
+                ? value.toLocaleString(undefined, {
+                    minimumFractionDigits: tooltipDecimals ?? 0,
+                    maximumFractionDigits: tooltipDecimals ?? 0
+                  })
                 : value
             return `${label}: ${digits}`
           }
