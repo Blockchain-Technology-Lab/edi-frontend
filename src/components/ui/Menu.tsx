@@ -120,7 +120,7 @@ const NAV_ITEMS = [
         icon: FilterSquare
       },
       {
-        href: "https://github.com/Blockchain-Technology-Lab/network-decentralization",
+        href: "https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin",
         label: "Source Code",
         icon: CodeSlash
       }
@@ -146,7 +146,7 @@ const NAV_ITEMS = [
         icon: FilterSquare
       },
       {
-        href: "https://github.com/Blockchain-Technology-Lab/network-decentralization",
+        href: "https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin",
         label: "Source Code",
         icon: CodeSlash
       }
