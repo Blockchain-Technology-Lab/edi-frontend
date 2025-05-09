@@ -115,13 +115,16 @@ export default function NetworkPage() {
       <Card title="Network Layer" titleAppearance="xl">
         <p>
           These graphs represent the network decentralisation. The results are
-          based only on data we have collected and do not include extensive historical
-          data. <Link href="/network/methodology">Read more...</Link>
+          based only on data we have collected and do not include extensive
+          historical data. <Link href="/network/methodology">Read more...</Link>
         </p>
       </Card>
 
       <Card title="Number of Nodes">
-        <p>The following graph represents the number of nodes participating in the network over time.</p>
+        <p>
+          The following graph represents the number of nodes participating in
+          the network over time.
+        </p>
         <LineChart
           metric="number_nodes"
           type="network"
