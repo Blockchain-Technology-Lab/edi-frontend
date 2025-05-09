@@ -1,0 +1,10 @@
+ledger,date,number_nodes
+bitcoin_cash,2025-03-05,520
+bitcoin_cash,2025-03-13,550
+bitcoin_cash,2025-03-23,548
+bitcoin_cash,2025-03-28,541
+bitcoin_cash,2025-04-02,541
+bitcoin_cash,2025-04-06,542
+bitcoin_cash,2025-04-14,523
+bitcoin_cash,2025-04-21,514
+bitcoin_cash,2025-04-28,541
