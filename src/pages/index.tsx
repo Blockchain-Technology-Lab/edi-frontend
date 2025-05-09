@@ -45,7 +45,7 @@ export default function HomePage() {
       url: "/network",
       icon: faHexagonNodes,
       github: "",
-      desc: "This layer describes the network decentralisation over time.",
+      desc: "This layer describes the decentralisation of nodes over time, in terms of the service providers (organisations) they use.",
       disabled: false
     },
     {
@@ -53,7 +53,7 @@ export default function HomePage() {
       url: "/geography",
       icon: faGlobe,
       github: "",
-      desc: "This layer describes the geographic decentralisation over time.",
+      desc: "This layer describes the geographic decentralisation of nodes over time.",
       disabled: false
     },
     {
