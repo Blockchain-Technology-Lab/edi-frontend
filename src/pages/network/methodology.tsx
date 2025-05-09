@@ -25,7 +25,14 @@ export default function MethodologyPage() {
           project. The following metrics are presented in the dashboard: the
           Herfindahl-Hirschman index (HHI), the Nakamoto coefficient and the
           1-concentration ratio. The results are based only on data we have
-          collected and do not include any historical data.
+          collected and do not include extensive historical data.
+        </p>
+        <p>
+          Regarding the Bitcoin network, more than half of the nodes use Tor (see{" "}
+          <Link href="#doughnut">Organisations Distribution</Link> ), and it is
+          impossible to know which organizations own them. For the metrics, it was
+          therefore decided to distribute these nodes proportionally among the
+          different organizations.
         </p>
       </Card>
     </section>
