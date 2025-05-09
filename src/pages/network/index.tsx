@@ -115,7 +115,7 @@ export default function NetworkPage() {
       <Card title="Network Layer" titleAppearance="xl">
         <p>
           These graphs represent the network decentralisation. The results are
-          based only on data we have collected and do not include any historical
+          based only on data we have collected and do not include extensive historical
           data. <Link href="/network/methodology">Read more...</Link>
         </p>
       </Card>
