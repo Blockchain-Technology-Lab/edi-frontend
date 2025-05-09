@@ -28,11 +28,11 @@ export default function MethodologyPage() {
           collected and do not include extensive historical data.
         </p>
         <p>
-          Regarding the Bitcoin network, more than half of the nodes use Tor (see{" "}
-          <Link href="#doughnut">Organisations Distribution</Link> ), and it is
-          impossible to know which organizations own them. For the metrics, it was
-          therefore decided to distribute these nodes proportionally among the
-          different organizations.
+          Regarding the Bitcoin network, more than half of the nodes use Tor
+          (see <Link href="#doughnut">Organisations Distribution</Link> ), and
+          it is impossible to know which organizations own them. For the
+          metrics, it was therefore decided to distribute these nodes
+          proportionally among the different organizations.
         </p>
       </Card>
     </section>
