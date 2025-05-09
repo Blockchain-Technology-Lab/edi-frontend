@@ -85,7 +85,7 @@ export default function GeographyPage() {
       <Card title="Geography Layer" titleAppearance="xl">
         <p>
           These graphs represent the geographic decentralisation. The results
-          are based only on data we have collected and do not include any
+          are based only on data we have collected and do not include extensive
           historical data.{" "}
           <Link href="/geography/methodology">Read more...</Link>
         </p>
