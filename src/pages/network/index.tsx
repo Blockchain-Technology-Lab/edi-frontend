@@ -121,7 +121,7 @@ export default function NetworkPage() {
       </Card>
 
       <Card title="Number of Nodes">
-        <p>The following graph represents the number of nodes over time.</p>
+        <p>The following graph represents the number of nodes participating in the network over time.</p>
         <LineChart
           metric="number_nodes"
           type="network"
