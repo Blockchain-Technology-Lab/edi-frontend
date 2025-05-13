@@ -55,7 +55,7 @@ export function DoughnutChart({ data, fileName }: DoughnutProps) {
         }}
       />
       <button
-        onClick={() => exportChart(chartRef, fileName + "-repo")}
+        onClick={() => exportChart(chartRef, fileName + "-doughnut")}
         className="mt-4 p-2 bg-blue-500 text-white rounded"
       >
         <i className="bi bi-save"></i>

@@ -75,7 +75,7 @@ function build(config) {
     updateConfig(config.basePath, config.outputDir)
 
     // Ensure the output directory exists
-    ensureDirectoryExists("output")
+    ensureDirectoryExists("upload")
 
     // Clean the specific output directory
     cleanDirectory(config.outputDir)

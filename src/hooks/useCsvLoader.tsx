@@ -3,8 +3,7 @@ import {
   DataEntry,
   DoughnutDataEntry,
   loadCsvData,
-  loadDoughnutCsvData,
-  loadNetworkCsvData
+  loadDoughnutCsvData
 } from "@/utils"
 
 export function useCsvLoader(
@@ -64,41 +63,6 @@ export function useDoughnutCsvLoader(csvPath: string) {
     load()
   }, [load])
   return { doughnutData, doughnutLoading, doughnutError }
-}
-
-export function useNetworkCsvLoader(
-  csvPath: string,
-  fileType: "nodes" | "countries" | "organizations",
-  overrideLedgerName?: string
-) {
-  const [data, setData] = useState<DataEntry[]>()
-  const [loading, setLoading] = useState<boolean>(true)
-  const [error, setError] = useState<Error | null>(null)
-
-  const load = useCallback(async () => {
-    setLoading(true)
-    setError(null)
-    try {
-      const csvData = await loadNetworkCsvData(
-        csvPath,
-        fileType,
-        overrideLedgerName
-      )
-      setData(csvData)
-    } catch (error) {
-      setError(
-        error instanceof Error ? error : new Error("Unknown error occurred")
-      )
-    } finally {
-      setLoading(false)
-    }
-  }, [csvPath, fileType, overrideLedgerName])
-
-  useEffect(() => {
-    load()
-  }, [load])
-
-  return { data, loading, error }
 }
 
 function getTopNAuthorsWithOthers(

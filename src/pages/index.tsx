@@ -15,21 +15,21 @@ export default function HomePage() {
 
   const list = [
     {
-      title: "Tokenomics",
-      url: "/tokenomics",
-      icon: faBitcoinSign,
-      github:
-        "https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization/",
-      desc: "This layer describes the decentralisation of token ownership over time.",
-      disabled: false
-    },
-    {
       title: "Consensus",
       url: "/consensus",
       icon: faCubes,
       github:
         "https://github.com/Blockchain-Technology-Lab/consensus-decentralization",
       desc: "This layer describes the decentralisation of block production over time.",
+      disabled: false
+    },
+    {
+      title: "Tokenomics",
+      url: "/tokenomics",
+      icon: faBitcoinSign,
+      github:
+        "https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization/",
+      desc: "This layer describes the decentralisation of token ownership over time.",
       disabled: false
     },
     {
@@ -45,7 +45,7 @@ export default function HomePage() {
       url: "/network",
       icon: faHexagonNodes,
       github: "",
-      desc: "This layer describes the decentralisation of the network of full nodes over time.",
+      desc: "This layer describes the decentralisation of nodes over time, in terms of the service providers (organisations) they use.",
       disabled: false
     },
     {
@@ -53,7 +53,7 @@ export default function HomePage() {
       url: "/geography",
       icon: faGlobe,
       github: "",
-      desc: "This layer describes the decentralisation of the geography of full nodes over time.",
+      desc: "This layer describes the geographic decentralisation of nodes over time.",
       disabled: false
     },
     {

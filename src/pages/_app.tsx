@@ -19,6 +19,7 @@ import {
 } from "chart.js"
 
 import { NextUIProvider } from "@nextui-org/react"
+import { ScrollProvider } from "@/components"
 
 ChartJS.register(
   LinearScale,
@@ -40,11 +41,13 @@ export default function App({ Component, pageProps }: AppProps) {
         </Head>
         <GoogleAnalytics gaId="G-4H72FE76WD" />
         <ThemeProvider attribute="class">
-          <MainLayout
-            main={<Component {...pageProps} />}
-            footer={<Footer />}
-            sidebar={<Sidebar />}
-          />
+          <ScrollProvider>
+            <MainLayout
+              main={<Component {...pageProps} />}
+              footer={<Footer />}
+              sidebar={<Sidebar />}
+            />
+          </ScrollProvider>
         </ThemeProvider>
       </NextUIProvider>
     </>
