@@ -21,8 +21,8 @@ export function Footer() {
       <p className="space-x-1">
         <FooterLink href="https://www.ed.ac.uk/informatics/blockchain/edi/">
           EDI
-        </FooterLink>
-        <span>© 2025 Edinburgh Decentralisation Index.</span>
+        </FooterLink>{" "}
+        © 2025 Edinburgh Decentralisation Index.
       </p>
       <ul className="inline-flex justify-center flex-wrap gap-y-1 gap-x-3 text-sm">
         <ListItem>
@@ -53,13 +53,13 @@ export function Footer() {
 }
 
 function ListItem({ children }: { children?: ReactNode }) {
-  return <li className="flex items-center gap-1">{children}</li>
+  return <li className="flex items-center gap-1 text-sm">{children}</li>
 }
 
 function FooterLink(props: LinkProps) {
   return (
     <Link
-      className="text-blue-700 hover:text-blue-800 underline underline-offset-2 transition-colors dark:text-blue-500 dark:hover:text-blue-400"
+      className="transition-colors underline underline-offset-4 hover:text-blue-400"
       {...props}
     />
   )
