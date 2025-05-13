@@ -15,7 +15,7 @@ export function MainLayout({ main, footer, sidebar }: Props) {
 
       {/* Main content + Footer */}
       <div className="flex flex-col flex-1 overflow-y-auto">
-        <main className="flex-1 px-5 pt-1 tablet:px-6 tablet:pt-10 overflow-y-auto">
+        <main className="flex-1 px-5 tablet:px-6 tablet:pt-10 overflow-y-auto pt-4">
           {main}
         </main>
 
