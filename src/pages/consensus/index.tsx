@@ -54,6 +54,7 @@ export default function ConsensusPage() {
               type="consensus"
               csvData={data}
               isLoadingCsvData={loading}
+              tooltipDecimals={0}
             />
           </Card>
           <Card title="Gini coefficient" titleAppearance="lg">
@@ -69,6 +70,7 @@ export default function ConsensusPage() {
               type="consensus"
               csvData={data}
               isLoadingCsvData={loading}
+              tooltipDecimals={2}
             />
           </Card>
           <Card title="Shannon entropy" titleAppearance="lg">
@@ -83,6 +85,7 @@ export default function ConsensusPage() {
               type="consensus"
               csvData={data}
               isLoadingCsvData={loading}
+              tooltipDecimals={2}
             />
           </Card>
           <Card title="HHI" titleAppearance="lg">
@@ -100,6 +103,7 @@ export default function ConsensusPage() {
               type="consensus"
               csvData={data}
               isLoadingCsvData={loading}
+              tooltipDecimals={0}
             />
           </Card>
           <Card title="Theil index" titleAppearance="lg">
@@ -114,6 +118,7 @@ export default function ConsensusPage() {
               type="consensus"
               csvData={data}
               isLoadingCsvData={loading}
+              tooltipDecimals={2}
             />
           </Card>
           <Card title="1-concentration ratio" titleAppearance="lg">
@@ -127,6 +132,7 @@ export default function ConsensusPage() {
               type="consensus"
               csvData={data}
               isLoadingCsvData={loading}
+              tooltipDecimals={2}
             />
           </Card>
           <Card title="Tau Index" titleAppearance="lg">
@@ -141,6 +147,7 @@ export default function ConsensusPage() {
               type="consensus"
               csvData={data}
               isLoadingCsvData={loading}
+              tooltipDecimals={0}
             />
           </Card>
         </>
