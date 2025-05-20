@@ -18,7 +18,7 @@ import {
   TimeScale
 } from "chart.js"
 
-import { NextUIProvider } from "@nextui-org/react"
+//import { NextUIProvider } from "@heroui/react"
 import { ScrollProvider } from "@/components"
 
 ChartJS.register(
@@ -35,21 +35,19 @@ ChartJS.register(
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <NextUIProvider>
-        <Head>
-          <title>EDI - Dashboard</title>
-        </Head>
-        <GoogleAnalytics gaId="G-4H72FE76WD" />
-        <ThemeProvider attribute="class">
-          <ScrollProvider>
-            <MainLayout
-              main={<Component {...pageProps} />}
-              footer={<Footer />}
-              sidebar={<Sidebar />}
-            />
-          </ScrollProvider>
-        </ThemeProvider>
-      </NextUIProvider>
+      <Head>
+        <title>EDI - Dashboard</title>
+      </Head>
+      <GoogleAnalytics gaId="G-4H72FE76WD" />
+      <ThemeProvider attribute="class">
+        <ScrollProvider>
+          <MainLayout
+            main={<Component {...pageProps} />}
+            footer={<Footer />}
+            sidebar={<Sidebar />}
+          />
+        </ScrollProvider>
+      </ThemeProvider>
     </>
   )
 }

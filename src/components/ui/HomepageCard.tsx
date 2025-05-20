@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardBody, CardFooter, Link } from "@nextui-org/react"
+import { Card, CardHeader, CardBody, CardFooter, Link } from "@heroui/react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useTheme } from "next-themes"
 import { useIsMounted } from "@/hooks"

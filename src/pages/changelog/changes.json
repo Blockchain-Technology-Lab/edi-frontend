@@ -80,8 +80,8 @@
     "date": "2025-05-09",
     "title": "Geography layer released",
     "description": [
-    "Initial release of the software layer.",
-      "Graphs added for 3 metrics and 5 projects.",
+    "Initial release of the geography layer.",
+      "Graphs added for 4 metrics and 5 projects.",
       "Metrics: Herfindahl-Hirschman index (HHI), Nakamoto Coefficient, 1-concentration ratio, Shannon Entropy",
       "Projects: Bitcoin, Bitcoin Cash, Dogecoin, Litecoin, Zcash.",
       "Doughnut charts added for the countries distributions of the 5 projects."    ],
