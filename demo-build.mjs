@@ -77,7 +77,7 @@ function buildProject(outputDir) {
   ensureDirectoryExists("upload");
   cleanDirectory(outputDir);
 
-  execSync(`yarn build`, { stdio: "inherit" });
+  execSync('npm run build', { stdio: 'inherit' })
   console.log(chalk.green(`Build completed.`));
 }
 
