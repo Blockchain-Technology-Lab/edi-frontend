@@ -5,7 +5,7 @@ import {
   CardFooter,
   Divider,
   Link
-} from "@nextui-org/react"
+} from "@heroui/react"
 import Image from "next/image"
 
 import { useTheme } from "next-themes"

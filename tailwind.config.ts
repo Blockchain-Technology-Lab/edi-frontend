@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss"
 
-const { nextui } = require("@nextui-org/react")
+const { heroui } = require("@heroui/react")
 
 const config: Config = {
   darkMode: "class",
@@ -85,7 +85,7 @@ const config: Config = {
     },
     extend: {}
   },
-  plugins: [nextui(), require("flowbite/plugin")]
+  plugins: [heroui(), require("flowbite/plugin")]
   //plugins: []
 }
 export default config
