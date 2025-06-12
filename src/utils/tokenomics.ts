@@ -20,6 +20,8 @@ const TOKENOMICS_ALLOWED_LEDGERS = [
   "tezos"
 ]
 
+export type ClusteringOption = "explorers" | "staking" | "multi" | "crystal"
+
 /**
  * Parses the tokenomics CSV content into DataEntry[]
  */
@@ -80,4 +82,75 @@ export async function loadTokenomicsCsvData(
   } catch (error) {
     throw error instanceof Error ? error : new Error("Unknown error occurred")
   }
+}
+
+/**
+ * Determines the correct file name based on selected clustering & threshold
+ */
+export function getTokenomicsCsvFileName(
+  threshold: string,
+  clustering: ClusteringOption[]
+): string {
+  const fileSuffixes: Record<string, string> = {
+    "100": "output-absolute_100.csv",
+    "1000": "output-absolute_1000.csv",
+    "50p": "output-percentage_0.5.csv",
+    above: "output-exclude_below_usd_cent.csv",
+    none: "output.csv"
+  }
+
+  const clusteringKey = clustering.slice().sort().join("-")
+
+  const directoryMapping: Record<string, string> = {
+    "": "no_clustering",
+    crystal: "crystal",
+    "crystal-explorers": "crystal_explorers",
+    "crystal-explorers-multi": "crystal_explorers_multi_input_transactions",
+    "crystal-explorers-multi-staking":
+      "crystal_explorers_staking_keys_multi_input_transactions",
+    "crystal-explorers-staking": "crystal_explorers_staking_keys",
+    "crystal-multi": "crystal_multi_input_transactions",
+    "crystal-multi-staking": "crystal_staking_keys_multi_input_transactions",
+    "crystal-staking": "crystal_staking_keys",
+    explorers: "explorers",
+    "explorers-crystal": "crystal_explorers",
+    "explorers-crystal-multi": "crystal_explorers_multi_input_transactions",
+    "explorers-crystal-staking": "crystal_explorers_staking_keys",
+    "explorers-multi": "explorers_multi_input_transactions",
+    "explorers-multi-crystal": "crystal_explorers_multi_input_transactions",
+    "explorers-multi-staking":
+      "explorers_staking_keys_multi_input_transactions",
+    "explorers-staking": "explorers_staking_keys",
+    "explorers-staking-crystal": "crystal_explorers_staking_keys",
+    "explorers-staking-multi":
+      "explorers_staking_keys_multi_input_transactions",
+    "explorers-staking-multi-crystal":
+      "crystal_explorers_staking_keys_multi_input_transactions",
+    multi: "multi_input_transactions",
+    "multi-crystal": "crystal_multi_input_transactions",
+    "multi-crystal-explorers": "crystal_explorers_multi_input_transactions",
+    "multi-crystal-staking": "crystal_staking_keys_multi_input_transactions",
+    "multi-staking": "staking_keys_multi_input_transactions",
+    "multi-staking-crystal": "crystal_staking_keys_multi_input_transactions",
+    staking: "staking_keys",
+    "staking-crystal": "crystal_staking_keys",
+    "staking-crystal-multi": "crystal_staking_keys_multi_input_transactions",
+    "staking-multi": "staking_keys_multi_input_transactions",
+    "staking-multi-crystal": "crystal_staking_keys_multi_input_transactions"
+  }
+
+  const createKey = (arr: ClusteringOption[]): string =>
+    arr.slice().sort().join("-")
+  const sortedClusteringKey = createKey(clustering)
+  const directory = directoryMapping[sortedClusteringKey] || "no_clustering"
+  const fileName = fileSuffixes[threshold] || "output-absolute_1000.csv"
+
+  return `${directory}/${fileName}`
+}
+
+function sortByLedgerAndDate(a: DataEntry, b: DataEntry): number {
+  const ledgerCompare = a.ledger.localeCompare(b.ledger)
+  return ledgerCompare !== 0
+    ? ledgerCompare
+    : a.date.getTime() - b.date.getTime()
 }

@@ -12,7 +12,7 @@ import {
   ListBox,
   ListBoxMulti
 } from "@/components"
-import { useCsvLoader } from "@/hooks"
+import { useTokenomicsCsv } from "@/hooks"
 
 const THRESHOLDING_ITEMS = [
   { label: "100", value: "100" },
@@ -46,7 +46,7 @@ export default function TokenomicsPage() {
 
   const csvPath = `${TOKENOMICS_CSV + filename}`
 
-  const { data, loading, error } = useCsvLoader(csvPath, "tokenomics")
+  const { data, loading, error } = useTokenomicsCsv(csvPath)
 
   return (
     <section className="flex flex-col gap-12">

@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react"
-import { CONSENSUS_CSV, getConsensusCsvFileName } from "@/utils"
-import { useCsvLoader } from "@/hooks"
+import { getConsensusCsvFileName } from "@/utils"
+import { useConsensusCsv } from "@/hooks"
 import { Alert, Card, LineChart, Link, ListBoxMulti } from "@/components"
 
 const CLUSTERING_ITEMS = [
@@ -17,9 +17,9 @@ export default function ConsensusPage() {
     [selectedClusters]
   )
 
-  const csvPath = `${CONSENSUS_CSV + filename}`
+  const csvFile = `${filename}`
 
-  const { data, loading, error } = useCsvLoader(csvPath, "consensus")
+  const { data, loading, error } = useConsensusCsv(csvFile)
 
   return (
     <section className="flex flex-col gap-12">
