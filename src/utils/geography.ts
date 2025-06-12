@@ -1,7 +1,14 @@
-import { DoughnutDataEntry, GEOGRAPHY_COUNTRIES_COLUMNS } from "@/utils"
+import { DoughnutDataEntry } from "@/utils"
 import { DataEntry } from "@/utils"
 
 const GEOGRAPHY_DISTRIBUTION_PREFIX = "countries"
+
+export const GEOGRAPHY_COUNTRIES_COLUMNS = [
+  "entropy=1",
+  "hhi",
+  "nakamoto_coefficient",
+  "max_power_ratio"
+]
 
 export function getGeographyCsvFileName(
   fileType: "countries",

@@ -2,11 +2,11 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import {
   generateDoughnutPaths,
   getSoftwareCsvFileName,
-  getSoftwareDoughnutCsvFileName,
+  getSoftwareDoughnutCsvFileNames,
   SOFTWARE_CSV,
   SOFTWARE_DOUGHNUT_LEDGER_NAMES
 } from "@/utils"
-import { useCsvLoader } from "@/hooks"
+import { useSoftwareCsv } from "@/hooks"
 import {
   Alert,
   Card,
@@ -96,7 +96,7 @@ export default function SoftwarePage() {
 
   const doughnutFilenames = useMemo(
     () =>
-      getSoftwareDoughnutCsvFileName(
+      getSoftwareDoughnutCsvFileNames(
         selectedDoughnutWeight.value,
         selectedDoughnutEntity.value
       ),
@@ -116,7 +116,7 @@ export default function SoftwarePage() {
   //const csvPath = `/output/software/line/${filename}`
 
   const csvPath = `${SOFTWARE_CSV + filename}`
-  const { data, loading, error } = useCsvLoader(csvPath, "software")
+  const { data, loading, error } = useSoftwareCsv(csvPath)
 
   return (
     <section ref={topRef} id="top" className="flex flex-col gap-12">
