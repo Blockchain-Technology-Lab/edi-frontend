@@ -37,10 +37,10 @@ export function ChangelogTimeline() {
                 {IconComponent ? (
                   <FontAwesomeIcon icon={IconComponent} />
                 ) : (
-                  <FontAwesomeIcon
+                  (<FontAwesomeIcon
                     icon={SolidIcons.faQuestionCircle}
                     className="text-gray-500"
-                  /> // Default icon if missing
+                  />) // Default icon if missing
                 )}
               </span>
               <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
@@ -59,9 +59,9 @@ export function ChangelogTimeline() {
                 </ul>
               </div>
             </li>
-          )
+          );
         })}
       </ol>
     </div>
-  )
+  );
 }
