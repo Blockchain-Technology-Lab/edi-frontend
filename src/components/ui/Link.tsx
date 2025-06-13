@@ -32,10 +32,9 @@ export function Link({
   }
 
   return (
-    <NextLink href={href} scroll={scroll} legacyBehavior>
-      <a className={className} {...rest}>
-        {children}
-      </a>
+    <NextLink href={href} scroll={scroll}
+      className={className} {...rest}>
+      {children}
     </NextLink>
   )
 }
