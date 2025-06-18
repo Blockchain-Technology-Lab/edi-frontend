@@ -30,7 +30,7 @@
     "micromatch": "^4.0.8",
     "moment": "^2.30.1",
     "nanoid": "^3.3.8",
-    "next": "^15.2.2",
+    "next": "^15.3.3",
     "next-themes": "^0.3.0",
     "path-to-regexp": "^3.3.0",
     "react": "^18",

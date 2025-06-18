@@ -126,7 +126,10 @@ function parseGenericCSV(csvData: string, valueColumns: string[]): DataEntry[] {
  * Sorts entries by ledger name first, then by date.
  */
 function sortByLedgerAndDate(a: DataEntry, b: DataEntry): number {
-  const ledgerCompare = a.ledger.localeCompare(b.ledger)
+  const ledgerA = a.ledger || ""
+  const ledgerB = b.ledger || ""
+
+  const ledgerCompare = ledgerA.localeCompare(ledgerB)
   return ledgerCompare !== 0
     ? ledgerCompare
     : a.date.getTime() - b.date.getTime()

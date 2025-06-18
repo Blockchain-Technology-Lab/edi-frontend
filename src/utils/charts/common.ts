@@ -112,7 +112,9 @@ function buildDatasets(
   // Iterate through data entries
   data.forEach((entry) => {
     const ledger = entry.ledger
+    const rawValue = entry[metric]
 
+    if (!ledger || typeof rawValue !== "number" || isNaN(rawValue)) return
     // Ensure ledger dataset for the current metric is initialized
     if (!ledgerDatasets[ledger]) {
       ledgerDatasets[ledger] = {
@@ -127,7 +129,7 @@ function buildDatasets(
     // Push data point (x: snapshot_date, y: metric value) to the ledger dataset
     ledgerDatasets[ledger].data.push({
       x: entry.date,
-      y: entry[metric]
+      y: rawValue as number
     })
   })
 
