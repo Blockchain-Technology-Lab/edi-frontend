@@ -60,7 +60,8 @@ function parseTokenomicsCSV(csvData: string): DataEntry[] {
     }
   }
 
-  data.sort((a, b) => a.ledger.localeCompare(b.ledger))
+  data.sort((a, b) => (a.ledger ?? "").localeCompare(b.ledger ?? ""))
+
   return data
 }
 
@@ -149,7 +150,10 @@ export function getTokenomicsCsvFileName(
 }
 
 function sortByLedgerAndDate(a: DataEntry, b: DataEntry): number {
-  const ledgerCompare = a.ledger.localeCompare(b.ledger)
+  const ledgerA = a.ledger || ""
+  const ledgerB = b.ledger || ""
+
+  const ledgerCompare = ledgerA.localeCompare(ledgerB)
   return ledgerCompare !== 0
     ? ledgerCompare
     : a.date.getTime() - b.date.getTime()

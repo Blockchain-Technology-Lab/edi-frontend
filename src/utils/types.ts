@@ -1,12 +1,12 @@
 // src/utils/types.ts
 
 type BaseDataEntry = {
-  ledger: string
+  ledger?: string
   date: Date
 }
 
 export type DataEntry = BaseDataEntry & {
-  [key: string]: number
+  [key: string]: number | string | Date | null | undefined
 }
 
 export type DoughnutDataEntry = {

@@ -62,7 +62,8 @@ function parseSoftwareCSV(csvData: string): DataEntry[] {
     }
   }
 
-  data.sort((a, b) => a.ledger.localeCompare(b.ledger))
+  data.sort((a, b) => (a.ledger ?? "").localeCompare(b.ledger ?? ""))
+
   return data
 }
 

@@ -81,7 +81,11 @@ export function parseGeographyCSV(
     }
   }
 
-  data.sort((a, b) => a.ledger.localeCompare(b.ledger))
+  data.sort((a, b) => {
+    if (!a.ledger || !b.ledger) return 0
+    return a.ledger.localeCompare(b.ledger)
+  })
+
   return data
 }
 
