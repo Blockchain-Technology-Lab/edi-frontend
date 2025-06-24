@@ -97,7 +97,7 @@ export default function TokenomicsPage() {
             <p>
               Shannon entropy (also known as information entropy) represents the
               expected amount of information in a distribution . Typically, a
-              higher value of entropy indicates higher decentralization (lower
+              higher value of entropy indicates higher decentralisation (lower
               predictability).
             </p>
             <LineChart
@@ -169,9 +169,9 @@ export default function TokenomicsPage() {
               isLoadingCsvData={loading}
             />
           </Card>
-          <Card title="τ-decentralization index" titleAppearance="lg">
+          <Card title="τ-decentralisation index" titleAppearance="lg">
             <p>
-              The τ-decentralization index is a generalization of the Nakamoto
+              The τ-decentralisation index is a generalization of the Nakamoto
               coefficient. It is defined as the minimum number of entities that
               collectively control more than a fraction τ of the total resources
               (in this case more than 66% of the total tokens in circulation).

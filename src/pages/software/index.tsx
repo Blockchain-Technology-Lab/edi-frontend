@@ -159,7 +159,7 @@ export default function SoftwarePage() {
             <p>
               Shannon entropy (also known as information entropy) represents the
               expected amount of information in a distribution. Typically, a
-              higher value of entropy indicates higher decentralization (lower
+              higher value of entropy indicates higher decentralisation (lower
               predictability).
             </p>
             <LineChart
