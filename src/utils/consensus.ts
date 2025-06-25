@@ -1,5 +1,5 @@
 //import { CONSENSUS_CSV } from "@/utils/paths"
-import { DataEntry } from "@/utils"
+import { DataEntry, CONSENSUS_CSV } from "@/utils"
 
 const CONSENSUS_COLUMNS = [
   "entropy=1",
@@ -111,7 +111,7 @@ export async function loadConsensusCsvData(
   ledger: string,
   fileName: string
 ): Promise<DataEntry[]> {
-  const path = `/output/consensus/${ledger}/${fileName}`
+  const path = `${CONSENSUS_CSV}${ledger}/${fileName}`
   const response = await fetch(`${path}`)
   if (!response.ok) {
     throw new Error(`Error loading consensus data: ${ledger}/${fileName}`)
