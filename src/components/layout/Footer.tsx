@@ -24,6 +24,9 @@ export function Footer() {
         </FooterLink>{" "}
         © 2025 Edinburgh Decentralisation Index.
       </p>
+      <p className="text-xs italic text-slate-500 dark:text-slate-400">
+        <b>EDI</b> is a registered trademark in the UK, US, and Switzerland.
+      </p>
       <ul className="inline-flex justify-center flex-wrap gap-y-1 gap-x-3 text-sm">
         <ListItem>
           <Infograph />
