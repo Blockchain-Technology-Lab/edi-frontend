@@ -38,10 +38,10 @@ export function HomepageTitleCard() {
           {" "}
           {/* Center text both horizontally and vertically */}
           <p className="text-md text-center font-mono">
-            Edinburgh Decentralisation Index{" "}
+            Edinburgh Decentralisation Index{" "}<span className="text-sm align-super ml-1">™</span>
           </p>
           <p className="text-xs text-default-500 text-center">
-            EDI<span className="text-sm align-super ml-1">™</span>
+            EDI
           </p>
         </div>
       </CardHeader>
