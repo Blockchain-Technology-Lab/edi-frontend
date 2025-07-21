@@ -13,6 +13,10 @@ The Edinburgh Decentralisation Index ([EDI](https://informatics.ed.ac.uk/blockch
 - [Tokenomics Layer](https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization)
 - [Software Layer](https://github.com/Blockchain-Technology-Lab/software-decentralization)
 
+## Version
+
+- V1 (21-07-2025)
+
 ## Team
 
 The [EDI team](https://informatics.ed.ac.uk/blockchain/edi/team) includes specialist researchers, scientists and engineers.
