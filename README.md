@@ -30,12 +30,10 @@ These instructions will help you set up and run the project on your local machin
 Before you begin, ensure you have the following installed on your machine:
 
 - [Node.js](https://nodejs.org/) (v20.14 or later)
-- [Yarn](https://yarnpkg.com/) (v1.x)
-
 #### Installation
 
 ```bash
-yarn install
+npm install
 ```
 
 #### Running the Development Server
@@ -43,7 +41,7 @@ yarn install
 To start the development server, run:
 
 ```bash
-yarn dev
+npm run dev
 ```
 
 This will start the server on [http://localhost:3000](http://localhost:3000). The page will reload if you make edits. You will also see any lint errors in the console.
@@ -51,17 +49,25 @@ This will start the server on [http://localhost:3000](http://localhost:3000). Th
 #### Building for Production
 
 ```bash
-yarn build
+npm build
 ```
 
 This will generate an optimized version of your application in the `/dist` folder, ready to be deployed. It can be hosted on any web server that can serve HTML/CSS/JS static assets. Read more more about [static exports](https://nextjs.org/docs/pages/building-your-application/deploying/static-exports) and [deployments](https://nextjs.org/docs/pages/building-your-application/deploying/static-exports#deploying).
 
-#### Preview Production
+#### Demo Production
 
 After building the project, you can preview the production build with:
 
 ```bash
-yarn start
+node demo-build.mjs --deploy
+```
+
+#### Multi-build Production
+
+After building the project, you can preview the production build with:
+
+```bash
+node multi-build.mjs --deploy
 ```
 
 The production server will run on [http://localhost:3000](http://localhost:3000).
