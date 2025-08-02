@@ -1,0 +1,14 @@
+# Rename this file as .htaccess for BTL
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /edi-dashboard
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /edi-dashboard/index.html [L]
+</IfModule>
+
+# Set proper MIME types
+AddType application/javascript .js
+AddType text/css .css
