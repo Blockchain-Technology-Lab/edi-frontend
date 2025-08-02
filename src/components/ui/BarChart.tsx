@@ -10,7 +10,7 @@ import {
 import { useContext, useEffect } from 'react';
 import { ThemeContext } from "@/contexts";
 import { LINECHART_WATERMARK_WHITE, LINECHART_WATERMARK_BLACK } from "@/utils";
-import type { NetworkBarEntry } from "@/utils/network";
+import { LEDGER_DISPLAY_NAME_MAP, type NetworkBarEntry } from "@/utils";
 import Tippy from "@tippyjs/react";
 import { Info } from "lucide-react";
 
@@ -22,7 +22,8 @@ const LEDGER_COLOR_MAP: Record<string, string> = {
   dogecoin: "#c2a633", // Dogecoin gold
   litecoin: "#345c9c", // Litecoin blue
   zcash: "#ecb244", // Zcash yellow
-  ethereum: "#3c3c3d", // Ethereum gray
+  consensus: "#808080", // Ethereum gray,
+  execution: "#b0b0b0", // Ethereum gray
   cardano: "#0033ad", // Cardano blue
 };
 
@@ -36,7 +37,7 @@ interface BarChartProps {
 }
 
 export function BarChart({ data, loading, title, description }: BarChartProps) {
-  const { theme: resolvedTheme } = useContext(ThemeContext); // Add this
+  const { theme: resolvedTheme } = useContext(ThemeContext);
 
   // a chart-specific watermark plugin that positions on the right
   useEffect(() => {
@@ -106,7 +107,7 @@ export function BarChart({ data, loading, title, description }: BarChartProps) {
     return <div className="text-center py-8">No data</div>;
 
   const chartData = {
-    labels: data.map((d) => d.ledger),
+    labels: data.map((d) => LEDGER_DISPLAY_NAME_MAP[d.ledger] || d.ledger),
     datasets: [
       {
         label: "Nodes",
