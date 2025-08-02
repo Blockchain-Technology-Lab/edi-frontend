@@ -23,6 +23,7 @@ import {
     LINECHART_WATERMARK_BLACK
 } from '@/utils';
 
+
 // Register Chart.js components
 ChartJS.register(
     RadialLinearScale,
@@ -36,7 +37,7 @@ ChartJS.register(
 const EDI_LAYERS = [
     {
         name: 'Consensus',
-        description: 'Measures the distribution of consensus power among validators, miners, or stakeholders.',
+        description: 'Measures the decentralisation of consensus participants (block producers). The metric used in the Decentralisation Compass is the Herfindahl-Hirschman Index (HHI), inverted and scaled. For broader comparisons across systems, metrics, and timeframes, see [Consensus url].',
         details: [
             'Validator/miner distribution',
             'Voting power concentration',
@@ -48,7 +49,7 @@ const EDI_LAYERS = [
     },
     {
         name: 'Tokenomics',
-        description: 'Evaluates the distribution of tokens, wealth concentration, and economic incentive structures.',
+        description: 'Measures the decentralisation of native asset (token) ownership.  The metric used in the Decentralisation Compass is the 3-concentration ratio, inverted and scaled. For comparing more systems across more metrics and over time, see [Tokenomics url].',
         details: [
             'Token distribution fairness',
             'Wealth concentration metrics',
@@ -60,7 +61,7 @@ const EDI_LAYERS = [
     },
     {
         name: 'Software',
-        description: 'Analyzes the development process, code contributions, and implementation diversity.',
+        description: 'Measures the decentralisation of contributors to full node software implementations. The metric used in the Decentralisation Compass is the 1-concentration ratio, inverted and scaled. For comparing more systems across more metrics and over time, see [Software url].',
         details: [
             'Developer contribution diversity',
             'Code repository distribution',
@@ -72,7 +73,7 @@ const EDI_LAYERS = [
     },
     {
         name: 'Network',
-        description: 'Examines the technical infrastructure distribution including nodes and network topology.',
+        description: "Measures the decentralisation of organisations operating a network's full nodes. Note that for the case of Ethereum, this specifically refers to Execution Layer nodes. The metric used in the Decentralisation Compass is the Herfindahl-Hirschman Index (HHI), inverted and scaled. For comparing more systems across more metrics and over time, see [Network url].",
         details: [
             'Node geographical spread',
             'Infrastructure diversity',
@@ -84,7 +85,7 @@ const EDI_LAYERS = [
     },
     {
         name: 'Geography',
-        description: 'Assesses the geographical distribution of network participants and infrastructure.',
+        description: 'Measures the decentralisation of countries where full nodes are located. Note that for the case of Ethereum, this specifically refers to Execution Layer nodes. The metric shown in the Decentralisation Compass is the Herfindahl-Hirschman Index (HHI), inverted and scaled. For comparing more systems across more metrics and over time, see [Geography url].',
         details: [
             'Global participant spread',
             'Regional concentration risks',
@@ -163,7 +164,7 @@ export function RadarChart({
     if (!options) return null;
 
     return (
-        <div className={`card bg-base-300 shadow-lg ${className}`}>
+        <div className={`card bg-base-200 shadow-lg ${className}`}>
             <div className="card-body p-6">
                 {/* Header */}
                 <div className="mb-4">
@@ -270,7 +271,7 @@ export function RadarChart({
                         {/* EDI Layers Information Accordion */}
                         <div className="space-y-2">
                             {EDI_LAYERS.map((layer, index) => (
-                                <div key={layer.name} className="collapse collapse-arrow bg-base-100 border border-base-300">
+                                <div key={layer.name} className="collapse collapse-arrow bg-base-300 border border-base-300">
                                     <input
                                         type="checkbox"
                                         checked={openAccordion === index}
@@ -299,7 +300,7 @@ export function RadarChart({
                                             {/* Show current protocol scores for this dimension */}
                                             <div className="mt-3 space-y-2">
                                                 <div className="text-xs font-medium text-base-content/70 mb-2">
-                                                    Current Protocol Scores:
+                                                    Protocols:
                                                 </div>
                                                 {data.filter((_, protocolIndex) => visibleDatasets.has(protocolIndex)).map((protocol) => {
                                                     const value = protocol[layer.name.toLowerCase() as keyof RadarDataPoint] as number;
