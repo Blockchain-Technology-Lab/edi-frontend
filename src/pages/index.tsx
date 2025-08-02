@@ -1,126 +1,155 @@
-import { useRouter } from "next/router" // Import useRouter
-import { HomepageCard, HomepageTitleCard } from "@/components"
+import { HomepageCard, HomeTopCard, RadarChart } from "@/components";
+import { useRadarCsv } from "@/hooks";
 import {
-  faCubes,
-  faBitcoinSign,
-  faLaptopCode,
-  faLandmarkFlag,
-  faHexagonNodes,
-  faGlobe,
-  faHome
-} from "@fortawesome/free-solid-svg-icons"
+  consensusTo,
+  consensusMethodologyTo,
+  tokenomicsTo,
+  tokenomicsMethodologyTo,
+  softwareTo,
+  softwareMethodologyTo,
+  networkTo,
+  networkMethodologyTo,
+  geographyTo,
+  geographyMethodologyTo,
+  governanceTo,
+} from "@/routes/routePaths";
+import {
+  CONSENSUS_CARD,
+  EDI_CARD,
+  GEOGRAPHY_CARD,
+  GOVERNANCE_CARD,
+  //HARDWARE_CARD,
+  NETWORK_CARD,
+  RADAR_CSV,
+  SOFTWARE_CARD,
+  TOKENOMICS_CARD,
+} from "@/utils/paths";
+import { useNavigate } from "@tanstack/react-router";
 
+import { Scale, Coins, Network, Code, Globe, Gavel } from "lucide-react";
+
+const layers = [
+  {
+    title: "Consensus",
+    desc: "This layer describes the decentralisation of block production over time.",
+    icon: <Scale />,
+    background: CONSENSUS_CARD,
+    path: consensusTo,
+    github:
+      "https://github.com/Blockchain-Technology-Lab/consensus-decentralization",
+    methodologyLink: consensusMethodologyTo,
+  },
+  {
+    title: "Tokenomics",
+    desc: "This layer describes the decentralisation of token ownership over time.",
+    icon: <Coins />,
+    background: TOKENOMICS_CARD,
+    path: tokenomicsTo,
+    github:
+      "https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization/",
+    methodologyLink: tokenomicsMethodologyTo,
+  },
+  {
+    title: "Software",
+    desc: "This layer describes the decentralisation of the development of full node software projects over time.",
+    icon: <Code />,
+    background: SOFTWARE_CARD,
+    path: softwareTo,
+    github:
+      "https://github.com/Blockchain-Technology-Lab/software-decentralization",
+    methodologyLink: softwareMethodologyTo,
+  },
+  {
+    title: "Network",
+    desc: "This layer describes the decentralisation of nodes over time, in terms of the service providers (organisations) they use.",
+    icon: <Network />,
+    background: NETWORK_CARD,
+    path: networkTo,
+    github:
+      "https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin",
+    methodologyLink: networkMethodologyTo,
+  },
+  {
+    title: "Geography",
+    desc: "This layer describes the geographic decentralisation of nodes over time.",
+    icon: <Globe />,
+    background: GEOGRAPHY_CARD,
+    path: geographyTo,
+    disabled: false,
+    github:
+      "https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin",
+    methodologyLink: geographyMethodologyTo,
+  },
+  {
+    title: "Governance",
+    desc: "We plan to publish the governance layer soon.",
+    icon: <Gavel />,
+    background: GOVERNANCE_CARD,
+    path: governanceTo,
+    disabled: true,
+  },
+];
 export default function HomePage() {
-  const router = useRouter() // Create router instance
+  const navigate = useNavigate();
 
-  const list = [
-    {
-      title: "Consensus",
-      url: "/consensus",
-      icon: faCubes,
-      github:
-        "https://github.com/Blockchain-Technology-Lab/consensus-decentralization",
-      desc: "This layer describes the decentralisation of block production over time.",
-      disabled: false
-    },
-    {
-      title: "Tokenomics",
-      url: "/tokenomics",
-      icon: faBitcoinSign,
-      github:
-        "https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization/",
-      desc: "This layer describes the decentralisation of token ownership over time.",
-      disabled: false
-    },
-    {
-      title: "Software",
-      url: "/software",
-      icon: faLaptopCode,
-      github: "",
-      desc: "This layer describes the decentralisation of the development of full node software projects over time.",
-      disabled: false
-    },
-    {
-      title: "Network",
-      url: "/network",
-      icon: faHexagonNodes,
-      github: "",
-      desc: "This layer describes the decentralisation of nodes over time, in terms of the service providers (organisations) they use.",
-      disabled: false
-    },
-    {
-      title: "Geography",
-      url: "/geography",
-      icon: faGlobe,
-      github: "",
-      desc: "This layer describes the geographic decentralisation of nodes over time.",
-      disabled: false
-    },
-    {
-      title: "Governance (Coming Soon)",
-      url: "/",
-      icon: faLandmarkFlag,
-      github: "",
-      desc: "We plan to publish the governance layer soon. ", // "This layer describes the decentralisation of the network of full-nodes over time."
-      disabled: true
-    }
-    /*
-    {
-      title: "Network",
-      url: "/network",
-      icon: faNetworkWired,
-      github: "",
-      desc: "This layer describes the decentralisation of the network of full-nodes over time."
-    },
-    {
-      title: "Hardware",
-      url: "/hardware",
-      icon: faServer,
-      github: "",
-      desc: "This layer describes the decentralisation of hardware components over time."
-    },
-    {
-      title: "Governance",
-      url: "/governance",
-      icon: faHandshake,
-      github: "",
-      desc: "This layer describes the decentralisation of decision-making power over tim"
-    },
-    {
-      title: "API",
-      url: "/api",
-      icon: faLayerGroup,
-      github: "",
-      desc: "Description of API Layer"
-    },
-    {
-      title: "Geography",
-      url: "/geography",
-      icon: faEarthAmericas,
-      github: "",
-      desc: "Description of Geography Layer"
-    }
-    */
-  ]
+  const { data: radarData, loading: radarLoading, error: radarError } = useRadarCsv(RADAR_CSV);
 
   return (
-    <>
-      <section className="flex flex-col gap-12 mb-8 pb-4">
-        <HomepageTitleCard /> {/* Use HomepageCard here */}
-        <div className="gap-2 grid grid-cols-2 sm:grid-cols-4">
-          {list.map((item, index) => (
-            <HomepageCard
-              key={index}
-              title={item.title}
-              desc={item.desc}
-              icon={item.icon}
-              github={item.github}
-              onPress={() => router.push(item.url)} // Use onPress for routing
-              disabled={item.disabled}
-            />
-          ))}
-        </div>
-      </section>
-    </>
-  )
+    <div className="p-4">
+      <div className="card bg-base-100 w-full shadow-sm mb-8">
+        <HomeTopCard
+          title=""
+          description="The Edinburgh Decentralisation Index (EDI) studies blockchain decentralisation from first principles, archives relevant datasets, develops metrics, and offers a dashboard to track decentralisation trends over time and across systems."
+          imageSrc={EDI_CARD}
+          btnTitle="Website"
+          btnDesc="Visit the EDI website for more information"
+          webUrl="https://informatics.ed.ac.uk/blockchain/edi"
+        />
+      </div>
+
+      {/* Protocol Comparison Radar Chart */}
+      <div className="card bg-base-100 w-full shadow-sm mb-4">
+        {radarLoading ? (
+          <div className="flex items-center justify-center h-64">
+            <div className="text-center">
+              <div className="loading loading-spinner loading-lg "></div>
+              <p className="text-base-content/60">Loading comparison data...</p>
+            </div>
+          </div>
+        ) : radarError ? (
+          <div className="alert alert-error">
+            <span>Failed to load comparison data: {radarError}</span>
+          </div>
+        ) : (
+          <RadarChart
+            data={radarData}
+            title="Decentralisation Compass"
+            description="An overview of blockchain decentralisation across multiple layers"
+            showExport={true}
+            showLegendToggle={true}
+            className="w-full"
+          />
+        )}
+
+      </div>
+
+      {/* Homepage of Layers Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4 w-full">
+        {layers.map((layer) => (
+          <HomepageCard
+            key={layer.title}
+            title={layer.title}
+            desc={layer.desc}
+            icon={layer.icon}
+            background={layer.background}
+            onPress={() => navigate({ to: layer.path })}
+            disabled={layer.disabled}
+            github={layer.github}
+            methodologyLink={layer.methodologyLink}
+          />
+        ))}
+      </div>
+
+    </div>
+  );
 }
