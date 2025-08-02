@@ -43,7 +43,7 @@ export function Footer() {
                     <br />
                     is a registered trademark in the UK, US, and Switzerland.
                 </p>
-                <div className="text-xs opacity-60">
+                <div className="text-[10px] opacity-60">
                     Last updated: {new Date().toLocaleDateString("en-GB", {
                         year: 'numeric',
                         month: 'long',
