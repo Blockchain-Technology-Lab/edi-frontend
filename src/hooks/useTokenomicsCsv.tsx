@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react"
-import { DataEntry, loadTokenomicsCsvData } from "@/utils"
+import type { DataEntry } from "@/utils/types"
+import { loadTokenomicsCsvData } from "@/utils"
 
 export function useTokenomicsCsv(csvFile: string) {
     const [data, setData] = useState<DataEntry[]>()
