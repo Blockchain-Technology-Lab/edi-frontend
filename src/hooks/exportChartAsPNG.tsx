@@ -2,7 +2,7 @@ import { useCallback } from "react"
 
 export function useExportChart() {
   const exportChart = useCallback(
-    (chartRef: React.RefObject<HTMLCanvasElement>, fileName: string) => {
+    (chartRef: React.RefObject<HTMLCanvasElement | null>, fileName: string) => {
       if (chartRef.current) {
         const canvas = chartRef.current
         const ctx = canvas.getContext("2d")

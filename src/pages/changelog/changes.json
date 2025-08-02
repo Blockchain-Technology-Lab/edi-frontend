@@ -8,7 +8,7 @@
       "Metrics: Nakamoto coefficient, Gini coefficient, Shannon entropy, Herfindahl-Hirschman index (HHI), Theil index, Max power ratio, Tau-decentralization index",
       "Projects: Bitcoin, Bitcoin Cash, Cardano, Dogecoin, Ethereum, Litecoin, Tezos, Zcash."
     ],
-    "icon": "faHive"
+    "icon": "Scale"
   },
   {
     "date": "2024-03-06",
@@ -19,7 +19,7 @@
       "Metrics: Gini coefficient, Shannon entropy, Herfindahl-Hirschman index (HHI), Theil index, Max power ratio, Nakamoto coefficient, Tau-decentralization index",
       "Projects: Bitcoin, Bitcoin Cash, Cardano, Dogecoin, Ethereum, Litecoin, Tezos."
     ],
-    "icon": "faBitcoin"
+    "icon": "Coins"
   },
   {
     "date": "2024-08-28",
@@ -31,13 +31,13 @@
       "Projects: Bitcoin, Bitcoin Cash, Cardano, Go-Ethereum (Ethereum), Nethermind (Ethereum), Litecoin, Tezos, Zcash.",
       "Doughnut charts added for the contributor distributions of the 8 projects."
     ],
-    "icon": "faGithub"
+    "icon": "Github"
   },
   {
     "date": "2024-09-14",
     "title": "PNG exports",
     "description": ["Added option to export individual charts as PNG files."],
-    "icon": "faImage"
+    "icon": "Image"
   },
   {
     "date": "2024-11-24",
@@ -45,7 +45,7 @@
     "description": [
       "Added home page and set it as the dashboard landing page."
     ],
-    "icon": "faHouse"
+    "icon": "House"
   },
   {
     "date": "2025-01-16",
@@ -53,7 +53,7 @@
     "description": [
       "Updated the query used to fetch address balance data for Cardano from BigQuery and updated the relevant tokenomics graphs to reflect the  changes."
     ],
-    "icon": "faCoins"
+    "icon": "Coins"
   },
   {
     "date": "2025-03-10",
@@ -62,7 +62,7 @@
       "Updated the window that is used to determine if an entity is active in a given time period. For each 30-day window, an entity is now considered active if it has produced at least one block in that window, in the preceding 30-day window, or in the following 30-day window.",
       "Also updated the displayed name of one metric, from 'Max power ratio' to '1-concentration ratio'."
     ],
-    "icon": "faHive"
+    "icon": "Hive"
   },
   {
     "date": "2025-05-09",
@@ -74,7 +74,7 @@
       "Projects: Bitcoin, Bitcoin Cash, Dogecoin, Litecoin, Zcash.",
       "Doughnut charts added for the organizations distributions of the 5 projects."
     ],
-    "icon": "faNetworkWired"
+    "icon": "Network"
   },
   {
     "date": "2025-05-09",
@@ -85,6 +85,6 @@
       "Metrics: Herfindahl-Hirschman index (HHI), Nakamoto Coefficient, 1-concentration ratio, Shannon Entropy",
       "Projects: Bitcoin, Bitcoin Cash, Dogecoin, Litecoin, Zcash.",
       "Doughnut charts added for the countries distributions of the 5 projects."    ],
-    "icon": "faGlobe"
+    "icon": "Globe"
   }
 ]

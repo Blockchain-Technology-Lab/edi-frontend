@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react"
-import { DataEntry, DoughnutDataEntry } from "@/utils"
+import type { DataEntry, DoughnutDataEntry } from "@/utils/types"
 import {
     loadSoftwareCsvData,
     loadDoughnutCsvData

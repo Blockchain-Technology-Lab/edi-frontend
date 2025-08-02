@@ -1,70 +1,79 @@
-import { Card, CardHeader, CardBody, CardFooter, Link } from "@heroui/react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { useTheme } from "next-themes"
-import { useIsMounted } from "@/hooks"
+import type { ReactNode } from "react";
+import { Github, FileText } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
-interface HomepageCardProps {
-  title: string
-  desc: string
-  icon: any
-  github: string
-  onPress: () => void
-  disabled?: boolean
-}
+type HomepageCardProps = {
+  title: string;
+  desc: string;
+  icon: ReactNode;
+  onPress: () => void;
+  disabled?: boolean;
+  background: string;
+  github?: string;
+  methodologyLink?: string;
+};
 
 export function HomepageCard({
   title,
   desc,
   icon,
-  github,
+  background,
   onPress,
-  disabled = false // Default is not disabled
+  disabled = false,
+  github = "",
+  methodologyLink = "",
 }: HomepageCardProps) {
-  const mounted = useIsMounted()
-
-  const { resolvedTheme } = useTheme()
-
-  if (!mounted) return null
-
-  // Choose icon color based on theme
-  const iconColorClass = resolvedTheme === "light" ? "text-black" : "text-white"
-
   return (
-    <Card
-      isPressable={!disabled}
-      isHoverable={!disabled}
-      className={`min-w-[100px] border border-default mr-2 mb-3 ${disabled ? "opacity-50 cursor-not-allowed" : ""}`} // Visual indicator for disabled state
-      onPress={!disabled ? onPress : undefined} // Disable the click event
+    <div
+      onClick={!disabled ? onPress : undefined}
+      className={`card m-2   bg-base-200 shadow-md  cursor-pointer transition duration-300 ease-in-out 
+        ${disabled ? "opacity-80 cursor-not-allowed" : "hover:scale-105"}`}
     >
-      <CardHeader
-        className={resolvedTheme === "light" ? "bg-gray-100" : "bg-gray-800"}
-      >
-        <h4 className="font-bold text-lg transition duration-300 ease-in-out font-sans">
-          {title}
-        </h4>
-      </CardHeader>
-      <CardBody className="relative p-4 min-h-[100px] font-mono text-sm">
-        <FontAwesomeIcon
-          icon={icon}
-          size="5x"
-          className={`absolute top-0 right-0 opacity-10 ${iconColorClass}`}
-          style={{
-            //zIndex: -1, // Ensure it stays in the background but visible
-            pointerEvents: "none", // Prevent it from blocking clicks on the text
-            opacity: 0.05, // Control opacity (adjust as needed)
-            marginRight: "15px",
-            marginTop: "15px"
-          }}
+      <figure className="w-full h-24 sm:h-48 md:h-60 overflow-hidden">
+        <img
+          src={background}
+          alt={title}
+          className="object-contain w-full h-full"
         />
-        <p className="pr-10">{desc}</p>
-      </CardBody>{" "}
-      <CardFooter>
-        {/* 
-         <Link isExternal showAnchorIcon href={github}>
-          GitHub.
-        </Link>
-        */}
-      </CardFooter>
-    </Card>
-  )
+      </figure>
+      {/* Header */}
+      <div className="card-body pb-4 bg-base-300">
+        <h2 className="card-title text-xl font-bold font-sans">{title}</h2>
+
+        {/* Icon as background */}
+        <div className="absolute top-2 right-2 text-[64px] opacity-10 text-base-content pointer-events-none">
+          {icon}
+        </div>
+
+        {/* Description */}
+        <p className="text-sm font-mono mt-2 pr-8 ">{desc}</p>
+      </div>
+
+      {/* Footer (optional) */}
+      <div className="card-actions justify-end m-1 p-1 pt-1" >
+        {methodologyLink && (
+          <Link
+            to={methodologyLink}
+            className="btn-xs text-base-content hover:text-accent transition-colors"
+            onClick={(e) => e.stopPropagation()} // prevent card click
+          >
+            <FileText size={24} />
+          </Link>
+        )}
+        {github && (
+          <a
+            href={github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-base-content hover:text-accent transition-colors"
+            title="GitHub"
+            aria-label="GitHub"
+            onClick={(e) => e.stopPropagation()} // prevent card click
+          >
+            <Github size={24} />
+          </a>
+        )}
+      </div>
+    </div>
+  );
 }

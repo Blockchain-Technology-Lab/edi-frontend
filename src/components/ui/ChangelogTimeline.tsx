@@ -1,67 +1,70 @@
-import timelineData from "../../pages/changelog/changes.json"
+import timelineData from "@/pages/changelog/changes.json";
+import {
+  Scale,
+  Coins,
+  Github,
+  Image,
+  House,
+  Network,
+  Globe,
+  Hexagon,
+  CircleHelp
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import * as SolidIcons from "@fortawesome/free-solid-svg-icons"
-import * as BrandIcons from "@fortawesome/free-brands-svg-icons"
-import { IconProp } from "@fortawesome/fontawesome-svg-core"
+// Icon mapping for the changelog entries
+const iconMap: Record<string, LucideIcon> = {
+  Scale,
+  Coins,
+  Github,
+  Image,
+  House,
+  Network,
+  Globe,
+  Hive: Hexagon,
+  CircleHelp
+};
 
-// Helper function to safely get the icon
-const getIcon = (iconName: string): IconProp | null => {
-  const solidIcon = SolidIcons[iconName as keyof typeof SolidIcons] as IconProp
-  const brandIcon = BrandIcons[iconName as keyof typeof BrandIcons] as IconProp
-  return solidIcon || brandIcon || null // Check in both solid and brand icons
-}
-
+/**
+ * Renders a vertical timeline of changelog entries, sorted by date (newest first).
+ * Each entry displays an icon, date, title, and a list of description points.
+ */
 export function ChangelogTimeline() {
-  // Sort the timeline data by date, most recent first
-  const sortedTimelineData = timelineData.sort((a, b) => {
-    const dateA = new Date(a.date).getTime()
-    const dateB = new Date(b.date).getTime()
-    return dateB - dateA
-  })
+  const sortedTimelineData = [...timelineData].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
 
   return (
-    <div className="flowbite">
-      <ol className="relative border-l border-gray-200 dark:border-gray-700">
-        {sortedTimelineData.map((entry, index) => {
-          // Fetch icon component dynamically using the helper function
-          const IconComponent = getIcon(entry.icon)
+    <ul className="timeline timeline-vertical timeline-compact">
+      {sortedTimelineData.map((entry: { date: string; icon: string; title: string; description: string[] }, index) => {
+        // Get the icon component from our icon map
+        const Icon = iconMap[entry.icon] || CircleHelp;
 
-          return (
-            <li className="mb-10 ml-6" key={`${entry.date}-${index}`}>
-              {" "}
-              <span
-                className="absolute flex items-center justify-center w-8 h-8 bg-blue-100 rounded-full -left-4 ring-6 ring-white dark:ring-gray-900 dark:bg-blue-500"
-                aria-hidden="true"
-              >
-                {IconComponent ? (
-                  <FontAwesomeIcon icon={IconComponent} />
-                ) : (
-                  (<FontAwesomeIcon
-                    icon={SolidIcons.faQuestionCircle}
-                    className="text-gray-500"
-                  />) // Default icon if missing
-                )}
-              </span>
-              <h3 className="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
-                {entry.title}
-              </h3>
-              <time className="inline-block px-2 py-1 mb-2 text-xs font-serif font-medium text-gray-700 border border-gray-300 rounded-full dark:border-gray-900 dark:text-gray-200 shadow-sm bg-gray-50 dark:bg-gray-700 ">
-                {entry.date}
-              </time>
-              <div className="mb-4 text-base font-normal text-gray-700 dark:text-gray-300 ml-5">
-                <ul className="list-disc ml-5">
-                  {entry.description.map((point, i) => (
-                    <li key={i} className="ml-2">
-                      {point}
-                    </li>
-                  ))}
-                </ul>
+        return (
+          <li key={`${entry.date}-${index}`}>
+            {index !== 0 && <hr />}
+
+            <div className="timeline-middle">
+              <Icon className="h-5 w-5" />
+            </div>
+
+            <div className="timeline-end timeline-box mb-4">
+              <div className="flex items-center gap-2 mb-2 ">
+                <div className="text-lg font-bold card-title">{entry.title}</div>
+                <time className="font-mono italic text-sm opacity-60">{entry.date}</time>
               </div>
-            </li>
-          );
-        })}
-      </ol>
-    </div>
+              <ul className="list-disc text-sm ml-4">
+                {entry.description.map((point: string, i: number) => (
+                  <li key={i}>{point}</li>
+                ))}
+              </ul>
+            </div>
+
+
+            {index !== sortedTimelineData.length - 1 && <hr />}
+          </li>
+        );
+      })}
+    </ul>
   );
 }
