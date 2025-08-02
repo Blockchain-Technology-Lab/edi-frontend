@@ -1,4 +1,4 @@
-ledger,date,number_nodes
+ledger,date,nodes
 consensus,2025-07-22,10529
 execution,2025-07-22,11425
 bitcoin,2025-07-26,22416
