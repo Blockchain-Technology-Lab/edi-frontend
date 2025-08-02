@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /blockchainlab/demo/
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /blockchainlab/demo/index.html [L]
+</IfModule>
+
+# Set proper MIME types
+AddType application/javascript .js
+AddType text/css .css
