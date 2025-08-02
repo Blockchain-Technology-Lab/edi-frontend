@@ -10,24 +10,14 @@ import {
 import { useContext, useEffect } from 'react';
 import { ThemeContext } from "@/contexts";
 import { LINECHART_WATERMARK_WHITE, LINECHART_WATERMARK_BLACK } from "@/utils";
-import { LEDGER_DISPLAY_NAME_MAP, type NetworkBarEntry } from "@/utils";
+import { type NetworkBarEntry, prepareBarChartData } from "@/utils";
 import Tippy from "@tippyjs/react";
 import { Info } from "lucide-react";
 
 Chart.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
-const LEDGER_COLOR_MAP: Record<string, string> = {
-  bitcoin: "#f7931a", // Bitcoin orange
-  bitcoin_cash: "#8dc351", // Bitcoin Cash green
-  dogecoin: "#c2a633", // Dogecoin gold
-  litecoin: "#345c9c", // Litecoin blue
-  zcash: "#ecb244", // Zcash yellow
-  consensus: "#808080", // Ethereum gray,
-  execution: "#b0b0b0", // Ethereum gray
-  cardano: "#0033ad", // Cardano blue
-};
 
-const DEFAULT_COLOR = "#2563eb"; // fallback blue
+
 
 interface BarChartProps {
   title: string;
@@ -106,15 +96,16 @@ export function BarChart({ data, loading, title, description }: BarChartProps) {
   if (!data || data.length === 0)
     return <div className="text-center py-8">No data</div>;
 
+  // Use the utility function to prepare chart data
+  const { labels, nodes, backgroundColors } = prepareBarChartData(data);
+
   const chartData = {
-    labels: data.map((d) => LEDGER_DISPLAY_NAME_MAP[d.ledger] || d.ledger),
+    labels,
     datasets: [
       {
         label: "Nodes",
-        data: data.map((d) => d.nodes),
-        backgroundColor: data.map(
-          (d) => LEDGER_COLOR_MAP[d.ledger] || DEFAULT_COLOR
-        ),
+        data: nodes,
+        backgroundColor: backgroundColors,
       },
     ],
   };
