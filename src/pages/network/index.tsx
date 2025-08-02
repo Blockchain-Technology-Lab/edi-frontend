@@ -75,7 +75,7 @@ export function Network() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4  ">
           <BarChart
-            title="Full Nodes by Ledger"
+            title="Number of full nodes"
             data={nodesData}
             loading={loading}
             description="The following graph represents the number of nodes participating in the network."
