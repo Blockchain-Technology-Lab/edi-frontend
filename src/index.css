@@ -1,0 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+ @plugin "daisyui" {
+   themes: all;
+ }
+
+@theme {
+  --font-display: "Oswald", "sans-serif"; 
+  --font-roboto: "Roboto", sans-serif; 
+}
+
+html {
+  scroll-behavior: smooth;
+}

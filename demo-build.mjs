@@ -10,13 +10,12 @@ import { hideBin } from "yargs/helpers";
 const config = {
   basePath: "/blockchainlab/demo",
   outputDir: "upload/demo",
-  afsDeployPath: "/afs/inf.ed.ac.uk/group/project/blockchainlab/html/demo"
+  afsDeployPath: "/afs/inf.ed.ac.uk/group/project/blockchainlab/html/demo",
 };
 
 const FILES_TO_MODIFY = [
-  "next.config.mjs",
   "src/utils/paths.ts",
-  "src/components/ui/HomepageTitleCard.tsx"
+  "vite.config.ts",
 ];
 
 let originalContents = {};
@@ -49,18 +48,14 @@ function restoreFiles() {
   });
 }
 
-function updateConfig(basePath, outputDir) {
-  updateFile("next.config.mjs", [
-    [/basePath:\s*["'].*?["']/g, `basePath: "${basePath}"`],
-    [/distDir:\s*["'].*?["']/g, `distDir: "${outputDir}"`]
-  ]);
-
+function updateConfig(basePath, outputDir) {  
   updateFile("src/utils/paths.ts", [
-    [/basePath\s*=\s*["'].*?["']/g, `basePath = "${basePath}"`]
+    [/basePath\s*=\s*["'].*?["']/g, `basePath = "${basePath}"`],
+    [/distDir:\s*["'].*?["']/g, `distDir: "${outputDir}"`],
   ]);
 
-  updateFile("src/components/ui/HomepageTitleCard.tsx", [
-    [/basePath\s*=\s*["'][^"']*["']/g, `basePath = "${basePath}"`]
+  updateFile("vite.config.ts", [
+    [/const base\s*=\s*['"`][^'"`]*['"`]/, `const base = "${basePath}"`],
   ]);
 }
 
@@ -70,6 +65,7 @@ function updateFile(filePath, replacements) {
     fileContent = fileContent.replace(regex, replacement);
   });
   fs.writeFileSync(filePath, fileContent);
+  console.log(chalk.green(`Updated ${filePath} successfully.`));
 }
 
 function buildProject(outputDir) {
@@ -77,21 +73,20 @@ function buildProject(outputDir) {
   ensureDirectoryExists("upload");
   cleanDirectory(outputDir);
 
-  execSync('npm run build', { stdio: 'inherit' })
+  execSync("npm run build", { stdio: "inherit" });
   console.log(chalk.green(`Build completed.`));
 }
 
 function deployToAFS(localDir, afsDir, skipOutputFolder = false) {
   console.log(chalk.green("\nDeploying to AFS..."));
   try {
+    const command = skipOutputFolder
+      ? `rsync -av --exclude 'output/' ${localDir}/ ${afsDir}/`
+      : `sh -c 'cp -R ${localDir}/* ${afsDir}/'`;
 
-  const command = skipOutputFolder
-    ? `rsync -av --exclude 'output/' ${localDir}/ ${afsDir}/`
-    : `cp -R ${localDir}/* ${afsDir}/`;
+    execSync(command, { stdio: "inherit" });
 
-  execSync(command, { stdio: "inherit" });
-  
-  console.log(chalk.green("Deployment to AFS successful."));
+    console.log(chalk.green("Deployment to AFS successful."));
   } catch (error) {
     console.error(chalk.red("Deployment failed:", error));
     process.exit(1);
@@ -113,7 +108,10 @@ async function prompt(question, defaultValue = "") {
 }
 
 async function loginToAFS() {
-  const username = await prompt("Enter your AFS username (default: zjan@INF.ED.AC.UK): ", "zjan@INF.ED.AC.UK");
+  const username = await prompt(
+    "Enter your AFS username (default: zjan@INF.ED.AC.UK): ",
+    "zjan@INF.ED.AC.UK"
+  );
   console.log(chalk.green(`Running kinit for ${username}...`));
   if (spawnSync("kinit", [username], { stdio: "inherit" }).status !== 0) {
     console.error("kinit failed.");
@@ -126,7 +124,6 @@ async function loginToAFS() {
   }
   console.log(chalk.green("AFS login successful.\n"));
 }
-
 
 function safeRestoreAndExit(code = 1) {
   if (!didRestore) {

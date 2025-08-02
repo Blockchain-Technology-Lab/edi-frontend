@@ -1,17 +1,7 @@
 // src/hooks/useConsensusCsvAll.tsx
 import { useEffect, useState } from "react"
-import { DataEntry, loadConsensusCsvData } from "@/utils"
-
-const LEDGERS = [
-    "bitcoin",
-    "bitcoin_cash",
-    "cardano",
-    "dogecoin",
-    "ethereum",
-    "litecoin",
-    "tezos",
-    "zcash"
-]
+import { loadConsensusCsvData, CONSENSUS_ALLOWED_LEDGERS } from "@/utils"
+import type { DataEntry } from '@/utils/types';
 
 export function useConsensusCsvAll(fileName: string) {
     const [data, setData] = useState<DataEntry[]>([])
@@ -23,7 +13,7 @@ export function useConsensusCsvAll(fileName: string) {
             setLoading(true)
             try {
                 const allData = await Promise.all(
-                    LEDGERS.map((ledger) => loadConsensusCsvData(ledger, fileName))
+                    CONSENSUS_ALLOWED_LEDGERS.map((ledger) => loadConsensusCsvData(ledger, fileName))
                 )
                 const combined = allData.flat()
                 setData(combined)

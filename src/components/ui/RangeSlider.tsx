@@ -1,15 +1,14 @@
-import React from "react"
 import * as RadixSlider from "@radix-ui/react-slider"
 import { twJoin } from "tailwind-merge"
 
 export function RangeSlider(props: RadixSlider.SliderProps) {
   return (
     <RadixSlider.Root
-      className="relative flex items-center h-[16px] mt-4 select-none touch-none"
+      className="relative flex items-center w-full h-4 select-none touch-none"
       {...props}
     >
-      <RadixSlider.Track className="relative bg-slate-200 dark:bg-white/20 flex-grow h-[2px]">
-        <RadixSlider.Range className="absolute bg-slate-800 dark:bg-slate-300 h-full" />
+      <RadixSlider.Track className="relative bg-base-300 dark:bg-white/20 flex-grow h-1 rounded">
+        <RadixSlider.Range className="absolute bg-accent h-full rounded" />
       </RadixSlider.Track>
       <Thumb />
       <Thumb />
@@ -21,8 +20,9 @@ function Thumb() {
   return (
     <RadixSlider.Thumb
       className={twJoin(
-        "block w-[16px] h-[16px] bg-white border border-slate-800 cursor-pointer",
-        "dark:bg-slate-300 dark:border-transparent focus:outline-none focus:bg-slate-800 dark:focus:bg-white"
+        "w-4 h-4 rounded-full border-2 border-base-content bg-base-100",
+        "focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-base-300",
+        "transition-colors duration-150 ease-in-out"
       )}
     />
   )

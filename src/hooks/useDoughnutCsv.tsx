@@ -1,4 +1,5 @@
-import { DoughnutDataEntry, loadDoughnutCsvData } from "@/utils"
+import type { DoughnutDataEntry } from "@/utils/types"
+import { loadDoughnutCsvData } from "@/utils"
 import { useCallback, useEffect, useState } from "react"
 
 export function useDoughnutCsvLoader(csvPath: string) {
