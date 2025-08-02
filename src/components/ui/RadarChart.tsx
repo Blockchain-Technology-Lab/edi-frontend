@@ -22,7 +22,9 @@ import {
     LINECHART_WATERMARK_WHITE,
     LINECHART_WATERMARK_BLACK
 } from '@/utils';
+import { useNavigate } from "@tanstack/react-router";
 
+import { consensusRoute, tokenomicsRoute, networkRoute, softwareRoute, geographyRoute } from "@/router";
 
 // Register Chart.js components
 ChartJS.register(
@@ -34,68 +36,7 @@ ChartJS.register(
     Legend
 );
 
-const EDI_LAYERS = [
-    {
-        name: 'Consensus',
-        description: 'Measures the decentralisation of consensus participants (block producers). The metric used in the Decentralisation Compass is the Herfindahl-Hirschman Index (HHI), inverted and scaled. For broader comparisons across systems, metrics, and timeframes, see [Consensus url].',
-        details: [
-            'Validator/miner distribution',
-            'Voting power concentration',
-            'Consensus participation rates',
-            'Block production diversity'
-        ],
-        color: '#3B82F6',
-        icon: Scale
-    },
-    {
-        name: 'Tokenomics',
-        description: 'Measures the decentralisation of native asset (token) ownership.  The metric used in the Decentralisation Compass is the 3-concentration ratio, inverted and scaled. For comparing more systems across more metrics and over time, see [Tokenomics url].',
-        details: [
-            'Token distribution fairness',
-            'Wealth concentration metrics',
-            'Economic incentive alignment',
-            'Staking participation'
-        ],
-        color: '#10B981',
-        icon: Coins
-    },
-    {
-        name: 'Software',
-        description: 'Measures the decentralisation of contributors to full node software implementations. The metric used in the Decentralisation Compass is the 1-concentration ratio, inverted and scaled. For comparing more systems across more metrics and over time, see [Software url].',
-        details: [
-            'Developer contribution diversity',
-            'Code repository distribution',
-            'Implementation varieties',
-            'Development governance'
-        ],
-        color: '#F59E0B',
-        icon: Code
-    },
-    {
-        name: 'Network',
-        description: "Measures the decentralisation of organisations operating a network's full nodes. Note that for the case of Ethereum, this specifically refers to Execution Layer nodes. The metric used in the Decentralisation Compass is the Herfindahl-Hirschman Index (HHI), inverted and scaled. For comparing more systems across more metrics and over time, see [Network url].",
-        details: [
-            'Node geographical spread',
-            'Infrastructure diversity',
-            'Network resilience',
-            'Operational independence'
-        ],
-        color: '#EF4444',
-        icon: Network
-    },
-    {
-        name: 'Geography',
-        description: 'Measures the decentralisation of countries where full nodes are located. Note that for the case of Ethereum, this specifically refers to Execution Layer nodes. The metric shown in the Decentralisation Compass is the Herfindahl-Hirschman Index (HHI), inverted and scaled. For comparing more systems across more metrics and over time, see [Geography url].',
-        details: [
-            'Global participant spread',
-            'Regional concentration risks',
-            'Regulatory jurisdiction diversity',
-            'Physical infrastructure distribution'
-        ],
-        color: '#8B5CF6',
-        icon: Globe
-    }
-];
+
 
 interface RadarChartProps {
     data: RadarDataPoint[];
@@ -162,6 +103,71 @@ export function RadarChart({
     }
 
     if (!options) return null;
+    const navigate = useNavigate();
+
+
+    const EDI_LAYERS = [
+        {
+            name: 'Consensus',
+            description: <>Measures the decentralisation of consensus participants (block producers). The metric used in the Decentralisation Compass is the Herfindahl-Hirschman Index (HHI), inverted and scaled. For broader comparisons across systems, metrics, and timeframes, see <span className="text-blue-500 underline cursor-pointer" onClick={() => navigate({ to: consensusRoute.to })}>Consensus</span>.</>,
+            details: [
+                'Validator/miner distribution',
+                'Voting power concentration',
+                'Consensus participation rates',
+                'Block production diversity'
+            ],
+            color: '#3B82F6',
+            icon: Scale
+        },
+        {
+            name: 'Tokenomics',
+            description: <>Measures the decentralisation of native asset (token) ownership.  The metric used in the Decentralisation Compass is the 3-concentration ratio, inverted and scaled. For comparing more systems across more metrics and over time, see <span className="text-blue-500 underline cursor-pointer" onClick={() => navigate({ to: tokenomicsRoute.to })}>Tokenomics</span>.</>,
+            details: [
+                'Token distribution fairness',
+                'Wealth concentration metrics',
+                'Economic incentive alignment',
+                'Staking participation'
+            ],
+            color: '#10B981',
+            icon: Coins
+        },
+        {
+            name: 'Software',
+            description: <>Measures the decentralisation of contributors to full node software implementations. The metric used in the Decentralisation Compass is the 1-concentration ratio, inverted and scaled. For comparing more systems across more metrics and over time, see <span className="text-blue-500 underline cursor-pointer" onClick={() => navigate({ to: softwareRoute.to })}>Software</span>.</>,
+            details: [
+                'Developer contribution diversity',
+                'Code repository distribution',
+                'Implementation varieties',
+                'Development governance'
+            ],
+            color: '#F59E0B',
+            icon: Code
+        },
+        {
+            name: 'Network',
+            description: <>Measures the decentralisation of organisations operating a network's full nodes. Note that for the case of Ethereum, this specifically refers to Execution Layer nodes. The metric used in the Decentralisation Compass is the Herfindahl-Hirschman Index (HHI), inverted and scaled. For comparing more systems across more metrics and over time, see <span className="text-blue-500 underline cursor-pointer" onClick={() => navigate({ to: networkRoute.to })}>Network</span>.</>,
+            details: [
+                'Node geographical spread',
+                'Infrastructure diversity',
+                'Network resilience',
+                'Operational independence'
+            ],
+            color: '#EF4444',
+            icon: Network
+        },
+        {
+            name: 'Geography',
+            description: <>Measures the decentralisation of countries where full nodes are located. Note that for the case of Ethereum, this specifically refers to Execution Layer nodes. The metric shown in the Decentralisation Compass is the Herfindahl-Hirschman Index (HHI), inverted and scaled. For comparing more systems across more metrics and over time, see <span className="text-blue-500 underline cursor-pointer" onClick={() => navigate({ to: geographyRoute.to })}>Geography</span>.</>,
+            details: [
+                'Global participant spread',
+                'Regional concentration risks',
+                'Regulatory jurisdiction diversity',
+                'Physical infrastructure distribution'
+            ],
+            color: '#8B5CF6',
+            icon: Globe
+        }
+    ];
 
     return (
         <div className={`card bg-base-200 shadow-lg ${className}`}>
