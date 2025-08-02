@@ -204,13 +204,45 @@ export async function loadNetworkBarCsvData(
   }
 }
 
-export const LEDGER_DISPLAY_NAME_MAP: Record<string, string> = {
-  bitcoin: "Bitcoin",
-  bitcoin_cash: "Bitcoin Cash",
-  dogecoin: "Dogecoin",
-  litecoin: "Litecoin",
-  zcash: "ZCash",
-  consensus: "Ethereum Consensus",
-  execution: "Ethereum Execution",
-  cardano: "Cardano"
+export const NETWORK_BAR_CHART_LEDGER_DETAILS = [
+  { ledger: "bitcoin", displayName: "Bitcoin", color: "#f7931a" }, // Bitcoin orange
+  { ledger: "bitcoin_cash", displayName: "Bitcoin Cash", color: "#4caf50" }, // A brighter green for Bitcoin Cash
+  { ledger: "dogecoin", displayName: "Dogecoin", color: "#ffcc00" }, // A brighter yellow for Dogecoin
+  { ledger: "litecoin", displayName: "Litecoin", color: "#0077b5" }, // A more vibrant blue for Litecoin
+  { ledger: "zcash", displayName: "ZCash", color: "#8b572a" }, // A darker brown for ZCash
+  { ledger: "consensus", displayName: "Ethereum Consensus", color: "#808080" }, // Ethereum gray
+  { ledger: "execution", displayName: "Ethereum Execution", color: "#b0b0b0" }, // Ethereum execution gray
+  { ledger: "cardano", displayName: "Cardano", color: "#0033ad" } // Cardano blue
+]
+
+export const NETWORK_DEFAULT_BAR_COLOUR = "#2563eb" // fallback blue
+
+export function prepareBarChartData(data: NetworkBarEntry[]) {
+  // Sort the data alphabetically based on display names
+  const sortedData = data.slice().sort((a, b) => {
+    const labelA = getBarLedgerDisplayName(a.ledger)
+    const labelB = getBarLedgerDisplayName(b.ledger)
+    return labelA.localeCompare(labelB)
+  })
+
+  // Map the sorted data to labels, nodes, and colors
+  const labels = sortedData.map((d) => getBarLedgerDisplayName(d.ledger))
+  const nodes = sortedData.map((d) => d.nodes)
+  const backgroundColors = sortedData.map((d) => getBarLedgerColor(d.ledger))
+
+  return { labels, nodes, backgroundColors }
+}
+
+export function getBarLedgerDisplayName(ledger: string): string {
+  const entry = NETWORK_BAR_CHART_LEDGER_DETAILS.find(
+    (item) => item.ledger === ledger
+  )
+  return entry ? entry.displayName : ledger // Fallback to the ledger key if not found
+}
+
+export function getBarLedgerColor(ledger: string): string {
+  const entry = NETWORK_BAR_CHART_LEDGER_DETAILS.find(
+    (item) => item.ledger === ledger
+  )
+  return entry ? entry.color : NETWORK_DEFAULT_BAR_COLOUR // Fallback to a default color if not found
 }
