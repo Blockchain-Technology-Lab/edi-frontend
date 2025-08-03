@@ -121,7 +121,7 @@ export function RadarChart({
         },
         {
             name: 'Tokenomics',
-            description: <>Measures the decentralisation of native asset (token) ownership.  The metric used in the Decentralisation Compass is the 3-concentration ratio, inverted and scaled. For comparing more systems across more metrics and over time, see <span className="text-blue-500 underline cursor-pointer" onClick={() => navigate({ to: tokenomicsRoute.to })}>Tokenomics</span>.</>,
+            description: <>Measures the decentralisation of native asset (token) ownership.  The metric used in the Decentralisation Compass is the 3-concentration ratio, inverted and scaled. For broader comparisons across systems, metrics, and timeframes, see <span className="text-blue-500 underline cursor-pointer" onClick={() => navigate({ to: tokenomicsRoute.to })}>Tokenomics</span>.</>,
             details: [
                 'Token distribution fairness',
                 'Wealth concentration metrics',
@@ -133,7 +133,7 @@ export function RadarChart({
         },
         {
             name: 'Software',
-            description: <>Measures the decentralisation of contributors to full node software implementations. The metric used in the Decentralisation Compass is the 1-concentration ratio, inverted and scaled. For comparing more systems across more metrics and over time, see <span className="text-blue-500 underline cursor-pointer" onClick={() => navigate({ to: softwareRoute.to })}>Software</span>.</>,
+            description: <>Measures the decentralisation of contributors to full node software implementations. The metric used in the Decentralisation Compass is the 1-concentration ratio, inverted and scaled. For broader comparisons across systems, metrics, and timeframes, see <span className="text-blue-500 underline cursor-pointer" onClick={() => navigate({ to: softwareRoute.to })}>Software</span>.</>,
             details: [
                 'Developer contribution diversity',
                 'Code repository distribution',
@@ -145,7 +145,7 @@ export function RadarChart({
         },
         {
             name: 'Network',
-            description: <>Measures the decentralisation of organisations operating a network's full nodes. Note that for the case of Ethereum, this specifically refers to Execution Layer nodes. The metric used in the Decentralisation Compass is the Herfindahl-Hirschman Index (HHI), inverted and scaled. For comparing more systems across more metrics and over time, see <span className="text-blue-500 underline cursor-pointer" onClick={() => navigate({ to: networkRoute.to })}>Network</span>.</>,
+            description: <>Measures the decentralisation of organisations operating a network's full nodes. Note that for the case of Ethereum, this specifically refers to Execution Layer nodes. The metric used in the Decentralisation Compass is the Herfindahl-Hirschman Index (HHI), inverted and scaled. For broader comparisons across systems, metrics, and timeframes, see <span className="text-blue-500 underline cursor-pointer" onClick={() => navigate({ to: networkRoute.to })}>Network</span>.</>,
             details: [
                 'Node geographical spread',
                 'Infrastructure diversity',
@@ -157,7 +157,7 @@ export function RadarChart({
         },
         {
             name: 'Geography',
-            description: <>Measures the decentralisation of countries where full nodes are located. Note that for the case of Ethereum, this specifically refers to Execution Layer nodes. The metric shown in the Decentralisation Compass is the Herfindahl-Hirschman Index (HHI), inverted and scaled. For comparing more systems across more metrics and over time, see <span className="text-blue-500 underline cursor-pointer" onClick={() => navigate({ to: geographyRoute.to })}>Geography</span>.</>,
+            description: <>Measures the decentralisation of countries where full nodes are located. Note that for the case of Ethereum, this specifically refers to Execution Layer nodes. The metric shown in the Decentralisation Compass is the Herfindahl-Hirschman Index (HHI), inverted and scaled. For broader comparisons across systems, metrics, and timeframes, see <span className="text-blue-500 underline cursor-pointer" onClick={() => navigate({ to: geographyRoute.to })}>Geography</span>.</>,
             details: [
                 'Global participant spread',
                 'Regional concentration risks',
@@ -304,6 +304,7 @@ export function RadarChart({
                                             </p>
 
                                             {/* Show current protocol scores for this dimension */}
+                                            {/*
                                             <div className="mt-3 space-y-2">
                                                 <div className="text-xs font-medium text-base-content/70 mb-2">
                                                     Protocols:
@@ -322,7 +323,6 @@ export function RadarChart({
                                                                 <span className="capitalize">{protocol.protocol}</span>
                                                             </div>
                                                             <span className="font-mono font-medium">
-                                                                {/* 🔧 Fixed: Removed string comparisons since value is typed as number */}
                                                                 {value === 0 ||
                                                                     value == null ||
                                                                     value === undefined ||
@@ -334,6 +334,7 @@ export function RadarChart({
                                                     );
                                                 })}
                                             </div>
+                                            */}
                                         </div>
                                     </div>
                                 </div>
