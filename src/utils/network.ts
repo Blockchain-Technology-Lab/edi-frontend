@@ -210,8 +210,16 @@ export const NETWORK_BAR_CHART_LEDGER_DETAILS = [
   { ledger: "dogecoin", displayName: "Dogecoin", color: "#ffcc00" }, // A brighter yellow for Dogecoin
   { ledger: "litecoin", displayName: "Litecoin", color: "#0077b5" }, // A more vibrant blue for Litecoin
   { ledger: "zcash", displayName: "ZCash", color: "#8b572a" }, // A darker brown for ZCash
-  { ledger: "consensus", displayName: "Ethereum Consensus", color: "#808080" }, // Ethereum gray
-  { ledger: "execution", displayName: "Ethereum Execution", color: "#b0b0b0" }, // Ethereum execution gray
+  {
+    ledger: "consensus",
+    displayName: "Ethereum (Consensus)",
+    color: "#808080"
+  }, // Ethereum gray
+  {
+    ledger: "execution",
+    displayName: "Ethereum (Execution)",
+    color: "#b0b0b0"
+  }, // Ethereum execution gray
   { ledger: "cardano", displayName: "Cardano", color: "#0033ad" } // Cardano blue
 ]
 

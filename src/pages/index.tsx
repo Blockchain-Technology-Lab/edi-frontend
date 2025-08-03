@@ -124,7 +124,7 @@ export default function HomePage() {
           <RadarChart
             data={radarData}
             title="Decentralisation Compass"
-            description="An overview of blockchain decentralisation across multiple layers"
+            description="Navigating the layers of blockchain decentralisation"
             showExport={true}
             showLegendToggle={true}
             className="w-full"
