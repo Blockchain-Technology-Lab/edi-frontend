@@ -133,7 +133,7 @@ export function RadarChart({
         },
         {
             name: 'Software',
-            description: <>Measures the decentralisation of contributors to full node software implementations. The metric used in the Decentralisation Compass is the 1-concentration ratio, inverted and scaled. For broader comparisons across systems, metrics, and timeframes, see <span className="text-blue-500 underline cursor-pointer" onClick={() => navigate({ to: softwareRoute.to })}>Software</span>.</>,
+            description: <>Measures the decentralisation of contributors to full node software implementations. The metric used in the Decentralisation Compass is the Herfindahl-Hirschman Index (HHI), inverted and scaled. For broader comparisons across systems, metrics, and timeframes, see <span className="text-blue-500 underline cursor-pointer" onClick={() => navigate({ to: softwareRoute.to })}>Software</span>.</>,
             details: [
                 'Developer contribution diversity',
                 'Code repository distribution',
@@ -291,7 +291,7 @@ export function RadarChart({
                                             {/* 🔧 Replace colored dot with icon */}
                                             <layer.icon
                                                 size={16}
-                                                style={{ color: layer.color }}
+                                                style={{ color: 'rgba(128, 128, 128, 1)' }} // Gray color
                                                 className="flex-shrink-0"
                                             />
                                             <span>{layer.name}</span>
