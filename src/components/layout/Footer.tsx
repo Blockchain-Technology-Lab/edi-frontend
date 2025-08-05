@@ -59,7 +59,7 @@ export function Footer() {
                 </Link>
                 <a
                     className="link link-hover flex items-center gap-1"
-                    href="https://github.com/Blockchain-Technology-Lab/daisy-dashboard"
+                    href="https://github.com/Blockchain-Technology-Lab/edi-frontend"
                     target="_blank"
                     rel="noopener noreferrer"
                 >
