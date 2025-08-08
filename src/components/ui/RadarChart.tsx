@@ -45,6 +45,7 @@ interface RadarChartProps {
     height?: number;
     showExport?: boolean;
     showLegendToggle?: boolean;
+    showTooltip?: boolean;
     className?: string;
 }
 
@@ -55,6 +56,7 @@ export function RadarChart({
     height = 500,
     showExport = true,
     showLegendToggle = false,
+    showTooltip = true,
     className = '',
 }: RadarChartProps) {
     const { theme: resolvedTheme } = useContext(ThemeContext);
@@ -65,6 +67,7 @@ export function RadarChart({
     );
     // Add state for managing accordion
     const [openAccordion, setOpenAccordion] = useState<number | null>(null);
+    const [tooltipEnabled, setTooltipEnabled] = useState(showTooltip);
 
     const chartData = transformRadarData(data);
 
@@ -76,9 +79,19 @@ export function RadarChart({
 
     const options = useMemo(() => {
         if (resolvedTheme) {
-            return getRadarChartOptions(resolvedTheme === 'dim' ? 'dark' : 'light');
+            const baseOptions = getRadarChartOptions(resolvedTheme === 'dim' ? 'dark' : 'light');
+            return {
+                ...baseOptions,
+                plugins: {
+                    ...baseOptions.plugins,
+                    tooltip: {
+                        ...baseOptions.plugins?.tooltip,
+                        enabled: tooltipEnabled,
+                    },
+                },
+            };
         }
-    }, [resolvedTheme]);
+    }, [resolvedTheme, tooltipEnabled]);
 
     const handleDatasetToggle = (index: number) => {
         const newVisibleDatasets = new Set(visibleDatasets);
@@ -168,6 +181,8 @@ export function RadarChart({
             icon: Globe
         }
     ];
+
+
 
     return (
         <div className={`card bg-base-200 shadow-lg ${className}`}>
@@ -343,6 +358,19 @@ export function RadarChart({
                     </div>
                 </div>
 
+                {/* Tooltip Toggle - Always Visible */}
+                <div className="flex items-center gap-2 mb-4">
+                    <input
+                        type="checkbox"
+                        checked={tooltipEnabled}
+                        onChange={() => setTooltipEnabled((v) => !v)}
+                        id="toggle-tooltip"
+                        className="checkbox checkbox-sm"
+                    />
+                    <label htmlFor="toggle-tooltip" className="text-sm cursor-pointer">
+                        Show Tooltip
+                    </label>
+                </div>
             </div>
         </div>
     );
