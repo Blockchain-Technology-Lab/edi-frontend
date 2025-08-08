@@ -1,4 +1,4 @@
-import { useRef, useState, useContext, useMemo } from 'react';
+import { useRef, useState, useContext, useMemo, useEffect } from 'react';
 import { Radar } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -56,7 +56,6 @@ export function RadarChart({
     height = 500,
     showExport = true,
     showLegendToggle = false,
-    showTooltip = true,
     className = '',
 }: RadarChartProps) {
     const { theme: resolvedTheme } = useContext(ThemeContext);
@@ -67,9 +66,14 @@ export function RadarChart({
     );
     // Add state for managing accordion
     const [openAccordion, setOpenAccordion] = useState<number | null>(null);
-    const [tooltipEnabled, setTooltipEnabled] = useState(showTooltip);
+    const [tooltipEnabled, setTooltipEnabled] = useState(false);
 
     const chartData = transformRadarData(data);
+
+    useEffect(() => {
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        setTooltipEnabled(!isMobile); // enable tooltips by default if not mobile
+    }, []);
 
     // Filter datasets based on visibility
     const filteredChartData = {
