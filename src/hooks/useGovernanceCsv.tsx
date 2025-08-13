@@ -6,7 +6,7 @@ import {
     loadGiniAuthorsData,
     loadYearlyPostsCommentsData,
     loadCommunityModularityData,
-} from "@/utils/governance";
+} from "@/utils";
 
 export function useGovernanceCsv() {
     const [giniData, setGiniData] = useState<DataEntry[]>([]);
@@ -20,15 +20,15 @@ export function useGovernanceCsv() {
             setLoading(true);
             try {
                 const giniResults = await Promise.all(
-                    GOVERNANCE_LEDGERS.map((ledger) => loadGiniAuthorsData(ledger.chain))
+                    GOVERNANCE_LEDGERS.map((ledger) => loadGiniAuthorsData(ledger.ledger))
                 );
 
                 const postsCommentsResults = await Promise.all(
-                    GOVERNANCE_LEDGERS.map((ledger) => loadYearlyPostsCommentsData(ledger.chain))
+                    GOVERNANCE_LEDGERS.map((ledger) => loadYearlyPostsCommentsData(ledger.ledger))
                 );
 
                 const communityResults = await Promise.all(
-                    GOVERNANCE_LEDGERS.map((ledger) => loadCommunityModularityData(ledger.chain))
+                    GOVERNANCE_LEDGERS.map((ledger) => loadCommunityModularityData(ledger.ledger))
                 );
 
                 setGiniData(giniResults.flat());
