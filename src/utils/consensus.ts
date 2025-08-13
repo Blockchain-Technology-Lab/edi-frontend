@@ -3,11 +3,12 @@
 import type { DataEntry } from "@/utils/types"
 import { CONSENSUS_CSV } from "@/utils"
 import { basePath } from "@/utils/paths"
+import { BASE_LEDGERS, CONSENSUS_LEDGERS } from "@/utils/charts/constants"
 import DevLogger from "./devLogger"
 
 // --------------------------- Constants ----------------------------
 
-export const CSV_DELIMITER = "," // Export this
+export const CSV_DELIMITER = ","
 
 const CONSENSUS_COLUMNS = [
   "entropy=1",
@@ -19,41 +20,15 @@ const CONSENSUS_COLUMNS = [
   "tau_index=0.66"
 ] as const
 
-export const CONSENSUS_ALLOWED_LEDGERS = [
-  // Export this
-  "bitcoin",
-  "bitcoin_cash",
-  "cardano",
-  "dogecoin",
-  "ethereum",
-  "litecoin",
-  "tezos",
-  "zcash"
-] as const
+// Use standardized ledgers from constants
+export const CONSENSUS_ALLOWED_LEDGERS = CONSENSUS_LEDGERS.map(
+  (l) => l.ledger
+) as readonly string[]
 
 // --------------------------- Types ----------------------------
 
-interface ConsensusLedgerConfig {
-  ledger: string
-  displayName: string
-}
-
 type ConsensusColumn = (typeof CONSENSUS_COLUMNS)[number]
 type ConsensusLedger = (typeof CONSENSUS_ALLOWED_LEDGERS)[number]
-
-// --------------------------- Configuration ----------------------------
-
-// Ledger configuration combining ledger names and display names
-const CONSENSUS_LEDGER_CONFIG: ConsensusLedgerConfig[] = [
-  { ledger: "bitcoin", displayName: "Bitcoin" },
-  { ledger: "bitcoin_cash", displayName: "Bitcoin Cash" },
-  { ledger: "cardano", displayName: "Cardano" },
-  { ledger: "dogecoin", displayName: "Dogecoin" },
-  { ledger: "ethereum", displayName: "Ethereum" },
-  { ledger: "litecoin", displayName: "Litecoin" },
-  { ledger: "tezos", displayName: "Tezos" },
-  { ledger: "zcash", displayName: "ZCash" }
-] as const
 
 // --------------------------- Metrics Configuration ----------------------------
 
@@ -247,25 +222,7 @@ export function getConsensusCsvFileName(clustering: string[]): string {
   return "output_non_clustered.csv"
 }
 
-// --------------------------- Display Name Mapping ----------------------------
-
-export function getLedgerDisplayName(ledger: string): string {
-  const config = CONSENSUS_LEDGER_CONFIG.find(
-    (config) => config.ledger === ledger
-  )
-
-  if (config) {
-    return config.displayName
-  }
-
-  DevLogger.warnOnce(
-    `missing-ledger-display-name-${ledger}`,
-    `No display name found for ledger: ${ledger}`
-  )
-
-  // Return a fallback display name
-  return ledger.charAt(0).toUpperCase() + ledger.slice(1).replace("_", " ")
-}
+// --------------------------- Display Name Mapping (Updated to use BASE_LEDGERS) ----------------------------
 
 export function generateLedgerDisplayNames(
   ledgers: string[]
@@ -273,16 +230,15 @@ export function generateLedgerDisplayNames(
   const displayNames: Record<string, string> = {}
 
   ledgers.forEach((ledger) => {
-    const config = CONSENSUS_LEDGER_CONFIG.find(
-      (config) => config.ledger === ledger
-    )
+    // Use BASE_LEDGERS for display names
+    const baseLedger = BASE_LEDGERS[ledger as keyof typeof BASE_LEDGERS]
 
-    if (config) {
-      displayNames[ledger] = config.displayName
+    if (baseLedger) {
+      displayNames[ledger] = baseLedger.displayName
     } else {
       DevLogger.warnOnce(
         `missing-ledger-display-name-${ledger}`,
-        `No display name found for ledger: ${ledger}`
+        `No display name found for ledger: ${ledger} in BASE_LEDGERS`
       )
       // Provide fallback display name
       displayNames[ledger] =
@@ -291,4 +247,38 @@ export function generateLedgerDisplayNames(
   })
 
   return displayNames
+}
+
+// Helper function to get consensus ledger display name (optional - for convenience)
+export function getConsensusLedgerDisplayName(ledger: string): string {
+  const baseLedger = BASE_LEDGERS[ledger as keyof typeof BASE_LEDGERS]
+
+  if (baseLedger) {
+    return baseLedger.displayName
+  }
+
+  DevLogger.warnOnce(
+    `missing-consensus-ledger-display-name-${ledger}`,
+    `No display name found for ledger: ${ledger} in BASE_LEDGERS`
+  )
+
+  // Return a fallback display name
+  return ledger.charAt(0).toUpperCase() + ledger.slice(1).replace("_", " ")
+}
+
+// Helper function to get consensus ledger color (optional - for convenience)
+export function getConsensusLedgerColor(ledger: string): string {
+  const baseLedger = BASE_LEDGERS[ledger as keyof typeof BASE_LEDGERS]
+
+  if (baseLedger) {
+    return baseLedger.color
+  }
+
+  DevLogger.warnOnce(
+    `missing-consensus-ledger-color-${ledger}`,
+    `No color found for ledger: ${ledger} in BASE_LEDGERS`
+  )
+
+  // Return a fallback color
+  return "rgba(128, 128, 128, 1)" // Gray fallback
 }
