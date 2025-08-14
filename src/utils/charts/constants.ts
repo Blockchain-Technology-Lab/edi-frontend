@@ -1,3 +1,22 @@
+export const LEDGER_DISPLAY_NAMES: Record<string, string> = {
+  bitcoin: 'Bitcoin',
+  bitcoin_without_tor: 'Bitcoin without Tor',
+  bitcoin_cash: 'Bitcoin Cash',
+  dogecoin: 'Dogecoin',
+  litecoin: 'Litecoin',
+  zcash: 'ZCash',
+  consensus: 'Ethereum (Consensus)',
+  execution: 'Ethereum (Execution)',
+  ethereum: 'Ethereum',
+  tezos: 'Tezos',
+  cardano: 'Cardano',
+  'bitcoin-cash-node': 'Bitcoin Cash',
+  'cardano-node': 'Cardano',
+  'go-ethereum': 'Go Ethereum',
+  nethermind: 'Nethermind (Ethereum)',
+  'tezos-mirror': 'Tezos',
+};
+
 /**
  * Tokenomics
  */
@@ -124,6 +143,8 @@ export const NETWORK_LEDGER_NAMES = [
   'dogecoin',
   'litecoin',
   'zcash',
+  'consensus',
+  'execution'
 ];
 
 export const NETWORK_COLOURS = [
@@ -133,6 +154,8 @@ export const NETWORK_COLOURS = [
   'rgba(255, 99, 132, 1)', // Red
   'rgba(255, 159, 64, 1)', // Orange
   'rgba(117, 117, 117, 1)', // Gray
+  'rgba(102, 204, 153, 1)', // Medium green
+  'rgba(51, 153, 102, 1)',  // Darker green
 ];
 
 /**
@@ -145,6 +168,8 @@ export const GEOGRAPHY_LEDGER_NAMES = [
   'dogecoin',
   'litecoin',
   'zcash',
+  'consensus',
+  'execution'
 ];
 
 export const GEOGRAPHY_COLOURS = [
@@ -154,6 +179,8 @@ export const GEOGRAPHY_COLOURS = [
   'rgba(255, 99, 132, 1)', // Red
   'rgba(153, 102, 255, 1)', // Purple
   'rgba(117, 117, 117, 1)', // Gray
+  'rgba(102, 204, 153, 1)', // Medium green
+  'rgba(51, 153, 102, 1)',  // Darker green
 ];
 
 /**

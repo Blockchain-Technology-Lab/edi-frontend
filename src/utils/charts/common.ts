@@ -13,6 +13,7 @@ import {
   GEOGRAPHY_COLOURS,
   GOVERNANCE_LEDGER_NAMES,
   GOVERNANCE_COLOURS,
+  LEDGER_DISPLAY_NAMES,
 } from '@/utils';
 
 import type { Plugin } from 'chart.js';
@@ -137,7 +138,7 @@ function buildDatasets(
     // Ensure ledger dataset for the current metric is initialized
     if (!ledgerDatasets[ledger]) {
       ledgerDatasets[ledger] = {
-        label: ledger,
+        label: LEDGER_DISPLAY_NAMES[ledger] || ledger,
         data: [],
         borderColor: ledgerColorMap[ledger],
         backgroundColor: ledgerColorMap[ledger],
