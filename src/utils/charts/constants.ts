@@ -96,6 +96,25 @@ export const BASE_LEDGERS = {
   }
 } as const
 
+export const LEDGER_DISPLAY_NAMES: Record<string, string> = {
+  bitcoin: "Bitcoin",
+  bitcoin_without_tor: "Bitcoin without Tor",
+  bitcoin_cash: "Bitcoin Cash",
+  dogecoin: "Dogecoin",
+  litecoin: "Litecoin",
+  zcash: "ZCash",
+  consensus: "Ethereum (Consensus)",
+  execution: "Ethereum (Execution)",
+  ethereum: "Ethereum",
+  tezos: "Tezos",
+  cardano: "Cardano",
+  "bitcoin-cash-node": "Bitcoin Cash",
+  "cardano-node": "Cardano",
+  "go-ethereum": "Go Ethereum",
+  nethermind: "Nethermind (Ethereum)",
+  "tezos-mirror": "Tezos"
+}
+
 // Extract just the colors for backward compatibility
 export const BASE_LEDGER_COLORS = Object.fromEntries(
   Object.entries(BASE_LEDGERS).map(([key, value]) => [key, value.color])
@@ -153,12 +172,14 @@ export const NETWORK_LEDGERS = [
 
 // For geography, create custom color mappings where needed
 export const GEOGRAPHY_LEDGERS = [
-  { ...BASE_LEDGERS.bitcoin, color: BASE_LEDGERS.bitcoin_cash.color }, // Swap colors
+  { ...BASE_LEDGERS.bitcoin, color: BASE_LEDGERS.bitcoin_cash.color },
   BASE_LEDGERS.bitcoin_without_tor,
-  { ...BASE_LEDGERS.bitcoin_cash, color: BASE_LEDGERS.bitcoin.color }, // Swap colors
+  { ...BASE_LEDGERS.bitcoin_cash, color: BASE_LEDGERS.bitcoin.color },
   { ...BASE_LEDGERS.dogecoin, color: BASE_LEDGERS.cardano.color },
   { ...BASE_LEDGERS.litecoin, color: BASE_LEDGERS.ethereum.color },
-  { ...BASE_LEDGERS.zcash, color: BASE_LEDGERS.litecoin.color }
+  { ...BASE_LEDGERS.zcash, color: BASE_LEDGERS.litecoin.color },
+  BASE_LEDGERS.consensus,
+  BASE_LEDGERS.execution
 ] as const
 
 export const GOVERNANCE_LEDGERS = [

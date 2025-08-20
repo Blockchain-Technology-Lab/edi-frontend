@@ -12,6 +12,8 @@ const LEDGERS = [
   "dogecoin",
   "litecoin",
   "zcash",
+  "consensus",
+  "execution"
 ];
 
 export function useGeographyCsv() {
