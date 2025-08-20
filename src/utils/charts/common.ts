@@ -3,7 +3,7 @@ import {
   LINECHART_WATERMARK_BLACK,
   SOFTWARE_COLOURS,
   getLedgerColor,
-  LEDGER_DISPLAY_NAMES
+  getLedgerDisplayName // Import the helper function
 } from "@/utils"
 
 import type { Plugin } from "chart.js"
@@ -48,7 +48,7 @@ export function getChartData(
   if (!data) return
   const { minValue, maxValue } = findMinMaxValues(data)
 
-  // Even simpler: Create color map directly using getLedgerColor
+  // Create color map directly using getLedgerColor
   const ledgerColorMap: Record<string, string> = {}
 
   // Extract unique ledgers from data and get their colors
@@ -61,7 +61,7 @@ export function getChartData(
 
   return {
     labels: buildLabels(data, minValue, maxValue),
-    datasets: buildDatasets(data, metric, ledgerColorMap)
+    datasets: buildDatasets(data, metric, ledgerColorMap, type)
   }
 }
 
@@ -86,7 +86,8 @@ function buildLabels(data: DataEntry[], minValue: number, maxValue: number) {
 function buildDatasets(
   data: DataEntry[],
   metric: string,
-  ledgerColorMap: { [key: string]: string }
+  ledgerColorMap: { [key: string]: string },
+  layer: LayerType
 ) {
   // Initialize ledger datasets for the current metric
   const ledgerDatasets = {} as LedgerDatasets
@@ -97,10 +98,12 @@ function buildDatasets(
     const rawValue = entry[metric]
 
     if (!ledger || typeof rawValue !== "number" || isNaN(rawValue)) return
+
     // Ensure ledger dataset for the current metric is initialized
     if (!ledgerDatasets[ledger]) {
       ledgerDatasets[ledger] = {
-        label: LEDGER_DISPLAY_NAMES[ledger] || ledger,
+        // Use the standardized helper function that considers layer context
+        label: getLedgerDisplayName(ledger, layer),
         data: [],
         borderColor: ledgerColorMap[ledger],
         backgroundColor: ledgerColorMap[ledger],
@@ -109,8 +112,6 @@ function buildDatasets(
         pointHoverRadius: 3
       }
     }
-
-    // Push data point (x: snapshot_date, y: metric value) to the ledger dataset
     ledgerDatasets[ledger].data.push({
       x: entry.date,
       y: rawValue as number
@@ -151,29 +152,10 @@ export function createWatermarkPlugin(theme?: string): Plugin<"doughnut"> {
         const image = new Image()
         image.src = imageSrc
 
-        //const currentDate = new Date().toLocaleDateString()
-        /*
-        const currentDate = new Intl.DateTimeFormat("en-GB", {
-          month: "short", //long
-          day: "numeric",
-          year: "numeric"
-        }).format(new Date())
-        */
         const currentDate = new Date().toISOString().split("T")[0]
 
         if (image.complete) {
           // Image is loaded, draw it on the chart
-          /*
-          const { top, left } = chartArea
-          const x = left
-          const y = top
-
-          // Set watermark opacity
-          ctx.save() // Save the current canvas state
-          ctx.globalAlpha = 0.2 // Set the opacity
-          ctx.drawImage(image, x, y) // Draw the image
-          ctx.restore() // Restore the canvas state to clear the opacity setting
-          */
           drawWatermark(ctx, chartArea, image, currentDate, fontColor)
         } else {
           // Image is not loaded, wait for it
@@ -240,9 +222,9 @@ function generateUniqueColor(existingColors: string[]): string {
   let newColor: string
   do {
     // Ensure bright colors by keeping RGB values higher
-    const r = Math.floor(Math.random() * 128) + 128 // Range: 128-255
-    const g = Math.floor(Math.random() * 128) + 128 // Range: 128-255
-    const b = Math.floor(Math.random() * 128) + 128 // Range: 128-255
+    const r = Math.floor(Math.random() * 128) + 128
+    const g = Math.floor(Math.random() * 128) + 128
+    const b = Math.floor(Math.random() * 128) + 128
     newColor = `rgba(${r}, ${g}, ${b}, 1)`
   } while (existingColors.includes(newColor)) // Ensure no duplicates
   return newColor
