@@ -15,6 +15,8 @@ const ORG_LEDGERS = [
   "dogecoin",
   "litecoin",
   "zcash",
+  "consensus",
+  "execution"
 ];
 
 export function useNetworkCsv() {
