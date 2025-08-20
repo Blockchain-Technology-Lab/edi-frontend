@@ -37,7 +37,7 @@ export const BASE_LEDGERS = {
   litecoin: {
     ledger: "litecoin",
     displayName: "Litecoin",
-    color: "rgba(117, 117, 117, 1)" // Gray
+    color: "rgba(135, 206, 250, 1)" // Light Sky Blue
   },
   tezos: {
     ledger: "tezos",
