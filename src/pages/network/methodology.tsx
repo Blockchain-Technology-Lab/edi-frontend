@@ -31,19 +31,19 @@ export function NetworkMethodology() {
                             rel="noopener noreferrer"
                             className="link"
                         >
-                            The Edinburgh Decentralization Index (EDI)
+                            The Edinburgh Decentralisation Index (EDI)
                         </a>{" "}
-                        is a methodology framework for defining, analyzing, and evaluating the
-                        decentralization level of blockchain systems across multiple layers.
+                        is a methodology framework for defining, analysing, and evaluating the
+                        decentralisation level of blockchain systems across multiple layers.
                         These layers are: Hardware, Software, Network, Consensus, Tokenomics,
                         Client API, Governance, and Geography.
                     </p>
 
                     <p>
-                        This page offers visualizations of the Network layer results. The
+                        This page offers visualisations of the Network layer results. The
                         ledgers that are currently supported are: Bitcoin, Bitcoin Cash,
-                        Litecoin, Dogecoin and Zcash. On the Network layer, decentralization
-                        is evaluated based on the distribution of nodes across organizations.
+                        Litecoin, Dogecoin and Zcash. On the Network layer, decentralisation
+                        is evaluated based on the distribution of nodes across organisations.
                         The blockchain data that is needed to determine these distributions
                         are collected using a crawler running on each network. The crawler is
                         based on the{" "}
@@ -56,9 +56,9 @@ export function NetworkMethodology() {
                     <p>
                         Regarding the Bitcoin network, more than half of the nodes use Tor
                         (see <a href="">Organisations Distribution</a> ), and
-                        it is impossible to know which organizations own them. For the
+                        it is impossible to know which organisations own them. For the
                         metrics, it was therefore decided to distribute these nodes
-                        proportionally among the different organizations.
+                        proportionally among the different organisations.
                     </p>
 
                 </div>
