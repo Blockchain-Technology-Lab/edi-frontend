@@ -31,18 +31,18 @@ export function ConsensusMethodology() {
               rel="noopener noreferrer"
               className="link link-primary"
             >
-              The Edinburgh Decentralization Index (EDI)
+              The Edinburgh Decentralisation Index (EDI)
             </a>{" "}
-            is a methodology framework for defining, analyzing, and evaluating
-            the decentralization level of blockchain systems across multiple
+            is a methodology framework for defining, analysing, and evaluating
+            the decentralisation level of blockchain systems across multiple
             layers. These layers are: Hardware, Software, Network, Consensus,
             Tokenomics, Client API, Governance, and Geography.
           </p>
           <p className="">
-            This page offers visualizations of the Consensus layer results.
+            This page offers visualisations of the Consensus layer results.
             The ledgers that are currently supported are: Bitcoin, Bitcoin Cash,
             Cardano, Dogecoin, Ethereum, Litecoin, Tezos, and Zcash.
-            Decentralization is evaluated by applying metrics on the
+            Decentralisation is evaluated by applying metrics on the
             distribution of blocks across the entities that produced them.
             Specifically, the following metrics are presented in the dashboard:
             Nakamoto coefficient, Gini coefficient, Shannon entropy,
@@ -137,7 +137,7 @@ export function ConsensusMethodology() {
             <p className="">
               For Consensus, the clustering options are: “Explorers”, “On-chain
               metadata”, and “None”. “Explorers” refers to attribution and
-              deanonymization data collected from:
+              deanonymisation data collected from:
             </p>
             <div className="flex flex-col md:flex-row gap-4 justify-between p-2">
               <ul className="list bg-base-100 rounded-box shadow-md flex-1">
