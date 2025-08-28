@@ -85,7 +85,7 @@ export function Network() {
         <MetricsTopCard
           title={"Organisations metrics"}
           description={
-            "The following graphs represent different metrics concerning the distribution of nodes across organisations. Regarding the Bitcoin network, more than half of the nodes use Tor, and it is impossible to know which organisations own them. For the metrics shown below, it was therefore decided to distribute these nodes proportionally among the different organisations."
+            "The following graphs represent different metrics concerning the distribution of nodes across organisations. An organisation here corresponds to the entity that is responsible for the network of the node's IP address. In the case of Bitcoin, a large fraction of nodes use Tor, thereby not revealing the organisations behind them. For the purpose of calculating the metrics, it was therefore decided to distribute Tor nodes proportionally among the observed organisations."
           }
           imageSrc={ORG_DISTRIBUTOR}
         />
@@ -107,7 +107,7 @@ export function Network() {
           <DoughnutTopCard
             title={"Organisation Distribution"}
             description={
-              "These charts represent the distribution of nodes across organisations, based on the latest snapshot for each system. An organisation here corresponds to the entity that is responsible for the network of the node's IP address."
+              "These charts represent the distribution of nodes across organisations, based on the latest snapshot for each system. An organisation corresponds to the entity that is responsible for the network of the node's IP address."
             }
             imageSrc={DOUGHNUT_CARD}
             methodologyPath={networkMethodologyTo}
