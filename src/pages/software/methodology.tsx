@@ -31,15 +31,15 @@ export function SoftwareMethodology() {
                             rel="noopener noreferrer"
                             className="link"
                         >
-                            The Edinburgh Decentralization Index (EDI)
+                            The Edinburgh Decentralisation Index (EDI)
                         </a>{" "}
-                        is a methodology framework for defining, analyzing, and evaluating the
-                        decentralization level of blockchain systems across multiple layers.
+                        is a methodology framework for defining, analysing, and evaluating the
+                        decentralisation level of blockchain systems across multiple layers.
                         These layers are: Hardware, Software, Network, Consensus, Tokenomics,
                         Client API, Governance, and Geography.
                     </p>
                     <p className="">
-                        This page offers visualizations of the Software layer results.
+                        This page offers visualisations of the Software layer results.
                         This layer is evaluated by looking at the open source repositories
                         that are associated with different blockchain clients, and
                         specifically looking at their commit history. The dashboard currently
