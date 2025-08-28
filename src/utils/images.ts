@@ -33,7 +33,7 @@ const CLOUDINARY_IMAGE_MAP: Record<string, string> = {
   "/images/cards/doughnut.png": "doughnut.png",
   "/images/cards/org_distributor.png": "org_distributor.png",
   "/images/cards/countries_metrics.png": "countries_metrics.png",
-  "/images/governance/bip_network.png": "governance-bip-network.png"
+  "/images/governance/bip_network.png": "bip_network.png"
 }
 
 // Generate Cloudinary URL
