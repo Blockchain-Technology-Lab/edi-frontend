@@ -22,6 +22,15 @@ export function Footer() {
         }
     };
 
+    // Get build date from environment variable or fallback to a default
+    const buildDate = import.meta.env.VITE_BUILD_DATE
+        ? new Date(import.meta.env.VITE_BUILD_DATE).toLocaleDateString("en-GB", {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        })
+        : "Build date not available";
+
     return (
         <footer className="footer sm:footer-horizontal bg-base-200 text-base-content p-4 relative">
             {/* Top-right button group */}
@@ -44,11 +53,7 @@ export function Footer() {
                     is a registered trademark in the UK, US, and Switzerland.
                 </p>
                 <div className="text-[10px] opacity-60">
-                    Last updated: {new Date().toLocaleDateString("en-GB", {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                    })}
+                    Last updated: {buildDate}
                 </div>
             </aside>
 
