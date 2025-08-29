@@ -1,6 +1,6 @@
 // src/utils/governance.ts
 import type { DataEntry } from "@/utils/types"
-export const GOVERNANCE_CSV = "/output/governance/"
+import { GOVERNANCE_CSV } from "@/utils/paths"
 
 export async function loadGiniActivenessData(
   ledger: string = "bitcoin"
