@@ -1,17 +1,12 @@
 // src/hooks/useGovernanceCsv.tsx
 import { useEffect, useState } from "react";
 import type { DataEntry } from "@/utils/types";
-import {
-    GOVERNANCE_LEDGERS,
-    loadGiniAuthorsData,
-    loadYearlyPostsCommentsData,
-    loadCommunityModularityData,
-} from "@/utils";
+import { loadGiniActivenessData } from "@/utils";
+
+
 
 export function useGovernanceCsv() {
     const [giniData, setGiniData] = useState<DataEntry[]>([]);
-    const [postsCommentsData, setPostsCommentsData] = useState<DataEntry[]>([]);
-    const [communityData, setCommunityData] = useState<DataEntry[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
 
@@ -19,21 +14,9 @@ export function useGovernanceCsv() {
         async function fetchAll() {
             setLoading(true);
             try {
-                const giniResults = await Promise.all(
-                    GOVERNANCE_LEDGERS.map((ledger) => loadGiniAuthorsData(ledger.ledger))
-                );
-
-                const postsCommentsResults = await Promise.all(
-                    GOVERNANCE_LEDGERS.map((ledger) => loadYearlyPostsCommentsData(ledger.ledger))
-                );
-
-                const communityResults = await Promise.all(
-                    GOVERNANCE_LEDGERS.map((ledger) => loadCommunityModularityData(ledger.ledger))
-                );
-
+                const giniResults = await loadGiniActivenessData("bitcoin");
                 setGiniData(giniResults.flat());
-                setPostsCommentsData(postsCommentsResults.flat());
-                setCommunityData(communityResults.flat());
+
             } catch (err) {
                 setError(err instanceof Error ? err : new Error("Unknown error"));
             } finally {
@@ -44,5 +27,5 @@ export function useGovernanceCsv() {
         fetchAll();
     }, []);
 
-    return { giniData, postsCommentsData, communityData, loading, error };
+    return { giniData, loading, error };
 }
