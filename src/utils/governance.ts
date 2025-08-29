@@ -1,122 +1,97 @@
 // src/utils/governance.ts
 import type { DataEntry } from "@/utils/types"
-
 export const GOVERNANCE_CSV = "/output/governance/"
 
-export const GOVERNANCE_METRICS = [
-  {
-    metric: "gini_top_10_authors",
-    title: "Gini Coefficient (Top 10 Authors)",
-    description:
-      "Measures inequality of contributions among the top 10 authors. A higher value indicates greater concentration of authorship.",
-    decimals: 2
-  },
-  {
-    metric: "yearly_post_users_comments",
-    title: "Yearly Posts, Users & Comments",
-    description:
-      "Tracks yearly number of posts, users, and comments — including posts per user and comments per post.",
-    decimals: 0
-  },
-  {
-    metric: "yearly_community_modularity",
-    title: "Community Modularity",
-    description:
-      "Represents modularity of the developer community network (nodes, edges, communities). Higher modularity indicates more distinct subgroups.",
-    decimals: 2
-  }
-]
+export async function loadGiniActivenessData(
+  ledger: string = "bitcoin"
+): Promise<DataEntry[]> {
+  const fileName = `${GOVERNANCE_CSV}${ledger}/gini_activeness.csv`
 
-/*
-export const GOVERNANCE_LEDGERS = [
-  { chain: 'bitcoin', name: 'Bitcoin' },
-  { chain: 'bitcoin_cash', name: 'Bitcoin Cash' },
-];
-*/
-// --- Filename Getters ---
-export function getGovernanceCsvFileName(ledger: string, file: string): string {
-  return `${GOVERNANCE_CSV}${ledger}/${file}`
+  try {
+    const response = await fetch(fileName)
+
+    if (!response.ok) {
+      throw new Error(
+        `Error loading gini activeness data for ${ledger}: ${response.status}`
+      )
+    }
+
+    const csvData = await response.text()
+    return parseGiniActiveCSV(csvData, ledger)
+  } catch (error) {
+    console.error(`Failed to load gini activeness data for ${ledger}:`, error)
+    throw error instanceof Error ? error : new Error("Unknown error occurred")
+  }
 }
 
-// --- CSV Parsing ---
-async function fetchAndParseGovernanceCsv(
-  filePath: string,
-  valueColumns: string[]
+export async function loadGiniActivenessCsvData(
+  fileName: string,
+  overrideLedgerName?: string
 ): Promise<DataEntry[]> {
   try {
-    const response = await fetch(filePath)
-    if (!response.ok)
-      throw new Error(`Failed to fetch governance CSV at ${filePath}`)
-    const text = await response.text()
-    return parseGovernanceCSV(text, valueColumns)
-  } catch (err) {
-    throw err instanceof Error
-      ? err
-      : new Error("Unknown error loading governance CSV")
+    const response = await fetch(fileName)
+
+    if (!response.ok) {
+      throw new Error(`Error loading geography data for ${fileName}`)
+    }
+
+    const csvData = await response.text()
+    return parseGiniActiveCSV(csvData, overrideLedgerName)
+  } catch (error) {
+    throw error instanceof Error ? error : new Error("Unknown error occurred")
   }
 }
 
-function parseGovernanceCSV(
+export function parseGiniActiveCSV(
   csvData: string,
-  valueColumns: string[]
+  overrideLedgerName?: string
 ): DataEntry[] {
   const lines = csvData.trim().split("\n")
-  const headers = lines[0].split(",").map((h) => h.trim())
+  if (lines.length < 2) return [] // No data rows
 
+  const headers = lines[0].split(",").map((h) => h.trim())
   const data: DataEntry[] = []
 
   for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(",")
+    const values = lines[i].split(",").map((v) => v.trim())
+
+    // Skip rows with incorrect number of columns
     if (values.length !== headers.length) continue
 
     const entry: Partial<DataEntry> = {}
+    let hasValidData = false
 
-    for (let j = 0; j < headers.length; j++) {
-      const header = headers[j]
-      const value = values[j].trim()
+    headers.forEach((header, index) => {
+      const value = values[index]
 
       if (header === "year") {
-        entry.date = new Date(`${value}-01-01`)
-      } else if (valueColumns.includes(header)) {
-        const parsed = parseFloat(value)
-        entry[header] = isNaN(parsed) ? null : parsed
+        const year = parseInt(value)
+        if (!isNaN(year)) {
+          // Create date as January 1st of the year
+          entry.date = new Date(year, 0, 1)
+          hasValidData = true
+        }
+      } else if (header === "gini_coefficient") {
+        const giniValue = parseFloat(value)
+        if (!isNaN(giniValue)) {
+          entry.gini_coefficient = giniValue
+          hasValidData = true
+        }
       }
-    }
+      // Add other column handling here if needed for future CSV files
+    })
 
-    if (entry.date) data.push(entry as DataEntry)
+    // Set ledger (use override or default to "bitcoin")
+    entry.ledger = overrideLedgerName || "bitcoin"
+
+    // Only add entry if we have valid data
+    if (entry.date && hasValidData) {
+      data.push(entry as DataEntry)
+    }
   }
 
+  // Sort by date (year)
+  data.sort((a, b) => a.date.getTime() - b.date.getTime())
+
   return data
-}
-
-// Loader functions
-export async function loadGiniAuthorsData(ledger: string) {
-  return fetchAndParseGovernanceCsv(
-    getGovernanceCsvFileName(ledger, "gini_top_10_authors.csv"),
-    ["gini_coefficient"]
-  )
-}
-
-export async function loadYearlyPostsCommentsData(ledger: string) {
-  return fetchAndParseGovernanceCsv(
-    getGovernanceCsvFileName(
-      ledger,
-      "line_plot_yearly_post_users_comments.csv"
-    ),
-    [
-      "posts",
-      "comments",
-      "users",
-      "posts_per_user",
-      "comments_per_post",
-      "comments_per_user"
-    ]
-  )
-}
-
-export async function loadCommunityModularityData(ledger: string) {
-  return fetchAndParseGovernanceCsv(
-    getGovernanceCsvFileName(ledger, "yearly_community_modularity.csv"),
-    ["nodes", "edges", "communities", "modularity"]
-  )
 }

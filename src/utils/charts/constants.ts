@@ -163,8 +163,8 @@ export const GEOGRAPHY_LEDGERS = [
 ] as const
 
 export const GOVERNANCE_LEDGERS = [
-  BASE_LEDGERS.bitcoin,
-  BASE_LEDGERS.bitcoin_cash
+  BASE_LEDGERS.bitcoin
+  //BASE_LEDGERS.bitcoin_cash
 ] as const
 
 // Legacy exports for backward compatibility

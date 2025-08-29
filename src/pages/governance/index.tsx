@@ -5,7 +5,7 @@ import { BIP_NETWORK_CARD, GOVERNANCE_CARD, ORG_DISTRIBUTOR } from "@/utils";
 
 
 export function Governance() {
-    const { giniData, postsCommentsData, communityData, loading, error } = useGovernanceCsv();
+    const { giniData, loading, error } = useGovernanceCsv();
 
     if (error) {
         return <div className="text-error p-4">Failed to load governance data: {error.message}</div>;
@@ -45,8 +45,8 @@ export function Governance() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
                     <MetricsCard
                         metric={{
-                            metric: "gini_top_10_authors",
-                            title: "Gini Coefficient (Top 10 Authors)",
+                            metric: "gini_coefficient",
+                            title: "Gini Coefficient Activeness",
                             description:
                                 "Measures inequality in authorship concentration among top 10 contributors.",
                             decimals: 2,
@@ -57,33 +57,7 @@ export function Governance() {
                         timeUnit="year"
                     />
 
-                    <MetricsCard
-                        metric={{
-                            metric: "yearly_post_users_comments",
-                            title: "Yearly Posts & Comments",
-                            description:
-                                "Tracks yearly posts, comments, users, and derived metrics like posts per user.",
-                            decimals: 0,
-                        }}
-                        data={postsCommentsData}
-                        loading={loading}
-                        type="governance"
-                        timeUnit="year"
-                    />
 
-                    <MetricsCard
-                        metric={{
-                            metric: "yearly_community_modularity",
-                            title: "Community Modularity",
-                            description:
-                                "Shows community modularity and related network metrics (nodes, edges, communities).",
-                            decimals: 2,
-                        }}
-                        data={communityData}
-                        loading={loading}
-                        type="governance"
-                        timeUnit="year"
-                    />
                 </div>
             </div >
         </>
