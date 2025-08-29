@@ -3,11 +3,10 @@ import {
   LINECHART_WATERMARK_BLACK,
   SOFTWARE_COLOURS,
   getLedgerColor,
-  getLedgerDisplayName // Import the helper function
+  getLedgerDisplayName
 } from "@/utils"
 
 import type { Plugin } from "chart.js"
-//import type { DataEntry } from '@/utils';
 import type { DataEntry } from "@/utils/types"
 
 type LedgerDataset = {
@@ -30,7 +29,8 @@ export const LAYER_TYPES = [
   "software",
   "network",
   "geography",
-  "governance"
+  "governance",
+  "governance-posts"
 ] as const
 
 export type LayerType = (typeof LAYER_TYPES)[number]
@@ -99,7 +99,6 @@ function buildDatasets(
 
     if (!ledger || typeof rawValue !== "number" || isNaN(rawValue)) return
 
-    // Ensure ledger dataset for the current metric is initialized
     if (!ledgerDatasets[ledger]) {
       ledgerDatasets[ledger] = {
         // Use the standardized helper function that considers layer context

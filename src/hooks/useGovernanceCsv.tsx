@@ -1,12 +1,11 @@
 // src/hooks/useGovernanceCsv.tsx
 import { useEffect, useState } from "react";
-import type { DataEntry } from "@/utils/types";
-import { loadGiniActivenessData } from "@/utils";
-
-
+import type { GovernanceDataEntry } from "@/utils/types";
+import { loadGiniActivenessData, loadYearlyPostCommentsData } from "@/utils";
 
 export function useGovernanceCsv() {
-    const [giniData, setGiniData] = useState<DataEntry[]>([]);
+    const [giniData, setGiniData] = useState<GovernanceDataEntry[]>([]);
+    const [postsCommentsData, setPostsCommentsData] = useState<GovernanceDataEntry[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
 
@@ -14,8 +13,12 @@ export function useGovernanceCsv() {
         async function fetchAll() {
             setLoading(true);
             try {
+                // Load both datasets
                 const giniResults = await loadGiniActivenessData("bitcoin");
-                setGiniData(giniResults.flat());
+                const postsCommentsResults = await loadYearlyPostCommentsData("bitcoin");
+
+                setGiniData(giniResults);
+                setPostsCommentsData(postsCommentsResults);
 
             } catch (err) {
                 setError(err instanceof Error ? err : new Error("Unknown error"));
@@ -27,5 +30,5 @@ export function useGovernanceCsv() {
         fetchAll();
     }, []);
 
-    return { giniData, loading, error };
+    return { giniData, postsCommentsData, loading, error };
 }
