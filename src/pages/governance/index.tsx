@@ -1,11 +1,19 @@
 import { LayerTopCard, MetricsCard, MetricsTopCard } from "@/components";
 import { useGovernanceCsv } from "@/hooks/useGovernanceCsv";
 import { governanceMethodologyTo } from "@/routes/routePaths";
-import { BIP_NETWORK_CARD, GOVERNANCE_CARD, ORG_DISTRIBUTOR } from "@/utils";
+import { BIP_NETWORK_CARD, GOVERNANCE_CARD, ORG_DISTRIBUTOR, } from "@/utils";
+import type { DataEntry, GovernanceDataEntry } from "@/utils/types";
 
 
 export function Governance() {
-    const { giniData, loading, error } = useGovernanceCsv();
+    const { giniData, postsCommentsData, loading, error } = useGovernanceCsv();
+
+    // Adapter function to convert GovernanceDataEntry to DataEntry
+    const adaptGovernanceToDataEntry = (govData: GovernanceDataEntry[]): DataEntry[] => {
+        return govData.map(entry => ({
+            ...entry,
+        }));
+    };
 
     if (error) {
         return <div className="text-error p-4">Failed to load governance data: {error.message}</div>;
@@ -42,22 +50,35 @@ export function Governance() {
                     imageSrc={ORG_DISTRIBUTOR}
 
                 />
+
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+                    {/* Gini Coefficient Chart */}
                     <MetricsCard
                         metric={{
                             metric: "gini_coefficient",
                             title: "Gini Coefficient Activeness",
-                            description:
-                                "Measures inequality in authorship concentration among top 10 contributors.",
+                            description: "Measures inequality in authorship concentration among contributors.",
                             decimals: 2,
                         }}
-                        data={giniData}
+                        data={adaptGovernanceToDataEntry(giniData)}
                         loading={loading}
                         type="governance"
                         timeUnit="year"
                     />
 
-
+                    {/* Multi-line chart showing Posts, Comments, and Users */}
+                    <MetricsCard
+                        metric={{
+                            metric: "unified_metric",
+                            title: "Posts, Comments, and Users",
+                            description: "Total number of posts, comments, and active users per year.",
+                            decimals: 0,
+                        }}
+                        data={adaptGovernanceToDataEntry(postsCommentsData)}
+                        loading={loading}
+                        type="governance-posts"
+                        timeUnit="year"
+                    />
                 </div>
             </div >
         </>
