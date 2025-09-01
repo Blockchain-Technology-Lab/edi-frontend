@@ -39,4 +39,12 @@ export interface GovernanceDataEntry {
   comments_per_user?: number
   // Unified metric for multi-line charts
   unified_metric?: number
+  // Community modularity fields
+  nodes?: number
+  edges?: number
+  communities?: number
+  modularity?: number
+  // Top authors fields
+  author?: string
+  percentage?: number
 }
