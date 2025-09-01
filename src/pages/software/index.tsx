@@ -17,7 +17,6 @@ import {
   SOFTWARE_DOUGHNUT_LEDGER_NAMES,
   SOFTWARE_METRICS,
 } from "@/utils";
-import DevLogger from "@/utils/devLogger";
 import { useMemo, useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "@tanstack/react-router";
 import { softwareContributorRoute } from "@/router";
@@ -117,12 +116,6 @@ export function Software() {
   const doughnutPaths = generateDoughnutPaths(doughnutFilenames);
   const csvPath = `${SOFTWARE_CSV + filename}`;
   const { data, loading, error } = useSoftwareCsv(csvPath);
-
-  // Debug information (development only) - only log when selections change
-  DevLogger.logOnce(
-    `software-debug-${selectedWeight.value}-${selectedEntity.value}-${selectedCommits.value}`,
-    `Software Dashboard - Settings: ${selectedWeight.value}/${selectedEntity.value}/${selectedCommits.value} commits, ${doughnutFilenames.length} doughnut files, ${Object.keys(doughnutPaths).length} paths configured`
-  );
 
   return (
     <>

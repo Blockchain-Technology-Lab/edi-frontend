@@ -1,4 +1,4 @@
-import { LayerTopCard, MetricsCard, MetricsTopCard } from "@/components";
+import { LayerTopCard, MetricsCard, MetricsTopCard, GovernanceDoughnutCard } from "@/components";
 import { useGovernanceCsv } from "@/hooks/useGovernanceCsv";
 import { governanceMethodologyTo } from "@/routes/routePaths";
 import { BIP_NETWORK_CARD, GOVERNANCE_CARD, ORG_DISTRIBUTOR, } from "@/utils";
@@ -78,6 +78,25 @@ export function Governance() {
                         loading={loading}
                         type="governance-posts"
                         timeUnit="year"
+                    />
+                    {/*
+                    <MultiAxisLineChart
+                        data={communityModularityData}
+                        loading={loading}
+                        type="governance"
+                        title="Community Structure Analysis"
+                        description="Number of communities and modularity score over time, showing the evolution of Bitcoin's governance network structure."
+                        leftAxisMetric="communities"
+                        rightAxisMetric="modularity"
+                        leftAxisLabel="Number of Communities"
+                        rightAxisLabel="Modularity Score"
+                    />
+                    */}
+
+                    <GovernanceDoughnutCard
+                        fileName="governance-top-authors"
+                        title="Top 10 Authors by Comments"
+                        description="Distribution of comments among the most active authors in Bitcoin governance discussions."
                     />
                 </div>
             </div >
