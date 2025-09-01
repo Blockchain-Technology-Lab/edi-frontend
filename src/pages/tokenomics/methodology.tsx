@@ -31,18 +31,18 @@ export function TokenomicsMethodology() {
                             rel="noopener noreferrer"
                             className="link"
                         >
-                            The Edinburgh Decentralization Index (EDI)
+                            The Edinburgh Decentralisation Index (EDI)
                         </a>{" "}
-                        is a methodology framework for defining, analyzing, and evaluating the
-                        decentralization level of blockchain systems across multiple layers.
+                        is a methodology framework for defining, analysing, and evaluating the
+                        decentralisation level of blockchain systems across multiple layers.
                         These layers are: Hardware, Software, Network, Consensus, Tokenomics,
                         Client API, Governance, and Geography.
                     </p>
                     <p className="">
-                        This page offers visualizations of the Tokenomics layer results.
+                        This page offers visualisations of the Tokenomics layer results.
                         The ledgers that are currently supported are: Bitcoin, Bitcoin Cash,
                         Cardano, Ethereum, Litecoin, and Tezos. On the Tokenomics layer,
-                        decentralization is evaluated based on the distribution of tokens
+                        decentralisation is evaluated based on the distribution of tokens
                         across token holders. The blockchain data that is needed to determine
                         these distributions are collected from{" "}
                         <a href="https://console.cloud.google.com/bigquery">BigQuery</a>{" "}
@@ -52,7 +52,7 @@ export function TokenomicsMethodology() {
                         <a href="https://blockchain-technology-lab.github.io/tokenomics-decentralization/">
                             repository
                         </a>{" "}
-                        . The dashboard offers various options to the users for customizing
+                        . The dashboard offers various options to the users for customising
                         the results.
                     </p>
                     <p className="">
@@ -105,7 +105,7 @@ export function TokenomicsMethodology() {
                             keys&quot;, &quot;Multi-input Transactions&quot;, &quot;Crystal
                             Intelligence&quot; and &quot;None&quot;. A user can choose either
                             &quot;None&quot; or any combination of the other options.
-                            &quot;Explorers&quot; refers to attribution and deanonymization data
+                            &quot;Explorers&quot; refers to attribution and deanonymisation data
                             collected from blockchain explorers, namely{" "}
                             <a href="https://bitinfocharts.com/">BitInfoCharts</a>,{" "}
                             <a href="https://etherscan.io/">Etherscan</a>,{" "}
@@ -161,7 +161,7 @@ export function TokenomicsMethodology() {
                     <div className="divider divider-accent"></div>
                     <div className="card-body p-4 text-base">
                         <p className="">
-                            A user can apply the decentralization metrics on all or part of the data by choosing the relevant inclusion threshold on each layer.
+                            A user can apply the decentralisation metrics on all or part of the data by choosing the relevant inclusion threshold on each layer.
 
                             For example, if the option "Top 100" is chosen on the Tokenomics layer, then the metrics will apply on the top 100 richest entities in the system, while ignoring the rest. Similarly, if the option "Above $0.01" is chosen in Tokenomics, the metrics will apply on entities that control tokens that were worth, at the given point in time, at least $0.01.
 
