@@ -31,17 +31,17 @@ export function GeographyMethodology() {
                             rel="noopener noreferrer"
                             className="link"
                         >
-                            The Edinburgh Decentralization Index (EDI)
+                            The Edinburgh Decentralisation Index (EDI)
                         </a>{" "}
-                        is a methodology framework for defining, analyzing, and evaluating the
-                        decentralization level of blockchain systems across multiple layers.
+                        is a methodology framework for defining, analysing, and evaluating the
+                        decentralisation level of blockchain systems across multiple layers.
                         These layers are: Hardware, Software, Network, Consensus, Tokenomics,
                         Client API, Governance, and Geography.
                     </p>
                     <p>
-                        This page offers visualizations of the Geography layer results.
+                        This page offers visualisations of the Geography layer results.
                         The ledgers that are currently supported are: Bitcoin, Bitcoin Cash,
-                        Litecoin, Dogecoin and Zcash. On the Geography layer, decentralization
+                        Litecoin, Dogecoin and Zcash. On the Geography layer, decentralisation
                         is evaluated based on the distribution of nodes across countries. The
                         blockchain data that is needed to determine these distributions are
                         collected using a crawler running on each network. The crawler is
