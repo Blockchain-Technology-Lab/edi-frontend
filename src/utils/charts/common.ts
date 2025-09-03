@@ -32,8 +32,18 @@ export const LAYER_TYPES = [
   "governance",
   "governance-posts"
 ] as const
+//export type LayerType = (typeof LAYER_TYPES)[number]
 
-export type LayerType = (typeof LAYER_TYPES)[number]
+export const LAYER_NAMES = {
+  TOKENOMICS: "tokenomics",
+  CONSENSUS: "consensus",
+  SOFTWARE: "software",
+  NETWORK: "network",
+  GEOGRAPHY: "geography",
+  GOVERNANCE: "governance",
+  GOVERNANCE_POSTS: "governance-posts"
+} as const
+export type LayerType = (typeof LAYER_NAMES)[keyof typeof LAYER_NAMES]
 
 export type ChartData = {
   labels: Date[]

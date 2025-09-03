@@ -116,12 +116,10 @@ export function Network() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
           {NETWORK_DOUGHNUT_LEDGERS.map((ledger, index) => (
             <DoughnutCard
+              type={"network"}
               key={index}
-              repoItem={{
-                name: ledger.name,
-                url: `https://github.com/Blockchain-Technology-Lab/network-decentralization`,
-                repo: ledger.chain,
-              }}
+              title={ledger.name}
+              githubUrl={`https://github.com/Blockchain-Technology-Lab/network-decentralization`}
               path={`${getNetworkDoughnutCsvFileName(ledger.chain)}`}
               fileName={ledger.chain}
             />

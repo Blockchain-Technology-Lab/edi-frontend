@@ -220,10 +220,13 @@ export function Software() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
           {SOFTWARE_DOUGHNUT_LEDGER_NAMES.map((repoItem) => (
             <DoughnutCard
+              type={"software"}
+              title={repoItem.name}
               key={repoItem.name}
-              repoItem={repoItem}
+              githubUrl={repoItem.url}
               path={doughnutPaths[repoItem.name]}
               fileName={repoItem.repo}
+              showInfo={true}
             />
           ))}
         </div>

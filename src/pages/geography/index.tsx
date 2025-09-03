@@ -111,15 +111,12 @@ export function Geography() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
           {doughnut_ledgers.map((ledger, index) => (
             <DoughnutCard
+              title={ledger.name}
               key={index}
-              repoItem={{
-                name: ledger.name,
-                url: "https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin",
-                repo: ledger.chain
-              }}
+              githubUrl={`https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin`}
+
               path={`${GEOGRAPHY_CSV}${getGeographyDoughnutCsvFileName(ledger.chain)}`}
-              fileName={ledger.chain}
-            />
+              fileName={ledger.chain} type={"geography"} />
           ))}
         </div>
 

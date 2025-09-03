@@ -459,3 +459,49 @@ export const GOVERNANCE_DOUGHNUT_ITEMS = [
 export function getGovernanceDoughnutPath() {
   return "/output/governance/bitcoin/pie_chart_top_10_authors.csv"
 }
+
+export async function loadGovernanceDoughnutCsvData(
+  filePath: string
+): Promise<GovernanceDataEntry[]> {
+  const response = await fetch(filePath)
+  if (!response.ok) {
+    throw new Error(`Error loading doughnut data from ${filePath}`)
+  }
+
+  const csv = await response.text()
+  return parseGovernanceDoughnutCsv(csv)
+}
+
+export function parseGovernanceDoughnutCsv(
+  csvData: string
+): GovernanceDataEntry[] {
+  const lines = csvData.trim().split("\n")
+  if (lines.length < 2) return [] // No data rows
+
+  const data: GovernanceDataEntry[] = []
+
+  // Skip header row (rank,author,total_comments,percentage), start from index 1
+  for (let i = 1; i < lines.length; i++) {
+    const values = lines[i].split(",").map((v) => v.trim())
+
+    // Expected format: rank,author,total_comments,percentage
+    if (values.length >= 4) {
+      const author = values[1]
+      const totalComments = parseInt(values[2])
+      const percentage = parseFloat(values[3])
+
+      // Validate the data
+      if (author && !isNaN(totalComments) && !isNaN(percentage)) {
+        data.push({
+          author: author,
+          ledger: "governance",
+          date: new Date(),
+          total_comments: totalComments,
+          percentage: percentage
+        })
+      }
+    }
+  }
+
+  return data
+}

@@ -23,8 +23,7 @@ export function RepositoryCard({ repoItem, path, fileName }: RepositoryCardProps
                 <DoughnutChartRenderer
                     key={repoItem.name}
                     path={path}
-                    fileName={fileName}
-                />
+                    fileName={fileName} type={"software"} />
             ) : (
                 <div className="alert alert-warning">
                     <span>Chart data not available for {repoItem.name}</span>
