@@ -47,4 +47,5 @@ export interface GovernanceDataEntry {
   // Top authors fields
   author?: string
   percentage?: number
+  total_comments?: number
 }

@@ -1,7 +1,7 @@
-import { LayerTopCard, MetricsCard, MetricsTopCard, GovernanceDoughnutCard } from "@/components";
+import { LayerTopCard, MetricsCard, MetricsTopCard, DoughnutCard } from "@/components";
 import { useGovernanceCsv } from "@/hooks/useGovernanceCsv";
 import { governanceMethodologyTo } from "@/routes/routePaths";
-import { BIP_NETWORK_CARD, GOVERNANCE_CARD, ORG_DISTRIBUTOR, } from "@/utils";
+import { BIP_NETWORK_CARD, GOVERNANCE_CARD, GOVERNANCE_CSV, ORG_DISTRIBUTOR, } from "@/utils";
 import type { DataEntry, GovernanceDataEntry } from "@/utils/types";
 
 
@@ -14,6 +14,8 @@ export function Governance() {
             ...entry,
         }));
     };
+
+    const govDoughnutFile = `${GOVERNANCE_CSV}/bitcoin/pie_chart_top_10_authors.csv`
 
     if (error) {
         return <div className="text-error p-4">Failed to load governance data: {error.message}</div>;
@@ -93,11 +95,13 @@ export function Governance() {
                     />
                     */}
 
-                    <GovernanceDoughnutCard
-                        fileName="governance-top-authors"
+                    <DoughnutCard
+                        type={"governance"}
                         title="Top 10 Authors by Comments"
+                        path={govDoughnutFile}
                         description="Distribution of comments among the most active authors in Bitcoin governance discussions."
-                    />
+                        showInfo={true}
+                        fileName={govDoughnutFile} />
                 </div>
             </div >
         </>
