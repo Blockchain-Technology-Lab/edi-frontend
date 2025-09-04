@@ -1,21 +1,26 @@
 import { LayerTopCard, MetricsCard, MetricsTopCard, DoughnutCard } from "@/components";
 import { useGovernanceCsv } from "@/hooks/useGovernanceCsv";
 import { governanceMethodologyTo } from "@/routes/routePaths";
-import { BIP_NETWORK_CARD, GOVERNANCE_CARD, GOVERNANCE_CSV, ORG_DISTRIBUTOR, } from "@/utils";
-import type { DataEntry, GovernanceDataEntry } from "@/utils/types";
-
+import {
+    BIP_NETWORK_CARD,
+    GOVERNANCE_CARD,
+    GOVERNANCE_CSV,
+    ORG_DISTRIBUTOR,
+    adaptGovernanceToDataEntry,
+    transformCommunityDataForMultiAxis
+} from "@/utils";
+import { useMemo } from "react";
 
 export function Governance() {
-    const { giniData, postsCommentsData, loading, error } = useGovernanceCsv();
+    const { giniData, postsCommentsData, communityModularityData, loading, error } = useGovernanceCsv();
 
-    // Adapter function to convert GovernanceDataEntry to DataEntry
-    const adaptGovernanceToDataEntry = (govData: GovernanceDataEntry[]): DataEntry[] => {
-        return govData.map(entry => ({
-            ...entry,
-        }));
-    };
+    // Transform community modularity data for multi-axis LineChart
+    const transformedCommunityData = useMemo(() =>
+        transformCommunityDataForMultiAxis(communityModularityData),
+        [communityModularityData]
+    );
 
-    const govDoughnutFile = `${GOVERNANCE_CSV}/bitcoin/pie_chart_top_10_authors.csv`
+    const govDoughnutFile = `${GOVERNANCE_CSV}/bitcoin/pie_chart_top_10_authors.csv`;
 
     if (error) {
         return <div className="text-error p-4">Failed to load governance data: {error.message}</div>;
@@ -42,7 +47,6 @@ export function Governance() {
                     imagePosition="left"
                 />
 
-
                 <MetricsTopCard
                     title={"BIP Metrics"}
                     description={
@@ -50,7 +54,6 @@ export function Governance() {
                     }
                     layout="default"
                     imageSrc={ORG_DISTRIBUTOR}
-
                 />
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
@@ -81,19 +84,6 @@ export function Governance() {
                         type="governance-posts"
                         timeUnit="year"
                     />
-                    {/*
-                    <MultiAxisLineChart
-                        data={communityModularityData}
-                        loading={loading}
-                        type="governance"
-                        title="Community Structure Analysis"
-                        description="Number of communities and modularity score over time, showing the evolution of Bitcoin's governance network structure."
-                        leftAxisMetric="communities"
-                        rightAxisMetric="modularity"
-                        leftAxisLabel="Number of Communities"
-                        rightAxisLabel="Modularity Score"
-                    />
-                    */}
 
                     <DoughnutCard
                         type={"governance"}
@@ -101,9 +91,31 @@ export function Governance() {
                         path={govDoughnutFile}
                         description="Distribution of comments among the most active authors in Bitcoin governance discussions."
                         showInfo={true}
-                        fileName={govDoughnutFile} />
+                        fileName={govDoughnutFile}
+                    />
+
+                    <MetricsCard
+                        metric={{
+                            metric: "multi-axis",
+                            title: "Community Structure Analysis",
+                            description: "Number of communities and modularity score over time, showing the evolution of Bitcoin's governance network structure.",
+                            decimals: 2,
+                            multiAxis: {
+                                leftAxisMetric: "communities",
+                                rightAxisMetric: "modularity",
+                                leftAxisLabel: "Number of Communities",
+                                rightAxisLabel: "Modularity Score",
+                                leftAxisColor: "#ef4444",
+                                rightAxisColor: "#3b82f6"
+                            }
+                        }}
+                        data={transformedCommunityData}
+                        loading={loading}
+                        type="governance"
+                        timeUnit="year"
+                    />
                 </div>
-            </div >
+            </div>
         </>
     )
 }

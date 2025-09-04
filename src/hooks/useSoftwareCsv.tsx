@@ -5,29 +5,38 @@ import {
     loadDoughnutCsvData
 } from "@/utils"
 
-export function useSoftwareCsv(csvFile: string) {
-    const [data, setData] = useState<DataEntry[]>()
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState<Error | null>(null)
+export function useSoftwareCsv(csvPath: string): {
+    data: DataEntry[]; // Always return defined array
+    loading: boolean;
+    error: Error | null;
+} {
+    const [data, setData] = useState<DataEntry[]>([]); // Initialize with empty array
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<Error | null>(null);
 
     const load = useCallback(async () => {
         setLoading(true)
         setError(null)
         try {
-            const csvData = await loadSoftwareCsvData(csvFile)
+            const csvData = await loadSoftwareCsvData(csvPath)
             setData(csvData)
         } catch (err) {
             setError(err instanceof Error ? err : new Error("Unknown error"))
         } finally {
             setLoading(false)
         }
-    }, [csvFile])
+    }, [csvPath])
 
     useEffect(() => {
         load()
     }, [load])
 
-    return { data, loading, error }
+    // Ensure data is always an array
+    return {
+        data: data || [], // Fallback to empty array
+        loading,
+        error
+    };
 }
 
 export function useSoftwareDoughnutCsv(csvFile: string) {

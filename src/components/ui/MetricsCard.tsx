@@ -7,6 +7,23 @@ import type { DataEntry } from "@/utils/types";
 
 export type Series = { label: string; data: DataEntry[] };
 
+// Extend the metric interface to support multi-axis
+export interface Metric {
+  metric: string;
+  title: string;
+  description?: string;
+  decimals?: number;
+  // Add multi-axis configuration
+  multiAxis?: {
+    leftAxisMetric: string;
+    rightAxisMetric: string;
+    leftAxisLabel?: string;
+    rightAxisLabel?: string;
+    leftAxisColor?: string;
+    rightAxisColor?: string;
+  };
+}
+{/* 
 interface MetricsCardProps {
   metric: {
     metric: string;
@@ -20,13 +37,39 @@ interface MetricsCardProps {
   type: LayerType;
   timeUnit?: "day" | "month" | "year";
 }
+*/}
+interface MetricsCardProps {
+  metric: Metric;
+  data: DataEntry[];
+  loading: boolean;
+  type: LayerType;
+  timeUnit?: "year" | "month" | "day";
+  padYAxis?: boolean;
+}
+
+export interface Metric {
+  metric: string;
+  title: string;
+  description?: string;
+  decimals?: number;
+  // Add multi-axis configuration
+  multiAxis?: {
+    leftAxisMetric: string;
+    rightAxisMetric: string;
+    leftAxisLabel?: string;
+    rightAxisLabel?: string;
+    leftAxisColor?: string;
+    rightAxisColor?: string;
+  };
+}
 
 export function MetricsCard({
   metric,
   data,
   loading,
   type,
-  timeUnit,
+  timeUnit = "year",
+  padYAxis = false,
 }: MetricsCardProps) {
   return (
     <div className="card-body" key={metric.metric} title={metric.title}>
@@ -44,13 +87,15 @@ export function MetricsCard({
         </Tippy>
       </div>
       <LineChart
-        metric={metric.metric}
         type={type}
+        metric={metric.metric}
         csvData={data}
         isLoadingCsvData={loading}
-        tooltipDecimals={metric.decimals}
-        padYAxis={metric.padYAxis}
         timeUnit={timeUnit}
+        padYAxis={padYAxis}
+        tooltipDecimals={metric.decimals}
+        // Pass multi-axis config if provided
+        multiAxis={metric.multiAxis}
       />
     </div>
   );

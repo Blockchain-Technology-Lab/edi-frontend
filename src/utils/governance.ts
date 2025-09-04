@@ -1,5 +1,5 @@
 // src/utils/governance.ts
-import type { GovernanceDataEntry } from "@/utils/types"
+import type { DataEntry, GovernanceDataEntry } from "./types"
 import { GOVERNANCE_CSV } from "@/utils/paths"
 import { getLedgerColor } from "@/utils/charts/constants"
 
@@ -504,4 +504,78 @@ export function parseGovernanceDoughnutCsv(
   }
 
   return data
+}
+
+/**
+ * Transforms GovernanceDataEntry[] to DataEntry[] format
+ * Used for components that expect DataEntry format
+ */
+export function adaptGovernanceToDataEntry(
+  govData: GovernanceDataEntry[]
+): DataEntry[] {
+  return govData.map((entry) => ({
+    ...entry
+  }))
+}
+
+/**
+ * Transforms community modularity data for multi-axis charts
+ * Splits communities and modularity into separate entries for dual-axis visualization
+ */
+export function transformCommunityDataForMultiAxis(
+  communityModularityData: GovernanceDataEntry[]
+): DataEntry[] {
+  if (!communityModularityData || communityModularityData.length === 0)
+    return []
+
+  // Create separate entries for each metric
+  const communitiesData: DataEntry[] = communityModularityData.map((entry) => ({
+    date: entry.date,
+    ledger: entry.ledger,
+    metric: "Number of Communities",
+    value: entry.communities || 0,
+    communities: entry.communities
+  }))
+
+  const modularityData: DataEntry[] = communityModularityData.map((entry) => ({
+    date: entry.date,
+    ledger: entry.ledger,
+    metric: "Modularity Score",
+    value: entry.modularity || 0,
+    modularity: entry.modularity
+  }))
+
+  return [...communitiesData, ...modularityData]
+}
+
+/**
+ * Generic function to transform governance data for multi-axis charts
+ * More flexible version that can work with any two metrics
+ */
+export function transformGovernanceDataForMultiAxis(
+  data: GovernanceDataEntry[],
+  leftMetric: keyof GovernanceDataEntry,
+  rightMetric: keyof GovernanceDataEntry,
+  leftLabel: string,
+  rightLabel: string
+): DataEntry[] {
+  if (!data || data.length === 0) return []
+
+  const leftAxisData: DataEntry[] = data.map((entry) => ({
+    date: entry.date,
+    ledger: entry.ledger,
+    metric: leftLabel,
+    value: (entry[leftMetric] as number) || 0,
+    [leftMetric]: entry[leftMetric]
+  }))
+
+  const rightAxisData: DataEntry[] = data.map((entry) => ({
+    date: entry.date,
+    ledger: entry.ledger,
+    metric: rightLabel,
+    value: (entry[rightMetric] as number) || 0,
+    [rightMetric]: entry[rightMetric]
+  }))
+
+  return [...leftAxisData, ...rightAxisData]
 }
