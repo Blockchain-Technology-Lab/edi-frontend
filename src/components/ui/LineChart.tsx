@@ -18,6 +18,16 @@ import type { DataEntry } from "@/utils/types";
 import 'chartjs-adapter-date-fns';
 import { ImageDown } from "lucide-react";
 
+// Add multi-axis configuration
+interface MultiAxisConfig {
+    leftAxisMetric: string;
+    rightAxisMetric: string;
+    leftAxisLabel?: string;
+    rightAxisLabel?: string;
+    leftAxisColor?: string;
+    rightAxisColor?: string;
+}
+
 type LineProps = {
     metric: string;
     csvData?: DataEntry[];
@@ -26,6 +36,7 @@ type LineProps = {
     timeUnit?: "year" | "month" | "day";
     padYAxis?: boolean;
     tooltipDecimals?: number;
+    multiAxis?: MultiAxisConfig; // Optional multi-axis config
 };
 
 export function LineChart({
@@ -36,6 +47,7 @@ export function LineChart({
     timeUnit = "year",
     padYAxis,
     tooltipDecimals,
+    multiAxis, // New prop for multi-axis functionality
 }: LineProps) {
     const { theme: resolvedTheme } = useContext(ThemeContext);
     const { chartData, sliderValue, sliderRange, setSliderValue } = useChartData(
@@ -46,27 +58,84 @@ export function LineChart({
     const exportChart = useExportChart();
     const chartRef = useRef<HTMLCanvasElement | null>(null);
 
+    // Enhanced chart data for multi-axis (only when multiAxis is provided)
+    const enhancedChartData = useMemo(() => {
+        if (!multiAxis || !csvData) return chartData;
+
+        // Group data by metric type for multi-axis
+        const leftAxisData = csvData
+            .filter(entry => entry.metric === multiAxis.leftAxisLabel)
+            .map(entry => ({
+                x: entry.date,
+                y: entry.value
+            }));
+
+        const rightAxisData = csvData
+            .filter(entry => entry.metric === multiAxis.rightAxisLabel)
+            .map(entry => ({
+                x: entry.date,
+                y: entry.value
+            }));
+
+        return {
+            labels: csvData.map(entry => entry.date),
+            datasets: [
+                {
+                    label: multiAxis.leftAxisLabel,
+                    data: leftAxisData,
+                    borderColor: multiAxis.leftAxisColor || "#ef4444",
+                    backgroundColor: `${multiAxis.leftAxisColor || "#ef4444"}20`,
+                    yAxisID: 'y', // Left axis
+                    fill: false,
+                    tension: 0.1,
+                    pointRadius: 2,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: multiAxis.leftAxisColor || "#ef4444",
+                    pointBorderColor: "#fff",
+                    pointBorderWidth: 1
+                },
+                {
+                    label: multiAxis.rightAxisLabel,
+                    data: rightAxisData,
+                    borderColor: multiAxis.rightAxisColor || "#3b82f6",
+                    backgroundColor: `${multiAxis.rightAxisColor || "#3b82f6"}20`,
+                    yAxisID: 'y1', // Right axis
+                    fill: false,
+                    tension: 0.1,
+                    pointRadius: 2,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: multiAxis.rightAxisColor || "#3b82f6",
+                    pointBorderColor: "#fff",
+                    pointBorderWidth: 1
+                }
+            ]
+        };
+    }, [chartData, csvData, multiAxis]);
+
     const options = useMemo(() => {
         if (!resolvedTheme || !chartData) return undefined;
-        const allYValues: number[] = chartData.datasets.flatMap((ds) =>
+
+        const dataToUse = multiAxis ? enhancedChartData : chartData;
+        const allYValues: number[] = dataToUse?.datasets.flatMap((ds) =>
             (ds.data as { x: Date; y: number }[]).map((point) => point.y)
-        );
+        ) || [];
+
         return getChartOptions(
             metric,
             resolvedTheme,
             timeUnit,
             allYValues,
             padYAxis,
-            tooltipDecimals
+            tooltipDecimals,
+            multiAxis // Pass multi-axis config to options
         );
-    }, [metric, resolvedTheme, timeUnit, chartData, padYAxis, tooltipDecimals]);
+    }, [metric, resolvedTheme, timeUnit, chartData, enhancedChartData, padYAxis, tooltipDecimals, multiAxis]);
 
     // Re-register plugin when theme changes
     useEffect(() => {
         const watermarkPlugin = createWatermarkPlugin(resolvedTheme)
         ChartJS.register(watermarkPlugin, LineElement, PointElement, CategoryScale, LinearScale, TimeScale, Tooltip, Legend)
 
-        // Cleanup function to unregister the plugin
         return () => {
             ChartJS.unregister(watermarkPlugin)
         }
@@ -75,14 +144,16 @@ export function LineChart({
     if (isLoadingCsvData) return <LineChartSkeleton />;
     if (!chartData || !options) return null;
 
+    const finalChartData = multiAxis ? enhancedChartData : chartData;
+
     return (
         <div className="card bg-base-300 shadow-lg p-4 space-y-4">
             <div className="aspect-[16/9]">
                 <Line
-                    key={`chart-${metric}-${resolvedTheme}`}
+                    key={`chart-${metric}-${resolvedTheme}-${multiAxis ? 'multi' : 'single'}`}
                     data={{
-                        labels: chartData.labels,
-                        datasets: chartData.datasets
+                        labels: finalChartData?.labels,
+                        datasets: finalChartData?.datasets || []
                     }}
                     options={options}
                     className=""
@@ -94,12 +165,14 @@ export function LineChart({
                 />
             </div>
 
-            <RangeSlider
-                min={sliderRange.min}
-                max={sliderRange.max}
-                value={sliderValue}
-                onValueChange={setSliderValue}
-            />
+            {!multiAxis && ( // Only show slider for single-axis charts
+                <RangeSlider
+                    min={sliderRange.min}
+                    max={sliderRange.max}
+                    value={sliderValue}
+                    onValueChange={setSliderValue}
+                />
+            )}
 
             <div className="text-end">
                 <button
@@ -127,18 +200,20 @@ function LineChartSkeleton() {
     );
 }
 
+// Enhanced getChartOptions function with multi-axis support
 function getChartOptions(
     metric: string,
     theme: string,
     timeUnit: "year" | "month" | "day" = "year",
     yValues: number[] = [],
     padYAxis = false,
-    tooltipDecimals?: number
+    tooltipDecimals?: number,
+    multiAxis?: MultiAxisConfig // New parameter
 ): ChartOptions<"line"> {
     const mainColor = theme === "dim" ? "white" : "black";
     const minYRaw = Math.min(...yValues);
 
-    return {
+    const baseOptions: ChartOptions<"line"> = {
         responsive: true,
         maintainAspectRatio: false,
         animation: {
@@ -152,28 +227,39 @@ function getChartOptions(
                 intersect: false,
                 backgroundColor: "rgba(0, 0, 0, 0.4)",
                 bodyColor: "white",
+                titleColor: "white",
                 filter(item, _, items) {
                     return items[0].label === item.label;
                 },
                 callbacks: {
-                    label(ctx) {
-                        const value = ctx.parsed.y;
-                        const label = ctx.dataset.label || "";
-                        const formatted =
-                            typeof tooltipDecimals === "number"
-                                ? value.toLocaleString(undefined, {
-                                    minimumFractionDigits: tooltipDecimals,
-                                    maximumFractionDigits: tooltipDecimals,
-                                })
-                                : value;
-                        return `${label}: ${formatted}`;
+                    title: function (context) {
+                        const date = new Date(context[0].parsed.x);
+                        return `${timeUnit === "year" ? "Year" : "Date"}: ${timeUnit === "year" ? date.getFullYear() : date.toLocaleDateString()
+                            }`;
                     },
-                },
+                    label: function (context) {
+                        const value = context.parsed.y;
+                        const label = context.dataset.label || "";
+
+                        const formatted = typeof tooltipDecimals === "number"
+                            ? value.toLocaleString(undefined, {
+                                minimumFractionDigits: tooltipDecimals,
+                                maximumFractionDigits: tooltipDecimals,
+                            })
+                            : value;
+
+                        return `${label}: ${formatted}`;
+                    }
+                }
             },
             legend: {
+                display: true, //multiAxis ? true : false, // Only show legend for multi-axis
+                position: 'top' as const,
                 labels: {
                     color: mainColor,
-                },
+                    usePointStyle: true,
+                    pointStyle: multiAxis ? 'line' : 'circle'
+                }
             },
         },
         scales: {
@@ -189,15 +275,38 @@ function getChartOptions(
                         day: "dd MMM yyyy",
                     },
                 },
+                // PRESERVE ORIGINAL GRID STYLING
                 ticks: { color: mainColor },
+                grid: {
+                    //display: true,
+                    //color: theme === "dim" ? "#374151" : "#E5E7EB", // Original grid colors
+                },
+                border: {
+                    display: false,
+                },
             },
             y: {
                 display: true,
+                position: multiAxis ? 'left' : undefined,
                 title: {
                     display: true,
-                    text: metric,
+                    text: multiAxis ? multiAxis.leftAxisLabel : metric,
+                    //color: multiAxis ? multiAxis.leftAxisColor : mainColor,
                 },
-                ticks: { color: mainColor },
+                // PRESERVE ORIGINAL GRID STYLING
+                ticks: {
+                    color: multiAxis ? multiAxis.leftAxisColor : mainColor,
+                    callback: multiAxis ? function (value) {
+                        return Math.round(Number(value)).toString();
+                    } : undefined
+                },
+                grid: {
+                    //display: true,
+                    //color: theme === "dim" ? "#374151" : "#E5E7EB", // Original grid colors - DON'T CHANGE
+                },
+                border: {
+                    display: false,
+                },
                 min: Math.floor(minYRaw),
                 ...(padYAxis && {
                     afterDataLimits(scale) {
@@ -214,4 +323,32 @@ function getChartOptions(
             },
         },
     };
+
+    // Add right axis for multi-axis charts ONLY - don't change main grid
+    if (multiAxis) {
+        baseOptions.scales!.y1 = {
+            type: 'linear',
+            display: true,
+            position: 'right',
+            title: {
+                display: true,
+                text: multiAxis.rightAxisLabel,
+                color: multiAxis.rightAxisColor,
+            },
+            ticks: {
+                color: multiAxis.rightAxisColor,
+                callback: function (value) {
+                    return Number(value).toFixed(2);
+                }
+            },
+            grid: {
+                drawOnChartArea: false, // Don't draw right axis grid over the main grid
+            },
+            border: {
+                display: false,
+            }
+        };
+    }
+
+    return baseOptions;
 }
