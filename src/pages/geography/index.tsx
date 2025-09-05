@@ -94,6 +94,7 @@ export function Geography() {
                 data={nodesData}
                 loading={loading}
                 type="geography"
+                timeUnit="month"
               />
             ))}
         </div>
