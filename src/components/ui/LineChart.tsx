@@ -258,7 +258,17 @@ function getChartOptions(
                 labels: {
                     color: mainColor,
                     usePointStyle: true,
-                    pointStyle: multiAxis ? 'line' : 'circle'
+                    pointStyle: multiAxis ? 'line' : 'circle',
+                    filter: function (legendItem, chartData) {
+                        if (multiAxis && typeof legendItem.datasetIndex === 'number') {
+                            const dataset = chartData.datasets[legendItem.datasetIndex];
+                            if (dataset) {
+                                // Override the font color to match the dataset border color
+                                (legendItem as any).fontColor = dataset.borderColor;
+                            }
+                        }
+                        return true;
+                    }
                 }
             },
         },
@@ -278,7 +288,7 @@ function getChartOptions(
                 // PRESERVE ORIGINAL GRID STYLING
                 ticks: { color: mainColor },
                 grid: {
-                    //display: true,
+                    display: true,
                     //color: theme === "dim" ? "#374151" : "#E5E7EB", // Original grid colors
                 },
                 border: {
@@ -301,7 +311,7 @@ function getChartOptions(
                     } : undefined
                 },
                 grid: {
-                    //display: true,
+                    display: true,
                     //color: theme === "dim" ? "#374151" : "#E5E7EB", // Original grid colors - DON'T CHANGE
                 },
                 border: {
@@ -345,7 +355,7 @@ function getChartOptions(
                 drawOnChartArea: false, // Don't draw right axis grid over the main grid
             },
             border: {
-                display: false,
+                display: true,
             }
         };
     }
