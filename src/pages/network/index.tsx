@@ -99,6 +99,7 @@ export function Network() {
                 data={orgData}
                 loading={loading}
                 type="network"
+                timeUnit="month"
               />
             ))}
         </div>
