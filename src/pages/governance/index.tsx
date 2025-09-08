@@ -61,7 +61,7 @@ export function Governance() {
                     <MetricsCard
                         metric={{
                             metric: "gini_coefficient",
-                            title: "Gini Coefficient Activeness",
+                            title: "Gini coefficient of activities per user",
                             description: "Measures inequality in authorship concentration among contributors.",
                             decimals: 2,
                         }}
@@ -85,14 +85,7 @@ export function Governance() {
                         timeUnit="year"
                     />
 
-                    <DoughnutCard
-                        type={"governance"}
-                        title="Top 10 Authors by Comments"
-                        path={govDoughnutFile}
-                        description="Distribution of comments among the most active authors in Bitcoin governance discussions."
-                        showInfo={true}
-                        fileName={govDoughnutFile}
-                    />
+
 
                     <MetricsCard
                         metric={{
@@ -113,6 +106,16 @@ export function Governance() {
                         loading={loading}
                         type="governance"
                         timeUnit="year"
+                    />
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-1 gap-4 w-full">
+                    <DoughnutCard
+                        type={"governance"}
+                        title="Top 10 Authors by Comments"
+                        path={govDoughnutFile}
+                        description="Distribution of comments among the most active authors in Bitcoin governance discussions."
+                        showInfo={true}
+                        fileName={govDoughnutFile}
                     />
                 </div>
             </div>
