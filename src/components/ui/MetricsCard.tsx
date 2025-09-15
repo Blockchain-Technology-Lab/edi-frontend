@@ -1,29 +1,36 @@
-import { LineChart } from "@/components";
-import { Info } from "lucide-react";
-import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css";
-import type { LayerType } from "@/utils";
-import type { DataEntry } from "@/utils/types";
+import { LineChart } from "@/components"
+import { Info } from "lucide-react"
+import Tippy from "@tippyjs/react"
+import "tippy.js/dist/tippy.css"
+import type { LayerType } from "@/utils"
+import type { DataEntry } from "@/utils/types"
 
-export type Series = { label: string; data: DataEntry[] };
+export type Series = { label: string; data: DataEntry[] }
 
 // Extend the metric interface to support multi-axis
 export interface Metric {
-  metric: string;
-  title: string;
-  description?: string;
-  decimals?: number;
+  metric: string
+  title: string
+  description?: string
+  decimals?: number
+  // control y-axis decimal places for charts rendered from this metric (undefined -> round integers)
+  yAxisDecimals?: number | null
   // Add multi-axis configuration
   multiAxis?: {
-    leftAxisMetric: string;
-    rightAxisMetric: string;
-    leftAxisLabel?: string;
-    rightAxisLabel?: string;
-    leftAxisColor?: string;
-    rightAxisColor?: string;
-  };
+    leftAxisMetric: string
+    // optional single right-axis key (legacy) or when using rightAxisMetrics
+    rightAxisMetric?: string
+    // allow multiple right-axis metrics and colors
+    rightAxisMetrics?: string[]
+    rightAxisColors?: string[]
+    leftAxisLabel?: string
+    rightAxisLabel?: string
+    leftAxisColor?: string
+    rightAxisColor?: string
+  }
 }
-{/* 
+{
+  /* 
 interface MetricsCardProps {
   metric: {
     metric: string;
@@ -37,31 +44,18 @@ interface MetricsCardProps {
   type: LayerType;
   timeUnit?: "day" | "month" | "year";
 }
-*/}
+*/
+}
 interface MetricsCardProps {
-  metric: Metric;
-  data: DataEntry[];
-  loading: boolean;
-  type: LayerType;
-  timeUnit?: "year" | "month" | "day";
-  padYAxis?: boolean;
+  metric: Metric
+  data: DataEntry[]
+  loading: boolean
+  type: LayerType
+  timeUnit?: "year" | "month" | "day"
+  padYAxis?: boolean
 }
 
-export interface Metric {
-  metric: string;
-  title: string;
-  description?: string;
-  decimals?: number;
-  // Add multi-axis configuration
-  multiAxis?: {
-    leftAxisMetric: string;
-    rightAxisMetric: string;
-    leftAxisLabel?: string;
-    rightAxisLabel?: string;
-    leftAxisColor?: string;
-    rightAxisColor?: string;
-  };
-}
+// (Metric already declared above)
 
 export function MetricsCard({
   metric,
@@ -69,7 +63,7 @@ export function MetricsCard({
   loading,
   type,
   timeUnit = "year",
-  padYAxis = false,
+  padYAxis = false
 }: MetricsCardProps) {
   return (
     <div className="card-body" key={metric.metric} title={metric.title}>
@@ -94,9 +88,10 @@ export function MetricsCard({
         timeUnit={timeUnit}
         padYAxis={padYAxis}
         tooltipDecimals={metric.decimals}
+        yAxisDecimals={metric.decimals ?? metric.yAxisDecimals ?? null}
         // Pass multi-axis config if provided
         multiAxis={metric.multiAxis}
       />
     </div>
-  );
+  )
 }

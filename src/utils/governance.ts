@@ -545,7 +545,16 @@ export function transformCommunityDataForMultiAxis(
     modularity: entry.modularity
   }))
 
-  return [...communitiesData, ...modularityData]
+  // Add nodes as a third series so charts can show 1 left + 2 right metrics
+  const nodesData: DataEntry[] = communityModularityData.map((entry) => ({
+    date: entry.date,
+    ledger: entry.ledger,
+    metric: "Nodes",
+    value: entry.nodes || 0,
+    nodes: entry.nodes
+  }))
+
+  return [...communitiesData, ...modularityData, ...nodesData]
 }
 
 /**
@@ -578,4 +587,52 @@ export function transformGovernanceDataForMultiAxis(
   }))
 
   return [...leftAxisData, ...rightAxisData]
+}
+
+/**
+ * Transforms posts/comments/users governance data into DataEntry[]
+ * Each entry becomes separate metric rows with metric names: Posts, Comments, Users
+ */
+export function transformPostsCommentsForMultiAxis(
+  data: GovernanceDataEntry[]
+): DataEntry[] {
+  if (!data || data.length === 0) return []
+
+  return data.flatMap((entry) => {
+    const date = entry.date
+    const ledger = entry.ledger || "governance"
+    const out: DataEntry[] = []
+
+    if (typeof entry.posts === "number") {
+      out.push({
+        date,
+        ledger,
+        metric: "Posts",
+        value: entry.posts,
+        posts: entry.posts
+      })
+    }
+
+    if (typeof entry.comments === "number") {
+      out.push({
+        date,
+        ledger,
+        metric: "Comments",
+        value: entry.comments,
+        comments: entry.comments
+      })
+    }
+
+    if (typeof entry.users === "number") {
+      out.push({
+        date,
+        ledger,
+        metric: "Users",
+        value: entry.users,
+        users: entry.users
+      })
+    }
+
+    return out
+  })
 }
