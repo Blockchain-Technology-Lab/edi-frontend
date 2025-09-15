@@ -4,21 +4,21 @@ import {
   DoughnutTopCard,
   LayerTopCard,
   MetricsCard,
-  DoughnutCard,
-} from "@/components";
-import { useGeographyCsv } from "@/hooks";
-import { geographyContributorRoute } from "@/router";
-import { geographyMethodologyTo } from "@/routes/routePaths";
+  DoughnutCard
+} from "@/components"
+import { useGeographyCsv } from "@/hooks"
+import { geographyContributorRoute } from "@/router"
+import { geographyMethodologyTo } from "@/routes/routePaths"
 import {
   COUNTRIES_METRICS,
   DOUGHNUT_CARD,
   GEOGRAPHY_CARD,
   GEOGRAPHY_CSV,
   GEOGRAPHY_METRICS,
-  getGeographyDoughnutCsvFileName,
-} from "@/utils";
-import { useLocation, useNavigate } from "@tanstack/react-router";
-import { useEffect, useRef } from "react";
+  getGeographyDoughnutCsvFileName
+} from "@/utils"
+import { useLocation, useNavigate } from "@tanstack/react-router"
+import { useEffect, useRef } from "react"
 
 const doughnut_ledgers = [
   { chain: "bitcoin", name: "Bitcoin" },
@@ -31,28 +31,28 @@ const doughnut_ledgers = [
 ]
 
 export function Geography() {
-  const contributorRef = useRef<HTMLDivElement | null>(null);
-  const location = useLocation();
-  const navigate = useNavigate();
+  const contributorRef = useRef<HTMLDivElement | null>(null)
+  const location = useLocation()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (
       location.pathname === "/geography/contributor" &&
       contributorRef.current
     ) {
-      contributorRef.current.scrollIntoView({ behavior: "smooth" });
+      contributorRef.current.scrollIntoView({ behavior: "smooth" })
     }
-  }, [location.pathname]);
+  }, [location.pathname])
 
   const handleContributorScrollClick = () => {
     if (location.pathname === geographyContributorRoute.to) {
-      contributorRef.current?.scrollIntoView({ behavior: "smooth" });
+      contributorRef.current?.scrollIntoView({ behavior: "smooth" })
     } else {
-      navigate({ to: geographyContributorRoute.to });
+      navigate({ to: geographyContributorRoute.to })
     }
-  };
+  }
 
-  const { nodesData, loading, error } = useGeographyCsv();
+  const { nodesData, loading, error } = useGeographyCsv()
 
   return (
     <>
@@ -62,7 +62,13 @@ export function Geography() {
           <div className="col-span-3">
             <LayerTopCard
               title="Geography Layer"
-              description={<>These graphs represent the geographic decentralisation. The results are based only on data we have collected and do not include extensive historical data.</>}
+              description={
+                <>
+                  These graphs represent the geographic decentralisation. The
+                  results are based only on data we have collected and do not
+                  include extensive historical data.
+                </>
+              }
               imageSrc={GEOGRAPHY_CARD}
               methodologyPath={geographyMethodologyTo}
               githubUrl="https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin"
@@ -90,7 +96,7 @@ export function Geography() {
             GEOGRAPHY_METRICS.map((m) => (
               <MetricsCard
                 key={m.metric}
-                metric={m}
+                metric={{ ...m, decimals: 2 }}
                 data={nodesData}
                 loading={loading}
                 type="geography"
@@ -115,13 +121,15 @@ export function Geography() {
               title={ledger.name}
               key={index}
               githubUrl={`https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin`}
-
-              path={`${GEOGRAPHY_CSV}${getGeographyDoughnutCsvFileName(ledger.chain)}`}
-              fileName={ledger.chain} type={"geography"} />
+              path={`${GEOGRAPHY_CSV}${getGeographyDoughnutCsvFileName(
+                ledger.chain
+              )}`}
+              fileName={ledger.chain}
+              type={"geography"}
+            />
           ))}
         </div>
-
       </div>
     </>
-  );
+  )
 }
