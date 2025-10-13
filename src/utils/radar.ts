@@ -323,7 +323,7 @@ export function getRadarChartOptions(
           color: textColor,
           font: {
             size: 12,
-            weight: 300 as const
+            weight: 900 as const
           },
           usePointStyle: true,
           pointStyle: "circle" as const,
