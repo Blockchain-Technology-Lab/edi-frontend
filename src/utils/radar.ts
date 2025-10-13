@@ -88,39 +88,37 @@ export function transformRadarData(data: RadarDataPoint[]) {
         protocol.protocol.toLowerCase() as keyof typeof PROTOCOL_COLORS
       ]
 
-    // Check if protocol has complete data (all 5 dimensions have valid values)
-    const hasCompleteData = [
+    const rawValues = [
       protocol.consensus,
       protocol.tokenomics,
       protocol.software,
       protocol.network,
       protocol.geography
-    ].every(
-      (value) => value != null && !isNaN(value) && value !== 0 // You might want to keep this check or remove it based on your needs
+    ]
+
+    // Numeric values for Chart.js (null if missing)
+    const numericValues = rawValues.map((v) => (v == null ? null : v))
+
+    // Parallel display values (string "N/A" if missing)
+    const displayValues = rawValues.map((v) =>
+      v == null ? "N/A" : v.toFixed(1)
     )
 
     return {
       label:
         protocol.protocol.charAt(0).toUpperCase() + protocol.protocol.slice(1),
-      data: [
-        protocol.consensus || 0,
-        protocol.tokenomics || 0,
-        protocol.software || 0,
-        protocol.network || 0,
-        protocol.geography || 0
-      ],
+      data: numericValues, // Chart.js consumes this
       backgroundColor: protocolColors?.background || "rgba(128, 128, 128, 0.2)",
       borderColor: protocolColors?.border || "rgba(128, 128, 128, 1)",
       borderWidth: 2,
-      // Make line dotted if data is incomplete
-      borderDash: hasCompleteData ? [] : [5, 5], // [dash length, gap length]
       pointBackgroundColor: protocolColors?.border || "rgba(128, 128, 128, 1)",
       pointBorderColor: "#fff",
       pointBorderWidth: 2,
       pointRadius: 4,
-      pointHoverRadius: 6
-      // Optional: Make points different for incomplete data
-      //pointStyle: hasCompleteData ? "circle" : "triangle"
+      pointHoverRadius: 6,
+      fill: true,
+      // custom field for tooltips
+      _displayValues: displayValues
     }
   })
 
@@ -138,19 +136,15 @@ export function transformRadarDataWithSegments(data: RadarDataPoint[]) {
       ]
 
     const dataValues = [
-      protocol.consensus || 0,
-      protocol.tokenomics || 0,
-      protocol.software || 0,
-      protocol.network || 0,
-      protocol.geography || 0
+      protocol.consensus ?? null,
+      protocol.tokenomics ?? null,
+      protocol.software ?? null,
+      protocol.network ?? null,
+      protocol.geography ?? null
     ]
 
-    // Use a single dataset per protocol. Replace zero values with null so
-    // polygon edges between real values remain solid (spanGaps: false).
-    // For missing/zero values we record the indices so a plugin can draw
-    // dashed spokes from the centre to the axis for those indices.
     const missingIndices = dataValues
-      .map((v, i) => (v === 0 ? i : -1))
+      .map((v, i) => (v == null ? i : -1))
       .filter((i) => i >= 0)
 
     const solidData = dataValues.map((value) => (value === 0 ? null : value))
@@ -341,19 +335,61 @@ export function getRadarChartOptions(
         displayColors: true,
         callbacks: {
           label: function (context: any) {
-            const label = context.dataset.label || ""
-            const value = context.raw as number
+            const label = context.dataset?.label || ""
+            const dataIndex = context.dataIndex
+            const dataset = context.dataset || {}
+
+            const rawValue = Array.isArray(dataset.data)
+              ? dataset.data[dataIndex]
+              : context.raw
 
             if (
-              value === 0 ||
-              value == null ||
-              value === undefined ||
-              isNaN(value)
+              rawValue == null ||
+              rawValue === undefined ||
+              Number.isNaN(rawValue)
             ) {
               return `${label}: N/A`
             }
 
-            return `${label}: ${value.toFixed(1)}`
+            const numeric = Number(rawValue)
+            if (Number.isNaN(numeric)) return `${label}: N/A`
+
+            return `${label}: ${numeric.toFixed(1)}`
+          },
+          afterBody: function (tooltipItems: any[]) {
+            try {
+              if (!tooltipItems || tooltipItems.length === 0) return undefined
+              const dataIndex = tooltipItems[0].dataIndex
+              const chart = tooltipItems[0].chart
+              if (!chart) return undefined
+
+              const allDatasets =
+                chart.options?._allDatasets || chart.data.datasets || []
+              const shownDatasetIndices = new Set<number>()
+              tooltipItems.forEach((ti: any) => {
+                if (typeof ti.datasetIndex === "number")
+                  shownDatasetIndices.add(ti.datasetIndex)
+              })
+
+              const lines: string[] = []
+              allDatasets.forEach((ds: any, i: number) => {
+                // Skip datasets already shown by the default tooltip items
+                if (shownDatasetIndices.has(i)) return
+                const label = ds.label || ""
+                const val = Array.isArray(ds.data)
+                  ? ds.data[dataIndex]
+                  : undefined
+                const display =
+                  val == null || val === undefined || Number.isNaN(val)
+                    ? "N/A"
+                    : Number(val).toFixed(1)
+                lines.push(`${label}: ${display}`)
+              })
+
+              return lines.length > 0 ? lines : undefined
+            } catch (e) {
+              return undefined
+            }
           }
         }
       },
