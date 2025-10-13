@@ -1,5 +1,5 @@
-import { LayerMenuItem } from "@/components";
-import { Link, useRouterState } from "@tanstack/react-router";
+import { LayerMenuItem } from "@/components"
+import { Link, useRouterState } from "@tanstack/react-router"
 
 import {
   consensusTo,
@@ -7,10 +7,10 @@ import {
   networkTo,
   softwareTo,
   geographyTo,
-  governanceTo,
-} from "@/routes/routePaths";
+  governanceTo
+} from "@/routes/routePaths"
 
-import { Scale, Coins, Network, Code, Globe, Gavel } from "lucide-react";
+import { Scale, Coins, Network, Code, Globe, Gavel } from "lucide-react"
 
 const layerItems = [
   {
@@ -19,7 +19,7 @@ const layerItems = [
     bg: "bg-base-200",
     text: "text-base-content",
     icon: <Scale size={36} />, // Reduced icon size for smaller sidebar
-    shortcut: "1",
+    shortcut: "1"
   },
   {
     label: "Tokenomics",
@@ -27,7 +27,7 @@ const layerItems = [
     bg: "bg-base-200",
     text: "text-base-content",
     icon: <Coins size={36} />,
-    shortcut: "2",
+    shortcut: "2"
   },
   {
     label: "Network",
@@ -35,7 +35,7 @@ const layerItems = [
     bg: "bg-base-200",
     text: "text-base-content",
     icon: <Network size={36} />,
-    shortcut: "3",
+    shortcut: "3"
   },
   {
     label: "Software",
@@ -43,7 +43,7 @@ const layerItems = [
     bg: "bg-base-200",
     text: "text-base-content",
     icon: <Code size={36} />,
-    shortcut: "4",
+    shortcut: "4"
   },
   {
     label: "Geography",
@@ -51,7 +51,7 @@ const layerItems = [
     bg: "bg-base-200",
     text: "text-base-content",
     icon: <Globe size={36} />,
-    shortcut: "5",
+    shortcut: "5"
   },
   {
     label: "Governance",
@@ -59,15 +59,14 @@ const layerItems = [
     bg: "bg-base-200",
     text: "text-base-content",
     icon: <Gavel size={36} />,
-    disabled: false,
-    shortcut: "6",
-  },
-];
-
+    disabled: true,
+    shortcut: "6"
+  }
+]
 
 export function Sidebar() {
-  const { location } = useRouterState();
-  const isActive = (path: string) => location.pathname.startsWith(path);
+  const { location } = useRouterState()
+  const isActive = (path: string) => location.pathname.startsWith(path)
 
   return (
     <div className="flex flex-col h-full pt-6 px-2">
@@ -81,7 +80,6 @@ export function Sidebar() {
           <LayerMenuItem
             label={item.label}
             icon={item.icon}
-
             bgColor={item.bg}
             textColor={item.text}
             active={isActive(item.path)}
@@ -90,5 +88,5 @@ export function Sidebar() {
         </Link>
       ))}
     </div>
-  );
+  )
 }

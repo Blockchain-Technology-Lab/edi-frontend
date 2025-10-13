@@ -225,8 +225,8 @@ export const routeTree = rootRoute.addChildren([
   softwareMethodologyRoute,
   geographyRoute.addChildren([geographyContributorRoute]),
   geographyMethodologyRoute,
-  governanceRoute,
-  governanceMethodologyRoute,
+  //governanceRoute,
+  //governanceMethodologyRoute,
   accessibilityRoute,
   changelogRoute,
   infographicsRoute

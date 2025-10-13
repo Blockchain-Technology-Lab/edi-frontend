@@ -20,6 +20,9 @@ ChartJS.register(
   Legend
 )
 
+// Note: plugins that draw on the radar chart can be registered with ChartJS
+// so they run automatically for charts that use the radial scale.
+
 // Protocol colors for consistent styling
 export const PROTOCOL_COLORS = {
   bitcoin: {
@@ -142,76 +145,94 @@ export function transformRadarDataWithSegments(data: RadarDataPoint[]) {
       protocol.geography || 0
     ]
 
-    const hasZeroValues = dataValues.some((value) => value === 0)
+    // Use a single dataset per protocol. Replace zero values with null so
+    // polygon edges between real values remain solid (spanGaps: false).
+    // For missing/zero values we record the indices so a plugin can draw
+    // dashed spokes from the centre to the axis for those indices.
+    const missingIndices = dataValues
+      .map((v, i) => (v === 0 ? i : -1))
+      .filter((i) => i >= 0)
 
-    if (!hasZeroValues) {
-      // Complete data - single dataset with solid lines
-      datasets.push({
-        label:
-          protocol.protocol.charAt(0).toUpperCase() +
-          protocol.protocol.slice(1),
-        data: dataValues,
-        backgroundColor:
-          protocolColors?.background || "rgba(128, 128, 128, 0.2)",
-        borderColor: protocolColors?.border || "rgba(128, 128, 128, 1)",
-        borderWidth: 2,
-        pointBackgroundColor:
-          protocolColors?.border || "rgba(128, 128, 128, 1)",
-        pointBorderColor: "#fff",
-        pointRadius: 4,
-        pointHoverRadius: 6,
-        fill: true
-      })
-    } else {
-      // Incomplete data - create two datasets: one for solid lines, one for dotted
+    const solidData = dataValues.map((value) => (value === 0 ? null : value))
 
-      // Dataset for solid lines (between non-zero points)
-      const solidData = dataValues.map((value) => (value === 0 ? null : value))
-      datasets.push({
-        label:
-          protocol.protocol.charAt(0).toUpperCase() +
-          protocol.protocol.slice(1),
-        data: solidData,
-        backgroundColor: "rgba(0, 0, 0, 0)", // No fill
-        borderColor: protocolColors?.border || "rgba(128, 128, 128, 1)",
-        borderWidth: 2,
-        pointBackgroundColor:
-          protocolColors?.border || "rgba(128, 128, 128, 1)",
-        pointBorderColor: "#fff",
-        pointRadius: 4,
-        pointHoverRadius: 6,
-        fill: false,
-        spanGaps: false // Don't connect across null values
-      })
-
-      // Dataset for dotted lines (to zero points)
-      const dottedData = dataValues.slice() // Copy the array
-      datasets.push({
-        label: `${
-          protocol.protocol.charAt(0).toUpperCase() + protocol.protocol.slice(1)
-        } (missing)`,
-        data: dottedData,
-        backgroundColor: "rgba(0, 0, 0, 0)", // No fill
-        borderColor: protocolColors?.border
-          ? `${protocolColors.border}80`
-          : "rgba(128, 128, 128, 0.5)",
-        borderWidth: 2,
-        borderDash: [5, 5], // Dotted line
-        pointBackgroundColor: (context: any) => {
-          return dataValues[context.dataIndex] === 0
-            ? "transparent"
-            : protocolColors?.border || "rgba(128, 128, 128, 1)"
-        },
-        pointRadius: (context: any) => {
-          return dataValues[context.dataIndex] === 0 ? 0 : 0 // Hide all points for this dataset
-        },
-        fill: false,
-        showLine: true
-      })
-    }
+    datasets.push({
+      label:
+        protocol.protocol.charAt(0).toUpperCase() + protocol.protocol.slice(1),
+      data: solidData,
+      backgroundColor: protocolColors?.background || "rgba(128, 128, 128, 0.2)",
+      borderColor: protocolColors?.border || "rgba(128, 128, 128, 1)",
+      borderWidth: 2,
+      pointBackgroundColor: protocolColors?.border || "rgba(128, 128, 128, 1)",
+      pointBorderColor: "#fff",
+      pointRadius: 4,
+      pointHoverRadius: 6,
+      fill: true,
+      spanGaps: false,
+      // Custom flags used by the drawing plugin
+      _protocolColors: protocolColors,
+      _missingIndices: missingIndices
+    })
   })
 
   return { labels, datasets }
+}
+
+// Plugin: draw dashed spokes from the centre to the outer radius for any
+// dataset that has _missingIndices set. This keeps polygon edges solid (they
+// are rendered by the datasets) while visually indicating which axes are
+// missing with dashed radial lines.
+const radarMissingSpokesPlugin = {
+  id: "radarMissingSpokes",
+  afterDatasetsDraw: (chart: any) => {
+    const ctx = chart.ctx
+    const { data, scales } = chart
+    const rScale = scales.r
+    if (!rScale) return
+
+    const centerX = rScale.xCenter
+    const centerY = rScale.yCenter
+    const outerRadius = rScale.drawingArea
+    const labelCount = (data.labels || []).length || 0
+
+    data.datasets.forEach((dataset: any) => {
+      // Prefer explicit flag, otherwise infer missing indices from null data
+      let missing: number[] = dataset._missingIndices || []
+      if ((!missing || missing.length === 0) && Array.isArray(dataset.data)) {
+        missing = dataset.data
+          .map((v: any, i: number) => (v == null || v === undefined ? i : -1))
+          .filter((i: number) => i >= 0)
+      }
+
+      const colors = dataset._protocolColors || undefined
+      // Also allow direct borderColor fallback (might be a string or array)
+      const fallbackBorder = dataset.borderColor || undefined
+      if (!missing || missing.length === 0) return
+
+      ctx.save()
+      // Thinner dotted spokes: short dash + short gap gives a dotted look
+      ctx.lineWidth = 1
+      ctx.setLineDash([2, 4])
+
+      missing.forEach((index: number) => {
+        const angle = (index / labelCount) * (2 * Math.PI) - Math.PI / 2
+        const x = centerX + Math.cos(angle) * outerRadius
+        const y = centerY + Math.sin(angle) * outerRadius
+
+        ctx.beginPath()
+        ctx.moveTo(centerX, centerY)
+        ctx.lineTo(x, y)
+        // Prefer the protocol border color; fall back to dataset.borderColor or a semi-transparent gray
+        ctx.strokeStyle =
+          (colors?.border as string) ||
+          (fallbackBorder as string) ||
+          "rgba(128,128,128,0.6)"
+        ctx.globalAlpha = 0.9
+        ctx.stroke()
+      })
+
+      ctx.restore()
+    })
+  }
 }
 
 const horizontalLabelsPlugin = {
@@ -243,58 +264,6 @@ const horizontalLabelsPlugin = {
     })
 
     ctx.restore()
-  }
-}
-
-const segmentStylingPlugin = {
-  id: "radarSegmentStyling",
-  afterDatasetsDraw: (chart: any) => {
-    const ctx = chart.ctx
-    const datasets = chart.data.datasets
-
-    datasets.forEach((dataset: any, datasetIndex: number) => {
-      const meta = chart.getDatasetMeta(datasetIndex)
-      if (!meta.data || meta.data.length === 0) return
-
-      const data = dataset.data
-      const points = meta.data
-      const protocolColors = dataset._protocolColors
-
-      if (!protocolColors) return
-
-      ctx.save()
-      ctx.lineWidth = 2
-
-      for (let i = 0; i < points.length; i++) {
-        const currentPoint = points[i]
-        const nextIndex = (i + 1) % points.length
-        const nextPoint = points[nextIndex]
-        const currentValue = data[i]
-        const nextValue = data[nextIndex]
-
-        // Determine if this segment should be dotted
-        const shouldBeDotted = currentValue === 0 || nextValue === 0
-
-        // Set line style
-        if (shouldBeDotted) {
-          ctx.setLineDash([5, 5]) // Dotted line
-          ctx.strokeStyle = protocolColors.border.replace("1)", "0.6)") // More transparent
-          ctx.globalAlpha = 0.7
-        } else {
-          ctx.setLineDash([]) // Solid line
-          ctx.strokeStyle = protocolColors.border
-          ctx.globalAlpha = 1
-        }
-
-        // Draw the line segment
-        ctx.beginPath()
-        ctx.moveTo(currentPoint.x, currentPoint.y)
-        ctx.lineTo(nextPoint.x, nextPoint.y)
-        ctx.stroke()
-      }
-
-      ctx.restore()
-    })
   }
 }
 
@@ -390,7 +359,8 @@ export function getRadarChartOptions(
       },
       horizontalLabels: horizontalLabelsPlugin,
       customAxisLabels: customAxisPlugin,
-      radarSegmentStyling: segmentStylingPlugin
+      // Draw dashed spokes for missing axes
+      radarMissingSpokes: radarMissingSpokesPlugin
     },
     scales: {
       r: {
