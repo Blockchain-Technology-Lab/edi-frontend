@@ -96,6 +96,8 @@ export function RadarChart({
       )
       return {
         ...baseOptions,
+        // expose the full (unfiltered) datasets to the tooltip callbacks
+        _allDatasets: chartData.datasets,
         plugins: {
           ...baseOptions.plugins,
           tooltip: {
