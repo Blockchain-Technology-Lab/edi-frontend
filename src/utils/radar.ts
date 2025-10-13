@@ -79,28 +79,135 @@ export function getProtocolColor(protocol: string, index: number) {
 export function transformRadarData(data: RadarDataPoint[]) {
   const labels = ["Consensus", "Tokenomics", "Software", "Network", "Geography"]
 
-  const datasets = data.map((protocol, index) => {
-    const colors = getProtocolColor(protocol.protocol, index)
+  const datasets = data.map((protocol) => {
+    const protocolColors =
+      PROTOCOL_COLORS[
+        protocol.protocol.toLowerCase() as keyof typeof PROTOCOL_COLORS
+      ]
+
+    // Check if protocol has complete data (all 5 dimensions have valid values)
+    const hasCompleteData = [
+      protocol.consensus,
+      protocol.tokenomics,
+      protocol.software,
+      protocol.network,
+      protocol.geography
+    ].every(
+      (value) => value != null && !isNaN(value) && value !== 0 // You might want to keep this check or remove it based on your needs
+    )
 
     return {
       label:
         protocol.protocol.charAt(0).toUpperCase() + protocol.protocol.slice(1),
       data: [
-        protocol.consensus,
-        protocol.tokenomics,
-        protocol.software,
-        protocol.network,
-        protocol.geography
+        protocol.consensus || 0,
+        protocol.tokenomics || 0,
+        protocol.software || 0,
+        protocol.network || 0,
+        protocol.geography || 0
       ],
-      backgroundColor: colors.background,
-      borderColor: colors.border,
-      pointBackgroundColor: colors.point,
-      pointBorderColor: colors.border,
-      pointBorderWidth: 1,
-      pointRadius: 2,
-      pointHoverRadius: 4,
+      backgroundColor: protocolColors?.background || "rgba(128, 128, 128, 0.2)",
+      borderColor: protocolColors?.border || "rgba(128, 128, 128, 1)",
       borderWidth: 2,
-      fill: true
+      // Make line dotted if data is incomplete
+      borderDash: hasCompleteData ? [] : [5, 5], // [dash length, gap length]
+      pointBackgroundColor: protocolColors?.border || "rgba(128, 128, 128, 1)",
+      pointBorderColor: "#fff",
+      pointBorderWidth: 2,
+      pointRadius: 4,
+      pointHoverRadius: 6
+      // Optional: Make points different for incomplete data
+      //pointStyle: hasCompleteData ? "circle" : "triangle"
+    }
+  })
+
+  return { labels, datasets }
+}
+
+export function transformRadarDataWithSegments(data: RadarDataPoint[]) {
+  const labels = ["Consensus", "Tokenomics", "Software", "Network", "Geography"]
+  const datasets: any[] = []
+
+  data.forEach((protocol) => {
+    const protocolColors =
+      PROTOCOL_COLORS[
+        protocol.protocol.toLowerCase() as keyof typeof PROTOCOL_COLORS
+      ]
+
+    const dataValues = [
+      protocol.consensus || 0,
+      protocol.tokenomics || 0,
+      protocol.software || 0,
+      protocol.network || 0,
+      protocol.geography || 0
+    ]
+
+    const hasZeroValues = dataValues.some((value) => value === 0)
+
+    if (!hasZeroValues) {
+      // Complete data - single dataset with solid lines
+      datasets.push({
+        label:
+          protocol.protocol.charAt(0).toUpperCase() +
+          protocol.protocol.slice(1),
+        data: dataValues,
+        backgroundColor:
+          protocolColors?.background || "rgba(128, 128, 128, 0.2)",
+        borderColor: protocolColors?.border || "rgba(128, 128, 128, 1)",
+        borderWidth: 2,
+        pointBackgroundColor:
+          protocolColors?.border || "rgba(128, 128, 128, 1)",
+        pointBorderColor: "#fff",
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        fill: true
+      })
+    } else {
+      // Incomplete data - create two datasets: one for solid lines, one for dotted
+
+      // Dataset for solid lines (between non-zero points)
+      const solidData = dataValues.map((value) => (value === 0 ? null : value))
+      datasets.push({
+        label:
+          protocol.protocol.charAt(0).toUpperCase() +
+          protocol.protocol.slice(1),
+        data: solidData,
+        backgroundColor: "rgba(0, 0, 0, 0)", // No fill
+        borderColor: protocolColors?.border || "rgba(128, 128, 128, 1)",
+        borderWidth: 2,
+        pointBackgroundColor:
+          protocolColors?.border || "rgba(128, 128, 128, 1)",
+        pointBorderColor: "#fff",
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        fill: false,
+        spanGaps: false // Don't connect across null values
+      })
+
+      // Dataset for dotted lines (to zero points)
+      const dottedData = dataValues.slice() // Copy the array
+      datasets.push({
+        label: `${
+          protocol.protocol.charAt(0).toUpperCase() + protocol.protocol.slice(1)
+        } (missing)`,
+        data: dottedData,
+        backgroundColor: "rgba(0, 0, 0, 0)", // No fill
+        borderColor: protocolColors?.border
+          ? `${protocolColors.border}80`
+          : "rgba(128, 128, 128, 0.5)",
+        borderWidth: 2,
+        borderDash: [5, 5], // Dotted line
+        pointBackgroundColor: (context: any) => {
+          return dataValues[context.dataIndex] === 0
+            ? "transparent"
+            : protocolColors?.border || "rgba(128, 128, 128, 1)"
+        },
+        pointRadius: (context: any) => {
+          return dataValues[context.dataIndex] === 0 ? 0 : 0 // Hide all points for this dataset
+        },
+        fill: false,
+        showLine: true
+      })
     }
   })
 
@@ -136,6 +243,58 @@ const horizontalLabelsPlugin = {
     })
 
     ctx.restore()
+  }
+}
+
+const segmentStylingPlugin = {
+  id: "radarSegmentStyling",
+  afterDatasetsDraw: (chart: any) => {
+    const ctx = chart.ctx
+    const datasets = chart.data.datasets
+
+    datasets.forEach((dataset: any, datasetIndex: number) => {
+      const meta = chart.getDatasetMeta(datasetIndex)
+      if (!meta.data || meta.data.length === 0) return
+
+      const data = dataset.data
+      const points = meta.data
+      const protocolColors = dataset._protocolColors
+
+      if (!protocolColors) return
+
+      ctx.save()
+      ctx.lineWidth = 2
+
+      for (let i = 0; i < points.length; i++) {
+        const currentPoint = points[i]
+        const nextIndex = (i + 1) % points.length
+        const nextPoint = points[nextIndex]
+        const currentValue = data[i]
+        const nextValue = data[nextIndex]
+
+        // Determine if this segment should be dotted
+        const shouldBeDotted = currentValue === 0 || nextValue === 0
+
+        // Set line style
+        if (shouldBeDotted) {
+          ctx.setLineDash([5, 5]) // Dotted line
+          ctx.strokeStyle = protocolColors.border.replace("1)", "0.6)") // More transparent
+          ctx.globalAlpha = 0.7
+        } else {
+          ctx.setLineDash([]) // Solid line
+          ctx.strokeStyle = protocolColors.border
+          ctx.globalAlpha = 1
+        }
+
+        // Draw the line segment
+        ctx.beginPath()
+        ctx.moveTo(currentPoint.x, currentPoint.y)
+        ctx.lineTo(nextPoint.x, nextPoint.y)
+        ctx.stroke()
+      }
+
+      ctx.restore()
+    })
   }
 }
 
@@ -230,7 +389,8 @@ export function getRadarChartOptions(
         }
       },
       horizontalLabels: horizontalLabelsPlugin,
-      customAxisLabels: customAxisPlugin
+      customAxisLabels: customAxisPlugin,
+      radarSegmentStyling: segmentStylingPlugin
     },
     scales: {
       r: {
