@@ -82,11 +82,11 @@ const layers = [
   },
   {
     title: "Governance",
-    desc: "This layer describes the governance structures and processes in place within blockchain networks.",
+    desc: "This layer describes the governance structures and processes in place within blockchain networks. We plan to publish this layer soon.",
     icon: <Gavel />,
     background: GOVERNANCE_CARD,
     path: governanceTo,
-    disabled: false,
+    disabled: true,
     github:
       "https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin",
     methodologyLink: governanceMethodologyTo
