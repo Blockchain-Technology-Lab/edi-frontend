@@ -18,6 +18,7 @@ const TOKENOMICS_ALLOWED_LEDGERS = [
   'ethereum',
   'litecoin',
   'tezos',
+  'xrpl'
 ];
 
 export const TOKENOMICS_METRICS = [

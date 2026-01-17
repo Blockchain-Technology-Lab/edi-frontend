@@ -44,6 +44,11 @@ export const BASE_LEDGERS = {
     displayName: "Tezos",
     color: "rgba(157, 102, 89, 1)" // Brown
   },
+  xrpl: {
+    ledger: "xrpl",
+    displayName: "Ripple",
+    color: "rgba(0, 204, 204, 1)" // Teal
+  },
   zcash: {
     ledger: "zcash",
     displayName: "ZCash",
@@ -111,7 +116,8 @@ export const TOKENOMICS_LEDGERS = [
   BASE_LEDGERS.dogecoin,
   BASE_LEDGERS.ethereum,
   BASE_LEDGERS.litecoin,
-  BASE_LEDGERS.tezos
+  BASE_LEDGERS.tezos,
+  BASE_LEDGERS.xrpl
 ] as const
 
 export const CONSENSUS_LEDGERS = [
