@@ -50,7 +50,7 @@ export function Footer() {
                 <p>
                     <span className="text-lg font-bold">Edinburgh Decentralisation Index™</span>
                     <br />
-                    is a registered trademark in the UK, US, and Switzerland.
+                    is a registered trademark in the UK.
                 </p>
                 <div className="text-[10px] opacity-60">
                     Last updated: {buildDate}
