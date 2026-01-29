@@ -46,7 +46,7 @@ export const BASE_LEDGERS = {
   },
   xrpl: {
     ledger: "xrpl",
-    displayName: "Ripple",
+    displayName: "XRPL",
     color: "rgba(0, 204, 204, 1)" // Teal
   },
   zcash: {
