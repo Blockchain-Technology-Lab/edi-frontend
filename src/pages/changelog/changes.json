@@ -86,5 +86,13 @@
       "Projects: Bitcoin, Bitcoin Cash, Dogecoin, Litecoin, Zcash.",
       "Doughnut charts added for the countries distributions of the 5 projects."    ],
     "icon": "Globe"
+  },
+  {
+    "date": "2026-01-22",
+    "title": "Ripple's data published",
+    "description": [
+    "Initial release of the XRPL's data on tokenomics layer."
+          ],
+    "icon": "Coins"
   }
 ]
