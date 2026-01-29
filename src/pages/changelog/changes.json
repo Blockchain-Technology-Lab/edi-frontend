@@ -89,9 +89,9 @@
   },
   {
     "date": "2026-01-22",
-    "title": "Ripple's data published",
+    "title": "XRPL tokenomics data published",
     "description": [
-    "Initial release of the XRPL's data on tokenomics layer."
+    "Added XRPL results to tokenomics graphs."
           ],
     "icon": "Coins"
   }
