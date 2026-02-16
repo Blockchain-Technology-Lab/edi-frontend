@@ -41,7 +41,7 @@ export function NetworkMethodology() {
 
                     <p>
                         This page offers visualisations of the Network layer results. The
-                        ledgers that are currently supported are: Bitcoin, Bitcoin Cash,
+                        ledgers that are currently supported are: Bitcoin, Ethereum, Cardano, Bitcoin Cash,
                         Litecoin, Dogecoin and Zcash. On the Network layer, decentralisation
                         is evaluated based on the distribution of nodes across organisations.
                         The blockchain data that is needed to determine these distributions
@@ -60,7 +60,10 @@ export function NetworkMethodology() {
                         metrics, it was therefore decided to distribute these nodes
                         proportionally among the different organisations.
                     </p>
-
+                    <p>
+                        In Ethereum's case, the network architecture consists of two distinct layers:
+                        execution and consensus. The dashboard reflects this architectural separation.
+                    </p>
                 </div>
             </div>
 
