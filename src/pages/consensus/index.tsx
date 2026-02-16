@@ -75,6 +75,7 @@ export function Consensus() {
                 data={data}
                 loading={loading}
                 type="consensus"
+                timeUnit="month"
               />
             ))}
         </div>

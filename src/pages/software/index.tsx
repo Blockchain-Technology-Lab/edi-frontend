@@ -180,6 +180,7 @@ export function Software() {
                 data={data}
                 loading={loading}
                 type="software"
+                timeUnit="month"
               />
             ))}
         </div>
