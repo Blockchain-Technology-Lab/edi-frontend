@@ -45,24 +45,26 @@ export function NetworkMethodology() {
                         Litecoin, Dogecoin and Zcash. On the Network layer, decentralisation
                         is evaluated based on the distribution of nodes across organisations.
                         The blockchain data that is needed to determine these distributions
-                        are collected using a crawler running on each network. The crawler is
-                        based on the{" "}
-                        <a href="https://github.com/ayeowch/bitnodes">Bitnodes</a>{" "}
-                        project. The following metrics are presented in the dashboard: the
+                        are collected using a crawler running on each network.
+                        The following metrics are presented in the dashboard: the
                         Herfindahl-Hirschman index (HHI), the Nakamoto coefficient and the
                         1-concentration ratio. The results are based only on data we have
                         collected and do not include extensive historical data.
                     </p>
                     <p>
-                        Regarding the Bitcoin network, more than half of the nodes use Tor
-                        (see <a href="">Organisations Distribution</a> ), and
-                        it is impossible to know which organisations own them. For the
+                        Regarding the Bitcoin network, the crawler is based on the{" "}
+                        <a href="https://github.com/ayeowch/bitnodes">Bitnodes</a>{" "}
+                        project. More than half of the nodes use Tor
+                        (see <a href="">Countries Distribution</a>), and it is
+                        impossible to know in which countries they are located. For the
                         metrics, it was therefore decided to distribute these nodes
-                        proportionally among the different organisations.
+                        proportionally among the different countries.
                     </p>
                     <p>
                         In Ethereum's case, the network architecture consists of two distinct layers:
                         execution and consensus. The dashboard reflects this architectural separation.
+                        The crawler used is {" "}
+                        <a href="https://github.com/LauraAntunes1/fast-ethereum-crawler.git">fast-ethereum-crawler</a>{" "}.
                     </p>
                 </div>
             </div>
