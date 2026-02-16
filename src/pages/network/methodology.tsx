@@ -66,6 +66,10 @@ export function NetworkMethodology() {
                         The crawler used is {" "}
                         <a href="https://github.com/LauraAntunes1/fast-ethereum-crawler.git">fast-ethereum-crawler</a>{" "}.
                     </p>
+                    <p>
+                        Data about Cardano relay nodes is collected using {" "}
+                        <a href="https://blockfrost.io/">Blockfrost</a>{" "}.
+                    </p>
                 </div>
             </div>
 
