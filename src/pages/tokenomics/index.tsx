@@ -95,6 +95,7 @@ export function Tokenomics() {
                 data={data}
                 loading={loading}
                 type="tokenomics"
+                timeUnit="month"
               />
             ))}
         </div>
