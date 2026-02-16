@@ -135,8 +135,7 @@ export function ConsensusMethodology() {
               multiple blocks to the same producer, like a mining pool.
             </p>
             <p className="">
-              For Consensus, the clustering options are: “Explorers”, “On-chain
-              metadata”, and “None”. “Explorers” refers to attribution and
+              For Consensus, the clustering option is: "Clustered" refers to attribution and
               deanonymisation data collected from:
             </p>
             <div className="flex flex-col md:flex-row gap-4 justify-between p-2">
@@ -246,22 +245,9 @@ export function ConsensusMethodology() {
                 </li>
               </ul>
             </div>
-            <p className="">
-              <span className="prose-quote italic underline">
-                On-chain metadata
-              </span>{" "}
-              refers to self-identifying information, such as name and website,
-              that consensus participants publish on-chain.
-            </p>
-            <p className="">
-              Explorer data is used for all ledgers except Cardano, whereas
-              on-chain metadata are used only for Cardano.
-            </p>
-            <p className="">
-              A user can choose either “None” or any combination of the other
-              options.
-            </p>
-            <p className="">By default, all clustering options are applied.</p>
+            
+            
+          
           </div>
         </div>
       </div>
