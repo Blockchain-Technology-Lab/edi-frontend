@@ -319,7 +319,7 @@ function getChartOptions(
             return `${timeUnit === "year" ? "Year" : "Date"}: ${
               timeUnit === "year"
                 ? date.getFullYear()
-                : date.toLocaleDateString()
+                : date.toLocaleDateString('en-GB')
             }`
           },
           label: function (context) {
