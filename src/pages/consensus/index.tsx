@@ -11,8 +11,7 @@ import { consensusMethodologyTo } from "@/routes/routePaths";
 
 export function Consensus() {
   const CLUSTERING_ITEMS = [
-    { label: "Explorers", value: "explorers" },
-    { label: "On-chain metadata", value: "onchain" },
+    { label: "Clustered", value: "clustered" },
   ];
 
   const [selectedClusters, setSelectedClusters] =

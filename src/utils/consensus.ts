@@ -207,18 +207,12 @@ export async function loadConsensusCsvData(
 // --------------------------- File Name Generation ----------------------------
 
 export function getConsensusCsvFileName(clustering: string[]): string {
-  const isExplorer = clustering.includes("explorers")
-  const isOnChain = clustering.includes("onchain")
+  const isClustered = clustering.includes("clustered")
 
-  if (isExplorer && isOnChain) {
+  if (isClustered) {
     return "output_clustered.csv"
   }
-  if (isExplorer) {
-    return "output_explorers.csv"
-  }
-  if (isOnChain) {
-    return "output_metadata.csv"
-  }
+
   return "output_non_clustered.csv"
 }
 
