@@ -225,7 +225,7 @@ export function LineChart({
 
   return (
     <div className="card bg-base-300 shadow-lg p-4 space-y-4">
-      <div className="aspect-[16/9]">
+      <div className="aspect-video">
         <Line
           key={`chart-${metric}-${resolvedTheme}-${
             multiAxis ? "multi" : "single"
@@ -271,7 +271,7 @@ function LineChartSkeleton() {
   return (
     <div className="card bg-base-100 p-4">
       <div
-        className="w-full h-[425px] bg-base-200 animate-pulse rounded"
+        className="w-full h-106.25 bg-base-200 animate-pulse rounded"
         aria-busy="true"
         aria-label="Loading chart"
       />
@@ -313,7 +313,9 @@ function getChartOptions(
         },
         callbacks: {
           title: function (context) {
-            const date = new Date(context[0].parsed.x)
+            const x = context[0].parsed.x
+            if (x === null || x === undefined) return ""
+            const date = new Date(x)
             return `${timeUnit === "year" ? "Year" : "Date"}: ${
               timeUnit === "year"
                 ? date.getFullYear()
@@ -322,6 +324,7 @@ function getChartOptions(
           },
           label: function (context) {
             const value = context.parsed.y
+            if (value === null || value === undefined) return ""
             const label = context.dataset.label || ""
 
             const formatted =
