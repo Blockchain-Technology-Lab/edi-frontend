@@ -56,7 +56,8 @@ export const NETWORK_DOUGHNUT_LEDGERS = [
   { chain: "litecoin", name: "Litecoin" },
   { chain: "zcash", name: "ZCash" },
   { chain: "execution", name: "Ethereum (Execution)" },
-  { chain: "consensus", name: "Ethereum (Consensus)" }
+  { chain: "consensus", name: "Ethereum (Consensus)" },
+  { chain: "cardano", name: "Cardano" }
 ]
 
 // --- Filename Getters ---
