@@ -11,8 +11,7 @@ import { consensusMethodologyTo } from "@/routes/routePaths";
 
 export function Consensus() {
   const CLUSTERING_ITEMS = [
-    { label: "Explorers", value: "explorers" },
-    { label: "On-chain metadata", value: "onchain" },
+    { label: "Clustered", value: "clustered" },
   ];
 
   const [selectedClusters, setSelectedClusters] =
@@ -44,24 +43,20 @@ export function Consensus() {
         />
 
         <div className="card lg:card-side bg-base-200 shadow-lg border border-base-300 rounded-box">
-          <div className="card-body pl-8">
-            <h2 className="card-title text-xl">Clustering Options</h2>
+          <div className="card-body pl-12">
+            <h2 className="card-title text-xl ml-4 whitespace-nowrap">Clustering Option</h2>
             <p>
-              "<span className="font-bold text-accent">Explorers</span>" denote
-              attribution and deanonymisation data aggregated from various
-              sources.{" "}
+            {" "}
             </p>
-            <p>
-              "<span className="font-bold text-accent">On-chain metadata</span>"
-              includes self-declared identifiers, such as names and websites,
-              published by consensus participants.{" "}
-            </p>
-            <ListBoxMulti
-              label=""
-              items={CLUSTERING_ITEMS}
-              selectedItems={selectedClusters}
-              onChange={setSelectedClusters}
-            />
+            
+            <div className="w-full max-w-xs">
+              <ListBoxMulti
+                label=""
+                items={CLUSTERING_ITEMS}
+                selectedItems={selectedClusters}
+                onChange={setSelectedClusters}
+              />
+            </div>
           </div>
           <figure className="w-full h-24 sm:h-48 md:h-60 overflow-hidden max-h-60 opacity-50 mt-2">
             <img src={CONSENSUS_OPTIONS} alt="Clustering Options" />
@@ -76,6 +71,7 @@ export function Consensus() {
                 data={data}
                 loading={loading}
                 type="consensus"
+                timeUnit="month"
               />
             ))}
         </div>
