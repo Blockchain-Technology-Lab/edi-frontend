@@ -8,17 +8,7 @@ import {
   type NetworkBarEntry
 } from "@/utils/network"
 import type { DataEntry } from "@/utils/types"
-
-const ORG_LEDGERS = [
-  "bitcoin_without_tor",
-  "bitcoin_cash",
-  "dogecoin",
-  "litecoin",
-  "zcash",
-  "consensus",
-  "execution",
-  "cardano"
-]
+import { NETWORK_LEDGERS } from "@/utils"
 
 export function useNetworkCsv() {
   const [nodesData, setNodesData] = useState<NetworkBarEntry[]>([])
@@ -36,8 +26,8 @@ export function useNetworkCsv() {
 
         // Load organization data for each ledger
         const orgResults = await Promise.all(
-          ORG_LEDGERS.map(async (ledger) => {
-            const file = getNetworkOrganizationsCsvFileName(ledger)
+          NETWORK_LEDGERS.map(async (ledger) => {
+            const file = getNetworkOrganizationsCsvFileName(ledger.ledger)
             return await loadNetworkOrganizationsCsvData(file)
           })
         )
@@ -56,7 +46,7 @@ export function useNetworkCsv() {
 
   return { nodesData, orgData, loading, error }
 }
-
+/*
 export function useNetworkBarChart(csvFile: string) {
   const [data, setData] = useState<NetworkBarEntry[]>([])
   const [loading, setLoading] = useState(true)
@@ -73,3 +63,4 @@ export function useNetworkBarChart(csvFile: string) {
 
   return { data, loading, error }
 }
+*/
