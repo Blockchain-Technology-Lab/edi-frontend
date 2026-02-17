@@ -158,15 +158,26 @@ export const NETWORK_LEDGERS = [
 ] as const
 
 export const GEOGRAPHY_LEDGERS = [
-  BASE_LEDGERS.bitcoin,
   BASE_LEDGERS.bitcoin_without_tor,
   BASE_LEDGERS.bitcoin_cash,
+  BASE_LEDGERS.cardano,
   BASE_LEDGERS.dogecoin,
-  BASE_LEDGERS.litecoin,
-  BASE_LEDGERS.zcash,
   BASE_LEDGERS.consensus,
-  BASE_LEDGERS.execution
+  BASE_LEDGERS.execution,
+  BASE_LEDGERS.litecoin,
+  BASE_LEDGERS.zcash
 ] as const
+
+export const GEOGRAPHY_DOUGHNUT_LEDGERS = [
+  BASE_LEDGERS.bitcoin,
+  BASE_LEDGERS.bitcoin_cash,
+  BASE_LEDGERS.cardano,
+  BASE_LEDGERS.dogecoin,
+  BASE_LEDGERS.consensus,
+  BASE_LEDGERS.execution,
+  BASE_LEDGERS.litecoin,
+  BASE_LEDGERS.zcash
+]
 
 export const GOVERNANCE_LEDGERS = [
   BASE_LEDGERS.bitcoin
