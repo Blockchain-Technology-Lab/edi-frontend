@@ -1,6 +1,34 @@
-import { CONSENSUS_METHOD_CARD, CONSENSUS_METRICS } from "@/utils";
+import { AppLink } from "@/components"
+import { CONSENSUS_METHOD_CARD, CONSENSUS_METRICS } from "@/utils"
 
 export function ConsensusMethodology() {
+  const explorerLinks = [
+    { name: "BitInfoCharts", url: "https://bitinfocharts.com/" },
+    { name: "Etherscan", url: "https://etherscan.io/" },
+    { name: "Wallet Explorer", url: "https://www.walletexplorer.com/" },
+    { name: "Dogecoin Whale Alert", url: "https://dogecoinwhalealert.com/" },
+    { name: "TzKT", url: "https://tzkt.io/" },
+
+    { name: "Blockchain.com", url: "https://blockchain.com/" },
+    { name: "BTC.com", url: "https://btc.com/" },
+    {
+      name: "bitcoin-data/mining-pools",
+      url: "https://github.com/bitcoin-data/mining-pools"
+    },
+    {
+      name: "btccom/Blockchain-Known-Pools-LTC",
+      url: "https://github.com/btccom/Blockchain-Known-Pools-LTC"
+    },
+    {
+      name: "blockchain/Blockchain-Known-Pools",
+      url: "https://github.com/blockchain/Blockchain-Known-Pools"
+    }
+  ]
+
+  const half = Math.ceil(explorerLinks.length / 2)
+  const firstColumn = explorerLinks.slice(0, half)
+  const secondColumn = explorerLinks.slice(half)
+
   return (
     <div className="space-y-16 font-roboto">
       {/* Header Image Card with Title */}
@@ -25,22 +53,17 @@ export function ConsensusMethodology() {
       <div className="card w-full bg-base-200 shadow-md overflow-hidden opacity-80">
         <div className="card-body p-4 text-base">
           <p>
-            <a
-              href="https://informatics.ed.ac.uk/blockchain/edi"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link link-primary"
-            >
+            <AppLink href="https://informatics.ed.ac.uk/blockchain/edi">
               The Edinburgh Decentralisation Index (EDI)
-            </a>{" "}
+            </AppLink>{" "}
             is a methodology framework for defining, analysing, and evaluating
             the decentralisation level of blockchain systems across multiple
             layers. These layers are: Hardware, Software, Network, Consensus,
             Tokenomics, Client API, Governance, and Geography.
           </p>
           <p className="">
-            This page offers visualisations of the Consensus layer results.
-            The ledgers that are currently supported are: Bitcoin, Bitcoin Cash,
+            This page offers visualisations of the Consensus layer results. The
+            ledgers that are currently supported are: Bitcoin, Bitcoin Cash,
             Cardano, Dogecoin, Ethereum, Litecoin, Tezos, and Zcash.
             Decentralisation is evaluated by applying metrics on the
             distribution of blocks across the entities that produced them.
@@ -52,14 +75,9 @@ export function ConsensusMethodology() {
           </p>
           <p className="">
             Historical block data for each blockchain is collected from{" "}
-            <a
-              href="https://console.cloud.google.com/bigquery"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link"
-            >
+            <AppLink href="https://console.cloud.google.com/bigquery">
               BigQuery
-            </a>{" "}
+            </AppLink>{" "}
             and self-hosted full nodes. Each block is mapped to its creator (see
             clustering options below), and then the distribution of blocks
             across entities is calculated for each 30-day interval. Active
@@ -68,14 +86,9 @@ export function ConsensusMethodology() {
           </p>
           <p className="">
             For detailed information, refer to the open-source GitHub{" "}
-            <a
-              href="https://github.com/Blockchain-Technology-Lab/consensus-decentralization"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link"
-            >
+            <AppLink href="https://github.com/Blockchain-Technology-Lab/consensus-decentralization">
               repository
-            </a>
+            </AppLink>
             .
           </p>
         </div>
@@ -89,7 +102,7 @@ export function ConsensusMethodology() {
             </h1>
 
             {CONSENSUS_METRICS.map((metric, index) => {
-              const isEven = index % 2 === 0;
+              const isEven = index % 2 === 0
               return (
                 <div
                   key={metric.metric}
@@ -112,7 +125,7 @@ export function ConsensusMethodology() {
                     </figure>
                   )}
                 </div>
-              );
+              )
             })}
           </div>
         </div>
@@ -139,113 +152,30 @@ export function ConsensusMethodology() {
               metadata”, and “None”. “Explorers” refers to attribution and
               deanonymisation data collected from:
             </p>
+
             <div className="flex flex-col md:flex-row gap-4 justify-between p-2">
               <ul className="list bg-base-100 rounded-box shadow-md flex-1">
-                <li className="list-row">
-                  <div>
-                    <div>BitInfoCharts</div>
-                    <div className="text-xs font-semibold opacity-60">
-                      <a href="https://bitinfocharts.com/">
-                        https://bitinfocharts.com/
-                      </a>
+                {firstColumn.map((link) => (
+                  <li className="list-row" key={link.url}>
+                    <div>
+                      <div>{link.name}</div>
+                      <AppLink href={link.url}>{link.url}</AppLink>
                     </div>
-                  </div>
-                </li>
-                <li className="list-row">
-                  <div>
-                    <div>Etherscan</div>
-                    <div className="text-xs font-semibold opacity-60">
-                      <a href="https://etherscan.io/">https://etherscan.io/</a>
-                    </div>
-                  </div>
-                </li>
-
-                <li className="list-row">
-                  <div>
-                    <div>Wallet Explorer</div>
-                    <div className="text-xs font-semibold opacity-60">
-                      <a href="https://www.walletexplorer.com/">
-                        https://www.walletexplorer.com/
-                      </a>
-                    </div>
-                  </div>
-                </li>
-
-                <li className="list-row">
-                  <div>
-                    <div>Dogecoin Whale Alert</div>
-                    <div className="text-xs font-semibold opacity-60">
-                      <a href="https://dogecoinwhalealert.com/">
-                        https://dogecoinwhalealert.com/
-                      </a>
-                    </div>
-                  </div>
-                </li>
-
-                <li className="list-row">
-                  <div>
-                    <div>TzKT</div>
-                    <div className="text-xs font-semibold opacity-60">
-                      <a href="https://tzkt.io/">https://tzkt.io/</a>
-                    </div>
-                  </div>
-                </li>
+                  </li>
+                ))}
               </ul>
               <ul className="list bg-base-100 rounded-box shadow-md flex-1">
-                <li className="list-row">
-                  <div>
-                    <div>Blockchain.com</div>
-                    <div className="text-xs font-semibold opacity-60">
-                      <a href="https://blockchain.com/">
-                        https://blockchain.com/
-                      </a>
+                {secondColumn.map((link) => (
+                  <li className="list-row" key={link.url}>
+                    <div>
+                      <div>{link.name}</div>
+                      <AppLink href={link.url}>{link.url}</AppLink>
                     </div>
-                  </div>
-                </li>
-
-                <li className="list-row">
-                  <div>
-                    <div>BTC.com</div>
-                    <div className="text-xs font-semibold opacity-60">
-                      <a href="https://btc.com/">https://btc.com/</a>
-                    </div>
-                  </div>
-                </li>
-
-                <li className="list-row">
-                  <div>
-                    <div>bitcoin-data/mining-pools</div>
-                    <div className="text-xs font-semibold opacity-60">
-                      <a href="https://github.com/bitcoin-data/mining-pools">
-                        https://github.com/bitcoin-data/mining-pools
-                      </a>
-                    </div>
-                  </div>
-                </li>
-
-                <li className="list-row">
-                  <div>
-                    <div>btccom/Blockchain-Known-Pools-LTC</div>
-                    <div className="text-xs font-semibold opacity-60">
-                      <a href="https://github.com/btccom/Blockchain-Known-Pools-LTC">
-                        https://github.com/btccom/Blockchain-Known-Pools-LTC
-                      </a>
-                    </div>
-                  </div>
-                </li>
-
-                <li className="list-row">
-                  <div>
-                    <div>blockchain/Blockchain-Known-Pools</div>
-                    <div className="text-xs font-semibold opacity-60">
-                      <a href="https://github.com/blockchain/Blockchain-Known-Pools">
-                        https://github.com/blockchain/Blockchain-Known-Pools
-                      </a>
-                    </div>
-                  </div>
-                </li>
+                  </li>
+                ))}
               </ul>
             </div>
+
             <p className="">
               <span className="prose-quote italic underline">
                 On-chain metadata
@@ -266,5 +196,5 @@ export function ConsensusMethodology() {
         </div>
       </div>
     </div>
-  );
+  )
 }
