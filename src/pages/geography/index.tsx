@@ -15,21 +15,11 @@ import {
   GEOGRAPHY_CARD,
   GEOGRAPHY_CSV,
   GEOGRAPHY_METRICS,
+  GEOGRAPHY_DOUGHNUT_LEDGERS,
   getGeographyDoughnutCsvFileName
 } from "@/utils"
 import { useLocation, useNavigate } from "@tanstack/react-router"
 import { useEffect, useRef } from "react"
-
-const doughnut_ledgers = [
-  { chain: "bitcoin", name: "Bitcoin" },
-  { chain: "bitcoin_cash", name: "Bitcoin Cash" },
-  { chain: "dogecoin", name: "Dogecoin" },
-  { chain: "litecoin", name: "Litecoin" },
-  { chain: "zcash", name: "ZCash" },
-  { chain: "execution", name: "Ethereum (Execution)" },
-  { chain: "consensus", name: "Ethereum (Consensus)" },
-  { chain: "cardano", name: "Cardano" }
-]
 
 export function Geography() {
   const contributorRef = useRef<HTMLDivElement | null>(null)
@@ -117,15 +107,15 @@ export function Geography() {
           />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
-          {doughnut_ledgers.map((ledger, index) => (
+          {GEOGRAPHY_DOUGHNUT_LEDGERS.map((ledger, index) => (
             <DoughnutCard
-              title={ledger.name}
+              title={ledger.displayName}
               key={index}
               githubUrl={`https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin`}
               path={`${GEOGRAPHY_CSV}${getGeographyDoughnutCsvFileName(
-                ledger.chain
+                ledger.ledger
               )}`}
-              fileName={ledger.chain}
+              fileName={ledger.ledger}
               type={"geography"}
             />
           ))}
