@@ -148,13 +148,12 @@ export const NETWORK_LEDGERS = [
   BASE_LEDGERS.bitcoin,
   BASE_LEDGERS.bitcoin_without_tor,
   BASE_LEDGERS.bitcoin_cash,
+  BASE_LEDGERS.cardano,
   BASE_LEDGERS.dogecoin,
-  BASE_LEDGERS.litecoin,
-  BASE_LEDGERS.zcash,
-  // Add Ethereum variants for network layer
   BASE_LEDGERS.consensus,
   BASE_LEDGERS.execution,
-  BASE_LEDGERS.cardano
+  BASE_LEDGERS.litecoin,
+  BASE_LEDGERS.zcash
 ] as const
 
 export const GEOGRAPHY_LEDGERS = [
