@@ -5,44 +5,45 @@ import {
   MetricsCard,
   MetricsTopCard,
   DoughnutCard,
-  BarChart,
-} from "@/components";
-import { useEffect, useRef } from "react";
+  BarChart
+} from "@/components"
+import { useEffect, useRef } from "react"
 
-import { useLocation, useNavigate } from "@tanstack/react-router";
-import { networkContributorRoute } from "@/router";
-import { useNetworkCsv } from "@/hooks";
+import { useLocation, useNavigate } from "@tanstack/react-router"
+import { networkContributorRoute } from "@/router"
+import { useNetworkCsv } from "@/hooks"
+import { getNetworkDoughnutCsvFileName, NETWORK_METRICS } from "@/utils/network"
 import {
-  getNetworkDoughnutCsvFileName,
+  DOUGHNUT_CARD,
+  NETWORK_CARD,
   NETWORK_DOUGHNUT_LEDGERS,
-  NETWORK_METRICS,
-} from "@/utils/network";
-import { DOUGHNUT_CARD, NETWORK_CARD, ORG_DISTRIBUTOR } from "@/utils";
-import { networkMethodologyTo } from "@/routes/routePaths";
+  ORG_DISTRIBUTOR
+} from "@/utils"
+import { networkMethodologyTo } from "@/routes/routePaths"
 
 export function Network() {
-  const contributorRef = useRef<HTMLDivElement | null>(null);
-  const location = useLocation();
-  const navigate = useNavigate();
+  const contributorRef = useRef<HTMLDivElement | null>(null)
+  const location = useLocation()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (
       location.pathname === "/network/contributor" &&
       contributorRef.current
     ) {
-      contributorRef.current.scrollIntoView({ behavior: "smooth" });
+      contributorRef.current.scrollIntoView({ behavior: "smooth" })
     }
-  }, [location.pathname]);
+  }, [location.pathname])
 
   const handleContributorScrollClick = () => {
     if (location.pathname === networkContributorRoute.to) {
-      contributorRef.current?.scrollIntoView({ behavior: "smooth" });
+      contributorRef.current?.scrollIntoView({ behavior: "smooth" })
     } else {
-      navigate({ to: networkContributorRoute.to });
+      navigate({ to: networkContributorRoute.to })
     }
-  };
+  }
 
-  const { nodesData, orgData, loading, error } = useNetworkCsv();
+  const { nodesData, orgData, loading, error } = useNetworkCsv()
 
   return (
     <>
@@ -119,14 +120,14 @@ export function Network() {
             <DoughnutCard
               type={"network"}
               key={index}
-              title={ledger.name}
+              title={ledger.displayName}
               githubUrl={`https://github.com/Blockchain-Technology-Lab/network-decentralization`}
-              path={`${getNetworkDoughnutCsvFileName(ledger.chain)}`}
-              fileName={ledger.chain}
+              path={`${getNetworkDoughnutCsvFileName(ledger.ledger)}`}
+              fileName={ledger.ledger}
             />
           ))}
         </div>
       </div>
     </>
-  );
+  )
 }

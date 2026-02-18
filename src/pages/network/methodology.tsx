@@ -1,3 +1,4 @@
+import { AppLink } from "@/components"
 import { CONSENSUS_METHOD_CARD } from "@/utils"
 
 export function NetworkMethodology() {
@@ -25,14 +26,9 @@ export function NetworkMethodology() {
       <div className="card w-full bg-base-200 shadow-md overflow-hidden opacity-80">
         <div className="card-body p-4 text-base">
           <p>
-            <a
-              href="https://informatics.ed.ac.uk/blockchain/edi"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link link-hover font-bold"
-            >
+            <AppLink href="https://informatics.ed.ac.uk/blockchain/edi">
               The Edinburgh Decentralisation Index (EDI)
-            </a>{" "}
+            </AppLink>{" "}
             is a methodology framework for defining, analysing, and evaluating
             the decentralisation level of blockchain systems across multiple
             layers. These layers are: Hardware, Software, Network, Consensus,
@@ -54,39 +50,29 @@ export function NetworkMethodology() {
           </p>
           <p>
             Regarding the Bitcoin network, the crawler is based on the{" "}
-            <a
-              href="https://github.com/ayeowch/bitnodes"
-              className="link link-hover  font-bold"
-            >
+            <AppLink href="https://github.com/ayeowch/bitnodes">
               Bitnodes
-            </a>{" "}
+            </AppLink>{" "}
             project. More than half of the nodes use Tor (see{" "}
-            <a href="">Countries Distribution</a>), and it is impossible to know
-            in which countries they are located. For the metrics, it was
-            therefore decided to distribute these nodes proportionally among the
-            different countries.
+            <AppLink href="/geography/countries">
+              Countries Distribution
+            </AppLink>
+            ), and it is impossible to know in which countries they are located.
+            For the metrics, it was therefore decided to distribute these nodes
+            proportionally among the different countries.
           </p>
           <p>
             In Ethereum's case, the network architecture consists of two
             distinct layers: execution and consensus. The dashboard reflects
             this architectural separation. The crawler used is{" "}
-            <a
-              href="https://github.com/LauraAntunes1/fast-ethereum-crawler.git"
-              className="link link-hover  font-bold"
-            >
+            <AppLink href="https://github.com/LauraAntunes1/fast-ethereum-crawler.git">
               fast-ethereum-crawler
-            </a>{" "}
+            </AppLink>{" "}
             .
           </p>
           <p>
             Data about Cardano relay nodes is collected using{" "}
-            <a
-              href="https://blockfrost.io/"
-              className="link link-hover  font-bold"
-            >
-              Blockfrost
-            </a>{" "}
-            .
+            <AppLink href="https://blockfrost.io/">Blockfrost</AppLink>.
           </p>
         </div>
       </div>

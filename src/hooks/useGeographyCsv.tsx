@@ -3,19 +3,8 @@ import {
   getGeographyCsvFileName,
   loadGeographyCsvData
 } from "@/utils/geography"
-import { GEOGRAPHY_CSV } from "@/utils"
+import { GEOGRAPHY_CSV, GEOGRAPHY_LEDGERS } from "@/utils"
 import type { DataEntry } from "@/utils/types"
-
-const LEDGERS = [
-  "bitcoin_without_tor",
-  "bitcoin_cash",
-  "dogecoin",
-  "litecoin",
-  "zcash",
-  "consensus",
-  "execution",
-  "cardano"
-]
 
 export function useGeographyCsv() {
   const [nodesData, setNodesData] = useState<DataEntry[]>([])
@@ -27,10 +16,10 @@ export function useGeographyCsv() {
       setLoading(true)
       try {
         const results = await Promise.all(
-          LEDGERS.map(async (ledger) => {
-            const fileName = getGeographyCsvFileName(ledger)
+          GEOGRAPHY_LEDGERS.map(async (ledger) => {
+            const fileName = getGeographyCsvFileName(ledger.ledger)
             const path = `${GEOGRAPHY_CSV}${fileName}`
-            return await loadGeographyCsvData(path, ledger)
+            return await loadGeographyCsvData(path, ledger.ledger)
           })
         )
 

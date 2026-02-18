@@ -77,22 +77,37 @@
     "icon": "Network"
   },
   {
+    "date": "2025-08-20",
+    "title": "Ethereum added to network and geography layers",
+    "description": [
+      "Added Ethereum results to network and geography graphs and to radar chart."
+    ],
+    "icon": "Network"
+  },
+  {
     "date": "2025-05-09",
     "title": "Geography layer released",
     "description": [
-    "Initial release of the geography layer.",
+      "Initial release of the geography layer.",
       "Graphs added for 4 metrics and 5 projects.",
       "Metrics: Herfindahl-Hirschman index (HHI), Nakamoto Coefficient, 1-concentration ratio, Shannon Entropy",
       "Projects: Bitcoin, Bitcoin Cash, Dogecoin, Litecoin, Zcash.",
-      "Doughnut charts added for the countries distributions of the 5 projects."    ],
+      "Doughnut charts added for the countries distributions of the 5 projects."
+    ],
     "icon": "Globe"
   },
   {
     "date": "2026-01-22",
     "title": "XRPL tokenomics data published",
-    "description": [
-    "Added XRPL results to tokenomics graphs."
-          ],
+    "description": ["Added XRPL results to tokenomics graphs."],
     "icon": "Coins"
+  },
+  {
+    "date": "2026-02-17",
+    "title": "Cardano added to network and geography layers",
+    "description": [
+      "Added Cardano results to network and geography graphs and to radar chart."
+    ],
+    "icon": "Network"
   }
 ]
