@@ -54,17 +54,17 @@ export const BASE_LEDGERS = {
     displayName: "ZCash",
     color: "rgba(0, 204, 102, 1)" // Green
   },
-  "go-ethereum": {
+  go_ethereum: {
     ledger: "go-ethereum",
     displayName: "Go Ethereum",
     color: "rgba(255, 0, 204, 1)" // Pink
   },
-  "bitcoin-cash-node": {
+  bitcoin_cash_node: {
     ledger: "bitcoin-cash-node",
     displayName: "Bitcoin Cash Node",
     color: "rgba(0, 102, 204, 1)" // Dark Blue
   },
-  "cardano-node": {
+  cardano_node: {
     ledger: "cardano-node",
     displayName: "Cardano Node",
     color: "rgba(204, 102, 0, 1)" // Brown
@@ -74,7 +74,7 @@ export const BASE_LEDGERS = {
     displayName: "Nethermind (Ethereum)",
     color: "rgba(255, 102, 0, 1)" // Bright Orange
   },
-  "polkadot-sdk": {
+  polkadot_sdk: {
     ledger: "polkadot-sdk",
     displayName: "Polkadot SDK",
     color: "rgba(0, 153, 76, 1)" // Forest Green
@@ -84,7 +84,7 @@ export const BASE_LEDGERS = {
     displayName: "Solana",
     color: "rgba(255, 165, 0, 1)" // Gold
   },
-  "tezos-mirror": {
+  tezos_mirror: {
     ledger: "tezos-mirror",
     displayName: "Tezos Mirror",
     color: "rgba(128, 0, 128, 1)" // Purple
@@ -109,64 +109,114 @@ export const BASE_LEDGER_COLORS = Object.fromEntries(
 /**
  * Layer Definitions - Reference BASE_LEDGERS
  */
-export const TOKENOMICS_LEDGERS = [
-  BASE_LEDGERS.bitcoin,
-  BASE_LEDGERS.bitcoin_cash,
-  BASE_LEDGERS.cardano,
-  BASE_LEDGERS.dogecoin,
-  BASE_LEDGERS.ethereum,
-  BASE_LEDGERS.litecoin,
-  BASE_LEDGERS.tezos,
-  BASE_LEDGERS.xrpl
+
+const TOKENOMICS_KEYS = [
+  "bitcoin",
+  "bitcoin_cash",
+  "cardano",
+  "dogecoin",
+  "ethereum",
+  "litecoin",
+  "tezos",
+  "xrpl"
 ] as const
 
-export const CONSENSUS_LEDGERS = [
-  BASE_LEDGERS.bitcoin,
-  BASE_LEDGERS.bitcoin_cash,
-  BASE_LEDGERS.cardano,
-  BASE_LEDGERS.dogecoin,
-  BASE_LEDGERS.ethereum,
-  BASE_LEDGERS.litecoin,
-  BASE_LEDGERS.tezos,
-  BASE_LEDGERS.zcash
+export const TOKENOMICS_LEDGERS = TOKENOMICS_KEYS.map(
+  (key) => BASE_LEDGERS[key]
+).sort((a, b) => a.displayName.localeCompare(b.displayName))
+
+const CONSENSUS_KEYS = [
+  "bitcoin",
+  "bitcoin_cash",
+  "cardano",
+  "dogecoin",
+  "ethereum",
+  "litecoin",
+  "tezos",
+  "zcash"
 ] as const
 
-export const SOFTWARE_LEDGERS = [
-  BASE_LEDGERS.bitcoin,
-  BASE_LEDGERS["bitcoin-cash-node"],
-  BASE_LEDGERS["cardano-node"],
-  BASE_LEDGERS["go-ethereum"],
-  BASE_LEDGERS.nethermind,
-  BASE_LEDGERS.litecoin,
-  BASE_LEDGERS["polkadot-sdk"],
-  BASE_LEDGERS.solana,
-  BASE_LEDGERS["tezos-mirror"],
-  BASE_LEDGERS.zcash
+export const CONSENSUS_LEDGERS = CONSENSUS_KEYS.map(
+  (key) => BASE_LEDGERS[key]
+).sort((a, b) => a.displayName.localeCompare(b.displayName))
+
+const SOFTWARE_KEYS = [
+  "bitcoin",
+  "bitcoin_cash_node",
+  "cardano_node",
+  "go_ethereum",
+  "nethermind",
+  "litecoin",
+  "polkadot_sdk",
+  "solana",
+  "tezos_mirror",
+  "zcash"
 ] as const
 
-export const NETWORK_LEDGERS = [
-  BASE_LEDGERS.bitcoin,
-  BASE_LEDGERS.bitcoin_without_tor,
-  BASE_LEDGERS.bitcoin_cash,
-  BASE_LEDGERS.dogecoin,
-  BASE_LEDGERS.litecoin,
-  BASE_LEDGERS.zcash,
-  // Add Ethereum variants for network layer
-  BASE_LEDGERS.consensus,
-  BASE_LEDGERS.execution,
-  BASE_LEDGERS.cardano
+export const SOFTWARE_LEDGERS = SOFTWARE_KEYS.map(
+  (key) => BASE_LEDGERS[key]
+).sort((a, b) => a.displayName.localeCompare(b.displayName))
+
+const NETWORK_KEYS = [
+  "bitcoin",
+  "bitcoin_without_tor",
+  "bitcoin_cash",
+  "cardano",
+  "dogecoin",
+  "consensus",
+  "execution",
+  "litecoin",
+  "zcash"
 ] as const
 
-export const GEOGRAPHY_LEDGERS = [
-  BASE_LEDGERS.bitcoin,
-  BASE_LEDGERS.bitcoin_without_tor,
-  BASE_LEDGERS.bitcoin_cash,
-  BASE_LEDGERS.dogecoin,
-  BASE_LEDGERS.litecoin,
-  BASE_LEDGERS.zcash,
-  BASE_LEDGERS.consensus,
-  BASE_LEDGERS.execution
+export const NETWORK_LEDGERS = NETWORK_KEYS.map(
+  (key) => BASE_LEDGERS[key]
+).sort((a, b) => a.displayName.localeCompare(b.displayName))
+
+const NETWORK_DOUGHNUT_KEYS = [
+  "bitcoin",
+  "bitcoin_cash",
+  "cardano",
+  "dogecoin",
+  "consensus",
+  "execution",
+  "litecoin",
+  "zcash"
 ] as const
+
+export const NETWORK_DOUGHNUT_LEDGERS = NETWORK_DOUGHNUT_KEYS.map(
+  (key) => BASE_LEDGERS[key]
+).sort((a, b) => a.displayName.localeCompare(b.displayName))
+
+const GEOGRAPHY_KEYS = [
+  "bitcoin_without_tor",
+  "bitcoin_cash",
+  "cardano",
+  "dogecoin",
+  "consensus",
+  "execution",
+  "litecoin",
+  "zcash"
+] as const
+
+export const GEOGRAPHY_LEDGERS = GEOGRAPHY_KEYS.map(
+  (key) => BASE_LEDGERS[key]
+).sort((a, b) => a.displayName.localeCompare(b.displayName))
+
+const GEOGRAPHY_DOUGHNUT_KEYS = [
+  "bitcoin",
+  "bitcoin_cash",
+  "cardano",
+  "dogecoin",
+  "consensus",
+  "execution",
+  "litecoin",
+  "zcash"
+] as const
+
+export const GEOGRAPHY_DOUGHNUT_LEDGERS = GEOGRAPHY_DOUGHNUT_KEYS.map(
+  (key) => BASE_LEDGERS[key]
+).sort((a, b) => a.displayName.localeCompare(b.displayName))
 
 export const GOVERNANCE_LEDGERS = [
   BASE_LEDGERS.bitcoin
