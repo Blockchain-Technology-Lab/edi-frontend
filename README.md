@@ -12,6 +12,7 @@ The Edinburgh Decentralisation Index ([EDI](https://informatics.ed.ac.uk/blockch
 - [Consensus Layer](https://github.com/Blockchain-Technology-Lab/consensus-decentralization)
 - [Tokenomics Layer](https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization)
 - [Software Layer](https://github.com/Blockchain-Technology-Lab/software-decentralization)
+- [Network and Geography Layers](https://github.com/Blockchain-Technology-Lab/network-decentralization.git)
 
 ## Version
 
