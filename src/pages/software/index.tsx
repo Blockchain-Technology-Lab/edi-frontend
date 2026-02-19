@@ -217,6 +217,13 @@ export function Software() {
           />
         </div>
 
+        <SystemSelector
+          systems={softwareSystems}
+          selectedSystems={selectedSystems}
+          onSelectionChange={handleSelectionChange}
+          label="Blockchain Systems"
+        />
+
         <div className="card lg:card-side bg-base-100 shadow-lg border border-base-300 rounded-box">
           <div className="card-body">
             <div className="flex flex-col lg:flex-row gap-4 h-full">
@@ -247,13 +254,6 @@ export function Software() {
             </div>
           </div>
         </div>
-
-        <SystemSelector
-          systems={softwareSystems}
-          selectedSystems={selectedSystems}
-          onSelectionChange={handleSelectionChange}
-          label="Select Blockchain Systems"
-        />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
           {!error &&
