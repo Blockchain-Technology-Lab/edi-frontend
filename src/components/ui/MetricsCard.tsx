@@ -53,6 +53,8 @@ interface MetricsCardProps {
   type: LayerType
   timeUnit?: "year" | "month" | "day"
   padYAxis?: boolean
+  selectedSystems?: Set<string>
+  onSystemToggle?: (system: string) => void
 }
 
 // (Metric already declared above)
@@ -63,7 +65,9 @@ export function MetricsCard({
   loading,
   type,
   timeUnit = "year",
-  padYAxis = false
+  padYAxis = false,
+  selectedSystems,
+  onSystemToggle
 }: MetricsCardProps) {
   return (
     <div className="card-body" key={metric.metric} title={metric.title}>
@@ -89,8 +93,9 @@ export function MetricsCard({
         padYAxis={padYAxis}
         tooltipDecimals={metric.decimals}
         yAxisDecimals={metric.decimals ?? metric.yAxisDecimals ?? null}
-        // Pass multi-axis config if provided
         multiAxis={metric.multiAxis}
+        selectedSystems={selectedSystems}
+        onSystemToggle={onSystemToggle}
       />
     </div>
   )

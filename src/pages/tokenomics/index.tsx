@@ -1,36 +1,43 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState } from "react"
 import {
   type ClusteringOption,
   getTokenomicsCsvFileName,
   TOKENOMICS_CARD,
   TOKENOMICS_CSV,
   TOKENOMICS_METRICS,
-} from "@/utils";
+  TOKENOMICS_LEDGERS
+} from "@/utils"
 
-import { LayerTopCard, ListBox, ListBoxMulti, MetricsCard } from "@/components";
-import { useTokenomicsCsv } from "@/hooks";
-import { tokenomicsMethodologyTo } from "@/routes/routePaths";
+import {
+  LayerTopCard,
+  ListBox,
+  ListBoxMulti,
+  MetricsCard,
+  SystemSelector
+} from "@/components"
+import { useTokenomicsCsv } from "@/hooks"
+import { tokenomicsMethodologyTo } from "@/routes/routePaths"
 
 const THRESHOLDING_ITEMS = [
   { label: "100", value: "100" },
   { label: "1000", value: "1000" },
   { label: "50%", value: "50p" },
   { label: "Above $0.01", value: "above" },
-  { label: "None", value: "none" },
-];
+  { label: "None", value: "none" }
+]
 
 const CLUSTERING_ITEMS = [
   { label: "Explorers", value: "explorers" },
   { label: "Staking Keys", value: "staking" },
   { label: "Multi-input Transactions", value: "multi" },
-  { label: "Crystal Intelligence", value: "crystal" },
-];
+  { label: "Crystal Intelligence", value: "crystal" }
+]
 
 export function Tokenomics() {
   const [selectedThreshold, setSelectedThreshold] = useState(
     THRESHOLDING_ITEMS[4]
-  );
-  const [selectedClusters, setSelectedClusters] = useState(CLUSTERING_ITEMS);
+  )
+  const [selectedClusters, setSelectedClusters] = useState(CLUSTERING_ITEMS)
 
   const filename = useMemo(
     () =>
@@ -39,11 +46,63 @@ export function Tokenomics() {
         selectedClusters.map((cluster) => cluster.value as ClusteringOption)
       ),
     [selectedThreshold, selectedClusters]
-  );
+  )
 
-  const csvPath = `${TOKENOMICS_CSV + filename}`;
+  const csvPath = `${TOKENOMICS_CSV + filename}`
 
-  const { data, loading, error } = useTokenomicsCsv(csvPath);
+  const { data, loading, error } = useTokenomicsCsv(csvPath)
+
+  // Extract unique systems from actual data and merge with constants
+  const tokenomicsSystems = useMemo(() => {
+    const dataLedgers = new Set(
+      data.filter((d) => d.ledger).map((d) => d.ledger)
+    )
+    const constantLedgers = TOKENOMICS_LEDGERS.map((l) => l.ledger)
+    const allSystems = Array.from(
+      new Set([...dataLedgers, ...constantLedgers])
+    ).sort()
+    return allSystems.length > 0 ? allSystems : constantLedgers
+  }, [data])
+
+  const [selectedSystems, setSelectedSystems] = useState<Set<string>>(() => {
+    try {
+      const saved = localStorage.getItem("tokenomics_selectedSystems")
+      return saved
+        ? new Set(JSON.parse(saved))
+        : new Set(TOKENOMICS_LEDGERS.map((l) => l.ledger))
+    } catch {
+      return new Set(TOKENOMICS_LEDGERS.map((l) => l.ledger))
+    }
+  })
+
+  const filteredData = useMemo(() => {
+    return data.filter((entry) => {
+      if (!entry.ledger) return true
+      return selectedSystems.has(entry.ledger)
+    })
+  }, [data, selectedSystems])
+
+  const handleSelectionChange = (selected: Set<string>) => {
+    setSelectedSystems(selected)
+    localStorage.setItem(
+      "tokenomics_selectedSystems",
+      JSON.stringify([...selected])
+    )
+  }
+
+  const handleSystemToggle = (system: string) => {
+    const newSelected = new Set(selectedSystems)
+    if (newSelected.has(system)) {
+      newSelected.delete(system)
+    } else {
+      newSelected.add(system)
+    }
+    setSelectedSystems(newSelected)
+    localStorage.setItem(
+      "tokenomics_selectedSystems",
+      JSON.stringify([...newSelected])
+    )
+  }
 
   return (
     <>
@@ -86,20 +145,29 @@ export function Tokenomics() {
           </div>
         </div>
 
+        <SystemSelector
+          systems={tokenomicsSystems}
+          selectedSystems={selectedSystems}
+          onSelectionChange={handleSelectionChange}
+          label="Select Blockchain Systems"
+        />
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
           {!error &&
             TOKENOMICS_METRICS.map((m) => (
               <MetricsCard
                 key={m.metric}
                 metric={m}
-                data={data}
+                data={filteredData}
                 loading={loading}
                 type="tokenomics"
                 timeUnit="month"
+                selectedSystems={selectedSystems}
+                onSystemToggle={handleSystemToggle}
               />
             ))}
         </div>
       </div>
     </>
-  );
+  )
 }

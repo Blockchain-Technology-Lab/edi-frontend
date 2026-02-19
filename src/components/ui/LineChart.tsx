@@ -43,9 +43,10 @@ type LineProps = {
   timeUnit?: "year" | "month" | "day"
   padYAxis?: boolean
   tooltipDecimals?: number
-  // control decimal places on the y axes ticks; if undefined -> round integers
   yAxisDecimals?: number | null
-  multiAxis?: MultiAxisConfig // Optional multi-axis config
+  multiAxis?: MultiAxisConfig
+  selectedSystems?: Set<string>
+  onSystemToggle?: (system: string) => void
 }
 
 export function LineChart({
@@ -57,7 +58,9 @@ export function LineChart({
   padYAxis,
   tooltipDecimals,
   yAxisDecimals,
-  multiAxis // New prop for multi-axis functionality
+  multiAxis,
+  selectedSystems,
+  onSystemToggle
 }: LineProps) {
   const { theme: resolvedTheme } = useContext(ThemeContext)
   const { chartData, sliderValue, sliderRange, setSliderValue } = useChartData(
@@ -185,7 +188,9 @@ export function LineChart({
       padYAxis,
       tooltipDecimals,
       yAxisDecimals,
-      multiAxis // Pass multi-axis config to options
+      multiAxis,
+      onSystemToggle,
+      selectedSystems
     )
   }, [
     metric,
@@ -196,7 +201,9 @@ export function LineChart({
     padYAxis,
     tooltipDecimals,
     yAxisDecimals,
-    multiAxis
+    multiAxis,
+    onSystemToggle,
+    selectedSystems
   ])
 
   // Re-register plugin when theme changes
@@ -288,7 +295,9 @@ function getChartOptions(
   padYAxis = false,
   tooltipDecimals?: number,
   yAxisDecimals?: number | null,
-  multiAxis?: MultiAxisConfig // New parameter
+  multiAxis?: MultiAxisConfig,
+  onSystemToggle?: (system: string) => void,
+  selectedSystems?: Set<string>
 ): ChartOptions<"line"> {
   const mainColor = theme === "dim" ? "white" : "black"
   const minYRaw = Math.min(...yValues)
@@ -319,7 +328,7 @@ function getChartOptions(
             return `${timeUnit === "year" ? "Year" : "Date"}: ${
               timeUnit === "year"
                 ? date.getFullYear()
-                : date.toLocaleDateString('en-GB')
+                : date.toLocaleDateString("en-GB")
             }`
           },
           label: function (context) {
@@ -340,7 +349,7 @@ function getChartOptions(
         }
       },
       legend: {
-        display: true, //multiAxis ? true : false, // Only show legend for multi-axis
+        display: true,
         position: "top" as const,
         labels: {
           color: mainColor,
@@ -350,11 +359,25 @@ function getChartOptions(
             if (multiAxis && typeof legendItem.datasetIndex === "number") {
               const dataset = chartData.datasets[legendItem.datasetIndex]
               if (dataset) {
-                // Override the font color to match the dataset border color
                 ;(legendItem as any).fontColor = dataset.borderColor
               }
             }
             return true
+          }
+        },
+        onClick: (e: any) => {
+          if (
+            onSystemToggle &&
+            selectedSystems &&
+            typeof e.datasetIndex === "number"
+          ) {
+            const dataset = e.chart.data.datasets[e.datasetIndex]
+            if (dataset && dataset.label) {
+              const systemName = dataset.label
+                .toLowerCase()
+                .replace(/\\s+/g, "_")
+              onSystemToggle(systemName)
+            }
           }
         }
       }

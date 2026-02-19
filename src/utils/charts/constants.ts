@@ -204,8 +204,8 @@ const SOFTWARE_KEYS = [
   "go_ethereum",
   "nethermind",
   "litecoin",
-  "polkadot_sdk",
-  "solana",
+  //  "polkadot_sdk",
+  //  "solana",
   "tezos_mirror",
   "zcash"
 ] as const
@@ -416,7 +416,15 @@ export function getLedgerInfo(ledger: string, layer: LayerType) {
     : null
 }
 
-// Helper function to get base ledger info
+// Helper function to get base ledger info by key
 export function getBaseLedger(ledger: string) {
   return BASE_LEDGERS[ledger as keyof typeof BASE_LEDGERS] || null
+}
+
+// Helper function to find ledger by CSV ledger name (e.g., "bitcoin-cash-node")
+export function findLedgerByName(ledgerName: string) {
+  return (
+    Object.values(BASE_LEDGERS).find((entry) => entry.ledger === ledgerName) ||
+    null
+  )
 }

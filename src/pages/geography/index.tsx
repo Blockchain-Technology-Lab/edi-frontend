@@ -4,7 +4,8 @@ import {
   DoughnutTopCard,
   LayerTopCard,
   MetricsCard,
-  DoughnutCard
+  DoughnutCard,
+  SystemSelector
 } from "@/components"
 import { useGeographyCsv } from "@/hooks"
 import { geographyContributorRoute } from "@/router"
@@ -16,10 +17,11 @@ import {
   GEOGRAPHY_CSV,
   GEOGRAPHY_METRICS,
   GEOGRAPHY_DOUGHNUT_LEDGERS,
+  GEOGRAPHY_LEDGERS,
   getGeographyDoughnutCsvFileName
 } from "@/utils"
 import { useLocation, useNavigate } from "@tanstack/react-router"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useMemo, useState } from "react"
 
 export function Geography() {
   const contributorRef = useRef<HTMLDivElement | null>(null)
@@ -44,6 +46,58 @@ export function Geography() {
   }
 
   const { nodesData, loading, error } = useGeographyCsv()
+
+  // Extract unique systems from actual data and merge with constants
+  const geographySystems = useMemo(() => {
+    const dataLedgers = new Set(
+      nodesData.filter((d) => d.ledger).map((d) => d.ledger)
+    )
+    const constantLedgers = GEOGRAPHY_LEDGERS.map((l) => l.ledger)
+    const allSystems = Array.from(
+      new Set([...dataLedgers, ...constantLedgers])
+    ).sort()
+    return allSystems.length > 0 ? allSystems : constantLedgers
+  }, [nodesData])
+
+  const [selectedSystems, setSelectedSystems] = useState<Set<string>>(() => {
+    try {
+      const saved = localStorage.getItem("geography_selectedSystems")
+      return saved
+        ? new Set(JSON.parse(saved))
+        : new Set(GEOGRAPHY_LEDGERS.map((l) => l.ledger))
+    } catch {
+      return new Set(GEOGRAPHY_LEDGERS.map((l) => l.ledger))
+    }
+  })
+
+  const filteredData = useMemo(() => {
+    return nodesData.filter((entry) => {
+      if (!entry.ledger) return true
+      return selectedSystems.has(entry.ledger)
+    })
+  }, [nodesData, selectedSystems])
+
+  const handleSelectionChange = (selected: Set<string>) => {
+    setSelectedSystems(selected)
+    localStorage.setItem(
+      "geography_selectedSystems",
+      JSON.stringify([...selected])
+    )
+  }
+
+  const handleSystemToggle = (system: string) => {
+    const newSelected = new Set(selectedSystems)
+    if (newSelected.has(system)) {
+      newSelected.delete(system)
+    } else {
+      newSelected.add(system)
+    }
+    setSelectedSystems(newSelected)
+    localStorage.setItem(
+      "geography_selectedSystems",
+      JSON.stringify([...newSelected])
+    )
+  }
 
   return (
     <>
@@ -82,16 +136,25 @@ export function Geography() {
           imageSrc={COUNTRIES_METRICS}
         />
 
+        <SystemSelector
+          systems={geographySystems}
+          selectedSystems={selectedSystems}
+          onSelectionChange={handleSelectionChange}
+          label="Select Blockchain Systems"
+        />
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
           {!error &&
             GEOGRAPHY_METRICS.map((m) => (
               <MetricsCard
                 key={m.metric}
                 metric={{ ...m, decimals: 2 }}
-                data={nodesData}
+                data={filteredData}
                 loading={loading}
                 type="geography"
                 timeUnit="month"
+                selectedSystems={selectedSystems}
+                onSystemToggle={handleSystemToggle}
               />
             ))}
         </div>

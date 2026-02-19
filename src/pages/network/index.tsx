@@ -5,9 +5,10 @@ import {
   MetricsCard,
   MetricsTopCard,
   DoughnutCard,
-  BarChart
+  BarChart,
+  SystemSelector
 } from "@/components"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useMemo, useState } from "react"
 
 import { useLocation, useNavigate } from "@tanstack/react-router"
 import { networkContributorRoute } from "@/router"
@@ -17,6 +18,7 @@ import {
   DOUGHNUT_CARD,
   NETWORK_CARD,
   NETWORK_DOUGHNUT_LEDGERS,
+  NETWORK_LEDGERS,
   ORG_DISTRIBUTOR
 } from "@/utils"
 import { networkMethodologyTo } from "@/routes/routePaths"
@@ -44,6 +46,58 @@ export function Network() {
   }
 
   const { nodesData, orgData, loading, error } = useNetworkCsv()
+
+  // Extract unique systems from actual data and merge with constants
+  const networkSystems = useMemo(() => {
+    const dataLedgers = new Set(
+      orgData.filter((d) => d.ledger).map((d) => d.ledger)
+    )
+    const constantLedgers = NETWORK_LEDGERS.map((l) => l.ledger)
+    const allSystems = Array.from(
+      new Set([...dataLedgers, ...constantLedgers])
+    ).sort()
+    return allSystems.length > 0 ? allSystems : constantLedgers
+  }, [orgData])
+
+  const [selectedSystems, setSelectedSystems] = useState<Set<string>>(() => {
+    try {
+      const saved = localStorage.getItem("network_selectedSystems")
+      return saved
+        ? new Set(JSON.parse(saved))
+        : new Set(NETWORK_LEDGERS.map((l) => l.ledger))
+    } catch {
+      return new Set(NETWORK_LEDGERS.map((l) => l.ledger))
+    }
+  })
+
+  const filteredData = useMemo(() => {
+    return orgData.filter((entry) => {
+      if (!entry.ledger) return true
+      return selectedSystems.has(entry.ledger)
+    })
+  }, [orgData, selectedSystems])
+
+  const handleSelectionChange = (selected: Set<string>) => {
+    setSelectedSystems(selected)
+    localStorage.setItem(
+      "network_selectedSystems",
+      JSON.stringify([...selected])
+    )
+  }
+
+  const handleSystemToggle = (system: string) => {
+    const newSelected = new Set(selectedSystems)
+    if (newSelected.has(system)) {
+      newSelected.delete(system)
+    } else {
+      newSelected.add(system)
+    }
+    setSelectedSystems(newSelected)
+    localStorage.setItem(
+      "network_selectedSystems",
+      JSON.stringify([...newSelected])
+    )
+  }
 
   return (
     <>
@@ -91,15 +145,24 @@ export function Network() {
           imageSrc={ORG_DISTRIBUTOR}
         />
 
+        <SystemSelector
+          systems={networkSystems}
+          selectedSystems={selectedSystems}
+          onSelectionChange={handleSelectionChange}
+          label="Select Blockchain Systems"
+        />
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
           {!error &&
             NETWORK_METRICS.map((m) => (
               <MetricsCard
                 key={m.metric}
                 metric={m}
-                data={orgData}
+                data={filteredData}
                 loading={loading}
                 type="network"
+                selectedSystems={selectedSystems}
+                onSystemToggle={handleSystemToggle}
                 timeUnit="month"
               />
             ))}
