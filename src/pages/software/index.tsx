@@ -5,7 +5,8 @@ import {
   ListBox,
   MetricsCard,
   DoughnutCard,
-  SystemSelector
+  SystemSelector,
+  RadioGroup
 } from "@/components"
 import { useSoftwareCsv } from "@/hooks"
 import {
@@ -224,31 +225,53 @@ export function Software() {
           label="Blockchain Systems"
         />
 
-        <div className="card lg:card-side bg-base-100 shadow-lg border border-base-300 rounded-box">
+        <div className="card lg:card-side bg-base-200 shadow-lg border border-base-300 rounded-box">
           <div className="card-body">
             <div className="flex flex-col lg:flex-row gap-4 h-full">
               <div className="flex-1 h-full">
-                <ListBox
+                {/*<ListBox
                   label="Contribution Type"
                   items={WEIGHT_ITEMS}
                   selectedItem={selectedWeight}
                   onChange={setSelectedWeight}
+                /> */}
+                <RadioGroup
+                  label="Contribution Type"
+                  items={WEIGHT_ITEMS}
+                  selectedItem={selectedWeight}
+                  onChange={setSelectedWeight}
+                  stacked={true}
                 />
               </div>
               <div className="flex-1">
-                <ListBox
+                {/*<ListBox
                   label="Contributor Type"
                   items={ENTITY_ITEMS}
                   selectedItem={selectedEntity}
                   onChange={setSelectedEntity}
+                /> */}
+                <RadioGroup
+                  label="Contributor Type"
+                  items={ENTITY_ITEMS}
+                  selectedItem={selectedEntity}
+                  onChange={setSelectedEntity}
+                  stacked={true}
                 />
               </div>
               <div className="flex-1">
-                <ListBox
+                {/*<ListBox
                   label="Commits per Sample Window"
                   items={COMMITS_ITEMS}
                   selectedItem={selectedCommits}
                   onChange={setSelectedCommits}
+                /> */}
+
+                <RadioGroup
+                  label="Commits per Sample Window"
+                  items={COMMITS_ITEMS}
+                  selectedItem={selectedCommits}
+                  onChange={setSelectedCommits}
+                  stacked={true}
                 />
               </div>
             </div>
