@@ -227,7 +227,7 @@ export function Software() {
 
         <div className="card lg:card-side bg-base-200 shadow-lg border border-base-300 rounded-box">
           <div className="card-body">
-            <div className="flex flex-col lg:flex-row gap-4 h-full">
+            <div className="flex flex-col lg:flex-row gap-4 h-full items-stretch">
               <div className="flex-1 h-full">
                 {/*<ListBox
                   label="Contribution Type"
@@ -240,10 +240,11 @@ export function Software() {
                   items={WEIGHT_ITEMS}
                   selectedItem={selectedWeight}
                   onChange={setSelectedWeight}
+                  fullHeight={true}
                   stacked={true}
                 />
               </div>
-              <div className="flex-1">
+              <div className="flex-1 h-full">
                 {/*<ListBox
                   label="Contributor Type"
                   items={ENTITY_ITEMS}
@@ -255,10 +256,11 @@ export function Software() {
                   items={ENTITY_ITEMS}
                   selectedItem={selectedEntity}
                   onChange={setSelectedEntity}
+                  fullHeight={true}
                   stacked={true}
                 />
               </div>
-              <div className="flex-1">
+              <div className="flex-1 h-full">
                 {/*<ListBox
                   label="Commits per Sample Window"
                   items={COMMITS_ITEMS}
@@ -271,6 +273,7 @@ export function Software() {
                   items={COMMITS_ITEMS}
                   selectedItem={selectedCommits}
                   onChange={setSelectedCommits}
+                  fullHeight={true}
                   stacked={true}
                 />
               </div>
