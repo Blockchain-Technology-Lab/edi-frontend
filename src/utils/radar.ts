@@ -285,6 +285,7 @@ export function getRadarChartOptions(
     maintainAspectRatio: false,
     plugins: {
       legend: {
+        display: false,
         position: "top" as const,
         labels: {
           color: textColor,
@@ -367,7 +368,6 @@ export function getRadarChartOptions(
         }
       },
       horizontalLabels: horizontalLabelsPlugin,
-      customAxisLabels: customAxisPlugin,
       // Draw dashed spokes for missing axes
       radarMissingSpokes: radarMissingSpokesPlugin
     },
@@ -379,7 +379,7 @@ export function getRadarChartOptions(
         startAngle: 0,
         ticks: {
           stepSize: 20,
-          display: true,
+          display: false,
           showLabelBackdrop: false,
           color: textColor,
           font: {
