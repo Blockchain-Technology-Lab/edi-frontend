@@ -239,47 +239,6 @@ export function getRadarChartOptions(
 ): ChartOptions<"radar"> {
   const textColor = theme === "dark" ? "#ffffff" : "#374151"
 
-  const customAxisPlugin = {
-    id: "customAxisLabels",
-    afterDraw: (chart: any) => {
-      const ctx = chart.ctx
-      const centerX =
-        chart.chartArea.left +
-        (chart.chartArea.right - chart.chartArea.left) / 2
-      const centerY =
-        chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 2
-      const radius = Math.min(
-        chart.chartArea.right - centerX,
-        chart.chartArea.bottom - centerY
-      )
-
-      ctx.save()
-      ctx.resetTransform()
-
-      // Draw horizontal axis line at bottom -
-      ctx.strokeStyle = "#D3D3D3"
-      ctx.lineWidth = 2
-      ctx.beginPath()
-      ctx.moveTo(centerX - radius, centerY + radius - 20)
-      ctx.lineTo(centerX + radius, centerY + radius - 20)
-      ctx.stroke()
-
-      // Draw percentage labels with guaranteed horizontal orientation
-      ctx.fillStyle = textColor
-      ctx.font = "bold 12px sans-serif"
-      ctx.textAlign = "center"
-      ctx.textBaseline = "top"
-
-      for (let i = 0; i <= 100; i += 20) {
-        const x = centerX - radius + (radius * 2 * i) / 100
-        const y = centerY + radius - 15
-        ctx.fillText(i, x, y)
-      }
-
-      ctx.restore()
-    }
-  }
-
   return {
     responsive: true,
     maintainAspectRatio: false,
