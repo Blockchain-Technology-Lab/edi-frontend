@@ -131,6 +131,12 @@ export function Network() {
             onClick={handleContributorScrollClick}
           />
         </div>
+        <SystemSelector
+          systems={networkSystems}
+          selectedSystems={selectedSystems}
+          onSelectionChange={handleSelectionChange}
+          label="Blockchain Systems"
+        />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4  ">
           <BarChart
@@ -147,13 +153,6 @@ export function Network() {
             "The following graphs represent different metrics concerning the distribution of nodes across organisations. An organisation here corresponds to the entity that is responsible for the network of the node's IP address. In the case of Bitcoin, a large fraction of nodes use Tor, thereby not revealing the organisations behind them. For the purpose of calculating the metrics, it was therefore decided to distribute Tor nodes proportionally among the observed organisations."
           }
           imageSrc={ORG_DISTRIBUTOR}
-        />
-
-        <SystemSelector
-          systems={networkSystems}
-          selectedSystems={selectedSystems}
-          onSelectionChange={handleSelectionChange}
-          label="Select Blockchain Systems"
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
