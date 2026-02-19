@@ -213,7 +213,7 @@ export function getConsensusCsvFileName(clustering: string[]): string {
     return "output_clustered.csv"
   }
 
-  return "output_non_clustered.csv"
+  return "output_clustered.csv" // removing clustering option "output_non_clustered.csv"
 }
 
 // --------------------------- Display Name Mapping (Updated to use BASE_LEDGERS) ----------------------------
