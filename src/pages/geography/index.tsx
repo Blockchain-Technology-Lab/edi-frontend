@@ -48,15 +48,19 @@ export function Geography() {
   const { nodesData, loading, error } = useGeographyCsv()
 
   // Extract unique systems from actual data and merge with constants
-  const geographySystems = useMemo(() => {
+  const geographySystems = useMemo((): string[] => {
     const dataLedgers = new Set(
       nodesData.filter((d) => d.ledger).map((d) => d.ledger)
     )
-    const constantLedgers = GEOGRAPHY_LEDGERS.map((l) => l.ledger)
+    const constantLedgersArray: string[] = GEOGRAPHY_LEDGERS.map(
+      (l) => l.ledger
+    ).filter(Boolean) as string[]
     const allSystems = Array.from(
-      new Set([...dataLedgers, ...constantLedgers])
+      new Set([...dataLedgers, ...constantLedgersArray])
     ).sort()
-    return allSystems.length > 0 ? allSystems : constantLedgers
+    return (
+      allSystems.length > 0 ? allSystems : constantLedgersArray
+    ) as string[]
   }, [nodesData])
 
   const [selectedSystems, setSelectedSystems] = useState<Set<string>>(() => {

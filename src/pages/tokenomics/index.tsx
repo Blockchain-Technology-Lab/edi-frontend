@@ -53,15 +53,19 @@ export function Tokenomics() {
   const { data, loading, error } = useTokenomicsCsv(csvPath)
 
   // Extract unique systems from actual data and merge with constants
-  const tokenomicsSystems = useMemo(() => {
+  const tokenomicsSystems = useMemo((): string[] => {
     const dataLedgers = new Set(
       data.filter((d) => d.ledger).map((d) => d.ledger)
     )
-    const constantLedgers = TOKENOMICS_LEDGERS.map((l) => l.ledger)
+    const constantLedgersArray: string[] = TOKENOMICS_LEDGERS.map(
+      (l) => l.ledger
+    ).filter(Boolean) as string[]
     const allSystems = Array.from(
-      new Set([...dataLedgers, ...constantLedgers])
+      new Set([...dataLedgers, ...constantLedgersArray])
     ).sort()
-    return allSystems.length > 0 ? allSystems : constantLedgers
+    return (
+      allSystems.length > 0 ? allSystems : constantLedgersArray
+    ) as string[]
   }, [data])
 
   const [selectedSystems, setSelectedSystems] = useState<Set<string>>(() => {
