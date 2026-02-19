@@ -5,8 +5,9 @@ import {
   ListBox,
   MetricsCard,
   DoughnutCard,
-} from "@/components";
-import { useSoftwareCsv } from "@/hooks";
+  SystemSelector
+} from "@/components"
+import { useSoftwareCsv } from "@/hooks"
 import {
   DOUGHNUT_CARD,
   generateDoughnutPaths,
@@ -16,83 +17,95 @@ import {
   SOFTWARE_CSV,
   SOFTWARE_DOUGHNUT_LEDGER_NAMES,
   SOFTWARE_METRICS,
-} from "@/utils";
-import { useMemo, useState, useRef, useEffect } from "react";
-import { useNavigate, useLocation } from "@tanstack/react-router";
-import { softwareContributorRoute } from "@/router";
-import { softwareMethodologyTo } from "@/routes/routePaths";
+  SOFTWARE_LEDGERS
+} from "@/utils"
+import { useMemo, useState, useRef, useEffect } from "react"
+import { useNavigate, useLocation } from "@tanstack/react-router"
+import { softwareContributorRoute } from "@/router"
+import { softwareMethodologyTo } from "@/routes/routePaths"
 
 // Constants
 const WEIGHT_ITEMS = [
   { label: "Commits", value: "commits" },
   { label: "Merge commits", value: "merge" },
-  { label: "Lines changed", value: "lines" },
-];
+  { label: "Lines changed", value: "lines" }
+]
 
 const ENTITY_ITEMS = [
   { label: "Author", value: "author" },
-  { label: "Committer", value: "committer" },
-];
+  { label: "Committer", value: "committer" }
+]
 
 const COMMITS_ITEMS = [
   { label: "100", value: "100" },
   { label: "250", value: "250" },
   { label: "500", value: "500" },
-  { label: "1000", value: "1000" },
-];
+  { label: "1000", value: "1000" }
+]
 
 const DOUGHNUT_WEIGHT_ITEMS = [
   { label: "Commits", value: "commits" },
   { label: "Merge commits", value: "merge" },
-  { label: "Lines changed", value: "lines" },
-];
+  { label: "Lines changed", value: "lines" }
+]
 
 const DOUGHNUT_ENTITY_ITEMS = [
   { label: "Author", value: "author" },
-  { label: "Committer", value: "committer" },
-];
+  { label: "Committer", value: "committer" }
+]
 
 // Default selections
-const DEFAULT_COMMITS_INDEX = 2; // "500"
-const DEFAULT_ENTITY_INDEX = 0; // "Author"
-const DEFAULT_WEIGHT_INDEX = 0; // "Commits"
-const SCROLL_DELAY = 100;
+const DEFAULT_COMMITS_INDEX = 2 // "500"
+const DEFAULT_ENTITY_INDEX = 0 // "Author"
+const DEFAULT_WEIGHT_INDEX = 0 // "Commits"
+const SCROLL_DELAY = 100
 
 // Custom hook for scroll-to-contributor functionality
 function useContributorScroll() {
-  const contributorRef = useRef<HTMLDivElement | null>(null);
-  const location = useLocation();
-  const navigate = useNavigate();
+  const contributorRef = useRef<HTMLDivElement | null>(null)
+  const location = useLocation()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (location.pathname === "/software/contributor") {
       const timeout = setTimeout(() => {
-        contributorRef.current?.scrollIntoView({ behavior: "smooth" });
-      }, SCROLL_DELAY);
+        contributorRef.current?.scrollIntoView({ behavior: "smooth" })
+      }, SCROLL_DELAY)
 
-      return () => clearTimeout(timeout);
+      return () => clearTimeout(timeout)
     }
-  }, [location.pathname]);
+  }, [location.pathname])
 
   const handleContributorScrollClick = () => {
     if (location.pathname === softwareContributorRoute.to) {
-      contributorRef.current?.scrollIntoView({ behavior: "smooth" });
+      contributorRef.current?.scrollIntoView({ behavior: "smooth" })
     } else {
-      navigate({ to: softwareContributorRoute.to });
+      navigate({ to: softwareContributorRoute.to })
     }
-  };
+  }
 
-  return { contributorRef, handleContributorScrollClick };
+  return { contributorRef, handleContributorScrollClick }
 }
 
 export function Software() {
-  const [selectedCommits, setSelectedCommits] = useState(COMMITS_ITEMS[DEFAULT_COMMITS_INDEX]);
-  const [selectedEntity, setSelectedEntity] = useState(ENTITY_ITEMS[DEFAULT_ENTITY_INDEX]);
-  const [selectedWeight, setSelectedWeight] = useState(WEIGHT_ITEMS[DEFAULT_WEIGHT_INDEX]);
-  const [selectedDoughnutEntity, setSelectedDoughnutEntity] = useState(DOUGHNUT_ENTITY_ITEMS[DEFAULT_ENTITY_INDEX]);
-  const [selectedDoughnutWeight, setSelectedDoughnutWeight] = useState(DOUGHNUT_WEIGHT_ITEMS[DEFAULT_WEIGHT_INDEX]);
+  const [selectedCommits, setSelectedCommits] = useState(
+    COMMITS_ITEMS[DEFAULT_COMMITS_INDEX]
+  )
+  const [selectedEntity, setSelectedEntity] = useState(
+    ENTITY_ITEMS[DEFAULT_ENTITY_INDEX]
+  )
+  const [selectedWeight, setSelectedWeight] = useState(
+    WEIGHT_ITEMS[DEFAULT_WEIGHT_INDEX]
+  )
+  const [selectedDoughnutEntity, setSelectedDoughnutEntity] = useState(
+    DOUGHNUT_ENTITY_ITEMS[DEFAULT_ENTITY_INDEX]
+  )
+  const [selectedDoughnutWeight, setSelectedDoughnutWeight] = useState(
+    DOUGHNUT_WEIGHT_ITEMS[DEFAULT_WEIGHT_INDEX]
+  )
 
-  const { contributorRef, handleContributorScrollClick } = useContributorScroll();
+  const { contributorRef, handleContributorScrollClick } =
+    useContributorScroll()
 
   const filename = useMemo(
     () =>
@@ -102,7 +115,7 @@ export function Software() {
         selectedCommits.value
       ),
     [selectedWeight, selectedEntity, selectedCommits]
-  );
+  )
 
   const doughnutFilenames = useMemo(
     () =>
@@ -111,11 +124,63 @@ export function Software() {
         selectedDoughnutEntity.value
       ),
     [selectedDoughnutWeight, selectedDoughnutEntity]
-  );
+  )
 
-  const doughnutPaths = generateDoughnutPaths(doughnutFilenames);
-  const csvPath = `${SOFTWARE_CSV + filename}`;
-  const { data, loading, error } = useSoftwareCsv(csvPath);
+  const doughnutPaths = generateDoughnutPaths(doughnutFilenames)
+  const csvPath = `${SOFTWARE_CSV + filename}`
+  const { data, loading, error } = useSoftwareCsv(csvPath)
+
+  // Extract unique systems from actual data and merge with constants
+  const softwareSystems = useMemo(() => {
+    const dataLedgers = new Set(
+      data.filter((d) => d.ledger).map((d) => d.ledger)
+    )
+    const constantLedgers = SOFTWARE_LEDGERS.map((l) => l.ledger)
+    const allSystems = Array.from(
+      new Set([...dataLedgers, ...constantLedgers])
+    ).sort()
+    return allSystems.length > 0 ? allSystems : constantLedgers
+  }, [data])
+
+  const [selectedSystems, setSelectedSystems] = useState<Set<string>>(() => {
+    try {
+      const saved = localStorage.getItem("software_selectedSystems")
+      return saved
+        ? new Set(JSON.parse(saved))
+        : new Set(SOFTWARE_LEDGERS.map((l) => l.ledger))
+    } catch {
+      return new Set(SOFTWARE_LEDGERS.map((l) => l.ledger))
+    }
+  })
+
+  const filteredData = useMemo(() => {
+    return data.filter((entry) => {
+      if (!entry.ledger) return true
+      return selectedSystems.has(entry.ledger)
+    })
+  }, [data, selectedSystems])
+
+  const handleSelectionChange = (selected: Set<string>) => {
+    setSelectedSystems(selected)
+    localStorage.setItem(
+      "software_selectedSystems",
+      JSON.stringify([...selected])
+    )
+  }
+
+  const handleSystemToggle = (system: string) => {
+    const newSelected = new Set(selectedSystems)
+    if (newSelected.has(system)) {
+      newSelected.delete(system)
+    } else {
+      newSelected.add(system)
+    }
+    setSelectedSystems(newSelected)
+    localStorage.setItem(
+      "software_selectedSystems",
+      JSON.stringify([...newSelected])
+    )
+  }
 
   return (
     <>
@@ -125,7 +190,15 @@ export function Software() {
           <div className="col-span-3">
             <LayerTopCard
               title="Software Layer"
-              description={<>These graphs represent the historical decentralisation of software development for various blockchain implementations. Each metric value is calculated based on the distribution of some contribution type (e.g. number of commits or lines changed) across contributors over a sample of commits.</>}
+              description={
+                <>
+                  These graphs represent the historical decentralisation of
+                  software development for various blockchain implementations.
+                  Each metric value is calculated based on the distribution of
+                  some contribution type (e.g. number of commits or lines
+                  changed) across contributors over a sample of commits.
+                </>
+              }
               imageSrc={SOFTWARE_CARD}
               methodologyPath={softwareMethodologyTo}
               githubUrl="https://github.com/Blockchain-Technology-Lab/software-decentralization"
@@ -171,16 +244,25 @@ export function Software() {
           </div>
         </div>
 
+        <SystemSelector
+          systems={softwareSystems}
+          selectedSystems={selectedSystems}
+          onSelectionChange={handleSelectionChange}
+          label="Select Blockchain Systems"
+        />
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
           {!error &&
             SOFTWARE_METRICS.map((metric) => (
               <MetricsCard
                 key={metric.metric}
                 metric={metric}
-                data={data}
+                data={filteredData}
                 loading={loading}
                 type="software"
                 timeUnit="month"
+                selectedSystems={selectedSystems}
+                onSystemToggle={handleSystemToggle}
               />
             ))}
         </div>
@@ -233,5 +315,5 @@ export function Software() {
         </div>
       </div>
     </>
-  );
+  )
 }

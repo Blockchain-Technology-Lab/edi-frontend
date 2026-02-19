@@ -1,28 +1,75 @@
-import { useMemo, useState } from "react";
-import { LayerTopCard, ListBoxMulti, MetricsCard } from "@/components";
+import { useMemo, useState } from "react"
+import {
+  LayerTopCard,
+  ListBoxMulti,
+  MetricsCard,
+  SystemSelector
+} from "@/components"
 import {
   getConsensusCsvFileName,
   CONSENSUS_METRICS,
   CONSENSUS_CARD,
   CONSENSUS_OPTIONS,
-} from "@/utils";
-import { useConsensusCsvAll } from "@/hooks";
-import { consensusMethodologyTo } from "@/routes/routePaths";
+  CONSENSUS_LEDGERS
+} from "@/utils"
+import { useConsensusCsvAll } from "@/hooks"
+import { consensusMethodologyTo } from "@/routes/routePaths"
 
 export function Consensus() {
-  const CLUSTERING_ITEMS = [
-    { label: "Clustered", value: "clustered" },
-  ];
+  const CLUSTERING_ITEMS = [{ label: "Clustered", value: "clustered" }]
 
   const [selectedClusters, setSelectedClusters] =
-    useState<typeof CLUSTERING_ITEMS>(CLUSTERING_ITEMS);
+    useState<typeof CLUSTERING_ITEMS>(CLUSTERING_ITEMS)
+
+  const consensusSystems = useMemo(() => {
+    return CONSENSUS_LEDGERS.map((l) => l.ledger)
+  }, [])
+
+  const [selectedSystems, setSelectedSystems] = useState<Set<string>>(() => {
+    try {
+      const saved = localStorage.getItem("consensus_selectedSystems")
+      return saved ? new Set(JSON.parse(saved)) : new Set(consensusSystems)
+    } catch {
+      return new Set(consensusSystems)
+    }
+  })
 
   const fileName = useMemo(() => {
-    const clustering = selectedClusters.map((c) => c.value);
-    return getConsensusCsvFileName(clustering);
-  }, [selectedClusters]);
+    const clustering = selectedClusters.map((c) => c.value)
+    return getConsensusCsvFileName(clustering)
+  }, [selectedClusters])
 
-  const { data, loading, error } = useConsensusCsvAll(fileName);
+  const { data, loading, error } = useConsensusCsvAll(fileName)
+
+  // Filter data based on selected systems
+  const filteredData = useMemo(() => {
+    return data.filter((entry) => {
+      if (!entry.ledger) return true
+      return selectedSystems.has(entry.ledger)
+    })
+  }, [data, selectedSystems])
+
+  const handleSystemToggle = (system: string) => {
+    const newSelected = new Set(selectedSystems)
+    if (newSelected.has(system)) {
+      newSelected.delete(system)
+    } else {
+      newSelected.add(system)
+    }
+    setSelectedSystems(newSelected)
+    localStorage.setItem(
+      "consensus_selectedSystems",
+      JSON.stringify([...newSelected])
+    )
+  }
+
+  const handleSelectionChange = (selected: Set<string>) => {
+    setSelectedSystems(selected)
+    localStorage.setItem(
+      "consensus_selectedSystems",
+      JSON.stringify([...selected])
+    )
+  }
 
   return (
     <>
@@ -44,11 +91,11 @@ export function Consensus() {
 
         <div className="card lg:card-side bg-base-200 shadow-lg border border-base-300 rounded-box">
           <div className="card-body pl-12">
-            <h2 className="card-title text-xl ml-4 whitespace-nowrap">Clustering Option</h2>
-            <p>
-            {" "}
-            </p>
-            
+            <h2 className="card-title text-xl ml-4 whitespace-nowrap">
+              Clustering Option
+            </h2>
+            <p> </p>
+
             <div className="w-full max-w-xs">
               <ListBoxMulti
                 label=""
@@ -62,20 +109,30 @@ export function Consensus() {
             <img src={CONSENSUS_OPTIONS} alt="Clustering Options" />
           </figure>
         </div>
+
+        <SystemSelector
+          systems={consensusSystems}
+          selectedSystems={selectedSystems}
+          onSelectionChange={handleSelectionChange}
+          label="Blockchain Systems"
+        />
+
         <div className="grid grid-cols-1 lg:grid-cols-2 w-full">
           {!error &&
             CONSENSUS_METRICS.map((m) => (
               <MetricsCard
                 key={m.metric}
                 metric={m}
-                data={data}
+                data={filteredData}
                 loading={loading}
                 type="consensus"
                 timeUnit="month"
+                selectedSystems={selectedSystems}
+                onSystemToggle={handleSystemToggle}
               />
             ))}
         </div>
       </div>
     </>
-  );
+  )
 }
