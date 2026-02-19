@@ -10,10 +10,10 @@ import {
 
 import {
   LayerTopCard,
-  ListBox,
-  ListBoxMulti,
   MetricsCard,
-  SystemSelector
+  SystemSelector,
+  ToggleMulti,
+  RadioGroup
 } from "@/components"
 import { useTokenomicsCsv } from "@/hooks"
 import { tokenomicsMethodologyTo } from "@/routes/routePaths"
@@ -128,23 +128,27 @@ export function Tokenomics() {
 
         <div className="card lg:card-side bg-base-200 shadow-lg border border-base-300 rounded-box">
           <div className="card-body">
-            <div className="flex flex-col lg:flex-row max-h-120">
-              <div className="flex-2 h-full">
-                <ListBox
+            <div className="flex flex-col lg:flex-row max-h-150">
+              <div className="flex-2 h-full m-2">
+                <RadioGroup
                   label="Inclusion threshold"
                   items={THRESHOLDING_ITEMS}
                   selectedItem={selectedThreshold}
                   onChange={setSelectedThreshold}
+                  stacked={true}
                 />
               </div>
-              <div className="flex-2 h-full">
-                <ListBoxMulti
+              <div className="flex-2 h-full m-2">
+                <ToggleMulti
                   label="Clustering"
                   items={CLUSTERING_ITEMS}
                   selectedItems={selectedClusters}
                   onChange={setSelectedClusters}
+                  stacked={true}
+                  bgClass="bg-success"
                 />
               </div>
+              <div className="flex-2 h-full m-2"></div>
             </div>
           </div>
         </div>
@@ -153,7 +157,7 @@ export function Tokenomics() {
           systems={tokenomicsSystems}
           selectedSystems={selectedSystems}
           onSelectionChange={handleSelectionChange}
-          label="Select Blockchain Systems"
+          label="Blockchain Systems"
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">

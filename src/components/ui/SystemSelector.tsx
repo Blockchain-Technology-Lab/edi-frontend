@@ -5,13 +5,15 @@ interface SystemSelectorProps {
   selectedSystems: Set<string>
   onSelectionChange: (selected: Set<string>) => void
   label?: string
+  columns?: number // 1 = single column, 2 = two columns, undefined = flex wrap
 }
 
 export function SystemSelector({
   systems,
   selectedSystems,
   onSelectionChange,
-  label = "Select Systems"
+  label = "Select Systems",
+  columns
 }: SystemSelectorProps) {
   const handleToggle = (system: string) => {
     const newSelected = new Set(selectedSystems)
@@ -23,12 +25,19 @@ export function SystemSelector({
     onSelectionChange(newSelected)
   }
 
+  const containerClassName =
+    columns === 2
+      ? "grid grid-cols-2 gap-3"
+      : columns === 1
+        ? "grid grid-cols-1 gap-3"
+        : "flex flex-wrap gap-3"
+
   return (
     <div className="card bg-base-200 shadow-lg border border-base-300 rounded-box p-4">
       <h3 className="text-lg font-semibold mb-4">{label}</h3>
 
       {/* Grid/Flex Wrap Container - Multi-row Layout */}
-      <div className="flex flex-wrap gap-3">
+      <div className={containerClassName}>
         {systems.map((system) => {
           const ledger = findLedgerByName(system)
           if (!ledger) return null
