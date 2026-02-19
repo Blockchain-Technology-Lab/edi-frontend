@@ -11,6 +11,7 @@ interface RadioGroupProps {
   onChange: (item: RadioItem) => void
   label?: string
   stacked?: boolean
+  fullHeight?: boolean
 }
 
 export function RadioGroup({
@@ -18,13 +19,22 @@ export function RadioGroup({
   selectedItem,
   onChange,
   label,
-  stacked = false
+  stacked = false,
+  fullHeight = false
 }: RadioGroupProps) {
   const groupId = useId()
 
+  const containerClassName = fullHeight
+    ? "card bg-base-200 shadow-lg border border-base-300 rounded-box p-2 h-full"
+    : "card bg-base-200 shadow-lg border border-base-300 rounded-box p-2"
+
+  const innerClassName = fullHeight
+    ? "flex flex-col gap-2 h-full"
+    : "flex flex-col gap-2"
+
   return (
-    <div className="card bg-base-200 shadow-lg border border-base-300 rounded-box p-2">
-      <div className="flex flex-col gap-2">
+    <div className={containerClassName}>
+      <div className={innerClassName}>
         {label && <h3 className="text-lg font-semibold mb-4">{label}</h3>}
         <div
           className={stacked ? "flex flex-col gap-3" : "flex flex-wrap gap-3"}
