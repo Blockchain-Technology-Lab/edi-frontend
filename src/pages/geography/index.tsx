@@ -132,19 +132,18 @@ export function Geography() {
           />
         </div>
 
-        <SystemSelector
-          systems={geographySystems}
-          selectedSystems={selectedSystems}
-          onSelectionChange={handleSelectionChange}
-          label="Blockchain Systems"
-        />
-
         <MetricsTopCard
           title={"Countries metrics"}
           description={
             "The following graphs represent different metrics concerning the distribution of nodes across countries. Regarding the Bitcoin network, more than half of the nodes use Tor, and it is impossible to know in which countries they are located. For the metrics shown below, it was therefore decided to distribute these nodes proportionally among the different countries."
           }
           imageSrc={COUNTRIES_METRICS}
+        />
+        <SystemSelector
+          systems={geographySystems}
+          selectedSystems={selectedSystems}
+          onSelectionChange={handleSelectionChange}
+          label="Blockchain Systems"
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">

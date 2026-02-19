@@ -50,7 +50,7 @@ export function ToggleMulti({
   }
 
   return (
-    <div className="card bg-base-200 shadow-lg border border-base-300 rounded-box p-2">
+    <div className="card bg-base-300 shadow-lg border border-base-300 rounded-box p-2">
       <div className="flex flex-col gap-2">
         {label && <h3 className="text-lg font-semibold mb-4">{label}</h3>}
         <div

@@ -58,7 +58,7 @@ export function SystemSelector({
               />
               <div
                 className={`w-11 h-6 rounded-full transition-all duration-300 peer-checked:after:translate-x-5 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all relative ${
-                  isSelected ? "bg-opacity-100" : "bg-base-200"
+                  isSelected ? "bg-opacity-700" : "bg-base-300"
                 }`}
                 style={isSelected ? { backgroundColor: color } : {}}
               />

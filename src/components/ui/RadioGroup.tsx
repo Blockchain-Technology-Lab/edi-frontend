@@ -25,8 +25,8 @@ export function RadioGroup({
   const groupId = useId()
 
   const containerClassName = fullHeight
-    ? "card bg-base-200 shadow-lg border border-base-300 rounded-box p-2 h-full"
-    : "card bg-base-200 shadow-lg border border-base-300 rounded-box p-2"
+    ? "card bg-base-300 shadow-lg border border-base-300 rounded-box p-2 h-full"
+    : "card bg-base-300 shadow-lg border border-base-300 rounded-box p-2"
 
   const innerClassName = fullHeight
     ? "flex flex-col gap-2 h-full"
