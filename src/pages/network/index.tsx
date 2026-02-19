@@ -48,15 +48,19 @@ export function Network() {
   const { nodesData, orgData, loading, error } = useNetworkCsv()
 
   // Extract unique systems from actual data and merge with constants
-  const networkSystems = useMemo(() => {
+  const networkSystems = useMemo((): string[] => {
     const dataLedgers = new Set(
       orgData.filter((d) => d.ledger).map((d) => d.ledger)
     )
-    const constantLedgers = NETWORK_LEDGERS.map((l) => l.ledger)
+    const constantLedgersArray: string[] = NETWORK_LEDGERS.map(
+      (l) => l.ledger
+    ).filter(Boolean) as string[]
     const allSystems = Array.from(
-      new Set([...dataLedgers, ...constantLedgers])
+      new Set([...dataLedgers, ...constantLedgersArray])
     ).sort()
-    return allSystems.length > 0 ? allSystems : constantLedgers
+    return (
+      allSystems.length > 0 ? allSystems : constantLedgersArray
+    ) as string[]
   }, [orgData])
 
   const [selectedSystems, setSelectedSystems] = useState<Set<string>>(() => {

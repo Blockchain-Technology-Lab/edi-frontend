@@ -131,15 +131,19 @@ export function Software() {
   const { data, loading, error } = useSoftwareCsv(csvPath)
 
   // Extract unique systems from actual data and merge with constants
-  const softwareSystems = useMemo(() => {
+  const softwareSystems = useMemo((): string[] => {
     const dataLedgers = new Set(
       data.filter((d) => d.ledger).map((d) => d.ledger)
     )
-    const constantLedgers = SOFTWARE_LEDGERS.map((l) => l.ledger)
+    const constantLedgersArray: string[] = SOFTWARE_LEDGERS.map(
+      (l) => l.ledger
+    ).filter(Boolean) as string[]
     const allSystems = Array.from(
-      new Set([...dataLedgers, ...constantLedgers])
+      new Set([...dataLedgers, ...constantLedgersArray])
     ).sort()
-    return allSystems.length > 0 ? allSystems : constantLedgers
+    return (
+      allSystems.length > 0 ? allSystems : constantLedgersArray
+    ) as string[]
   }, [data])
 
   const [selectedSystems, setSelectedSystems] = useState<Set<string>>(() => {
