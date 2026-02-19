@@ -111,46 +111,9 @@ export function ConsensusMethodology() {
 
       <div className="space-y-12 font-roboto">
         <div className="card bg-base-200 shadow-md font-roboto pt-4">
-          <div className="card-body p-4">
-            <h1 className="text-xl font-bold text-base-content mb-6">
-              Metrics
-            </h1>
-
-            {CONSENSUS_METRICS.map((metric, index) => {
-              const isEven = index % 2 === 0
-              return (
-                <div
-                  key={metric.metric}
-                  className="card lg:card-side bg-base-100 shadow-sm mb-4"
-                >
-                  {isEven && (
-                    <figure className="lg:w-1/2">
-                      <img src={`${metric.icon}`} alt={metric.title} />
-                    </figure>
-                  )}
-
-                  <div className="card-body">
-                    <h2 className="card-title">{metric.title}</h2>
-                    <p>{metric.description}</p>
-                  </div>
-
-                  {!isEven && (
-                    <figure className="lg:w-1/2">
-                      <img src={`${metric.icon}`} alt={metric.title} />
-                    </figure>
-                  )}
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </div>
-
-      <div className="space-y-12 font-roboto">
-        <div className="card bg-base-200 shadow-md font-roboto pt-4">
           <div className="card-body p-4 ">
             <h1 className="text-2xl font-bold  text-base-content">
-              Consensus Layer - Clustering
+              Clustering
             </h1>
           </div>
           <div className="divider divider-accent"></div>
@@ -194,6 +157,43 @@ export function ConsensusMethodology() {
                 ))}
               </ul>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-12 font-roboto">
+        <div className="card bg-base-200 shadow-md font-roboto pt-4">
+          <div className="card-body p-4">
+            <h1 className="text-xl font-bold text-base-content mb-6">
+              Metrics
+            </h1>
+
+            {CONSENSUS_METRICS.map((metric, index) => {
+              const isEven = index % 2 === 0
+              return (
+                <div
+                  key={metric.metric}
+                  className="card lg:card-side bg-base-100 shadow-sm mb-4"
+                >
+                  {isEven && (
+                    <figure className="lg:w-1/2">
+                      <img src={`${metric.icon}`} alt={metric.title} />
+                    </figure>
+                  )}
+
+                  <div className="card-body">
+                    <h2 className="card-title">{metric.title}</h2>
+                    <p>{metric.description}</p>
+                  </div>
+
+                  {!isEven && (
+                    <figure className="lg:w-1/2">
+                      <img src={`${metric.icon}`} alt={metric.title} />
+                    </figure>
+                  )}
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>
