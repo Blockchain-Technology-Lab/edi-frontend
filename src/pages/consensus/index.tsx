@@ -1,25 +1,18 @@
 import { useMemo, useState } from "react"
-import {
-  LayerTopCard,
-  MetricsCard,
-  SystemSelector,
-  ToggleMulti
-} from "@/components"
+import { LayerTopCard, MetricsCard, SystemSelector } from "@/components"
 import {
   getConsensusCsvFileName,
   CONSENSUS_METRICS,
   CONSENSUS_CARD,
-  CONSENSUS_OPTIONS,
   CONSENSUS_LEDGERS
 } from "@/utils"
 import { useConsensusCsvAll } from "@/hooks"
 import { consensusMethodologyTo } from "@/routes/routePaths"
 
 export function Consensus() {
-  const CLUSTERING_ITEMS = [{ label: "Clustered", value: "clustered" }]
+  //const CLUSTERING_ITEMS = [{ label: "Clustered", value: "clustered" }]
 
-  const [selectedClusters, setSelectedClusters] =
-    useState<typeof CLUSTERING_ITEMS>(CLUSTERING_ITEMS)
+  //const [selectedClusters, setSelectedClusters] =useState<typeof CLUSTERING_ITEMS>(CLUSTERING_ITEMS)
 
   const consensusSystems = useMemo(() => {
     return CONSENSUS_LEDGERS.map((l) => l.ledger)
@@ -33,11 +26,17 @@ export function Consensus() {
       return new Set(consensusSystems)
     }
   })
-
+  {
+    /*}
   const fileName = useMemo(() => {
     const clustering = selectedClusters.map((c) => c.value)
     return getConsensusCsvFileName(clustering)
   }, [selectedClusters])
+*/
+  }
+  const fileName = useMemo(() => {
+    return getConsensusCsvFileName(["clustered"])
+  }, [])
 
   const { data, loading, error } = useConsensusCsvAll(fileName)
 
@@ -88,7 +87,7 @@ export function Consensus() {
           methodologyPath={consensusMethodologyTo}
           githubUrl="https://github.com/Blockchain-Technology-Lab/consensus-decentralization"
         />
-
+        {/* 
         <div className="card lg:card-side bg-base-200 shadow-lg border border-base-300 rounded-box">
           <div className="card-body pl-12">
             <h2 className="card-title text-xl ml-4 whitespace-nowrap">
@@ -109,7 +108,7 @@ export function Consensus() {
             <img src={CONSENSUS_OPTIONS} alt="Clustering Options" />
           </figure>
         </div>
-
+*/}
         <SystemSelector
           systems={consensusSystems}
           selectedSystems={selectedSystems}

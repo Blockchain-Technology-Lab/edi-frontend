@@ -150,22 +150,27 @@ export function ConsensusMethodology() {
         <div className="card bg-base-200 shadow-md font-roboto pt-4">
           <div className="card-body p-4 ">
             <h1 className="text-2xl font-bold  text-base-content">
-              Consensus Layer - Clustering Options
+              Consensus Layer - Clustering
             </h1>
           </div>
           <div className="divider divider-accent"></div>
           <div className="card-body p-4 text-base">
             <p className="">
-              A user can choose which off-chain sources to use to attribute
-              blockchain data to real world entities. This enables the
-              clustering of seemingly independent objects under the same
-              identity. On the consensus layer, clustering helps to attribute
-              multiple blocks to the same producer, like a mining pool.
+              We use clustering methods to attribute resources to real-world
+              entities instead of blockchain addresses. On the consensus layer,
+              clustering helps to attribute multiple blocks to the same
+              producer, such as a mining pool, even if different addresses are
+              used to claim the rewards each time. In particular, we use
+              metadata included in a block to identify the entity associated
+              with it (e.g. a pool’s “tag” from Bitcoin’s coinbase parameter
+              field, or a pool’s “ticker” on Cardano). Additionally, we collect
+              addresses that belong to known entities from explorers and other
+              public repositories. Last, we use legal links (e.g., following an
+              acquisition) to combine actors that are controlled by the same
+              organisation. The explorers and repositories we collect data from
+              are:
             </p>
-            <p className="">
-              For Consensus, the clustering option is: "Clustered" refers to
-              attribution and deanonymisation data collected from:
-            </p>
+
             <div className="flex flex-col md:flex-row gap-4 justify-between p-2">
               <ul className="list bg-base-100 rounded-box shadow-md flex-1">
                 {firstColumn.map((link) => (
