@@ -125,6 +125,12 @@ export function Tokenomics() {
           methodologyPath={tokenomicsMethodologyTo}
           githubUrl="https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization"
         />
+        <SystemSelector
+          systems={tokenomicsSystems}
+          selectedSystems={selectedSystems}
+          onSelectionChange={handleSelectionChange}
+          label="Blockchain Systems"
+        />
 
         <div className="card lg:card-side bg-base-200 shadow-lg border border-base-300 rounded-box">
           <div className="card-body">
@@ -152,13 +158,6 @@ export function Tokenomics() {
             </div>
           </div>
         </div>
-
-        <SystemSelector
-          systems={tokenomicsSystems}
-          selectedSystems={selectedSystems}
-          onSelectionChange={handleSelectionChange}
-          label="Blockchain Systems"
-        />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
           {!error &&
