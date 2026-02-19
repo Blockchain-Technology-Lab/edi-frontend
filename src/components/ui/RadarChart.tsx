@@ -11,16 +11,16 @@ import {
 } from "chart.js"
 import { Scale, Coins, Network, Code, Globe } from "lucide-react"
 
-import { ImageDown, Palette } from "lucide-react"
+import { ImageDown } from "lucide-react"
 import { ThemeContext } from "@/contexts"
 import { useExportChart } from "@/hooks"
 import type { RadarDataPoint } from "@/hooks/useRadarCsv"
 import {
   transformRadarDataWithSegments,
   getRadarChartOptions,
-  PROTOCOL_COLORS,
   LINECHART_WATERMARK_WHITE,
-  LINECHART_WATERMARK_BLACK
+  LINECHART_WATERMARK_BLACK,
+  BASE_LEDGERS
 } from "@/utils"
 import { useNavigate } from "@tanstack/react-router"
 
@@ -59,7 +59,6 @@ export function RadarChart({
   description = "",
   height = 500,
   showExport = true,
-  showLegendToggle = false,
   className = ""
 }: RadarChartProps) {
   const { theme: resolvedTheme } = useContext(ThemeContext)
@@ -103,6 +102,16 @@ export function RadarChart({
           tooltip: {
             ...baseOptions.plugins?.tooltip,
             enabled: tooltipEnabled
+          },
+          legend: {
+            ...baseOptions.plugins?.legend,
+            onClick: (e: any) => {
+              // Get the index of the clicked legend item
+              const index = e.datasetIndex
+              if (index !== undefined) {
+                handleDatasetToggle(index)
+              }
+            }
           }
         }
       }
@@ -280,59 +289,6 @@ export function RadarChart({
             <h3 className="card-title text-xl font-bold">{title}</h3>
 
             <div className="flex items-center gap-2">
-              {/* Legend Toggle */}
-              {showLegendToggle && (
-                <div className="dropdown dropdown-end">
-                  <div
-                    tabIndex={0}
-                    role="button"
-                    className="btn btn-sm btn-ghost"
-                    aria-label="Toggle protocols"
-                  >
-                    <Palette size={16} />
-                  </div>
-                  <div className="dropdown-content z-10 card card-compact w-64 p-4 shadow bg-base-100 border border-base-300">
-                    <div className="space-y-2">
-                      <p className="font-semibold text-sm mb-3">
-                        Toggle Protocols:
-                      </p>
-                      {data.map((protocol, index) => {
-                        const colors =
-                          PROTOCOL_COLORS[
-                            protocol.protocol.toLowerCase() as keyof typeof PROTOCOL_COLORS
-                          ]
-                        return (
-                          <label
-                            key={protocol.protocol}
-                            className="flex items-center gap-3 cursor-pointer"
-                          >
-                            <input
-                              type="checkbox"
-                              className="checkbox checkbox-sm"
-                              checked={visibleDatasets.has(index)}
-                              onChange={() => handleDatasetToggle(index)}
-                            />
-                            <div
-                              className="w-4 h-4 rounded-full border-2"
-                              style={{
-                                backgroundColor:
-                                  colors?.background ||
-                                  "rgba(128, 128, 128, 0.2)",
-                                borderColor:
-                                  colors?.border || "rgba(128, 128, 128, 1)"
-                              }}
-                            />
-                            <span className="text-sm capitalize">
-                              {protocol.protocol}
-                            </span>
-                          </label>
-                        )
-                      })}
-                    </div>
-                  </div>
-                </div>
-              )}
-
               {/* Export Button */}
               {showExport && (
                 <button
@@ -351,6 +307,68 @@ export function RadarChart({
           {description && (
             <p className="text-base-content/70 text-sm mt-2">{description}</p>
           )}
+        </div>
+
+        {/* System Selection Toggle - iPhone Style Toggle Switches */}
+        <div className="mb-6">
+          {/* <div className="flex items-center justify-between mb-4">
+            <h5 className="text-sm font-semibold text-base-content">Systems</h5> 
+            <span className="text-xs font-medium text-base-content/60">
+              {visibleDatasets.size} of {data.length}
+            </span>
+          </div> */}
+          <div className="overflow-x-auto scrollbar-hide pb-2">
+            <div className="flex gap-4 min-w-min">
+              {data.map((protocol, index) => {
+                const ledger =
+                  BASE_LEDGERS[
+                    protocol.protocol.toLowerCase() as keyof typeof BASE_LEDGERS
+                  ]
+                const color = ledger?.color || "rgba(128, 128, 128, 1)"
+                const isChecked = visibleDatasets.has(index)
+                return (
+                  <div
+                    key={protocol.protocol}
+                    className="flex items-center gap-3 px-4 py-3 rounded-lg bg-base-300 hover:bg-base-200 transition-colors whitespace-nowrap flex-shrink-0"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="w-3 h-3 rounded-full"
+                        style={{
+                          backgroundColor: color
+                        }}
+                      />
+                      <span className="text-sm font-medium capitalize">
+                        {protocol.protocol}
+                      </span>
+                    </div>
+
+                    {/* iOS-Style Toggle Switch */}
+                    <label className="relative inline-flex cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={() => handleDatasetToggle(index)}
+                        className="sr-only peer"
+                      />
+                      <div
+                        className={`w-11 h-6 rounded-full transition-all duration-300 peer-checked:after:translate-x-5 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all ${
+                          isChecked ? "bg-opacity-100" : "bg-base-200"
+                        }`}
+                        style={
+                          isChecked
+                            ? {
+                                backgroundColor: color
+                              }
+                            : {}
+                        }
+                      ></div>
+                    </label>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
         </div>
 
         {/* Chart Container - Split Layout */}

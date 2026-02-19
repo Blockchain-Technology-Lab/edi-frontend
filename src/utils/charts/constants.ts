@@ -7,97 +7,154 @@ export const BASE_LEDGERS = {
   bitcoin: {
     ledger: "bitcoin",
     displayName: "Bitcoin",
-    color: "rgba(255, 206, 86, 1)" // Yellow
+    color: "rgba(255, 206, 86, 1)", // Yellow
+    background: "rgba(255, 223, 0, 0.2)", // Light yellow background with 20% opacity
+    border: "rgba(255, 223, 0, 1)", // Solid yellow border
+    point: "rgba(255, 223, 0, 1)"
   },
   bitcoin_cash: {
     ledger: "bitcoin_cash",
     displayName: "Bitcoin Cash",
-    color: "rgba(54, 162, 235, 1)" // Blue
+    color: "rgba(54, 162, 235, 1)", // Blue
+    background: "rgba(54, 162, 235, 0.2)",
+    border: "rgba(54, 162, 235, 1)",
+    point: "rgba(54, 162, 235, 1)"
   },
   bitcoin_without_tor: {
     ledger: "bitcoin_without_tor",
     displayName: "Bitcoin (without Tor)",
-    color: "rgba(75, 192, 192, 1)" // Aqua
+    color: "rgba(75, 192, 192, 1)", // Aqua
+    background: "rgba(75, 192, 192, 0.2)",
+    border: "rgba(75, 192, 192, 1)",
+    point: "rgba(75, 192, 192, 1)"
   },
   cardano: {
     ledger: "cardano",
     displayName: "Cardano",
-    color: "rgba(255, 99, 132, 1)" // Red
+    color: "rgba(255, 99, 132, 1)", // Red
+    background: "rgba(255, 99, 132, 0.2)",
+    border: "rgba(255, 99, 132, 1)",
+    point: "rgba(255, 99, 132, 1)"
   },
   dogecoin: {
     ledger: "dogecoin",
     displayName: "Dogecoin",
-    color: "rgba(255, 159, 64, 1)" // Orange
+    color: "rgba(255, 159, 64, 1)", // Orange
+    background: "rgba(255, 159, 64, 0.2)",
+    border: "rgba(255, 159, 64, 1)",
+    point: "rgba(255, 159, 64, 1)"
   },
   ethereum: {
     ledger: "ethereum",
     displayName: "Ethereum",
-    color: "rgba(153, 102, 255, 1)" // Purple
+    color: "rgba(153, 102, 255, 1)", // Purple
+    background: "rgba(153, 102, 255, 0.2)",
+    border: "rgba(153, 102, 255, 1)",
+    point: "rgba(153, 102, 255, 1)"
   },
   litecoin: {
     ledger: "litecoin",
     displayName: "Litecoin",
-    color: "rgba(135, 206, 250, 1)" // Light Sky Blue
+    color: "rgba(135, 206, 250, 1)", // Light Sky Blue
+    background: "rgba(135, 206, 250, 0.2)",
+    border: "rgba(135, 206, 250, 1)",
+    point: "rgba(135, 206, 250, 1)"
   },
   tezos: {
     ledger: "tezos",
     displayName: "Tezos",
-    color: "rgba(157, 102, 89, 1)" // Brown
+    color: "rgba(157, 102, 89, 1)", // Brown
+    background: "rgba(157, 102, 89, 0.2)",
+    border: "rgba(157, 102, 89, 1)",
+    point: "rgba(157, 102, 89, 1)"
   },
   xrpl: {
     ledger: "xrpl",
     displayName: "XRPL",
-    color: "rgba(0, 204, 204, 1)" // Teal
+    color: "rgba(0, 204, 204, 1)", // Teal
+    background: "rgba(0, 204, 204, 0.2)",
+    border: "rgba(0, 204, 204, 1)",
+    point: "rgba(0, 204, 204, 1)"
   },
   zcash: {
     ledger: "zcash",
     displayName: "ZCash",
-    color: "rgba(0, 204, 102, 1)" // Green
+    color: "rgba(0, 204, 102, 1)", // Green
+    background: "rgba(0, 204, 102, 0.2)",
+    border: "rgba(0, 204, 102, 1)",
+    point: "rgba(0, 204, 102, 1)"
   },
   go_ethereum: {
     ledger: "go-ethereum",
     displayName: "Go Ethereum",
-    color: "rgba(255, 0, 204, 1)" // Pink
+    color: "rgba(255, 0, 204, 1)", // Pink
+    background: "rgba(255, 0, 204, 0.2)",
+    border: "rgba(255, 0, 204, 1)",
+    point: "rgba(255, 0, 204, 1)"
   },
   bitcoin_cash_node: {
     ledger: "bitcoin-cash-node",
     displayName: "Bitcoin Cash Node",
-    color: "rgba(0, 102, 204, 1)" // Dark Blue
+    color: "rgba(0, 102, 204, 1)", // Dark Blue
+    background: "rgba(0, 102, 204, 0.2)",
+    border: "rgba(0, 102, 204, 1)",
+    point: "rgba(0, 102, 204, 1)"
   },
   cardano_node: {
     ledger: "cardano-node",
     displayName: "Cardano Node",
-    color: "rgba(204, 102, 0, 1)" // Brown
+    color: "rgba(204, 102, 0, 1)", // Brown
+    background: "rgba(204, 102, 0, 0.2)",
+    border: "rgba(204, 102, 0, 1)",
+    point: "rgba(204, 102, 0, 1)"
   },
   nethermind: {
     ledger: "nethermind",
     displayName: "Nethermind (Ethereum)",
-    color: "rgba(255, 102, 0, 1)" // Bright Orange
+    color: "rgba(255, 102, 0, 1)", // Bright Orange
+    background: "rgba(255, 102, 0, 0.2)",
+    border: "rgba(255, 102, 0, 1)",
+    point: "rgba(255, 102, 0, 1)"
   },
   polkadot_sdk: {
     ledger: "polkadot-sdk",
     displayName: "Polkadot SDK",
-    color: "rgba(0, 153, 76, 1)" // Forest Green
+    color: "rgba(0, 153, 76, 1)", // Forest Green
+    background: "rgba(0, 153, 76, 0.2)",
+    border: "rgba(0, 153, 76, 1)",
+    point: "rgba(0, 153, 76, 1)"
   },
   solana: {
     ledger: "solana",
     displayName: "Solana",
-    color: "rgba(255, 165, 0, 1)" // Gold
+    color: "rgba(255, 165, 0, 1)", // Gold
+    background: "rgba(255, 165, 0, 0.2)",
+    border: "rgba(255, 165, 0, 1)",
+    point: "rgba(255, 165, 0, 1)"
   },
   tezos_mirror: {
     ledger: "tezos-mirror",
     displayName: "Tezos Mirror",
-    color: "rgba(128, 0, 128, 1)" // Purple
+    color: "rgba(128, 0, 128, 1)", // Purple
+    background: "rgba(128, 0, 128, 0.2)",
+    border: "rgba(128, 0, 128, 1)",
+    point: "rgba(128, 0, 128, 1)"
   },
   consensus: {
     ledger: "consensus",
     displayName: "Ethereum (Consensus)",
-    color: "#808080" // Gray
+    color: "#808080", // Gray
+    background: "rgba(128, 128, 128, 0.2)",
+    border: "rgba(128, 128, 128, 1)",
+    point: "rgba(128, 128, 128, 1)"
   },
   execution: {
     ledger: "execution",
     displayName: "Ethereum (Execution)",
-    color: "#b0b0b0" // Light Gray
+    color: "#b0b0b0", // Light Gray
+    background: "rgba(176, 176, 176, 0.2)",
+    border: "rgba(176, 176, 176, 1)",
+    point: "rgba(176, 176, 176, 1)"
   }
 } as const
 
