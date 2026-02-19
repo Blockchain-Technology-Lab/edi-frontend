@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react"
 import {
   LayerTopCard,
-  ListBoxMulti,
   MetricsCard,
-  SystemSelector
+  SystemSelector,
+  ToggleMulti
 } from "@/components"
 import {
   getConsensusCsvFileName,
@@ -97,7 +97,7 @@ export function Consensus() {
             <p> </p>
 
             <div className="w-full max-w-xs">
-              <ListBoxMulti
+              <ToggleMulti
                 label=""
                 items={CLUSTERING_ITEMS}
                 selectedItems={selectedClusters}
