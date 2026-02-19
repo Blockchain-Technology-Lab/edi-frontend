@@ -9,6 +9,7 @@ import {
 } from "chart.js"
 import type { RadarDataPoint } from "@/hooks/useRadarCsv"
 import type { ChartOptions } from "chart.js"
+import { BASE_LEDGERS } from "./charts"
 
 // Register Chart.js components for radar charts
 ChartJS.register(
@@ -22,30 +23,6 @@ ChartJS.register(
 
 // Note: plugins that draw on the radar chart can be registered with ChartJS
 // so they run automatically for charts that use the radial scale.
-
-// Protocol colors for consistent styling
-export const PROTOCOL_COLORS = {
-  bitcoin: {
-    background: "rgba(255, 105, 180, 0.2)", // Pink background (lighter shade)
-    border: "rgba(255, 105, 180, 1)", // Pink border
-    point: "rgba(255, 105, 180, 1)" // Pink point
-  },
-  ethereum: {
-    background: "rgba(40, 167, 69, 0.2)", //
-    border: "rgba(40, 167, 69, 1)",
-    point: "rgba(40, 167, 69, 1)"
-  },
-  cardano: {
-    background: "rgba(59, 130, 246, 0.2)", //
-    border: "rgba(59, 130, 246, 1)",
-    point: "rgba(59, 130, 246, 1)"
-  },
-  litecoin: {
-    background: "rgba(255, 223, 0, 0.2)", // Light yellow background with 20% opacity
-    border: "rgba(255, 223, 0, 1)", // Solid yellow border
-    point: "rgba(255, 223, 0, 1)" // Solid yellow point
-  }
-} as const
 
 // Default colors for unknown protocols
 const DEFAULT_COLORS = [
@@ -74,7 +51,7 @@ const DEFAULT_COLORS = [
 export function getProtocolColor(protocol: string, index: number) {
   const normalizedProtocol = protocol.toLowerCase()
   return (
-    PROTOCOL_COLORS[normalizedProtocol as keyof typeof PROTOCOL_COLORS] ||
+    BASE_LEDGERS[normalizedProtocol as keyof typeof BASE_LEDGERS] ||
     DEFAULT_COLORS[index % DEFAULT_COLORS.length]
   )
 }
@@ -84,9 +61,7 @@ export function transformRadarData(data: RadarDataPoint[]) {
 
   const datasets = data.map((protocol) => {
     const protocolColors =
-      PROTOCOL_COLORS[
-        protocol.protocol.toLowerCase() as keyof typeof PROTOCOL_COLORS
-      ]
+      BASE_LEDGERS[protocol.protocol.toLowerCase() as keyof typeof BASE_LEDGERS]
 
     const rawValues = [
       protocol.consensus,
@@ -131,9 +106,7 @@ export function transformRadarDataWithSegments(data: RadarDataPoint[]) {
 
   data.forEach((protocol) => {
     const protocolColors =
-      PROTOCOL_COLORS[
-        protocol.protocol.toLowerCase() as keyof typeof PROTOCOL_COLORS
-      ]
+      BASE_LEDGERS[protocol.protocol.toLowerCase() as keyof typeof BASE_LEDGERS]
 
     const dataValues = [
       protocol.consensus ?? null,
