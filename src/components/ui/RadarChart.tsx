@@ -69,6 +69,12 @@ export function RadarChart({
     new Set(Array.from({ length: data.length }, (_, i) => i))
   )
   const [tooltipEnabled, setTooltipEnabled] = useState(false)
+  const [recentlyClickedDataset, setRecentlyClickedDataset] = useState<
+    number | null
+  >(null)
+  const [hoveredDatasetIndex, setHoveredDatasetIndex] = useState<number | null>(
+    null
+  )
 
   // Use the segmented transform so datasets include _missingIndices for the
   // radarMissingSpokes plugin to draw dashed centre→axis spokes.
@@ -82,9 +88,44 @@ export function RadarChart({
   // Filter datasets based on visibility
   const filteredChartData = {
     ...chartData,
-    datasets: chartData.datasets.filter((_, index) =>
-      visibleDatasets.has(index)
-    )
+    datasets: chartData.datasets
+      .filter((_, index) => visibleDatasets.has(index))
+      .map((dataset, idx) => {
+        // Apply hover effect to the hovered dataset
+        if (hoveredDatasetIndex !== null) {
+          // Find the original index of this dataset
+          let originalIndex = 0
+          let count = 0
+          for (let i = 0; i < chartData.datasets.length; i++) {
+            if (visibleDatasets.has(i)) {
+              if (count === idx) {
+                originalIndex = i
+                break
+              }
+              count++
+            }
+          }
+
+          if (originalIndex === hoveredDatasetIndex) {
+            return {
+              ...dataset,
+              borderWidth:
+                (dataset.borderWidth as number | number[]) instanceof Array
+                  ? (dataset.borderWidth as number[]).map(
+                      (w) => (w as number) + 2
+                    )
+                  : ((dataset.borderWidth as number) || 2) + 2,
+              opacity: 1
+            }
+          } else {
+            return {
+              ...dataset,
+              opacity: 0.3
+            }
+          }
+        }
+        return dataset
+      })
   }
 
   const options = useMemo(() => {
@@ -115,7 +156,7 @@ export function RadarChart({
         }
       }
     }
-  }, [resolvedTheme, tooltipEnabled])
+  }, [resolvedTheme, tooltipEnabled, hoveredDatasetIndex])
 
   const handleDatasetToggle = (index: number) => {
     const newVisibleDatasets = new Set(visibleDatasets)
@@ -125,10 +166,18 @@ export function RadarChart({
       newVisibleDatasets.add(index)
     }
     setVisibleDatasets(newVisibleDatasets)
+
+    // Show visual feedback for legend click
+    setRecentlyClickedDataset(index)
+    setTimeout(() => setRecentlyClickedDataset(null), 500)
   }
 
   const handleExport = () => {
-    exportChart(chartRef, title.toLowerCase().replace(/\s+/g, "-"))
+    exportChart(chartRef, title.toLowerCase().replace(/\s+/g, "-"), {
+      watermarkSrc: watermarkSrc,
+      watermarkSize: 60,
+      watermarkOpacity: 0.1
+    })
   }
 
   const watermarkSrc =
@@ -315,11 +364,13 @@ export function RadarChart({
           items={data}
           selectedIndices={visibleDatasets}
           onChange={handleDatasetToggle}
+          recentlyClickedIndex={recentlyClickedDataset}
+          onHoverChange={setHoveredDatasetIndex}
         />
 
         {/* Chart Container - Split Layout */}
-        <div className="flex flex-col lg:flex-row gap-2 sm:gap-4">
-          {/* Left Side - Chart (2/3 width) */}
+        <div className="flex flex-col lg:flex-row gap-2 sm:gap-4 relative">
+          {/* Left Side - Chart (2/3 width on desktop, full on mobile) */}
           <div
             className="w-full lg:w-2/3 relative"
             style={{ height: "clamp(300px, 60vh, 500px)" }}
@@ -352,7 +403,7 @@ export function RadarChart({
             />
           </div>
 
-          {/* Right Side - Information Panel (1/3 width) */}
+          {/* Right Side - Information Panel (1/3 width on desktop, full on mobile) */}
           <div className="w-full lg:w-1/3 bg-base-200 rounded-lg p-3 sm:p-4">
             <AccordionGroup
               items={EDI_LAYERS.map((layer) => ({

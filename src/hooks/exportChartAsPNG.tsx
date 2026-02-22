@@ -1,8 +1,18 @@
 import { useCallback } from "react"
 
+interface ExportOptions {
+  watermarkSrc?: string
+  watermarkSize?: number
+  watermarkOpacity?: number
+}
+
 export function useExportChart() {
   const exportChart = useCallback(
-    (chartRef: React.RefObject<HTMLCanvasElement | null>, fileName: string) => {
+    (
+      chartRef: React.RefObject<HTMLCanvasElement | null>,
+      fileName: string,
+      options?: ExportOptions
+    ) => {
       if (chartRef.current) {
         const canvas = chartRef.current
         const ctx = canvas.getContext("2d")
@@ -48,12 +58,6 @@ export function useExportChart() {
             // Scale proportionally to avoid distortion
             hdCtx.scale(scale, scale)
 
-            // Draw title text at the top
-            //hdCtx.fillStyle = "black"
-            //hdCtx.font = `${20 * scale}px Tahoma`
-            //hdCtx.textAlign = "center"
-            //hdCtx.fillText(fileName, originalWidth / 2, 30)
-
             // Draw the chart at correct proportions, ensuring no cropping
             hdCtx.drawImage(
               canvas,
@@ -63,12 +67,37 @@ export function useExportChart() {
               originalHeight
             )
 
-            // Export the properly scaled 4K image
-            const url = hdCanvas.toDataURL("image/png")
-            const link = document.createElement("a")
-            link.href = url
-            link.download = `${fileName}-chart.png`
-            link.click()
+            // Add watermark if provided
+            if (options?.watermarkSrc) {
+              const watermarkImg = new Image()
+              watermarkImg.onload = () => {
+                hdCtx.globalAlpha = options.watermarkOpacity ?? 0.1
+                const watermarkSize = options.watermarkSize ?? 60
+                hdCtx.drawImage(
+                  watermarkImg,
+                  20,
+                  20,
+                  watermarkSize,
+                  watermarkSize
+                )
+                hdCtx.globalAlpha = 1.0
+
+                // Export the properly scaled 4K image with watermark
+                const url = hdCanvas.toDataURL("image/png")
+                const link = document.createElement("a")
+                link.href = url
+                link.download = `${fileName}-chart.png`
+                link.click()
+              }
+              watermarkImg.src = options.watermarkSrc
+            } else {
+              // Export without watermark
+              const url = hdCanvas.toDataURL("image/png")
+              const link = document.createElement("a")
+              link.href = url
+              link.download = `${fileName}-chart.png`
+              link.click()
+            }
           }
         }
       }
