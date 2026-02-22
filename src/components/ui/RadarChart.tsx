@@ -19,9 +19,10 @@ import {
   transformRadarDataWithSegments,
   getRadarChartOptions,
   LINECHART_WATERMARK_WHITE,
-  LINECHART_WATERMARK_BLACK,
-  BASE_LEDGERS
+  LINECHART_WATERMARK_BLACK
 } from "@/utils"
+import { ProtocolToggleGroup } from "./ProtocolToggleGroup"
+import { AccordionGroup } from "./AccordionGroup"
 import { useNavigate } from "@tanstack/react-router"
 
 import {
@@ -67,8 +68,6 @@ export function RadarChart({
   const [visibleDatasets, setVisibleDatasets] = useState<Set<number>>(
     new Set(Array.from({ length: data.length }, (_, i) => i))
   )
-  // Add state for managing accordion
-  const [openAccordion, setOpenAccordion] = useState<number | null>(null)
   const [tooltipEnabled, setTooltipEnabled] = useState(false)
 
   // Use the segmented transform so datasets include _missingIndices for the
@@ -312,66 +311,11 @@ export function RadarChart({
         </div>
 
         {/* System Selection Toggle - iPhone Style Toggle Switches */}
-        <div className="mb-1 sm:mb-4">
-          {/* <div className="flex items-center justify-between mb-4">
-            <h5 className="text-sm font-semibold text-base-content">Systems</h5> 
-            <span className="text-xs font-medium text-base-content/60">
-              {visibleDatasets.size} of {data.length}
-            </span>
-          </div> */}
-          <div>
-            <div className="flex flex-wrap gap-2 sm:gap-4">
-              {data.map((protocol, index) => {
-                const ledger =
-                  BASE_LEDGERS[
-                    protocol.protocol.toLowerCase() as keyof typeof BASE_LEDGERS
-                  ]
-                const color = ledger?.color || "rgba(128, 128, 128, 1)"
-                const isChecked = visibleDatasets.has(index)
-                return (
-                  <div
-                    key={protocol.protocol}
-                    className="flex items-center gap-2 sm:gap-3 px-2 sm:px-4 py-2 sm:py-3 rounded-lg bg-base-300 hover:bg-base-200 transition-colors whitespace-nowrap"
-                  >
-                    <div className="flex items-center gap-2 sm:gap-3">
-                      <div
-                        className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full"
-                        style={{
-                          backgroundColor: color
-                        }}
-                      />
-                      <span className="text-xs sm:text-sm font-medium capitalize">
-                        {protocol.protocol}
-                      </span>
-                    </div>
-
-                    {/* iOS-Style Toggle Switch */}
-                    <label className="relative inline-flex cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={isChecked}
-                        onChange={() => handleDatasetToggle(index)}
-                        className="sr-only peer"
-                      />
-                      <div
-                        className={`w-9 h-5 sm:w-11 sm:h-6 rounded-full transition-all duration-300 peer-checked:after:translate-x-4 sm:peer-checked:after:translate-x-5 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 sm:after:h-5 sm:after:w-5 after:transition-all ${
-                          isChecked ? "bg-opacity-100" : "bg-base-200"
-                        }`}
-                        style={
-                          isChecked
-                            ? {
-                                backgroundColor: color
-                              }
-                            : {}
-                        }
-                      ></div>
-                    </label>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        </div>
+        <ProtocolToggleGroup
+          items={data}
+          selectedIndices={visibleDatasets}
+          onChange={handleDatasetToggle}
+        />
 
         {/* Chart Container - Split Layout */}
         <div className="flex flex-col lg:flex-row gap-2 sm:gap-4">
@@ -410,89 +354,15 @@ export function RadarChart({
 
           {/* Right Side - Information Panel (1/3 width) */}
           <div className="w-full lg:w-1/3 bg-base-200 rounded-lg p-3 sm:p-4">
-            <h4 className="font-semibold text-base sm:text-lg mb-3 sm:mb-4">
-              Description per layer
-            </h4>
-
-            {/* EDI Layers Information Accordion */}
-            <div className="space-y-2">
-              {EDI_LAYERS.map((layer, index) => (
-                <div
-                  key={layer.name}
-                  className="collapse collapse-arrow bg-base-300 border border-base-300"
-                >
-                  <input
-                    type="checkbox"
-                    checked={openAccordion === index}
-                    onChange={() =>
-                      setOpenAccordion(openAccordion === index ? null : index)
-                    }
-                  />
-                  <div
-                    className="collapse-title text-sm sm:text-base font-semibold cursor-pointer py-2 sm:py-3"
-                    onClick={() =>
-                      setOpenAccordion(openAccordion === index ? null : index)
-                    }
-                  >
-                    <div className="flex items-center gap-2">
-                      {/* Replace colored dot with icon */}
-                      <layer.icon
-                        size={14}
-                        style={{ color: "rgba(128, 128, 128, 1)" }} // Gray color
-                        className="flex-shrink-0 sm:w-4 sm:h-4"
-                      />
-                      <span>{layer.name}</span>
-                    </div>
-                  </div>
-                  <div
-                    className={`collapse-content text-xs sm:text-sm ${
-                      openAccordion === index
-                        ? "max-h-screen"
-                        : "max-h-0 overflow-hidden"
-                    }`}
-                  >
-                    <div className="pt-1 sm:pt-2">
-                      <p className="text-base-content/80 leading-relaxed">
-                        {layer.description}
-                      </p>
-
-                      {/* Show current protocol scores for this dimension */}
-                      {/*
-                                            <div className="mt-3 space-y-2">
-                                                <div className="text-xs font-medium text-base-content/70 mb-2">
-                                                    Protocols:
-                                                </div>
-                                                {data.filter((_, protocolIndex) => visibleDatasets.has(protocolIndex)).map((protocol) => {
-                                                    const value = protocol[layer.name.toLowerCase() as keyof RadarDataPoint] as number;
-                                                    const protocolColors = PROTOCOL_COLORS[protocol.protocol.toLowerCase() as keyof typeof PROTOCOL_COLORS];
-
-                                                    return (
-                                                        <div key={protocol.protocol} className="flex items-center justify-between text-xs">
-                                                            <div className="flex items-center gap-2">
-                                                                <div
-                                                                    className="w-2 h-2 rounded-full"
-                                                                    style={{ backgroundColor: protocolColors?.border || 'rgba(128, 128, 128, 1)' }}
-                                                                />
-                                                                <span className="capitalize">{protocol.protocol}</span>
-                                                            </div>
-                                                            <span className="font-mono font-medium">
-                                                                {value === 0 ||
-                                                                    value == null ||
-                                                                    value === undefined ||
-                                                                    isNaN(value)
-                                                                    ? 'N/A'
-                                                                    : `${value.toFixed(1)}`}
-                                                            </span>
-                                                        </div>
-                                                    );
-                                                })}
-                                            </div>
-                                            */}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <AccordionGroup
+              items={EDI_LAYERS.map((layer) => ({
+                id: layer.name,
+                title: layer.name,
+                content: layer.description,
+                icon: layer.icon
+              }))}
+              label="Description per layer"
+            />
           </div>
         </div>
 
