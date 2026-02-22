@@ -143,7 +143,7 @@ export function Geography() {
           systems={geographySystems}
           selectedSystems={selectedSystems}
           onSelectionChange={handleSelectionChange}
-          label="Blockchain Systems"
+          label="Platforms"
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
