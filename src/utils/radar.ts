@@ -373,8 +373,11 @@ export function getRadarChartOptions(
       mode: "index" as const
     },
     animation: {
-      duration: 1000,
-      easing: "easeInOutQuart" as const
+      duration: 750,
+      easing: "easeInOutQuart" as const,
+      animateDatasetVisibility: true,
+      animateScale: true,
+      animateRotate: true
     }
   } as ChartOptions<"radar">
 }
