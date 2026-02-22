@@ -57,7 +57,7 @@ export function RadarChart({
   data,
   title = "Protocol Decentralisation Comparison",
   description = "",
-  height = 500,
+  //height = 500,
   showExport = true,
   className = ""
 }: RadarChartProps) {
@@ -282,22 +282,22 @@ export function RadarChart({
 
   return (
     <div className={`card bg-base-200 shadow-lg ${className}`}>
-      <div className="card-body p-6">
+      <div className="card-body p-3 sm:p-6">
         {/* Header */}
-        <div className="mb-4">
+        <div className="mb-3 sm:mb-4">
           <div className="flex items-center justify-between">
-            <h3 className="card-title text-xl font-bold">{title}</h3>
+            <h3 className="card-title text-lg sm:text-xl font-bold">{title}</h3>
 
             <div className="flex items-center gap-2">
               {/* Export Button */}
               {showExport && (
                 <button
-                  className="btn btn-sm btn-ghost"
+                  className="btn btn-xs sm:btn-sm btn-ghost"
                   onClick={handleExport}
                   aria-label="Download chart as PNG"
                   title="Download as PNG"
                 >
-                  <ImageDown size={16} />
+                  <ImageDown size={14} className="sm:w-4 sm:h-4" />
                 </button>
               )}
             </div>
@@ -305,20 +305,22 @@ export function RadarChart({
 
           {/* Description directly under title */}
           {description && (
-            <p className="text-base-content/70 text-sm mt-2">{description}</p>
+            <p className="text-base-content/70 text-xs sm:text-sm mt-2">
+              {description}
+            </p>
           )}
         </div>
 
         {/* System Selection Toggle - iPhone Style Toggle Switches */}
-        <div className="mb-6">
+        <div className="mb-1 sm:mb-4">
           {/* <div className="flex items-center justify-between mb-4">
             <h5 className="text-sm font-semibold text-base-content">Systems</h5> 
             <span className="text-xs font-medium text-base-content/60">
               {visibleDatasets.size} of {data.length}
             </span>
           </div> */}
-          <div className="overflow-x-auto scrollbar-hide pb-2">
-            <div className="flex gap-4 min-w-min">
+          <div>
+            <div className="flex flex-wrap gap-2 sm:gap-4">
               {data.map((protocol, index) => {
                 const ledger =
                   BASE_LEDGERS[
@@ -329,16 +331,16 @@ export function RadarChart({
                 return (
                   <div
                     key={protocol.protocol}
-                    className="flex items-center gap-3 px-4 py-3 rounded-lg bg-base-300 hover:bg-base-200 transition-colors whitespace-nowrap flex-shrink-0"
+                    className="flex items-center gap-2 sm:gap-3 px-2 sm:px-4 py-2 sm:py-3 rounded-lg bg-base-300 hover:bg-base-200 transition-colors whitespace-nowrap"
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 sm:gap-3">
                       <div
-                        className="w-3 h-3 rounded-full"
+                        className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full"
                         style={{
                           backgroundColor: color
                         }}
                       />
-                      <span className="text-sm font-medium capitalize">
+                      <span className="text-xs sm:text-sm font-medium capitalize">
                         {protocol.protocol}
                       </span>
                     </div>
@@ -352,7 +354,7 @@ export function RadarChart({
                         className="sr-only peer"
                       />
                       <div
-                        className={`w-11 h-6 rounded-full transition-all duration-300 peer-checked:after:translate-x-5 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all ${
+                        className={`w-9 h-5 sm:w-11 sm:h-6 rounded-full transition-all duration-300 peer-checked:after:translate-x-4 sm:peer-checked:after:translate-x-5 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 sm:after:h-5 sm:after:w-5 after:transition-all ${
                           isChecked ? "bg-opacity-100" : "bg-base-200"
                         }`}
                         style={
@@ -372,14 +374,11 @@ export function RadarChart({
         </div>
 
         {/* Chart Container - Split Layout */}
-        <div
-          className="flex flex-col lg:flex-row gap-4"
-          style={{ minHeight: `${height}px` }}
-        >
+        <div className="flex flex-col lg:flex-row gap-2 sm:gap-4">
           {/* Left Side - Chart (2/3 width) */}
           <div
             className="w-full lg:w-2/3 relative"
-            style={{ height: `${height}px` }}
+            style={{ height: "clamp(300px, 60vh, 500px)" }}
           >
             <Radar
               data={filteredChartData}
@@ -395,10 +394,10 @@ export function RadarChart({
             <img
               src={watermarkSrc}
               alt="Edinburgh Decentralisation Index"
-              className="absolute top-2 left-2 sm:top-3 sm:left-3 md:top-4 md:left-4 lg:top-6 lg:left-6 opacity-10 pointer-events-none select-none z-10"
+              className="absolute top-1 left-1 sm:top-3 sm:left-3 md:top-4 md:left-4 lg:top-6 lg:left-6 opacity-10 pointer-events-none select-none z-10"
               style={{
-                width: "clamp(60px, 8vw, 120px)",
-                height: "clamp(60px, 8vw, 120px)",
+                width: "clamp(40px, 8vw, 120px)",
+                height: "clamp(40px, 8vw, 120px)",
                 objectFit: "contain",
                 userSelect: "none",
                 WebkitUserSelect: "none",
@@ -410,8 +409,8 @@ export function RadarChart({
           </div>
 
           {/* Right Side - Information Panel (1/3 width) */}
-          <div className="w-full lg:w-1/3 bg-base-200 rounded-lg p-4">
-            <h4 className="font-semibold text-lg mb-4">
+          <div className="w-full lg:w-1/3 bg-base-200 rounded-lg p-3 sm:p-4">
+            <h4 className="font-semibold text-base sm:text-lg mb-3 sm:mb-4">
               Description per layer
             </h4>
 
@@ -430,29 +429,29 @@ export function RadarChart({
                     }
                   />
                   <div
-                    className="collapse-title font-semibold cursor-pointer"
+                    className="collapse-title text-sm sm:text-base font-semibold cursor-pointer py-2 sm:py-3"
                     onClick={() =>
                       setOpenAccordion(openAccordion === index ? null : index)
                     }
                   >
                     <div className="flex items-center gap-2">
-                      {/* 🔧 Replace colored dot with icon */}
+                      {/* Replace colored dot with icon */}
                       <layer.icon
-                        size={16}
+                        size={14}
                         style={{ color: "rgba(128, 128, 128, 1)" }} // Gray color
-                        className="flex-shrink-0"
+                        className="flex-shrink-0 sm:w-4 sm:h-4"
                       />
                       <span>{layer.name}</span>
                     </div>
                   </div>
                   <div
-                    className={`collapse-content text-sm ${
+                    className={`collapse-content text-xs sm:text-sm ${
                       openAccordion === index
                         ? "max-h-screen"
                         : "max-h-0 overflow-hidden"
                     }`}
                   >
-                    <div className="pt-2">
+                    <div className="pt-1 sm:pt-2">
                       <p className="text-base-content/80 leading-relaxed">
                         {layer.description}
                       </p>
@@ -498,15 +497,18 @@ export function RadarChart({
         </div>
 
         {/* Tooltip Toggle - Always Visible */}
-        <div className="flex items-center gap-2 mb-4">
+        <div className="flex items-center gap-2 mt-3 sm:mt-4">
           <input
             type="checkbox"
             checked={tooltipEnabled}
             onChange={() => setTooltipEnabled((v) => !v)}
             id="toggle-tooltip"
-            className="checkbox checkbox-sm"
+            className="checkbox checkbox-xs sm:checkbox-sm"
           />
-          <label htmlFor="toggle-tooltip" className="text-sm cursor-pointer">
+          <label
+            htmlFor="toggle-tooltip"
+            className="text-xs sm:text-sm cursor-pointer"
+          >
             Show Tooltip
           </label>
         </div>

@@ -222,7 +222,7 @@ export function Software() {
           systems={softwareSystems}
           selectedSystems={selectedSystems}
           onSelectionChange={handleSelectionChange}
-          label="Blockchain Systems"
+          label="Platforms"
         />
 
         <div className="card lg:card-side bg-base-200 shadow-lg border border-base-300 rounded-box">
