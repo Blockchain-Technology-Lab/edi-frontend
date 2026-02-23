@@ -2,7 +2,6 @@ import {
   DoughnutTopCard,
   DistributionCard,
   LayerTopCard,
-  ListBox,
   MetricsCard,
   DoughnutCard,
   SystemSelector,
@@ -311,19 +310,23 @@ export function Software() {
           <div className="card-body">
             <div className="flex flex-col lg:flex-row gap-2 h-full">
               <div className="flex-1 h-full">
-                <ListBox
+                <RadioGroup
                   label="Contribution Type"
                   items={DOUGHNUT_WEIGHT_ITEMS}
                   selectedItem={selectedDoughnutWeight}
                   onChange={setSelectedDoughnutWeight}
+                  fullHeight={true}
+                  stacked={true}
                 />
               </div>
               <div className="flex-1">
-                <ListBox
+                <RadioGroup
                   label="Contributor Type"
                   items={DOUGHNUT_ENTITY_ITEMS}
                   selectedItem={selectedDoughnutEntity}
                   onChange={setSelectedDoughnutEntity}
+                  fullHeight={true}
+                  stacked={true}
                 />
               </div>
             </div>
