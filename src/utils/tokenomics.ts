@@ -1,4 +1,4 @@
-import type { DataEntry } from '@/utils/types';
+import type { DataEntry } from '@/utils/types'
 
 const TOKENOMICS_COLUMNS = [
   'hhi',
@@ -7,8 +7,8 @@ const TOKENOMICS_COLUMNS = [
   'tau=0.5',
   'tau=0.66',
   'mpr',
-  'theil',
-];
+  'theil'
+]
 
 const TOKENOMICS_ALLOWED_LEDGERS = [
   'bitcoin',
@@ -18,8 +18,8 @@ const TOKENOMICS_ALLOWED_LEDGERS = [
   'ethereum',
   'litecoin',
   'tezos',
-  //'xrpl'
-];
+  'xrpl'
+]
 
 export const TOKENOMICS_METRICS = [
   {
@@ -27,21 +27,21 @@ export const TOKENOMICS_METRICS = [
     title: 'Gini coefficient',
     decimals: 2,
     description:
-      'The Gini coefficient represents the degree of inequality in a distribution. Values close to 0 indicate equality (all entities in the system control the same amount of assets) and values close to 1 indicate inequality (one entity holds most or all tokens).',
+      'The Gini coefficient represents the degree of inequality in a distribution. Values close to 0 indicate equality (all entities in the system control the same amount of assets) and values close to 1 indicate inequality (one entity holds most or all tokens).'
   },
   {
     metric: 'shannon_entropy',
     title: 'Shannon entropy',
     decimals: 2,
     description:
-      'Shannon entropy (also known as information entropy) represents the expected amount of information in a distribution . Typically, a higher value of entropy indicates higher decentralisation (lower predictability).',
+      'Shannon entropy (also known as information entropy) represents the expected amount of information in a distribution . Typically, a higher value of entropy indicates higher decentralisation (lower predictability).'
   },
   {
     metric: 'hhi',
     title: 'HHI',
     decimals: 0,
     description:
-      'The Herfindahl-Hirschman Index (HHI) is a measure of market concentration. It is defined as the sum of the squares of the market shares (as whole numbers, e.g. 40 for 40%) of the entities in the system. Values close to 0 indicate low concentration (many entities hold a similar number of tokens) and values close to 10,000 indicate high concentration (one entity controls most or all tokens).',
+      'The Herfindahl-Hirschman Index (HHI) is a measure of market concentration. It is defined as the sum of the squares of the market shares (as whole numbers, e.g. 40 for 40%) of the entities in the system. Values close to 0 indicate low concentration (many entities hold a similar number of tokens) and values close to 10,000 indicate high concentration (one entity controls most or all tokens).'
   },
   /*{
     metric: 'theil',
@@ -55,68 +55,68 @@ export const TOKENOMICS_METRICS = [
     title: '1-concentration ratio',
     decimals: 2,
     description:
-      'The 1-concentration ratio represents the share of tokens that are owned by the single most “powerful” entity, i.e. the wealthiest entity.',
+      'The 1-concentration ratio represents the share of tokens that are owned by the single most “powerful” entity, i.e. the wealthiest entity.'
   },
   {
     metric: 'tau=0.5',
     title: 'Nakamoto coefficient',
     decimals: 0,
     description:
-      'The Nakamoto coefficient represents the minimum number of entities that collectively control more than 50% of the resources (in this case, the majority of circulating tokens at a given point in time).',
+      'The Nakamoto coefficient represents the minimum number of entities that collectively control more than 50% of the resources (in this case, the majority of circulating tokens at a given point in time).'
   },
   {
     metric: 'tau=0.66',
     title: 'τ-decentralisation index',
     decimals: 0,
     description:
-      'The τ-decentralisation index is a generalization of the Nakamoto coefficient. It is defined as the minimum number of entities that collectively control more than a fraction τ of the total resources (in this case more than 66% of the total tokens in circulation).',
-  },
-];
+      'The τ-decentralisation index is a generalization of the Nakamoto coefficient. It is defined as the minimum number of entities that collectively control more than a fraction τ of the total resources (in this case more than 66% of the total tokens in circulation).'
+  }
+]
 
-export type ClusteringOption = 'explorers' | 'staking' | 'multi' | 'crystal';
+export type ClusteringOption = 'explorers' | 'staking' | 'multi' | 'crystal'
 
 /**
  * Parses the tokenomics CSV content into DataEntry[]
  */
 export function parseTokenomicsCsv(csv: string): DataEntry[] {
-  const lines = csv.trim().split('\n');
-  const headers = lines[0].split(',').map((h) => h.trim());
-  const data: DataEntry[] = [];
+  const lines = csv.trim().split('\n')
+  const headers = lines[0].split(',').map((h) => h.trim())
+  const data: DataEntry[] = []
 
   for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(',');
-    if (values.length !== headers.length) continue;
+    const values = lines[i].split(',')
+    if (values.length !== headers.length) continue
 
-    const entry: { [key: string]: any } = {};
-    let ledger: string | undefined;
+    const entry: { [key: string]: any } = {}
+    let ledger: string | undefined
 
     for (let j = 0; j < headers.length; j++) {
-      const header = headers[j];
-      const value = values[j].trim();
+      const header = headers[j]
+      const value = values[j].trim()
 
       if (header === 'date') {
-        const date = new Date(value);
+        const date = new Date(value)
         if (isNaN(date.getTime())) {
-          console.warn(`Invalid date: "${value}" at row ${i}`);
-          continue;
+          console.warn(`Invalid date: "${value}" at row ${i}`)
+          continue
         }
-        entry.date = date;
+        entry.date = date
       } else if (header === 'ledger') {
-        ledger = value;
-        entry.ledger = value;
+        ledger = value
+        entry.ledger = value
       } else if (TOKENOMICS_COLUMNS.includes(header)) {
-        const parsed = parseFloat(value);
-        entry[header] = isNaN(parsed) ? null : parsed;
+        const parsed = parseFloat(value)
+        entry[header] = isNaN(parsed) ? null : parsed
       }
     }
 
     // Only include entries with valid date and allowed ledger
     if (entry.date && ledger && TOKENOMICS_ALLOWED_LEDGERS.includes(ledger)) {
-      data.push(entry as DataEntry);
+      data.push(entry as DataEntry)
     }
   }
 
-  return data.sort(sortByLedgerAndDate);
+  return data.sort(sortByLedgerAndDate)
 }
 
 /**
@@ -126,16 +126,16 @@ export async function loadTokenomicsCsvData(
   fileName: string
 ): Promise<DataEntry[]> {
   try {
-    const response = await fetch(fileName);
+    const response = await fetch(fileName)
 
     if (!response.ok) {
-      throw new Error(`Error loading tokenomics data from ${fileName}`);
+      throw new Error(`Error loading tokenomics data from ${fileName}`)
     }
 
-    const csvText = await response.text();
-    return parseTokenomicsCsv(csvText);
+    const csvText = await response.text()
+    return parseTokenomicsCsv(csvText)
   } catch (error) {
-    throw error instanceof Error ? error : new Error('Unknown error occurred');
+    throw error instanceof Error ? error : new Error('Unknown error occurred')
   }
 }
 
@@ -151,8 +151,8 @@ export function getTokenomicsCsvFileName(
     '1000': 'output-absolute_1000.csv',
     '50p': 'output-percentage_0.5.csv',
     above: 'output-exclude_below_usd_cent.csv',
-    none: 'output.csv',
-  };
+    none: 'output.csv'
+  }
 
   //const clusteringKey = clustering.slice().sort().join('-');
 
@@ -191,24 +191,24 @@ export function getTokenomicsCsvFileName(
     'staking-crystal': 'crystal_staking_keys',
     'staking-crystal-multi': 'crystal_staking_keys_multi_input_transactions',
     'staking-multi': 'staking_keys_multi_input_transactions',
-    'staking-multi-crystal': 'crystal_staking_keys_multi_input_transactions',
-  };
+    'staking-multi-crystal': 'crystal_staking_keys_multi_input_transactions'
+  }
 
   const createKey = (arr: ClusteringOption[]): string =>
-    arr.slice().sort().join('-');
-  const sortedClusteringKey = createKey(clustering);
-  const directory = directoryMapping[sortedClusteringKey] || 'no_clustering';
-  const fileName = fileSuffixes[threshold] || 'output-absolute_1000.csv';
+    arr.slice().sort().join('-')
+  const sortedClusteringKey = createKey(clustering)
+  const directory = directoryMapping[sortedClusteringKey] || 'no_clustering'
+  const fileName = fileSuffixes[threshold] || 'output-absolute_1000.csv'
 
-  return `${directory}/${fileName}`;
+  return `${directory}/${fileName}`
 }
 
 function sortByLedgerAndDate(a: DataEntry, b: DataEntry): number {
-  const ledgerA = a.ledger || '';
-  const ledgerB = b.ledger || '';
+  const ledgerA = a.ledger || ''
+  const ledgerB = b.ledger || ''
 
-  const ledgerCompare = ledgerA.localeCompare(ledgerB);
+  const ledgerCompare = ledgerA.localeCompare(ledgerB)
   return ledgerCompare !== 0
     ? ledgerCompare
-    : a.date.getTime() - b.date.getTime();
+    : a.date.getTime() - b.date.getTime()
 }
