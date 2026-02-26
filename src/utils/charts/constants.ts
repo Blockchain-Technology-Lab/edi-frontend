@@ -1,160 +1,160 @@
-import type { LayerType } from "./common"
+import type { LayerType } from './common'
 
 /**
  * Base Ledger Definitions - Single Source of Data
  */
 export const BASE_LEDGERS = {
   bitcoin: {
-    ledger: "bitcoin",
-    displayName: "Bitcoin",
-    color: "rgba(255, 206, 86, 1)", // Yellow
-    background: "rgba(255, 223, 0, 0.2)", // Light yellow background with 20% opacity
-    border: "rgba(255, 223, 0, 1)", // Solid yellow border
-    point: "rgba(255, 223, 0, 1)"
+    ledger: 'bitcoin',
+    displayName: 'Bitcoin',
+    color: 'rgba(246, 156, 61, 1)',
+    background: 'rgba(255, 223, 0, 0.2)',
+    border: 'rgba(255, 223, 0, 1)',
+    point: 'rgba(246, 156, 61, 1)'
   },
   bitcoin_cash: {
-    ledger: "bitcoin_cash",
-    displayName: "Bitcoin Cash",
-    color: "rgba(54, 162, 235, 1)", // Blue
-    background: "rgba(54, 162, 235, 0.2)",
-    border: "rgba(54, 162, 235, 1)",
-    point: "rgba(54, 162, 235, 1)"
+    ledger: 'bitcoin_cash',
+    displayName: 'Bitcoin Cash',
+    color: 'rgba(10, 193, 142, 1)',
+    background: 'rgba(54, 162, 235, 0.2)',
+    border: 'rgba(54, 162, 235, 1)',
+    point: 'rgba(10, 193, 142, 1)'
   },
   bitcoin_without_tor: {
-    ledger: "bitcoin_without_tor",
-    displayName: "Bitcoin (without Tor)",
-    color: "rgba(75, 192, 192, 1)", // Aqua
-    background: "rgba(75, 192, 192, 0.2)",
-    border: "rgba(75, 192, 192, 1)",
-    point: "rgba(75, 192, 192, 1)"
+    ledger: 'bitcoin_without_tor',
+    displayName: 'Bitcoin (without Tor)',
+    color: 'rgba(246, 156, 61, 1)',
+    background: 'rgba(75, 192, 192, 0.2)',
+    border: 'rgba(75, 192, 192, 1)',
+    point: 'rgba(246, 156, 61, 1)'
   },
   cardano: {
-    ledger: "cardano",
-    displayName: "Cardano",
-    color: "rgba(255, 99, 132, 1)", // Red
-    background: "rgba(255, 99, 132, 0.2)",
-    border: "rgba(255, 99, 132, 1)",
-    point: "rgba(255, 99, 132, 1)"
+    ledger: 'cardano',
+    displayName: 'Cardano',
+    color: 'rgba(0, 51, 173, 1)',
+    background: 'rgba(255, 99, 132, 0.2)',
+    border: 'rgba(255, 99, 132, 1)',
+    point: 'rgba(0, 51, 173, 1)'
   },
   dogecoin: {
-    ledger: "dogecoin",
-    displayName: "Dogecoin",
-    color: "rgba(255, 159, 64, 1)", // Orange
-    background: "rgba(255, 159, 64, 0.2)",
-    border: "rgba(255, 159, 64, 1)",
-    point: "rgba(255, 159, 64, 1)"
+    ledger: 'dogecoin',
+    displayName: 'Dogecoin',
+    color: 'rgba(217, 189, 98, 1)',
+    background: 'rgba(255, 159, 64, 0.2)',
+    border: 'rgba(255, 159, 64, 1)',
+    point: 'rgba(217, 189, 98, 1)'
   },
   ethereum: {
-    ledger: "ethereum",
-    displayName: "Ethereum",
-    color: "rgba(153, 102, 255, 1)", // Purple
-    background: "rgba(153, 102, 255, 0.2)",
-    border: "rgba(153, 102, 255, 1)",
-    point: "rgba(153, 102, 255, 1)"
+    ledger: 'ethereum',
+    displayName: 'Ethereum',
+    color: 'rgba(73, 116, 147, 1)',
+    background: 'rgba(153, 102, 255, 0.2)',
+    border: 'rgba(153, 102, 255, 1)',
+    point: 'rgba(73, 116, 147, 1)'
   },
   litecoin: {
-    ledger: "litecoin",
-    displayName: "Litecoin",
-    color: "rgba(135, 206, 250, 1)", // Light Sky Blue
-    background: "rgba(135, 206, 250, 0.2)",
-    border: "rgba(135, 206, 250, 1)",
-    point: "rgba(135, 206, 250, 1)"
+    ledger: 'litecoin',
+    displayName: 'Litecoin',
+    color: 'rgba(52, 93, 157, 1)',
+    background: 'rgba(135, 206, 250, 0.2)',
+    border: 'rgba(135, 206, 250, 1)',
+    point: 'rgba(52, 93, 157, 1)'
   },
   tezos: {
-    ledger: "tezos",
-    displayName: "Tezos",
-    color: "rgba(157, 102, 89, 1)", // Brown
-    background: "rgba(157, 102, 89, 0.2)",
-    border: "rgba(157, 102, 89, 1)",
-    point: "rgba(157, 102, 89, 1)"
+    ledger: 'tezos',
+    displayName: 'Tezos',
+    color: 'rgba(44, 125, 247, 1)',
+    background: 'rgba(157, 102, 89, 0.2)',
+    border: 'rgba(157, 102, 89, 1)',
+    point: 'rgba(44, 125, 247, 1)'
   },
   xrpl: {
-    ledger: "xrpl",
-    displayName: "XRPL",
-    color: "rgba(0, 204, 204, 1)", // Teal
-    background: "rgba(0, 204, 204, 0.2)",
-    border: "rgba(0, 204, 204, 1)",
-    point: "rgba(0, 204, 204, 1)"
+    ledger: 'xrpl',
+    displayName: 'XRPL',
+    color: 'rgba(27, 149, 202, 1)',
+    background: 'rgba(0, 204, 204, 0.2)',
+    border: 'rgba(0, 204, 204, 1)',
+    point: 'rgba(27, 149, 202, 1)'
   },
   zcash: {
-    ledger: "zcash",
-    displayName: "ZCash",
-    color: "rgba(0, 204, 102, 1)", // Green
-    background: "rgba(0, 204, 102, 0.2)",
-    border: "rgba(0, 204, 102, 1)",
-    point: "rgba(0, 204, 102, 1)"
+    ledger: 'zcash',
+    displayName: 'ZCash',
+    color: 'rgba(244, 183, 40, 1)',
+    background: 'rgba(0, 204, 102, 0.2)',
+    border: 'rgba(0, 204, 102, 1)',
+    point: 'rgba(244, 183, 40, 1)'
   },
   go_ethereum: {
-    ledger: "go-ethereum",
-    displayName: "Go Ethereum",
-    color: "rgba(255, 0, 204, 1)", // Pink
-    background: "rgba(255, 0, 204, 0.2)",
-    border: "rgba(255, 0, 204, 1)",
-    point: "rgba(255, 0, 204, 1)"
+    ledger: 'go-ethereum',
+    displayName: 'Go Ethereum',
+    color: 'rgba(73, 116, 147, 1)',
+    background: 'rgba(255, 0, 204, 0.2)',
+    border: 'rgba(255, 0, 204, 1)',
+    point: 'rgba(73, 116, 147, 1)'
   },
   bitcoin_cash_node: {
-    ledger: "bitcoin-cash-node",
-    displayName: "Bitcoin Cash Node",
-    color: "rgba(0, 102, 204, 1)", // Dark Blue
-    background: "rgba(0, 102, 204, 0.2)",
-    border: "rgba(0, 102, 204, 1)",
-    point: "rgba(0, 102, 204, 1)"
+    ledger: 'bitcoin-cash-node',
+    displayName: 'Bitcoin Cash Node',
+    color: 'rgba(0, 102, 204, 1)',
+    background: 'rgba(0, 102, 204, 0.2)',
+    border: 'rgba(0, 102, 204, 1)',
+    point: 'rgba(0, 102, 204, 1)'
   },
   cardano_node: {
-    ledger: "cardano-node",
-    displayName: "Cardano Node",
-    color: "rgba(204, 102, 0, 1)", // Brown
-    background: "rgba(204, 102, 0, 0.2)",
-    border: "rgba(204, 102, 0, 1)",
-    point: "rgba(204, 102, 0, 1)"
+    ledger: 'cardano-node',
+    displayName: 'Cardano Node',
+    color: 'rgba(0, 51, 173, 1)',
+    background: 'rgba(204, 102, 0, 0.2)',
+    border: 'rgba(204, 102, 0, 1)',
+    point: 'rgba(0, 51, 173, 1)'
   },
   nethermind: {
-    ledger: "nethermind",
-    displayName: "Nethermind (Ethereum)",
-    color: "rgba(255, 102, 0, 1)", // Bright Orange
-    background: "rgba(255, 102, 0, 0.2)",
-    border: "rgba(255, 102, 0, 1)",
-    point: "rgba(255, 102, 0, 1)"
+    ledger: 'nethermind',
+    displayName: 'Nethermind (Ethereum)',
+    color: 'rgba(0, 159, 230, 1)',
+    background: 'rgba(255, 102, 0, 0.2)',
+    border: 'rgba(255, 102, 0, 1)',
+    point: 'rgba(0, 159, 230, 1)'
   },
   polkadot_sdk: {
-    ledger: "polkadot-sdk",
-    displayName: "Polkadot SDK",
-    color: "rgba(0, 153, 76, 1)", // Forest Green
-    background: "rgba(0, 153, 76, 0.2)",
-    border: "rgba(0, 153, 76, 1)",
-    point: "rgba(0, 153, 76, 1)"
+    ledger: 'polkadot-sdk',
+    displayName: 'Polkadot SDK',
+    color: 'rgba(255, 38, 112, 1)',
+    background: 'rgba(0, 153, 76, 0.2)',
+    border: 'rgba(0, 153, 76, 1)',
+    point: 'rgba(255, 38, 112, 1)'
   },
   solana: {
-    ledger: "solana",
-    displayName: "Solana",
-    color: "rgba(255, 165, 0, 1)", // Gold
-    background: "rgba(255, 165, 0, 0.2)",
-    border: "rgba(255, 165, 0, 1)",
-    point: "rgba(255, 165, 0, 1)"
+    ledger: 'solana',
+    displayName: 'Solana',
+    color: 'rgba(153, 69, 255, 1)',
+    background: 'rgba(255, 165, 0, 0.2)',
+    border: 'rgba(255, 165, 0, 1)',
+    point: 'rgba(153, 69, 255, 1)'
   },
   tezos_mirror: {
-    ledger: "tezos-mirror",
-    displayName: "Tezos Mirror",
-    color: "rgba(128, 0, 128, 1)", // Purple
-    background: "rgba(128, 0, 128, 0.2)",
-    border: "rgba(128, 0, 128, 1)",
-    point: "rgba(128, 0, 128, 1)"
+    ledger: 'tezos-mirror',
+    displayName: 'Tezos Mirror',
+    color: 'rgba(13, 97, 255, 1)',
+    background: 'rgba(128, 0, 128, 0.2)',
+    border: 'rgba(128, 0, 128, 1)',
+    point: 'rgba(13, 97, 255, 1)'
   },
   consensus: {
-    ledger: "consensus",
-    displayName: "Ethereum (Consensus)",
-    color: "#808080", // Gray
-    background: "rgba(128, 128, 128, 0.2)",
-    border: "rgba(128, 128, 128, 1)",
-    point: "rgba(128, 128, 128, 1)"
+    ledger: 'consensus',
+    displayName: 'Ethereum (Consensus)',
+    color: 'rgba(73, 116, 147, 1)',
+    background: 'rgba(128, 128, 128, 0.2)',
+    border: 'rgba(128, 128, 128, 1)',
+    point: 'rgba(73, 116, 147, 1)'
   },
   execution: {
-    ledger: "execution",
-    displayName: "Ethereum (Execution)",
-    color: "#b0b0b0", // Light Gray
-    background: "rgba(176, 176, 176, 0.2)",
-    border: "rgba(176, 176, 176, 1)",
-    point: "rgba(176, 176, 176, 1)"
+    ledger: 'execution',
+    displayName: 'Ethereum (Execution)',
+    color: 'rgba(60, 60, 61, 1)',
+    background: 'rgba(176, 176, 176, 0.2)',
+    border: 'rgba(176, 176, 176, 1)',
+    point: 'rgba(60, 60, 61, 1)'
   }
 } as const
 
@@ -168,14 +168,14 @@ export const BASE_LEDGER_COLORS = Object.fromEntries(
  */
 
 const TOKENOMICS_KEYS = [
-  "bitcoin",
-  "bitcoin_cash",
-  "cardano",
-  "dogecoin",
-  "ethereum",
-  "litecoin",
-  "tezos",
-  "xrpl"
+  'bitcoin',
+  'bitcoin_cash',
+  'cardano',
+  'dogecoin',
+  'ethereum',
+  'litecoin',
+  'tezos',
+  'xrpl'
 ] as const
 
 export const TOKENOMICS_LEDGERS = TOKENOMICS_KEYS.map(
@@ -183,14 +183,14 @@ export const TOKENOMICS_LEDGERS = TOKENOMICS_KEYS.map(
 ).sort((a, b) => a.displayName.localeCompare(b.displayName))
 
 const CONSENSUS_KEYS = [
-  "bitcoin",
-  "bitcoin_cash",
-  "cardano",
-  "dogecoin",
-  "ethereum",
-  "litecoin",
-  "tezos",
-  "zcash"
+  'bitcoin',
+  'bitcoin_cash',
+  'cardano',
+  'dogecoin',
+  'ethereum',
+  'litecoin',
+  'tezos',
+  'zcash'
 ] as const
 
 export const CONSENSUS_LEDGERS = CONSENSUS_KEYS.map(
@@ -198,16 +198,16 @@ export const CONSENSUS_LEDGERS = CONSENSUS_KEYS.map(
 ).sort((a, b) => a.displayName.localeCompare(b.displayName))
 
 const SOFTWARE_KEYS = [
-  "bitcoin",
-  "bitcoin_cash_node",
-  "cardano_node",
-  "go_ethereum",
-  "nethermind",
-  "litecoin",
+  'bitcoin',
+  'bitcoin_cash_node',
+  'cardano_node',
+  'go_ethereum',
+  'nethermind',
+  'litecoin',
   //  "polkadot_sdk",
   //  "solana",
-  "tezos_mirror",
-  "zcash"
+  'tezos_mirror',
+  'zcash'
 ] as const
 
 export const SOFTWARE_LEDGERS = SOFTWARE_KEYS.map(
@@ -215,15 +215,15 @@ export const SOFTWARE_LEDGERS = SOFTWARE_KEYS.map(
 ).sort((a, b) => a.displayName.localeCompare(b.displayName))
 
 const NETWORK_KEYS = [
-  "bitcoin",
-  "bitcoin_without_tor",
-  "bitcoin_cash",
-  "cardano",
-  "dogecoin",
-  "consensus",
-  "execution",
-  "litecoin",
-  "zcash"
+  'bitcoin',
+  'bitcoin_without_tor',
+  'bitcoin_cash',
+  'cardano',
+  'dogecoin',
+  'consensus',
+  'execution',
+  'litecoin',
+  'zcash'
 ] as const
 
 export const NETWORK_LEDGERS = NETWORK_KEYS.map(
@@ -231,14 +231,14 @@ export const NETWORK_LEDGERS = NETWORK_KEYS.map(
 ).sort((a, b) => a.displayName.localeCompare(b.displayName))
 
 const NETWORK_DOUGHNUT_KEYS = [
-  "bitcoin",
-  "bitcoin_cash",
-  "cardano",
-  "dogecoin",
-  "consensus",
-  "execution",
-  "litecoin",
-  "zcash"
+  'bitcoin',
+  'bitcoin_cash',
+  'cardano',
+  'dogecoin',
+  'consensus',
+  'execution',
+  'litecoin',
+  'zcash'
 ] as const
 
 export const NETWORK_DOUGHNUT_LEDGERS = NETWORK_DOUGHNUT_KEYS.map(
@@ -246,14 +246,14 @@ export const NETWORK_DOUGHNUT_LEDGERS = NETWORK_DOUGHNUT_KEYS.map(
 ).sort((a, b) => a.displayName.localeCompare(b.displayName))
 
 const GEOGRAPHY_KEYS = [
-  "bitcoin_without_tor",
-  "bitcoin_cash",
-  "cardano",
-  "dogecoin",
-  "consensus",
-  "execution",
-  "litecoin",
-  "zcash"
+  'bitcoin_without_tor',
+  'bitcoin_cash',
+  'cardano',
+  'dogecoin',
+  'consensus',
+  'execution',
+  'litecoin',
+  'zcash'
 ] as const
 
 export const GEOGRAPHY_LEDGERS = GEOGRAPHY_KEYS.map(
@@ -261,14 +261,14 @@ export const GEOGRAPHY_LEDGERS = GEOGRAPHY_KEYS.map(
 ).sort((a, b) => a.displayName.localeCompare(b.displayName))
 
 const GEOGRAPHY_DOUGHNUT_KEYS = [
-  "bitcoin",
-  "bitcoin_cash",
-  "cardano",
-  "dogecoin",
-  "consensus",
-  "execution",
-  "litecoin",
-  "zcash"
+  'bitcoin',
+  'bitcoin_cash',
+  'cardano',
+  'dogecoin',
+  'consensus',
+  'execution',
+  'litecoin',
+  'zcash'
 ] as const
 
 export const GEOGRAPHY_DOUGHNUT_LEDGERS = GEOGRAPHY_DOUGHNUT_KEYS.map(
@@ -282,19 +282,19 @@ export const GOVERNANCE_LEDGERS = [
 
 export const GOVERNANCE_YEARLY_POSTS_LEDGERS = [
   {
-    ledger: "Posts",
-    displayName: "Posts",
-    color: "rgba(239, 68, 68, 1)" // Red
+    ledger: 'Posts',
+    displayName: 'Posts',
+    color: 'rgba(239, 68, 68, 1)' // Red
   },
   {
-    ledger: "Comments",
-    displayName: "Comments",
-    color: "rgba(59, 130, 246, 1)" // Blue
+    ledger: 'Comments',
+    displayName: 'Comments',
+    color: 'rgba(59, 130, 246, 1)' // Blue
   },
   {
-    ledger: "Users",
-    displayName: "Users",
-    color: "rgba(16, 185, 129, 1)" // Green
+    ledger: 'Users',
+    displayName: 'Users',
+    color: 'rgba(16, 185, 129, 1)' // Green
   }
 ] as const
 
@@ -322,41 +322,41 @@ export const GOVERNANCE_YEARLY_POSTS_COLOURS =
 
 export const SOFTWARE_DOUGHNUT_LEDGER_NAMES = [
   {
-    repo: "bitcoin",
-    url: "https://github.com/bitcoin/bitcoin",
-    name: "Bitcoin"
+    repo: 'bitcoin',
+    url: 'https://github.com/bitcoin/bitcoin',
+    name: 'Bitcoin'
   },
   {
-    repo: "bitcoin_cash",
-    url: "https://github.com/bitcoincashbch/bitcoin-cash",
-    name: "Bitcoin Cash"
+    repo: 'bitcoin_cash',
+    url: 'https://github.com/bitcoincashbch/bitcoin-cash',
+    name: 'Bitcoin Cash'
   },
   {
-    repo: "cardano",
-    url: "https://github.com/IntersectMBO/cardano-node",
-    name: "Cardano"
+    repo: 'cardano',
+    url: 'https://github.com/IntersectMBO/cardano-node',
+    name: 'Cardano'
   },
   {
-    repo: "go-ethereum",
-    url: "https://github.com/ethereum/go-ethereum",
-    name: "Go Ethereum"
+    repo: 'go-ethereum',
+    url: 'https://github.com/ethereum/go-ethereum',
+    name: 'Go Ethereum'
   },
   {
-    repo: "nethermind",
-    url: "https://github.com/NethermindEth/nethermind",
-    name: "Nethermind (Ethereum)"
+    repo: 'nethermind',
+    url: 'https://github.com/NethermindEth/nethermind',
+    name: 'Nethermind (Ethereum)'
   },
   {
-    repo: "litecoin",
-    url: "https://github.com/litecoin-project/litecoin",
-    name: "Litecoin"
+    repo: 'litecoin',
+    url: 'https://github.com/litecoin-project/litecoin',
+    name: 'Litecoin'
   },
   {
-    repo: "tezos",
-    url: "https://github.com/tezos/tezos-mirror",
-    name: "Tezos"
+    repo: 'tezos',
+    url: 'https://github.com/tezos/tezos-mirror',
+    name: 'Tezos'
   },
-  { repo: "zcash", url: "https://github.com/zcash/zcash", name: "ZCash" }
+  { repo: 'zcash', url: 'https://github.com/zcash/zcash', name: 'ZCash' }
 ]
 
 /**
@@ -369,7 +369,7 @@ const LAYER_LEDGER_MAP = {
   network: NETWORK_LEDGERS,
   geography: GEOGRAPHY_LEDGERS,
   governance: GOVERNANCE_LEDGERS,
-  "governance-posts": GOVERNANCE_YEARLY_POSTS_LEDGERS
+  'governance-posts': GOVERNANCE_YEARLY_POSTS_LEDGERS
 } as const
 
 /**
