@@ -1,9 +1,9 @@
 ledger,date,nodes
-consensus,2026-01-08,9533
-execution,2026-01-08,10488
-bitcoin,2026-01-08,25101
-bitcoin_cash,2026-01-08,524
-dogecoin,2026-01-08,529
-litecoin,2026-01-08,814
-zcash,2026-01-08,1660
-cardano,2026-02-09,3384
+consensus,2026-02-23,9397
+execution,2026-02-23,10622
+bitcoin,2026-02-25,25527
+bitcoin_cash,2026-02-25,505
+dogecoin,2026-02-25,523
+litecoin,2026-02-25,655
+zcash,2026-02-25,1601
+cardano,2026-02-26,3388
