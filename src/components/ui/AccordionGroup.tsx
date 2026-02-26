@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from 'react'
 
 interface AccordionItem {
   id: string | number
@@ -26,12 +26,12 @@ interface AccordionGroupProps {
 export function AccordionGroup({
   items,
   label,
-  className = "",
-  itemClassName = "collapse collapse-arrow bg-base-300 border border-base-300",
-  titleClassName = "collapse-title text-sm sm:text-base font-semibold cursor-pointer py-2 sm:py-3",
-  contentClassName = "collapse-content text-xs sm:text-sm",
+  className = '',
+  itemClassName = 'collapse collapse-arrow bg-base-300 border border-base-300',
+  titleClassName = 'collapse-title text-sm sm:text-base font-semibold cursor-pointer py-2 sm:py-3',
+  contentClassName = 'collapse-content text-xs sm:text-sm',
   iconSize = 14,
-  iconColor = "rgba(128, 128, 128, 1)",
+  iconColor = 'rgba(128, 128, 128, 1)',
   allowMultiple = false
 }: AccordionGroupProps) {
   const [openIndices, setOpenIndices] = useState<Set<string | number>>(
@@ -95,11 +95,11 @@ export function AccordionGroup({
               </div>
               <div
                 className={`${contentClassName} ${
-                  isOpen ? "max-h-screen" : "max-h-0 overflow-hidden"
+                  isOpen ? 'max-h-screen' : 'max-h-0 overflow-hidden'
                 }`}
               >
                 <div className="pt-1 sm:pt-2">
-                  {typeof item.content === "string" ? (
+                  {typeof item.content === 'string' ? (
                     <p className="text-base-content/80 leading-relaxed">
                       {item.content}
                     </p>

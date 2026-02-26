@@ -1,4 +1,4 @@
-import { GOVERNANCE_CARD } from "@/utils"
+import { GOVERNANCE_CARD } from '@/utils'
 
 export function GovernanceMethodology() {
   return (
@@ -30,7 +30,7 @@ export function GovernanceMethodology() {
               className="link"
             >
               The Edinburgh Decentralisation Index (EDI)
-            </a>{" "}
+            </a>{' '}
             is a comprehensive methodology framework for defining, analyzing,
             and evaluating the decentralization level of blockchain systems
             across multiple layers. These layers include: Hardware, Software,

@@ -1,4 +1,4 @@
-import { useId } from "react"
+import { useId } from 'react'
 
 interface RadioItem {
   label: string
@@ -25,19 +25,19 @@ export function RadioGroup({
   const groupId = useId()
 
   const containerClassName = fullHeight
-    ? "card bg-base-300 shadow-lg border border-base-300 rounded-box p-2 h-full"
-    : "card bg-base-300 shadow-lg border border-base-300 rounded-box p-2"
+    ? 'card bg-base-300 shadow-lg border border-base-300 rounded-box p-2 h-full'
+    : 'card bg-base-300 shadow-lg border border-base-300 rounded-box p-2'
 
   const innerClassName = fullHeight
-    ? "flex flex-col gap-2 h-full"
-    : "flex flex-col gap-2"
+    ? 'flex flex-col gap-2 h-full'
+    : 'flex flex-col gap-2'
 
   return (
     <div className={containerClassName}>
       <div className={innerClassName}>
         {label && <h3 className="text-lg font-semibold mb-4">{label}</h3>}
         <div
-          className={stacked ? "flex flex-col gap-3" : "flex flex-wrap gap-3"}
+          className={stacked ? 'flex flex-col gap-3' : 'flex flex-wrap gap-3'}
         >
           {items.map((item) => (
             <label

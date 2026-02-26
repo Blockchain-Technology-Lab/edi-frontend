@@ -1,4 +1,4 @@
-import { useCallback } from "react"
+import { useCallback } from 'react'
 
 interface ExportOptions {
   watermarkSrc?: string
@@ -15,7 +15,7 @@ export function useExportChart() {
     ) => {
       if (chartRef.current) {
         const canvas = chartRef.current
-        const ctx = canvas.getContext("2d")
+        const ctx = canvas.getContext('2d')
 
         if (ctx) {
           // Save the current canvas state
@@ -49,10 +49,10 @@ export function useExportChart() {
           }
 
           // Create a high-resolution canvas
-          const hdCanvas = document.createElement("canvas")
+          const hdCanvas = document.createElement('canvas')
           hdCanvas.width = finalWidth
           hdCanvas.height = finalHeight
-          const hdCtx = hdCanvas.getContext("2d")
+          const hdCtx = hdCanvas.getContext('2d')
 
           if (hdCtx) {
             // Scale proportionally to avoid distortion
@@ -83,8 +83,8 @@ export function useExportChart() {
                 hdCtx.globalAlpha = 1.0
 
                 // Export the properly scaled 4K image with watermark
-                const url = hdCanvas.toDataURL("image/png")
-                const link = document.createElement("a")
+                const url = hdCanvas.toDataURL('image/png')
+                const link = document.createElement('a')
                 link.href = url
                 link.download = `${fileName}-chart.png`
                 link.click()
@@ -92,8 +92,8 @@ export function useExportChart() {
               watermarkImg.src = options.watermarkSrc
             } else {
               // Export without watermark
-              const url = hdCanvas.toDataURL("image/png")
-              const link = document.createElement("a")
+              const url = hdCanvas.toDataURL('image/png')
+              const link = document.createElement('a')
               link.href = url
               link.download = `${fileName}-chart.png`
               link.click()

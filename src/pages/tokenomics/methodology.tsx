@@ -1,5 +1,5 @@
-import { AppLink } from "@/components"
-import { CONSENSUS_METHOD_CARD } from "@/utils"
+import { AppLink } from '@/components'
+import { CONSENSUS_METHOD_CARD } from '@/utils'
 
 export function TokenomicsMethodology() {
   return (
@@ -28,7 +28,7 @@ export function TokenomicsMethodology() {
           <p>
             <AppLink href="https://informatics.ed.ac.uk/blockchain/edi">
               The Edinburgh Decentralisation Index (EDI)
-            </AppLink>{" "}
+            </AppLink>{' '}
             is a methodology framework for defining, analysing, and evaluating
             the decentralisation level of blockchain systems across multiple
             layers. These layers are: Hardware, Software, Network, Consensus,
@@ -40,24 +40,24 @@ export function TokenomicsMethodology() {
             Cardano, Ethereum, Litecoin, and Tezos. On the Tokenomics layer,
             decentralisation is evaluated based on the distribution of tokens
             across token holders. The blockchain data that is needed to
-            determine these distributions are collected from{" "}
+            determine these distributions are collected from{' '}
             <AppLink href="https://console.cloud.google.com/bigquery">
               BigQuery
-            </AppLink>{" "}
+            </AppLink>{' '}
             and self-hosted full nodes. For more information on how data is
             processed you can refer to the documentation of the open-source
-            GitHub repositories for the relevant GitHub{" "}
+            GitHub repositories for the relevant GitHub{' '}
             <AppLink href="https://blockchain-technology-lab.github.io/tokenomics-decentralization/">
               repository
-            </AppLink>{" "}
+            </AppLink>{' '}
             . The dashboard offers various options to the users for customising
             the results.
           </p>
           <p className="">
-            Historical block data for each blockchain is collected from{" "}
+            Historical block data for each blockchain is collected from{' '}
             <AppLink href="https://console.cloud.google.com/bigquery">
               BigQuery
-            </AppLink>{" "}
+            </AppLink>{' '}
             and self-hosted full nodes. Each block is mapped to its creator (see
             clustering options below), and then the distribution of blocks
             across entities is calculated for each 30-day interval. Active
@@ -65,7 +65,7 @@ export function TokenomicsMethodology() {
             least one block in the preceding or following window.
           </p>
           <p className="">
-            For detailed information, refer to the open-source GitHub{" "}
+            For detailed information, refer to the open-source GitHub{' '}
             <AppLink href="https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization">
               repository
             </AppLink>
@@ -94,13 +94,13 @@ export function TokenomicsMethodology() {
               &quot;Crystal Intelligence&quot; and &quot;None&quot;. A user can
               choose either &quot;None&quot; or any combination of the other
               options. &quot;Explorers&quot; refers to attribution and
-              deanonymisation data collected from blockchain explorers, namely{" "}
+              deanonymisation data collected from blockchain explorers, namely{' '}
               <AppLink href="https://bitinfocharts.com/">BitInfoCharts</AppLink>
-              , <AppLink href="https://etherscan.io/">Etherscan</AppLink>,{" "}
+              , <AppLink href="https://etherscan.io/">Etherscan</AppLink>,{' '}
               <AppLink href="https://www.walletexplorer.com/">
                 Wallet Explorer
               </AppLink>
-              ,{" "}
+              ,{' '}
               <AppLink href="https://dogecoinwhalealert.com/">
                 Dogecoin Whale Alert
               </AppLink>
@@ -125,9 +125,9 @@ export function TokenomicsMethodology() {
             <p>
               Additionally, we have introduced a new third-party clustering
               option called &quot;Crystal Intelligence&quot;. This option
-              leverages advanced clustering algorithms from{" "}
+              leverages advanced clustering algorithms from{' '}
               <AppLink href="https://crystalintelligence.com/">
-                {" "}
+                {' '}
                 Crystal Intelligence & Crypto Compliance
               </AppLink>
               to more accurately group public addresses belonging to the same

@@ -1,7 +1,7 @@
-import { getColorsForChart, SOFTWARE_DOUGHNUT_CSV } from "@/utils"
-import DevLogger from "./devLogger"
+import { getColorsForChart, SOFTWARE_DOUGHNUT_CSV } from '@/utils'
+import DevLogger from './devLogger'
 
-import type { DataEntry, DoughnutDataEntry } from "@/utils/types"
+import type { DataEntry, DoughnutDataEntry } from '@/utils/types'
 
 // Types
 type SoftwareRepoConfig = {
@@ -21,45 +21,45 @@ type DoughnutDataset = {
 }
 // Constants
 const SOFTWARE_COLUMNS = [
-  "entropy",
-  "hhi",
-  "max_power_ratio",
-  "total_entities",
-  "theil_index"
+  'entropy',
+  'hhi',
+  'max_power_ratio',
+  'total_entities',
+  'theil_index'
 ]
 
 const SOFTWARE_ALLOWED_LEDGERS = [
-  "bitcoin",
-  "bitcoin-cash-node",
-  "cardano-node",
-  "go-ethereum",
-  "nethermind",
-  "litecoin",
-  "tezos-mirror",
-  "zcash"
+  'bitcoin',
+  'bitcoin-cash-node',
+  'cardano-node',
+  'go-ethereum',
+  'nethermind',
+  'litecoin',
+  'tezos-mirror',
+  'zcash'
 ]
 
 // Chart configuration constants
 const CHART_BORDER_WIDTH = 0.1
-const CSV_DELIMITER = ","
-const PATH_SEPARATOR = "/"
+const CSV_DELIMITER = ','
+const PATH_SEPARATOR = '/'
 
 export const SOFTWARE_METRICS = [
   {
-    metric: "entropy",
-    title: "Shannon entropy",
+    metric: 'entropy',
+    title: 'Shannon entropy',
     decimals: 2,
     description:
-      "Shannon entropy (also known as information entropy) represents the expected amount of information in a distribution. Typically, a higher value of entropy indicates higher decentralisation (lower predictability).",
-    icon: "images/cards/shannon.png"
+      'Shannon entropy (also known as information entropy) represents the expected amount of information in a distribution. Typically, a higher value of entropy indicates higher decentralisation (lower predictability).',
+    icon: 'images/cards/shannon.png'
   },
   {
-    metric: "hhi",
-    title: "HHI",
+    metric: 'hhi',
+    title: 'HHI',
     decimals: 0,
     description:
-      "The Herfindahl-Hirschman Index (HHI) is a measure of market concentration. It is defined as the sum of the squares of the market shares (as whole numbers, e.g. 40 for 40%) of the entities in the system. Values close to 0 indicate low concentration (many and values close to 10,000 indicate high concentration (one entity responsible for most or all contributions).",
-    icon: "images/cards/hhi.png"
+      'The Herfindahl-Hirschman Index (HHI) is a measure of market concentration. It is defined as the sum of the squares of the market shares (as whole numbers, e.g. 40 for 40%) of the entities in the system. Values close to 0 indicate low concentration (many and values close to 10,000 indicate high concentration (one entity responsible for most or all contributions).',
+    icon: 'images/cards/hhi.png'
   },
   /*
   {
@@ -72,20 +72,20 @@ export const SOFTWARE_METRICS = [
   },
 */
   {
-    metric: "max_power_ratio",
-    title: "1-concentration ratio",
+    metric: 'max_power_ratio',
+    title: '1-concentration ratio',
     decimals: 2,
     description:
-      "The 1-concentration ratio represents the share of contributions that are made by the most “powerful” entity, i.e. the entity that is responsible for the highest number of contributions.",
-    icon: "images/cards/tau.png"
+      'The 1-concentration ratio represents the share of contributions that are made by the most “powerful” entity, i.e. the entity that is responsible for the highest number of contributions.',
+    icon: 'images/cards/tau.png'
   },
   {
-    metric: "total_entities",
-    title: "Total entities",
+    metric: 'total_entities',
+    title: 'Total entities',
     decimals: 0,
     description:
-      "The total entities metric captures the number of contributors that made at least one contribution in some sample window.",
-    icon: "images/cards/tau.png"
+      'The total entities metric captures the number of contributors that made at least one contribution in some sample window.',
+    icon: 'images/cards/tau.png'
   }
 ]
 
@@ -93,8 +93,8 @@ export const SOFTWARE_METRICS = [
  * Parses software layer CSV content into DataEntry[]
  */
 export function parseSoftwareCsv(csv: string): DataEntry[] {
-  const lines = csv.trim().split("\n")
-  const headers = lines[0].split(",").map((h) => h.trim())
+  const lines = csv.trim().split('\n')
+  const headers = lines[0].split(',').map((h) => h.trim())
   const data: DataEntry[] = []
 
   let malformedCount = 0
@@ -102,7 +102,7 @@ export function parseSoftwareCsv(csv: string): DataEntry[] {
   let totalProcessed = 0
 
   for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(",")
+    const values = lines[i].split(',')
     totalProcessed++
 
     if (values.length !== headers.length) {
@@ -121,7 +121,7 @@ export function parseSoftwareCsv(csv: string): DataEntry[] {
       const header = headers[j]
       const value = values[j].trim()
 
-      if (header === "date") {
+      if (header === 'date') {
         const date = new Date(value)
         if (isNaN(date.getTime())) {
           invalidDateCount++
@@ -132,7 +132,7 @@ export function parseSoftwareCsv(csv: string): DataEntry[] {
           continue
         }
         entry.date = date
-      } else if (header === "ledger") {
+      } else if (header === 'ledger') {
         entry.ledger = value
         ledger = value
       } else if (SOFTWARE_COLUMNS.includes(header)) {
@@ -148,7 +148,7 @@ export function parseSoftwareCsv(csv: string): DataEntry[] {
 
   // Log parsing summary once
   DevLogger.logOnce(
-    "software-csv-parsing-summary",
+    'software-csv-parsing-summary',
     `Software CSV parsing complete: ${data.length} valid entries from ${totalProcessed} total lines`,
     malformedCount > 0 || invalidDateCount > 0
       ? { malformedCount, invalidDateCount }
@@ -159,7 +159,7 @@ export function parseSoftwareCsv(csv: string): DataEntry[] {
 }
 
 function sortByLedgerAndDate(a: DataEntry, b: DataEntry): number {
-  const ledgerCompare = (a.ledger || "").localeCompare(b.ledger || "")
+  const ledgerCompare = (a.ledger || '').localeCompare(b.ledger || '')
   return ledgerCompare !== 0
     ? ledgerCompare
     : a.date.getTime() - b.date.getTime()
@@ -181,7 +181,7 @@ export async function loadSoftwareCsvData(
     const csvText = await response.text()
     return parseSoftwareCsv(csvText)
   } catch (error) {
-    throw error instanceof Error ? error : new Error("Unknown error occurred")
+    throw error instanceof Error ? error : new Error('Unknown error occurred')
   }
 }
 
@@ -191,46 +191,46 @@ export function getSoftwareCsvFileName(
   commits: string
 ): string {
   const fileNameTemplates: Record<string, string> = {
-    lines_author: "all_metrics_by_lines_changed_per_author_per_%s_commits.csv",
+    lines_author: 'all_metrics_by_lines_changed_per_author_per_%s_commits.csv',
     lines_committer:
-      "all_metrics_by_lines_changed_per_committer_per_%s_commits.csv",
+      'all_metrics_by_lines_changed_per_committer_per_%s_commits.csv',
     commits_author:
-      "all_metrics_by_number_of_commits_per_author_per_%s_commits.csv",
+      'all_metrics_by_number_of_commits_per_author_per_%s_commits.csv',
     commits_committer:
-      "all_metrics_by_number_of_commits_per_committer_per_%s_commits.csv",
+      'all_metrics_by_number_of_commits_per_committer_per_%s_commits.csv',
     merge_author:
-      "all_metrics_by_number_of_merge_commits_per_author_per_%s_commits.csv",
+      'all_metrics_by_number_of_merge_commits_per_author_per_%s_commits.csv',
     merge_committer:
-      "all_metrics_by_number_of_merge_commits_per_committer_per_%s_commits.csv"
+      'all_metrics_by_number_of_merge_commits_per_committer_per_%s_commits.csv'
   }
 
   const key = `${weight}_${entity}`
   const template = fileNameTemplates[key] || fileNameTemplates.lines_author
 
-  return template.replace("%s", commits)
+  return template.replace('%s', commits)
 }
 
 // --------------------------- Doughnut CSV Logic ----------------------------
 
 // Repository configuration combining file info and display names
 const SOFTWARE_REPO_CONFIG: SoftwareRepoConfig[] = [
-  { fileName: "bitcoin_commits_per_entity.csv", displayName: "Bitcoin" },
+  { fileName: 'bitcoin_commits_per_entity.csv', displayName: 'Bitcoin' },
   {
-    fileName: "bitcoin-cash-node_commits_per_entity.csv",
-    displayName: "Bitcoin Cash"
+    fileName: 'bitcoin-cash-node_commits_per_entity.csv',
+    displayName: 'Bitcoin Cash'
   },
-  { fileName: "cardano-node_commits_per_entity.csv", displayName: "Cardano" },
+  { fileName: 'cardano-node_commits_per_entity.csv', displayName: 'Cardano' },
   {
-    fileName: "go-ethereum_commits_per_entity.csv",
-    displayName: "Go Ethereum"
+    fileName: 'go-ethereum_commits_per_entity.csv',
+    displayName: 'Go Ethereum'
   },
-  { fileName: "litecoin_commits_per_entity.csv", displayName: "Litecoin" },
+  { fileName: 'litecoin_commits_per_entity.csv', displayName: 'Litecoin' },
   {
-    fileName: "nethermind_commits_per_entity.csv",
-    displayName: "Nethermind (Ethereum)"
+    fileName: 'nethermind_commits_per_entity.csv',
+    displayName: 'Nethermind (Ethereum)'
   },
-  { fileName: "tezos-mirror_commits_per_entity.csv", displayName: "Tezos" },
-  { fileName: "zcash_commits_per_entity.csv", displayName: "ZCash" }
+  { fileName: 'tezos-mirror_commits_per_entity.csv', displayName: 'Tezos' },
+  { fileName: 'zcash_commits_per_entity.csv', displayName: 'ZCash' }
 ] as const
 
 export function getSoftwareDoughnutCsvFileNames(
@@ -238,20 +238,20 @@ export function getSoftwareDoughnutCsvFileNames(
   entity: string
 ): string[] {
   type FolderKey =
-    | "lines_author"
-    | "lines_committer"
-    | "commits_author"
-    | "commits_committer"
-    | "merge_author"
-    | "merge_committer"
+    | 'lines_author'
+    | 'lines_committer'
+    | 'commits_author'
+    | 'commits_committer'
+    | 'merge_author'
+    | 'merge_committer'
 
   const folderMap: Record<FolderKey, string> = {
-    lines_author: "by_lines_changed_per_author",
-    lines_committer: "by_lines_changed_per_committer",
-    commits_author: "by_number_of_commits_per_author",
-    commits_committer: "by_number_of_commits_per_committer",
-    merge_author: "by_merge_commits_per_author",
-    merge_committer: "by_merge_commits_per_committer"
+    lines_author: 'by_lines_changed_per_author',
+    lines_committer: 'by_lines_changed_per_committer',
+    commits_author: 'by_number_of_commits_per_author',
+    commits_committer: 'by_number_of_commits_per_committer',
+    merge_author: 'by_merge_commits_per_author',
+    merge_committer: 'by_merge_commits_per_committer'
   }
 
   const folderKey: FolderKey = `${weight}_${entity}` as FolderKey
@@ -263,13 +263,13 @@ export function getSoftwareDoughnutCsvFileNames(
 }
 
 export function parseDoughnutCsv(csv: string): DoughnutDataEntry[] {
-  const lines = csv.trim().split("\n")
+  const lines = csv.trim().split('\n')
   const entries: DoughnutDataEntry[] = []
   let skippedLines = 0
-  const isProduction = process.env.NODE_ENV === "production"
+  const isProduction = process.env.NODE_ENV === 'production'
 
   // Create a unique identifier for this CSV file based on content hash
-  const csvHash = csv.slice(0, 100).replace(/\W/g, "").substring(0, 20)
+  const csvHash = csv.slice(0, 100).replace(/\W/g, '').substring(0, 20)
   const csvId = `doughnut-csv-${lines.length}-${csvHash}`
 
   lines.forEach((line) => {
@@ -371,7 +371,7 @@ export function generateDoughnutPaths(
 
   fileNames.forEach((filePath) => {
     // Extract the filename from the full path
-    const fileName = filePath.split(PATH_SEPARATOR).pop() || ""
+    const fileName = filePath.split(PATH_SEPARATOR).pop() || ''
 
     // Find the corresponding repo config for this file
     const repoConfig = SOFTWARE_REPO_CONFIG.find(

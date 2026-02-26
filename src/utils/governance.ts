@@ -1,10 +1,10 @@
 // src/utils/governance.ts
-import type { DataEntry, GovernanceDataEntry } from "./types"
-import { GOVERNANCE_CSV } from "@/utils/paths"
-import { getLedgerColor } from "@/utils/charts/constants"
+import type { DataEntry, GovernanceDataEntry } from './types'
+import { GOVERNANCE_CSV } from '@/utils/paths'
+import { getLedgerColor } from '@/utils/charts/constants'
 
 export async function loadGiniActivenessData(
-  ledger: string = "bitcoin"
+  ledger: string = 'bitcoin'
 ): Promise<GovernanceDataEntry[]> {
   const fileName = `${GOVERNANCE_CSV}${ledger}/gini_activeness.csv`
 
@@ -21,7 +21,7 @@ export async function loadGiniActivenessData(
     return parseGiniActiveCSV(csvData, ledger)
   } catch (error) {
     console.error(`Failed to load gini activeness data for ${ledger}:`, error)
-    throw error instanceof Error ? error : new Error("Unknown error occurred")
+    throw error instanceof Error ? error : new Error('Unknown error occurred')
   }
 }
 
@@ -29,14 +29,14 @@ export function parseGiniActiveCSV(
   csvData: string,
   overrideLedgerName?: string
 ): GovernanceDataEntry[] {
-  const lines = csvData.trim().split("\n")
+  const lines = csvData.trim().split('\n')
   if (lines.length < 2) return [] // No data rows
 
-  const headers = lines[0].split(",").map((h) => h.trim())
+  const headers = lines[0].split(',').map((h) => h.trim())
   const data: GovernanceDataEntry[] = []
 
   for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(",").map((v) => v.trim())
+    const values = lines[i].split(',').map((v) => v.trim())
 
     // Skip rows with incorrect number of columns
     if (values.length !== headers.length) continue
@@ -47,14 +47,14 @@ export function parseGiniActiveCSV(
     headers.forEach((header, index) => {
       const value = values[index]
 
-      if (header === "year") {
+      if (header === 'year') {
         const year = parseInt(value)
         if (!isNaN(year)) {
           // Create date as January 1st of the year
           entry.date = new Date(year, 0, 1)
           hasValidData = true
         }
-      } else if (header === "gini_coefficient") {
+      } else if (header === 'gini_coefficient') {
         const giniValue = parseFloat(value)
         if (!isNaN(giniValue)) {
           entry.gini_coefficient = giniValue
@@ -64,7 +64,7 @@ export function parseGiniActiveCSV(
     })
 
     // Set ledger (use override or default to "bitcoin")
-    entry.ledger = overrideLedgerName || "bitcoin"
+    entry.ledger = overrideLedgerName || 'bitcoin'
 
     // Only add entry if we have valid data
     if (entry.date && hasValidData) {
@@ -79,7 +79,7 @@ export function parseGiniActiveCSV(
 }
 
 export async function loadYearlyPostCommentsData(
-  ledger: string = "bitcoin"
+  ledger: string = 'bitcoin'
 ): Promise<GovernanceDataEntry[]> {
   const fileName = `${GOVERNANCE_CSV}${ledger}/line_plot_yearly_post_users_comments.csv`
 
@@ -102,7 +102,7 @@ export async function loadYearlyPostCommentsData(
       `Failed to load yearly post comments data for ${ledger}:`,
       error
     )
-    throw error instanceof Error ? error : new Error("Unknown error occurred")
+    throw error instanceof Error ? error : new Error('Unknown error occurred')
   }
 }
 
@@ -110,14 +110,14 @@ export function parseYearlyPostCommentsCSV(
   csvData: string,
   overrideLedgerName?: string
 ): GovernanceDataEntry[] {
-  const lines = csvData.trim().split("\n")
+  const lines = csvData.trim().split('\n')
   if (lines.length < 2) return [] // No data rows
 
-  const headers = lines[0].split(",").map((h) => h.trim())
+  const headers = lines[0].split(',').map((h) => h.trim())
   const data: GovernanceDataEntry[] = []
 
   for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(",").map((v) => v.trim())
+    const values = lines[i].split(',').map((v) => v.trim())
 
     // Skip rows with incorrect number of columns
     if (values.length !== headers.length) continue
@@ -128,43 +128,43 @@ export function parseYearlyPostCommentsCSV(
     headers.forEach((header, index) => {
       const value = values[index]
 
-      if (header === "year") {
+      if (header === 'year') {
         const year = parseInt(value)
         if (!isNaN(year)) {
           entry.date = new Date(year, 0, 1)
           hasValidData = true
         }
-      } else if (header === "posts") {
+      } else if (header === 'posts') {
         const postsValue = parseFloat(value)
         if (!isNaN(postsValue)) {
           entry.posts = postsValue
           hasValidData = true
         }
-      } else if (header === "comments") {
+      } else if (header === 'comments') {
         const commentsValue = parseFloat(value)
         if (!isNaN(commentsValue)) {
           entry.comments = commentsValue
           hasValidData = true
         }
-      } else if (header === "users") {
+      } else if (header === 'users') {
         const usersValue = parseFloat(value)
         if (!isNaN(usersValue)) {
           entry.users = usersValue
           hasValidData = true
         }
-      } else if (header === "posts_per_user") {
+      } else if (header === 'posts_per_user') {
         const postsPerUserValue = parseFloat(value)
         if (!isNaN(postsPerUserValue)) {
           entry.posts_per_user = postsPerUserValue
           hasValidData = true
         }
-      } else if (header === "comments_per_post") {
+      } else if (header === 'comments_per_post') {
         const commentsPerPostValue = parseFloat(value)
         if (!isNaN(commentsPerPostValue)) {
           entry.comments_per_post = commentsPerPostValue
           hasValidData = true
         }
-      } else if (header === "comments_per_user") {
+      } else if (header === 'comments_per_user') {
         const commentsPerUserValue = parseFloat(value)
         if (!isNaN(commentsPerUserValue)) {
           entry.comments_per_user = commentsPerUserValue
@@ -174,7 +174,7 @@ export function parseYearlyPostCommentsCSV(
     })
 
     // Set ledger (use override or default to "bitcoin")
-    entry.ledger = overrideLedgerName || "bitcoin"
+    entry.ledger = overrideLedgerName || 'bitcoin'
 
     // Only add entry if we have valid data
     if (entry.date && hasValidData) {
@@ -189,7 +189,7 @@ export function parseYearlyPostCommentsCSV(
 }
 
 export async function loadCommunityModularityData(
-  ledger: string = "bitcoin"
+  ledger: string = 'bitcoin'
 ): Promise<GovernanceDataEntry[]> {
   const fileName = `${GOVERNANCE_CSV}${ledger}/yearly_community_modularity.csv`
 
@@ -209,7 +209,7 @@ export async function loadCommunityModularityData(
       `Failed to load community modularity data for ${ledger}:`,
       error
     )
-    throw error instanceof Error ? error : new Error("Unknown error occurred")
+    throw error instanceof Error ? error : new Error('Unknown error occurred')
   }
 }
 
@@ -217,14 +217,14 @@ export function parseCommunityModularityCSV(
   csvData: string,
   overrideLedgerName?: string
 ): GovernanceDataEntry[] {
-  const lines = csvData.trim().split("\n")
+  const lines = csvData.trim().split('\n')
   if (lines.length < 2) return [] // No data rows
 
-  const headers = lines[0].split(",").map((h) => h.trim())
+  const headers = lines[0].split(',').map((h) => h.trim())
   const data: GovernanceDataEntry[] = []
 
   for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(",").map((v) => v.trim())
+    const values = lines[i].split(',').map((v) => v.trim())
 
     // Skip rows with incorrect number of columns
     if (values.length !== headers.length) continue
@@ -235,32 +235,32 @@ export function parseCommunityModularityCSV(
     headers.forEach((header, index) => {
       const value = values[index]
 
-      if (header === "year") {
+      if (header === 'year') {
         const year = parseInt(value)
         if (!isNaN(year)) {
           // Create date as January 1st of the year
           entry.date = new Date(year, 0, 1)
           hasValidData = true
         }
-      } else if (header === "nodes") {
+      } else if (header === 'nodes') {
         const nodesValue = parseFloat(value)
         if (!isNaN(nodesValue)) {
           entry.nodes = nodesValue
           hasValidData = true
         }
-      } else if (header === "edges") {
+      } else if (header === 'edges') {
         const edgesValue = parseFloat(value)
         if (!isNaN(edgesValue)) {
           entry.edges = edgesValue
           hasValidData = true
         }
-      } else if (header === "communities") {
+      } else if (header === 'communities') {
         const communitiesValue = parseFloat(value)
         if (!isNaN(communitiesValue)) {
           entry.communities = communitiesValue
           hasValidData = true
         }
-      } else if (header === "modularity") {
+      } else if (header === 'modularity') {
         const modularityValue = parseFloat(value)
         if (!isNaN(modularityValue)) {
           entry.modularity = modularityValue
@@ -270,7 +270,7 @@ export function parseCommunityModularityCSV(
     })
 
     // Set ledger (use override or default to "bitcoin")
-    entry.ledger = overrideLedgerName || "bitcoin"
+    entry.ledger = overrideLedgerName || 'bitcoin'
 
     // Only add entry if we have valid data
     if (entry.date && hasValidData) {
@@ -285,7 +285,7 @@ export function parseCommunityModularityCSV(
 }
 
 export async function loadTopAuthorsData(
-  ledger: string = "bitcoin"
+  ledger: string = 'bitcoin'
 ): Promise<GovernanceDataEntry[]> {
   const fileName = `${GOVERNANCE_CSV}${ledger}/pie_chart_top_10_authors.csv`
 
@@ -302,7 +302,7 @@ export async function loadTopAuthorsData(
     return parseTopAuthorsCSV(csvData, ledger)
   } catch (error) {
     console.error(`Failed to load top authors data for ${ledger}:`, error)
-    throw error instanceof Error ? error : new Error("Unknown error occurred")
+    throw error instanceof Error ? error : new Error('Unknown error occurred')
   }
 }
 
@@ -310,14 +310,14 @@ export function parseTopAuthorsCSV(
   csvData: string,
   overrideLedgerName?: string
 ): GovernanceDataEntry[] {
-  const lines = csvData.trim().split("\n")
+  const lines = csvData.trim().split('\n')
   if (lines.length < 2) return [] // No data rows
 
-  const headers = lines[0].split(",").map((h) => h.trim())
+  const headers = lines[0].split(',').map((h) => h.trim())
   const data: GovernanceDataEntry[] = []
 
   for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(",").map((v) => v.trim())
+    const values = lines[i].split(',').map((v) => v.trim())
 
     // Skip rows with incorrect number of columns
     if (values.length !== headers.length) continue
@@ -328,12 +328,12 @@ export function parseTopAuthorsCSV(
     headers.forEach((header, index) => {
       const value = values[index]
 
-      if (header === "author") {
-        if (value && value.trim() !== "") {
+      if (header === 'author') {
+        if (value && value.trim() !== '') {
           entry.author = value.trim()
           hasValidData = true
         }
-      } else if (header === "percentage") {
+      } else if (header === 'percentage') {
         const percentageValue = parseFloat(value)
         if (!isNaN(percentageValue)) {
           entry.percentage = percentageValue
@@ -342,7 +342,7 @@ export function parseTopAuthorsCSV(
       }
     })
 
-    entry.ledger = overrideLedgerName || "bitcoin"
+    entry.ledger = overrideLedgerName || 'bitcoin'
     //    entry.date = new Date() // Dummy date for interface compatibility
 
     // Only add entry if we have valid data
@@ -367,7 +367,7 @@ export function prepareUnifiedMultiMetricData(
     if (entry.posts !== undefined) {
       unifiedData.push({
         ...entry,
-        ledger: "Posts", // This matches GOVERNANCE_YEARLY_POSTS_LEDGERS[0].ledger
+        ledger: 'Posts', // This matches GOVERNANCE_YEARLY_POSTS_LEDGERS[0].ledger
         unified_metric: entry.posts
       })
     }
@@ -375,7 +375,7 @@ export function prepareUnifiedMultiMetricData(
     if (entry.comments !== undefined) {
       unifiedData.push({
         ...entry,
-        ledger: "Comments", // This matches GOVERNANCE_YEARLY_POSTS_LEDGERS[1].ledger
+        ledger: 'Comments', // This matches GOVERNANCE_YEARLY_POSTS_LEDGERS[1].ledger
         unified_metric: entry.comments
       })
     }
@@ -383,7 +383,7 @@ export function prepareUnifiedMultiMetricData(
     if (entry.users !== undefined) {
       unifiedData.push({
         ...entry,
-        ledger: "Users", // This matches GOVERNANCE_YEARLY_POSTS_LEDGERS[2].ledger
+        ledger: 'Users', // This matches GOVERNANCE_YEARLY_POSTS_LEDGERS[2].ledger
         unified_metric: entry.users
       })
     }
@@ -395,7 +395,7 @@ export function prepareUnifiedMultiMetricData(
 // Use the standard getLedgerColor function directly
 export function getGovernanceLedgerColor(ledger: string): string {
   // Use the standard getLedgerColor with "governance-posts" layer type
-  return getLedgerColor(ledger, "governance-posts")
+  return getLedgerColor(ledger, 'governance-posts')
 }
 
 // Simplified: prepareGovernanceMultiMetricChartData function
@@ -410,17 +410,20 @@ export function prepareGovernanceMultiMetricChartData(
   }
 
   // Group data by ledger (Posts, Comments, Users)
-  const groupedData = data.reduce((acc, entry) => {
-    if (!acc[entry.ledger]) {
-      acc[entry.ledger] = []
-    }
-    acc[entry.ledger].push(entry)
-    return acc
-  }, {} as Record<string, GovernanceDataEntry[]>)
+  const groupedData = data.reduce(
+    (acc, entry) => {
+      if (!acc[entry.ledger]) {
+        acc[entry.ledger] = []
+      }
+      acc[entry.ledger].push(entry)
+      return acc
+    },
+    {} as Record<string, GovernanceDataEntry[]>
+  )
 
   const datasets = Object.entries(groupedData).map(([ledger, entries]) => {
     // Use the standard getLedgerColor function directly
-    const color = getLedgerColor(ledger, "governance-posts")
+    const color = getLedgerColor(ledger, 'governance-posts')
 
     return {
       label: ledger,
@@ -435,7 +438,7 @@ export function prepareGovernanceMultiMetricChartData(
       pointRadius: 4,
       pointHoverRadius: 6,
       pointBackgroundColor: color,
-      pointBorderColor: "#fff",
+      pointBorderColor: '#fff',
       pointBorderWidth: 2
     }
   })
@@ -449,15 +452,15 @@ export function prepareGovernanceMultiMetricChartData(
 // Add to your governance utils or constants file
 export const GOVERNANCE_DOUGHNUT_ITEMS = [
   {
-    name: "Bitcoin Governance",
-    url: "https://github.com/bitcoin/bitcoin",
-    repo: "bitcoin-governance"
+    name: 'Bitcoin Governance',
+    url: 'https://github.com/bitcoin/bitcoin',
+    repo: 'bitcoin-governance'
   }
 ]
 
 // Add to your governance utils
 export function getGovernanceDoughnutPath() {
-  return "/output/governance/bitcoin/pie_chart_top_10_authors.csv"
+  return '/output/governance/bitcoin/pie_chart_top_10_authors.csv'
 }
 
 export async function loadGovernanceDoughnutCsvData(
@@ -475,14 +478,14 @@ export async function loadGovernanceDoughnutCsvData(
 export function parseGovernanceDoughnutCsv(
   csvData: string
 ): GovernanceDataEntry[] {
-  const lines = csvData.trim().split("\n")
+  const lines = csvData.trim().split('\n')
   if (lines.length < 2) return [] // No data rows
 
   const data: GovernanceDataEntry[] = []
 
   // Skip header row (rank,author,total_comments,percentage), start from index 1
   for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(",").map((v) => v.trim())
+    const values = lines[i].split(',').map((v) => v.trim())
 
     // Expected format: rank,author,total_comments,percentage
     if (values.length >= 4) {
@@ -494,7 +497,7 @@ export function parseGovernanceDoughnutCsv(
       if (author && !isNaN(totalComments) && !isNaN(percentage)) {
         data.push({
           author: author,
-          ledger: "governance",
+          ledger: 'governance',
           date: new Date(),
           total_comments: totalComments,
           percentage: percentage
@@ -532,7 +535,7 @@ export function transformCommunityDataForMultiAxis(
   const communitiesData: DataEntry[] = communityModularityData.map((entry) => ({
     date: entry.date,
     ledger: entry.ledger,
-    metric: "Number of Communities",
+    metric: 'Number of Communities',
     value: entry.communities || 0,
     communities: entry.communities
   }))
@@ -540,7 +543,7 @@ export function transformCommunityDataForMultiAxis(
   const modularityData: DataEntry[] = communityModularityData.map((entry) => ({
     date: entry.date,
     ledger: entry.ledger,
-    metric: "Modularity Score",
+    metric: 'Modularity Score',
     value: entry.modularity || 0,
     modularity: entry.modularity
   }))
@@ -549,7 +552,7 @@ export function transformCommunityDataForMultiAxis(
   const nodesData: DataEntry[] = communityModularityData.map((entry) => ({
     date: entry.date,
     ledger: entry.ledger,
-    metric: "Nodes",
+    metric: 'Nodes',
     value: entry.nodes || 0,
     nodes: entry.nodes
   }))
@@ -600,34 +603,34 @@ export function transformPostsCommentsForMultiAxis(
 
   return data.flatMap((entry) => {
     const date = entry.date
-    const ledger = entry.ledger || "governance"
+    const ledger = entry.ledger || 'governance'
     const out: DataEntry[] = []
 
-    if (typeof entry.posts === "number") {
+    if (typeof entry.posts === 'number') {
       out.push({
         date,
         ledger,
-        metric: "Posts",
+        metric: 'Posts',
         value: entry.posts,
         posts: entry.posts
       })
     }
 
-    if (typeof entry.comments === "number") {
+    if (typeof entry.comments === 'number') {
       out.push({
         date,
         ledger,
-        metric: "Comments",
+        metric: 'Comments',
         value: entry.comments,
         comments: entry.comments
       })
     }
 
-    if (typeof entry.users === "number") {
+    if (typeof entry.users === 'number') {
       out.push({
         date,
         ledger,
-        metric: "Users",
+        metric: 'Users',
         value: entry.users,
         users: entry.users
       })

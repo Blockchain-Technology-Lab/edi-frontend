@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
 import {
   getGeographyCsvFileName,
   loadGeographyCsvData
-} from "@/utils/geography"
-import { GEOGRAPHY_CSV, GEOGRAPHY_LEDGERS } from "@/utils"
-import type { DataEntry } from "@/utils/types"
+} from '@/utils/geography'
+import { GEOGRAPHY_CSV, GEOGRAPHY_LEDGERS } from '@/utils'
+import type { DataEntry } from '@/utils/types'
 
 export function useGeographyCsv() {
   const [nodesData, setNodesData] = useState<DataEntry[]>([])
@@ -25,7 +25,7 @@ export function useGeographyCsv() {
 
         setNodesData(results.flat())
       } catch (err) {
-        setError(err instanceof Error ? err : new Error("Unknown error"))
+        setError(err instanceof Error ? err : new Error('Unknown error'))
       } finally {
         setLoading(false)
       }

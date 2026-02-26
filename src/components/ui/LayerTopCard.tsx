@@ -1,5 +1,5 @@
-import { GitHubButton } from "@/components"
-import { useNavigate } from "@tanstack/react-router"
+import { GitHubButton } from '@/components'
+import { useNavigate } from '@tanstack/react-router'
 
 type LayerTopCardProps = {
   title: string

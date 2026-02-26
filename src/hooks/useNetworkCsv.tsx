@@ -1,14 +1,14 @@
 // hooks/useNetworkCsv.tsx
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
 import {
   getNetworkOrganizationsCsvFileName,
   loadNetworkOrganizationsCsvData,
   loadNetworkBarCsvData,
   getNetworkFullNodes,
   type NetworkBarEntry
-} from "@/utils/network"
-import type { DataEntry } from "@/utils/types"
-import { NETWORK_LEDGERS } from "@/utils"
+} from '@/utils/network'
+import type { DataEntry } from '@/utils/types'
+import { NETWORK_LEDGERS } from '@/utils'
 
 export function useNetworkCsv() {
   const [nodesData, setNodesData] = useState<NetworkBarEntry[]>([])
@@ -35,7 +35,7 @@ export function useNetworkCsv() {
         setNodesData(nodeResults)
         setOrgData(orgResults.flat())
       } catch (err) {
-        setError(err instanceof Error ? err : new Error("Unknown error"))
+        setError(err instanceof Error ? err : new Error('Unknown error'))
       } finally {
         setLoading(false)
       }

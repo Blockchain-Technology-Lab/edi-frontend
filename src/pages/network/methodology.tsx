@@ -1,5 +1,5 @@
-import { AppLink } from "@/components"
-import { CONSENSUS_METHOD_CARD } from "@/utils"
+import { AppLink } from '@/components'
+import { CONSENSUS_METHOD_CARD } from '@/utils'
 
 export function NetworkMethodology() {
   return (
@@ -28,7 +28,7 @@ export function NetworkMethodology() {
           <p>
             <AppLink href="https://informatics.ed.ac.uk/blockchain/edi">
               The Edinburgh Decentralisation Index (EDI)
-            </AppLink>{" "}
+            </AppLink>{' '}
             is a methodology framework for defining, analysing, and evaluating
             the decentralisation level of blockchain systems across multiple
             layers. These layers are: Hardware, Software, Network, Consensus,
@@ -49,11 +49,11 @@ export function NetworkMethodology() {
             historical data.
           </p>
           <p>
-            Regarding the Bitcoin network, the crawler is based on the{" "}
+            Regarding the Bitcoin network, the crawler is based on the{' '}
             <AppLink href="https://github.com/ayeowch/bitnodes">
               Bitnodes
-            </AppLink>{" "}
-            project. More than half of the nodes use Tor (see{" "}
+            </AppLink>{' '}
+            project. More than half of the nodes use Tor (see{' '}
             <AppLink href="/geography/countries">
               Countries Distribution
             </AppLink>
@@ -64,14 +64,14 @@ export function NetworkMethodology() {
           <p>
             In Ethereum's case, the network architecture consists of two
             distinct layers: execution and consensus. The dashboard reflects
-            this architectural separation. The crawler used is{" "}
+            this architectural separation. The crawler used is{' '}
             <AppLink href="https://github.com/LauraAntunes1/fast-ethereum-crawler.git">
               fast-ethereum-crawler
-            </AppLink>{" "}
+            </AppLink>{' '}
             .
           </p>
           <p>
-            Data about Cardano relay nodes is collected using{" "}
+            Data about Cardano relay nodes is collected using{' '}
             <AppLink href="https://blockfrost.io/">Blockfrost</AppLink>.
           </p>
         </div>

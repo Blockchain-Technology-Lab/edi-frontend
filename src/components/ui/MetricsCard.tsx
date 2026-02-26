@@ -1,9 +1,9 @@
-import { LineChart } from "@/components"
-import { Info } from "lucide-react"
-import Tippy from "@tippyjs/react"
-import "tippy.js/dist/tippy.css"
-import type { LayerType } from "@/utils"
-import type { DataEntry } from "@/utils/types"
+import { LineChart } from '@/components'
+import { Info } from 'lucide-react'
+import Tippy from '@tippyjs/react'
+import 'tippy.js/dist/tippy.css'
+import type { LayerType } from '@/utils'
+import type { DataEntry } from '@/utils/types'
 
 export type Series = { label: string; data: DataEntry[] }
 
@@ -51,7 +51,7 @@ interface MetricsCardProps {
   data: DataEntry[]
   loading: boolean
   type: LayerType
-  timeUnit?: "year" | "month" | "day"
+  timeUnit?: 'year' | 'month' | 'day'
   padYAxis?: boolean
   selectedSystems?: Set<string>
   onSystemToggle?: (system: string) => void
@@ -64,7 +64,7 @@ export function MetricsCard({
   data,
   loading,
   type,
-  timeUnit = "year",
+  timeUnit = 'year',
   padYAxis = false,
   selectedSystems,
   onSystemToggle

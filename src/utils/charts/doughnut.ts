@@ -1,9 +1,9 @@
-import { getColorsForChart } from "@/utils"
+import { getColorsForChart } from '@/utils'
 import type {
   FinalData,
   DoughnutDataEntry,
   GovernanceDataEntry
-} from "@/utils/types"
+} from '@/utils/types'
 
 // Function to prepare finalData for single doughnutData
 export function prepareFinalDataForSingleChart(
@@ -12,7 +12,7 @@ export function prepareFinalDataForSingleChart(
   const colors = getColorsForChart(doughnutData.length)
 
   return {
-    labels: doughnutData.map((item) => item.author || "Unknown"),
+    labels: doughnutData.map((item) => item.author || 'Unknown'),
     datasets: [
       {
         data: doughnutData.map((item) => Math.round(Number(item.commits))),
@@ -31,7 +31,7 @@ export function prepareFinalDataForGovChart(
   const colors = getColorsForChart(doughnutData.length)
 
   return {
-    labels: doughnutData.map((item) => item.author || "Unknown"),
+    labels: doughnutData.map((item) => item.author || 'Unknown'),
     datasets: [
       {
         data: doughnutData.map((item) =>

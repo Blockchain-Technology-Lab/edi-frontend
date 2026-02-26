@@ -1,9 +1,9 @@
-import { ChangelogTimeline } from "@/components";
+import { ChangelogTimeline } from '@/components'
 
 export function Changelog() {
-    return (
-        <>
-            <ChangelogTimeline />
-        </>
-    )
+  return (
+    <>
+      <ChangelogTimeline />
+    </>
+  )
 }

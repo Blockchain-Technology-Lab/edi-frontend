@@ -1,5 +1,5 @@
-import * as RadixSlider from "@radix-ui/react-slider"
-import { twJoin } from "tailwind-merge"
+import * as RadixSlider from '@radix-ui/react-slider'
+import { twJoin } from 'tailwind-merge'
 
 export function RangeSlider(props: RadixSlider.SliderProps) {
   return (
@@ -20,9 +20,9 @@ function Thumb() {
   return (
     <RadixSlider.Thumb
       className={twJoin(
-        "w-4 h-4 rounded-full border-2 border-base-content bg-base-100",
-        "focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-base-300",
-        "transition-colors duration-150 ease-in-out"
+        'w-4 h-4 rounded-full border-2 border-base-content bg-base-100',
+        'focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-base-300',
+        'transition-colors duration-150 ease-in-out'
       )}
     />
   )

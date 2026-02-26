@@ -36,7 +36,7 @@ export function CheckboxGroup({
       {label && <label className="text-sm font-medium">{label}</label>}
       <div
         className={
-          stacked ? "flex flex-col gap-3 w-full" : "flex flex-wrap gap-4"
+          stacked ? 'flex flex-col gap-3 w-full' : 'flex flex-wrap gap-4'
         }
       >
         {items.map((item) => {

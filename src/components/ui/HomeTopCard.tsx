@@ -1,18 +1,18 @@
 type HomeTopCardProps = {
-  title: string;
-  description: string;
-  imageSrc: string;
-  webUrl?: string;
-  btnTitle?: string;
-  btnDesc?: string;
-};
+  title: string
+  description: string
+  imageSrc: string
+  webUrl?: string
+  btnTitle?: string
+  btnDesc?: string
+}
 
 export function HomeTopCard({
   title,
   description,
   imageSrc,
   webUrl,
-  btnTitle = "Website",
+  btnTitle = 'Website',
   btnDesc = ''
 }: HomeTopCardProps) {
   return (
@@ -40,5 +40,5 @@ export function HomeTopCard({
         </div>
       </div>
     </div>
-  );
+  )
 }

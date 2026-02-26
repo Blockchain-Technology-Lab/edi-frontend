@@ -1,7 +1,7 @@
 // utils/network.ts
-import type { DataEntry } from "@/utils/types"
-import { NETWORK_CSV } from "@/utils/paths"
-import { BASE_LEDGER_COLORS } from "@/utils/charts/constants"
+import type { DataEntry } from '@/utils/types'
+import { NETWORK_CSV } from '@/utils/paths'
+import { BASE_LEDGER_COLORS } from '@/utils/charts/constants'
 
 // --- Constants ---
 
@@ -9,44 +9,44 @@ import { BASE_LEDGER_COLORS } from "@/utils/charts/constants"
 
 export const NETWORK_METRICS = [
   {
-    metric: "hhi",
-    title: "HHI",
+    metric: 'hhi',
+    title: 'HHI',
     description:
-      "The Herfindahl-Hirschman Index (HHI) is a measure of market system. Values close to 0 indicate low concentration (many 10,000 indicate high concentration (one organisation controls most or all nodes).",
+      'The Herfindahl-Hirschman Index (HHI) is a measure of market system. Values close to 0 indicate low concentration (many 10,000 indicate high concentration (one organisation controls most or all nodes).',
     decimals: 0,
-    source: "orgs"
+    source: 'orgs'
   },
   {
-    metric: "nakamoto_coefficient",
-    title: "Nakamoto Coefficient",
+    metric: 'nakamoto_coefficient',
+    title: 'Nakamoto Coefficient',
     description:
-      "The Nakamoto coefficient represents the minimum number of entities case, the majority of nodes).",
+      'The Nakamoto coefficient represents the minimum number of entities case, the majority of nodes).',
     decimals: 0,
-    source: "orgs",
+    source: 'orgs',
     padYAxis: true
   },
   {
-    metric: "max_power_ratio",
-    title: "1-Concentration Ratio",
+    metric: 'max_power_ratio',
+    title: '1-Concentration Ratio',
     description:
-      "The 1-concentration ratio represents the share of nodes that are owned owns the most nodes.",
+      'The 1-concentration ratio represents the share of nodes that are owned owns the most nodes.',
     decimals: 2,
-    source: "orgs"
+    source: 'orgs'
   }
 ]
 
 const NETWORK_NODES = {
-  COLUMNS: ["number_nodes"],
-  PREFIX: "number_nodes"
+  COLUMNS: ['number_nodes'],
+  PREFIX: 'number_nodes'
 }
 
 const NETWORK_ORGANIZATIONS = {
-  COLUMNS: ["hhi", "nakamoto_coefficient", "max_power_ratio"],
-  PREFIX: "output_organizations"
+  COLUMNS: ['hhi', 'nakamoto_coefficient', 'max_power_ratio'],
+  PREFIX: 'output_organizations'
 }
 
 const NETWORK_DISTRIBUTION = {
-  PREFIX: "clustered_organizations"
+  PREFIX: 'clustered_organizations'
 }
 
 // --- Filename Getters ---
@@ -72,26 +72,26 @@ export function getNetworkFullNodes() {
 export async function loadNetworkNodesCsvData(
   fileName: string
 ): Promise<DataEntry[]> {
-  return await fetchAndParseCsv(fileName, NETWORK_NODES.COLUMNS, "nodes")
+  return await fetchAndParseCsv(fileName, NETWORK_NODES.COLUMNS, 'nodes')
 }
 
 export async function loadNetworkOrganizationsCsvData(
   fileName: string
 ): Promise<DataEntry[]> {
-  return await fetchAndParseCsv(fileName, NETWORK_ORGANIZATIONS.COLUMNS, "orgs")
+  return await fetchAndParseCsv(fileName, NETWORK_ORGANIZATIONS.COLUMNS, 'orgs')
 }
 
 // --- Parser ---
 
 function parseGenericCSV(csvData: string, valueColumns: string[]): DataEntry[] {
-  const lines = csvData.trim().split("\n")
-  const headers = lines[0].split(",").map((h) => h.trim())
-  const cleanKeys = valueColumns.map((c) => c.replace("=", "_"))
+  const lines = csvData.trim().split('\n')
+  const headers = lines[0].split(',').map((h) => h.trim())
+  const cleanKeys = valueColumns.map((c) => c.replace('=', '_'))
 
   const data: DataEntry[] = []
 
   for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(",")
+    const values = lines[i].split(',')
     if (values.length !== headers.length) continue
 
     const entry: Partial<DataEntry> = {}
@@ -100,19 +100,19 @@ function parseGenericCSV(csvData: string, valueColumns: string[]): DataEntry[] {
       const header = headers[j]
       const value = values[j].trim()
 
-      if (header === "date") {
+      if (header === 'date') {
         entry.date = new Date(value)
-      } else if (header === "ledger") {
+      } else if (header === 'ledger') {
         entry.ledger = value
       } else if (valueColumns.includes(header)) {
-        const cleanHeader = header.replace("=", "_")
+        const cleanHeader = header.replace('=', '_')
         const parsed = parseFloat(value)
         entry[cleanHeader] = isNaN(parsed) ? null : parsed
       }
     }
 
     const hasValidMetric = cleanKeys.some(
-      (key) => typeof entry[key as keyof DataEntry] === "number"
+      (key) => typeof entry[key as keyof DataEntry] === 'number'
     )
 
     if (entry.ledger && entry.date && hasValidMetric) {
@@ -125,7 +125,7 @@ function parseGenericCSV(csvData: string, valueColumns: string[]): DataEntry[] {
 }
 
 function sortByLedgerAndDate(a: DataEntry, b: DataEntry): number {
-  const ledgerCompare = (a.ledger || "").localeCompare(b.ledger || "")
+  const ledgerCompare = (a.ledger || '').localeCompare(b.ledger || '')
   return ledgerCompare !== 0
     ? ledgerCompare
     : a.date.getTime() - b.date.getTime()
@@ -157,17 +157,17 @@ export type NetworkBarEntry = {
 }
 
 export function parseNetworkBarCsv(csv: string): NetworkBarEntry[] {
-  const lines = csv.trim().split("\n")
+  const lines = csv.trim().split('\n')
   if (lines.length < 2) return []
 
-  const headers = lines[0].split(",").map((h) => h.trim())
-  const ledgerIdx = headers.indexOf("ledger")
-  const nodesIdx = headers.indexOf("nodes")
+  const headers = lines[0].split(',').map((h) => h.trim())
+  const ledgerIdx = headers.indexOf('ledger')
+  const nodesIdx = headers.indexOf('nodes')
 
   const data: NetworkBarEntry[] = []
 
   for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(",")
+    const values = lines[i].split(',')
     if (values.length !== headers.length) continue
 
     const ledger = values[ledgerIdx]?.trim()
@@ -199,53 +199,53 @@ export async function loadNetworkBarCsvData(
 
 export const NETWORK_BAR_CHART_LEDGER_DETAILS = [
   {
-    ledger: "bitcoin",
-    displayName: "Bitcoin",
+    ledger: 'bitcoin',
+    displayName: 'Bitcoin',
     color: BASE_LEDGER_COLORS.bitcoin
   },
   {
-    ledger: "bitcoin_without_tor",
-    displayName: "Bitcoin (without Tor)",
+    ledger: 'bitcoin_without_tor',
+    displayName: 'Bitcoin (without Tor)',
     color: BASE_LEDGER_COLORS.bitcoin_without_tor
   },
   {
-    ledger: "bitcoin_cash",
-    displayName: "Bitcoin Cash",
+    ledger: 'bitcoin_cash',
+    displayName: 'Bitcoin Cash',
     color: BASE_LEDGER_COLORS.bitcoin_cash
   },
   {
-    ledger: "dogecoin",
-    displayName: "Dogecoin",
+    ledger: 'dogecoin',
+    displayName: 'Dogecoin',
     color: BASE_LEDGER_COLORS.dogecoin
   },
   {
-    ledger: "litecoin",
-    displayName: "Litecoin",
+    ledger: 'litecoin',
+    displayName: 'Litecoin',
     color: BASE_LEDGER_COLORS.litecoin
   },
   {
-    ledger: "zcash",
-    displayName: "ZCash",
+    ledger: 'zcash',
+    displayName: 'ZCash',
     color: BASE_LEDGER_COLORS.zcash
   },
   {
-    ledger: "consensus",
-    displayName: "Ethereum (Consensus)",
-    color: "#808080"
+    ledger: 'consensus',
+    displayName: 'Ethereum (Consensus)',
+    color: '#808080'
   },
   {
-    ledger: "execution",
-    displayName: "Ethereum (Execution)",
-    color: "#b0b0b0"
+    ledger: 'execution',
+    displayName: 'Ethereum (Execution)',
+    color: '#b0b0b0'
   },
   {
-    ledger: "cardano",
-    displayName: "Cardano",
+    ledger: 'cardano',
+    displayName: 'Cardano',
     color: BASE_LEDGER_COLORS.cardano
   }
 ]
 
-export const NETWORK_DEFAULT_BAR_COLOUR = "#2563eb" // fallback blue
+export const NETWORK_DEFAULT_BAR_COLOUR = '#2563eb' // fallback blue
 
 export function prepareBarChartData(data: NetworkBarEntry[]) {
   // Sort the data alphabetically based on display names
