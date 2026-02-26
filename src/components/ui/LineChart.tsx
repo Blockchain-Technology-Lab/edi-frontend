@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef, useContext } from "react"
-import { Line } from "react-chartjs-2"
+import { useEffect, useMemo, useRef, useContext } from 'react'
+import { Line } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
   type ChartOptions,
@@ -10,15 +10,15 @@ import {
   TimeScale,
   Tooltip,
   Legend
-} from "chart.js"
-import { useChartData, useExportChart } from "@/hooks"
-import { RangeSlider } from "@/components"
-import { createWatermarkPlugin, type LayerType } from "@/utils"
-import { ThemeContext } from "@/contexts"
-import type { DataEntry } from "@/utils/types"
+} from 'chart.js'
+import { useChartData, useExportChart } from '@/hooks'
+import { RangeSlider } from '@/components'
+import { createWatermarkPlugin, type LayerType } from '@/utils'
+import { ThemeContext } from '@/contexts'
+import type { DataEntry } from '@/utils/types'
 
-import "chartjs-adapter-date-fns"
-import { ImageDown } from "lucide-react"
+import 'chartjs-adapter-date-fns'
+import { ImageDown } from 'lucide-react'
 
 // Add multi-axis configuration
 interface MultiAxisConfig {
@@ -40,7 +40,7 @@ type LineProps = {
   csvData?: DataEntry[]
   isLoadingCsvData?: boolean
   type: LayerType
-  timeUnit?: "year" | "month" | "day"
+  timeUnit?: 'year' | 'month' | 'day'
   padYAxis?: boolean
   tooltipDecimals?: number
   yAxisDecimals?: number | null
@@ -54,7 +54,7 @@ export function LineChart({
   metric,
   csvData,
   isLoadingCsvData = false,
-  timeUnit = "year",
+  timeUnit = 'year',
   padYAxis,
   tooltipDecimals,
   yAxisDecimals,
@@ -96,15 +96,15 @@ export function LineChart({
       {
         label: leftLabel,
         data: leftAxisData,
-        borderColor: multiAxis.leftAxisColor || "#ef4444",
-        backgroundColor: `${multiAxis.leftAxisColor || "#ef4444"}20`,
-        yAxisID: "y", // Left axis
+        borderColor: multiAxis.leftAxisColor || '#ef4444',
+        backgroundColor: `${multiAxis.leftAxisColor || '#ef4444'}20`,
+        yAxisID: 'y', // Left axis
         fill: false,
         tension: 0.1,
         pointRadius: 2,
         pointHoverRadius: 6,
-        pointBackgroundColor: multiAxis.leftAxisColor || "#ef4444",
-        pointBorderColor: "#fff",
+        pointBackgroundColor: multiAxis.leftAxisColor || '#ef4444',
+        pointBorderColor: '#fff',
         pointBorderWidth: 1
       }
     ]
@@ -114,7 +114,7 @@ export function LineChart({
       multiAxis.rightAxisMetrics.forEach((metricName, idx) => {
         const color =
           multiAxis.rightAxisColors?.[idx] ??
-          (idx === 0 ? "#3b82f6" : "#10b981")
+          (idx === 0 ? '#3b82f6' : '#10b981')
         const label = metricName
 
         const data = filteredCsv
@@ -126,13 +126,13 @@ export function LineChart({
           data,
           borderColor: color,
           backgroundColor: `${color}20`,
-          yAxisID: "y1",
+          yAxisID: 'y1',
           fill: false,
           tension: 0.1,
           pointRadius: 2,
           pointHoverRadius: 6,
           pointBackgroundColor: color,
-          pointBorderColor: "#fff",
+          pointBorderColor: '#fff',
           pointBorderWidth: 1
         })
       })
@@ -152,15 +152,15 @@ export function LineChart({
       datasets.push({
         label: rightLabel,
         data: rightAxisData,
-        borderColor: multiAxis.rightAxisColor || "#3b82f6",
-        backgroundColor: `${multiAxis.rightAxisColor || "#3b82f6"}20`,
-        yAxisID: "y1", // Right axis
+        borderColor: multiAxis.rightAxisColor || '#3b82f6',
+        backgroundColor: `${multiAxis.rightAxisColor || '#3b82f6'}20`,
+        yAxisID: 'y1', // Right axis
         fill: false,
         tension: 0.1,
         pointRadius: 2,
         pointHoverRadius: 6,
-        pointBackgroundColor: multiAxis.rightAxisColor || "#3b82f6",
-        pointBorderColor: "#fff",
+        pointBackgroundColor: multiAxis.rightAxisColor || '#3b82f6',
+        pointBorderColor: '#fff',
         pointBorderWidth: 1
       })
     }
@@ -235,7 +235,7 @@ export function LineChart({
       <div className="aspect-video">
         <Line
           key={`chart-${metric}-${resolvedTheme}-${
-            multiAxis ? "multi" : "single"
+            multiAxis ? 'multi' : 'single'
           }`}
           data={{
             labels: finalChartData?.labels,
@@ -290,7 +290,7 @@ function LineChartSkeleton() {
 function getChartOptions(
   metric: string,
   theme: string,
-  timeUnit: "year" | "month" | "day" = "year",
+  timeUnit: 'year' | 'month' | 'day' = 'year',
   yValues: number[] = [],
   padYAxis = false,
   tooltipDecimals?: number,
@@ -298,46 +298,46 @@ function getChartOptions(
   multiAxis?: MultiAxisConfig,
   onSystemToggle?: (system: string) => void,
   selectedSystems?: Set<string>
-): ChartOptions<"line"> {
-  const mainColor = theme === "dim" ? "white" : "black"
+): ChartOptions<'line'> {
+  const mainColor = theme === 'dim' ? 'white' : 'black'
   const minYRaw = Math.min(...yValues)
 
-  const baseOptions: ChartOptions<"line"> = {
+  const baseOptions: ChartOptions<'line'> = {
     responsive: true,
     maintainAspectRatio: false,
     animation: {
       duration: 1000,
-      easing: "easeInOutQuad",
+      easing: 'easeInOutQuad',
       delay: (ctx) => ctx.dataIndex * 10
     },
     plugins: {
       tooltip: {
-        mode: "x",
+        mode: 'x',
         intersect: false,
-        backgroundColor: "rgba(0, 0, 0, 0.4)",
-        bodyColor: "white",
-        titleColor: "white",
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        bodyColor: 'white',
+        titleColor: 'white',
         filter(item, _, items) {
           return items[0].label === item.label
         },
         callbacks: {
           title: function (context) {
             const x = context[0].parsed.x
-            if (x === null || x === undefined) return ""
+            if (x === null || x === undefined) return ''
             const date = new Date(x)
-            return `${timeUnit === "year" ? "Year" : "Date"}: ${
-              timeUnit === "year"
+            return `${timeUnit === 'year' ? 'Year' : 'Date'}: ${
+              timeUnit === 'year'
                 ? date.getFullYear()
-                : date.toLocaleDateString("en-GB")
+                : date.toLocaleDateString('en-GB')
             }`
           },
           label: function (context) {
             const value = context.parsed.y
-            if (value === null || value === undefined) return ""
-            const label = context.dataset.label || ""
+            if (value === null || value === undefined) return ''
+            const label = context.dataset.label || ''
 
             const formatted =
-              typeof tooltipDecimals === "number"
+              typeof tooltipDecimals === 'number'
                 ? value.toLocaleString(undefined, {
                     minimumFractionDigits: tooltipDecimals,
                     maximumFractionDigits: tooltipDecimals
@@ -350,13 +350,13 @@ function getChartOptions(
       },
       legend: {
         display: true,
-        position: "top" as const,
+        position: 'top' as const,
         labels: {
           color: mainColor,
           usePointStyle: true,
-          pointStyle: multiAxis ? "line" : "circle",
+          pointStyle: multiAxis ? 'line' : 'circle',
           filter: function (legendItem, chartData) {
-            if (multiAxis && typeof legendItem.datasetIndex === "number") {
+            if (multiAxis && typeof legendItem.datasetIndex === 'number') {
               const dataset = chartData.datasets[legendItem.datasetIndex]
               if (dataset) {
                 ;(legendItem as any).fontColor = dataset.borderColor
@@ -369,13 +369,13 @@ function getChartOptions(
           if (
             onSystemToggle &&
             selectedSystems &&
-            typeof e.datasetIndex === "number"
+            typeof e.datasetIndex === 'number'
           ) {
             const dataset = e.chart.data.datasets[e.datasetIndex]
             if (dataset && dataset.label) {
               const systemName = dataset.label
                 .toLowerCase()
-                .replace(/\\s+/g, "_")
+                .replace(/\\s+/g, '_')
               onSystemToggle(systemName)
             }
           }
@@ -384,15 +384,15 @@ function getChartOptions(
     },
     scales: {
       x: {
-        type: "time",
+        type: 'time',
         time: {
           unit: timeUnit,
-          parser: "yyyy-MM-dd",
-          tooltipFormat: "PP",
+          parser: 'yyyy-MM-dd',
+          tooltipFormat: 'PP',
           displayFormats: {
-            year: "yyyy",
-            month: "MMM yyyy",
-            day: "dd MMM yyyy"
+            year: 'yyyy',
+            month: 'MMM yyyy',
+            day: 'dd MMM yyyy'
           }
         },
         // PRESERVE ORIGINAL GRID STYLING
@@ -407,7 +407,7 @@ function getChartOptions(
       },
       y: {
         display: true,
-        position: multiAxis ? "left" : undefined,
+        position: multiAxis ? 'left' : undefined,
         title: {
           display: true,
           text: multiAxis ? multiAxis.leftAxisLabel : metric
@@ -417,7 +417,7 @@ function getChartOptions(
         ticks: {
           color: multiAxis ? multiAxis.leftAxisColor : mainColor,
           callback: function (value) {
-            if (typeof yAxisDecimals === "number") {
+            if (typeof yAxisDecimals === 'number') {
               return Number(value).toLocaleString(undefined, {
                 minimumFractionDigits: yAxisDecimals,
                 maximumFractionDigits: yAxisDecimals
@@ -438,7 +438,7 @@ function getChartOptions(
         ...(padYAxis && {
           afterDataLimits(scale) {
             const values = scale.chart.data.datasets.flatMap((ds) =>
-              ds.data.map((p: any) => (typeof p === "number" ? p : p.y))
+              ds.data.map((p: any) => (typeof p === 'number' ? p : p.y))
             )
             const min = Math.min(...values)
             const max = Math.max(...values)
@@ -454,9 +454,9 @@ function getChartOptions(
   // Add right axis for multi-axis charts ONLY - don't change main grid
   if (multiAxis) {
     baseOptions.scales!.y1 = {
-      type: "linear",
+      type: 'linear',
       display: true,
-      position: "right",
+      position: 'right',
       title: {
         display: true,
         text: multiAxis.rightAxisLabel,
@@ -465,7 +465,7 @@ function getChartOptions(
       ticks: {
         color: multiAxis.rightAxisColor,
         callback: function (value) {
-          if (typeof yAxisDecimals === "number") {
+          if (typeof yAxisDecimals === 'number') {
             return Number(value).toLocaleString(undefined, {
               minimumFractionDigits: yAxisDecimals,
               maximumFractionDigits: yAxisDecimals

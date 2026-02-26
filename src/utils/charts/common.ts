@@ -4,10 +4,10 @@ import {
   SOFTWARE_COLOURS,
   getLedgerColor,
   getLedgerDisplayName
-} from "@/utils"
+} from '@/utils'
 
-import type { Plugin } from "chart.js"
-import type { DataEntry } from "@/utils/types"
+import type { Plugin } from 'chart.js'
+import type { DataEntry } from '@/utils/types'
 
 type LedgerDataset = {
   label: string
@@ -24,24 +24,24 @@ type LedgerDatasets = {
 }
 
 export const LAYER_TYPES = [
-  "tokenomics",
-  "consensus",
-  "software",
-  "network",
-  "geography",
-  "governance",
-  "governance-posts"
+  'tokenomics',
+  'consensus',
+  'software',
+  'network',
+  'geography',
+  'governance',
+  'governance-posts'
 ] as const
 //export type LayerType = (typeof LAYER_TYPES)[number]
 
 export const LAYER_NAMES = {
-  TOKENOMICS: "tokenomics",
-  CONSENSUS: "consensus",
-  SOFTWARE: "software",
-  NETWORK: "network",
-  GEOGRAPHY: "geography",
-  GOVERNANCE: "governance",
-  GOVERNANCE_POSTS: "governance-posts"
+  TOKENOMICS: 'tokenomics',
+  CONSENSUS: 'consensus',
+  SOFTWARE: 'software',
+  NETWORK: 'network',
+  GEOGRAPHY: 'geography',
+  GOVERNANCE: 'governance',
+  GOVERNANCE_POSTS: 'governance-posts'
 } as const
 export type LayerType = (typeof LAYER_NAMES)[keyof typeof LAYER_NAMES]
 
@@ -76,10 +76,13 @@ export function getChartData(
 }
 
 export function getLedgerColorMap(ledgerNames: string[], colours: string[]) {
-  return ledgerNames.reduce((acc, ledger, index) => {
-    acc[ledger] = colours[index % colours.length]
-    return acc
-  }, {} as Record<string, string>)
+  return ledgerNames.reduce(
+    (acc, ledger, index) => {
+      acc[ledger] = colours[index % colours.length]
+      return acc
+    },
+    {} as Record<string, string>
+  )
 }
 
 function buildLabels(data: DataEntry[], minValue: number, maxValue: number) {
@@ -107,7 +110,7 @@ function buildDatasets(
     const ledger = entry.ledger
     const rawValue = entry[metric]
 
-    if (!ledger || typeof rawValue !== "number" || isNaN(rawValue)) return
+    if (!ledger || typeof rawValue !== 'number' || isNaN(rawValue)) return
 
     if (!ledgerDatasets[ledger]) {
       ledgerDatasets[ledger] = {
@@ -142,18 +145,18 @@ export function findMinMaxValues(data: DataEntry[]) {
 }
 
 // Define the plugin with theme support
-export function createWatermarkPlugin(theme?: string): Plugin<"doughnut"> {
+export function createWatermarkPlugin(theme?: string): Plugin<'doughnut'> {
   // Determine the image source based on the theme
   const imageSrc =
-    theme === "dim" ? LINECHART_WATERMARK_WHITE : LINECHART_WATERMARK_BLACK
+    theme === 'dim' ? LINECHART_WATERMARK_WHITE : LINECHART_WATERMARK_BLACK
 
-  const fontColor = theme === "dim" ? "white" : "black"
+  const fontColor = theme === 'dim' ? 'white' : 'black'
 
   return {
-    id: "customCanvasBackgroundImage",
+    id: 'customCanvasBackgroundImage',
     beforeDraw: (chart) => {
       // Check if `Image` is defined (only available in browser)
-      if (typeof window !== "undefined" && typeof Image !== "undefined") {
+      if (typeof window !== 'undefined' && typeof Image !== 'undefined') {
         const { ctx, chartArea } = chart
         // Ensure context and chartArea are available
         if (!ctx || !chartArea) return
@@ -161,7 +164,7 @@ export function createWatermarkPlugin(theme?: string): Plugin<"doughnut"> {
         const image = new Image()
         image.src = imageSrc
 
-        const currentDate = new Date().toISOString().split("T")[0]
+        const currentDate = new Date().toISOString().split('T')[0]
 
         if (image.complete) {
           // Image is loaded, draw it on the chart
@@ -184,11 +187,11 @@ export function createWatermarkPlugin(theme?: string): Plugin<"doughnut"> {
           }
 
           image.onerror = () => {
-            console.error("Failed to load watermark image.")
+            console.error('Failed to load watermark image.')
           }
         }
       } else {
-        console.warn("Image object is not available.")
+        console.warn('Image object is not available.')
       }
     }
   }
@@ -217,9 +220,9 @@ function drawWatermark(
   //ctx.drawImage(image, x_image, y_image); // Draw the image
   ctx.drawImage(image, x_image, y_image, watermarkWidth, watermarkHeight)
 
-  ctx.font = "12px Courier New" // font size and style
-  ctx.textAlign = "right"
-  ctx.textBaseline = "middle"
+  ctx.font = '12px Courier New' // font size and style
+  ctx.textAlign = 'right'
+  ctx.textBaseline = 'middle'
   ctx.fillStyle = fontColor // text color
   ctx.fillText(date, x_date, y_date)
   ctx.restore() // Restore the canvas state

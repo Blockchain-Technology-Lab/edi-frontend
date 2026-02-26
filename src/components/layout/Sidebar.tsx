@@ -1,5 +1,5 @@
-import { LayerMenuItem } from "@/components"
-import { Link, useRouterState } from "@tanstack/react-router"
+import { LayerMenuItem } from '@/components'
+import { Link, useRouterState } from '@tanstack/react-router'
 
 import {
   consensusTo,
@@ -8,59 +8,59 @@ import {
   softwareTo,
   geographyTo,
   governanceTo
-} from "@/routes/routePaths"
+} from '@/routes/routePaths'
 
-import { Scale, Coins, Network, Code, Globe, Gavel } from "lucide-react"
+import { Scale, Coins, Network, Code, Globe, Gavel } from 'lucide-react'
 
 const layerItems = [
   {
-    label: "Consensus",
+    label: 'Consensus',
     path: consensusTo,
-    bg: "bg-base-200",
-    text: "text-base-content",
+    bg: 'bg-base-200',
+    text: 'text-base-content',
     icon: <Scale size={36} />, // Reduced icon size for smaller sidebar
-    shortcut: "1"
+    shortcut: '1'
   },
   {
-    label: "Tokenomics",
+    label: 'Tokenomics',
     path: tokenomicsTo,
-    bg: "bg-base-200",
-    text: "text-base-content",
+    bg: 'bg-base-200',
+    text: 'text-base-content',
     icon: <Coins size={36} />,
-    shortcut: "2"
+    shortcut: '2'
   },
   {
-    label: "Network",
+    label: 'Network',
     path: networkTo,
-    bg: "bg-base-200",
-    text: "text-base-content",
+    bg: 'bg-base-200',
+    text: 'text-base-content',
     icon: <Network size={36} />,
-    shortcut: "3"
+    shortcut: '3'
   },
   {
-    label: "Software",
+    label: 'Software',
     path: softwareTo,
-    bg: "bg-base-200",
-    text: "text-base-content",
+    bg: 'bg-base-200',
+    text: 'text-base-content',
     icon: <Code size={36} />,
-    shortcut: "4"
+    shortcut: '4'
   },
   {
-    label: "Geography",
+    label: 'Geography',
     path: geographyTo,
-    bg: "bg-base-200",
-    text: "text-base-content",
+    bg: 'bg-base-200',
+    text: 'text-base-content',
     icon: <Globe size={36} />,
-    shortcut: "5"
+    shortcut: '5'
   },
   {
-    label: "Governance",
+    label: 'Governance',
     path: governanceTo,
-    bg: "bg-base-200",
-    text: "text-base-content",
+    bg: 'bg-base-200',
+    text: 'text-base-content',
     icon: <Gavel size={36} />,
     disabled: true,
-    shortcut: "6"
+    shortcut: '6'
   }
 ]
 

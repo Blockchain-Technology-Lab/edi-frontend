@@ -1,92 +1,87 @@
-import type { DoughnutDataEntry, GovernanceDataEntry } from "@/utils/types"
-import { loadDoughnutCsvData, loadGovernanceDoughnutCsvData } from "@/utils"
-import { useCallback, useEffect, useState } from "react"
+import type { DoughnutDataEntry, GovernanceDataEntry } from '@/utils/types'
+import { loadDoughnutCsvData, loadGovernanceDoughnutCsvData } from '@/utils'
+import { useCallback, useEffect, useState } from 'react'
 
 export function useDoughnutCsvLoader(csvPath: string) {
-    const [doughnutData, setDoughnutData] = useState<DoughnutDataEntry[]>([])
-    const [doughnutLoading, setDoughnutLoading] = useState<boolean>(true)
-    const [doughnutError, setDoughnutError] = useState<Error | null>(null)
+  const [doughnutData, setDoughnutData] = useState<DoughnutDataEntry[]>([])
+  const [doughnutLoading, setDoughnutLoading] = useState<boolean>(true)
+  const [doughnutError, setDoughnutError] = useState<Error | null>(null)
 
-    const load = useCallback(async () => {
-        setDoughnutLoading(true)
-        setDoughnutError(null)
-        try {
-            const csvDoughnutData = await loadDoughnutCsvData(csvPath)
+  const load = useCallback(async () => {
+    setDoughnutLoading(true)
+    setDoughnutError(null)
+    try {
+      const csvDoughnutData = await loadDoughnutCsvData(csvPath)
 
-            const topDoughnutData = getTopNAuthorsWithOthers(csvDoughnutData, 20)
+      const topDoughnutData = getTopNAuthorsWithOthers(csvDoughnutData, 20)
 
-            setDoughnutData(topDoughnutData)
+      setDoughnutData(topDoughnutData)
+    } catch (error) {
+      setDoughnutError(
+        error instanceof Error ? error : new Error('Unknown error occurred')
+      )
+    } finally {
+      setDoughnutLoading(false)
+    }
+  }, [csvPath])
 
-        } catch (error) {
-            setDoughnutError(
-                error instanceof Error ? error : new Error("Unknown error occurred")
-            )
-        } finally {
-            setDoughnutLoading(false)
-        }
-    }, [csvPath])
-
-    useEffect(() => {
-        load()
-    }, [load])
-    return { doughnutData, doughnutLoading, doughnutError }
+  useEffect(() => {
+    load()
+  }, [load])
+  return { doughnutData, doughnutLoading, doughnutError }
 }
-
 
 export function useGovDoughnutCsvLoader(csvPath: string) {
-    const [governanceDoughnutData, setGovernanceDoughnutData] = useState<GovernanceDataEntry[]>([])
-    const [doughnutLoading, setDoughnutLoading] = useState<boolean>(true)
-    const [doughnutError, setDoughnutError] = useState<Error | null>(null)
+  const [governanceDoughnutData, setGovernanceDoughnutData] = useState<
+    GovernanceDataEntry[]
+  >([])
+  const [doughnutLoading, setDoughnutLoading] = useState<boolean>(true)
+  const [doughnutError, setDoughnutError] = useState<Error | null>(null)
 
-    const load = useCallback(async () => {
-        setDoughnutLoading(true)
-        setDoughnutError(null)
-        try {
+  const load = useCallback(async () => {
+    setDoughnutLoading(true)
+    setDoughnutError(null)
+    try {
+      const governanceResult = await loadGovernanceDoughnutCsvData(csvPath)
+      setGovernanceDoughnutData(governanceResult)
+    } catch (error) {
+      setDoughnutError(
+        error instanceof Error ? error : new Error('Unknown error occurred')
+      )
+    } finally {
+      setDoughnutLoading(false)
+    }
+  }, [csvPath])
 
-
-            const governanceResult = await loadGovernanceDoughnutCsvData(csvPath)
-            setGovernanceDoughnutData(governanceResult)
-
-
-        } catch (error) {
-            setDoughnutError(
-                error instanceof Error ? error : new Error("Unknown error occurred")
-            )
-        } finally {
-            setDoughnutLoading(false)
-        }
-    }, [csvPath])
-
-    useEffect(() => {
-        load()
-    }, [load])
-    return { governanceDoughnutData, doughnutLoading, doughnutError }
+  useEffect(() => {
+    load()
+  }, [load])
+  return { governanceDoughnutData, doughnutLoading, doughnutError }
 }
 
-
 function getTopNAuthorsWithOthers(
-    data: DoughnutDataEntry[],
-    topN: number
+  data: DoughnutDataEntry[],
+  topN: number
 ): DoughnutDataEntry[] {
-    // Sort data by commits in descending order
-    const sortedData = data.sort((a, b) => b.commits - a.commits)
+  // Sort data by commits in descending order
+  const sortedData = data.sort((a, b) => b.commits - a.commits)
 
-    // Get top N entries
-    const topNData = sortedData.slice(0, topN)
+  // Get top N entries
+  const topNData = sortedData.slice(0, topN)
 
-    // Calculate the total commits of remaining authors
-    const remainingData = sortedData.slice(topN)
-    const totalRemainingCommits = remainingData.reduce(
-        (sum, entry) => sum + entry.commits,
-        0
-    )
+  // Calculate the total commits of remaining authors
+  const remainingData = sortedData.slice(topN)
+  const totalRemainingCommits = remainingData.reduce(
+    (sum, entry) => sum + entry.commits,
+    0
+  )
 
-    // Create "Others" entry if there are remaining authors
-    const othersEntry =
-        totalRemainingCommits > 0
-            ? { author: "Others", commits: totalRemainingCommits }
-            : null
+  // Create "Others" entry if there are remaining authors
+  const othersEntry =
+    totalRemainingCommits > 0
+      ? { author: 'Others', commits: totalRemainingCommits }
+      : null
 
-    // Combine top N data with "Others" entry
-    return othersEntry ? [...topNData, othersEntry] : topNData
+  // Combine top N data with "Others" entry
+  return othersEntry ? [...topNData, othersEntry] : topNData
 }

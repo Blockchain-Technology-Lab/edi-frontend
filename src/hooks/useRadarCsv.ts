@@ -1,39 +1,39 @@
-import { useState, useEffect } from 'react';
-import Papa from 'papaparse';
-import { RADAR_CSV } from '@/utils';
+import { useState, useEffect } from 'react'
+import Papa from 'papaparse'
+import { RADAR_CSV } from '@/utils'
 
 export interface RadarDataPoint {
-  protocol: string;
-  consensus: number;
-  tokenomics: number;
-  software: number;
-  network: number;
-  geography: number;
+  protocol: string
+  consensus: number
+  tokenomics: number
+  software: number
+  network: number
+  geography: number
 }
 
 interface UseRadarCsvReturn {
-  data: RadarDataPoint[];
-  loading: boolean;
-  error: string | null;
+  data: RadarDataPoint[]
+  loading: boolean
+  error: string | null
 }
 
 export function useRadarCsv(csvPath: string = RADAR_CSV): UseRadarCsvReturn {
-  const [data, setData] = useState<RadarDataPoint[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [data, setData] = useState<RadarDataPoint[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
-        setError(null);
+        setLoading(true)
+        setError(null)
 
-        const response = await fetch(csvPath);
+        const response = await fetch(csvPath)
         if (!response.ok) {
-          throw new Error(`Failed to fetch CSV: ${response.status}`);
+          throw new Error(`Failed to fetch CSV: ${response.status}`)
         }
 
-        const csvText = await response.text();
+        const csvText = await response.text()
 
         Papa.parse<Record<string, any>>(csvText, {
           header: true,
@@ -41,19 +41,19 @@ export function useRadarCsv(csvPath: string = RADAR_CSV): UseRadarCsvReturn {
           dynamicTyping: true,
           complete: (results) => {
             try {
-              const parsedData: RadarDataPoint[] = [];
+              const parsedData: RadarDataPoint[] = []
 
               // Check if we have data
               if (!results.data || results.data.length === 0) {
-                setError('No data found in CSV file');
-                return;
+                setError('No data found in CSV file')
+                return
               }
 
               // Get the protocol names (exclude empty column name)
-              const firstRow = results.data[0];
+              const firstRow = results.data[0]
               const protocols = Object.keys(firstRow).filter(
                 (key) => key !== '' && key.trim() !== ''
-              );
+              )
 
               //console.log('Found protocols:', protocols); // Debug log
 
@@ -65,54 +65,54 @@ export function useRadarCsv(csvPath: string = RADAR_CSV): UseRadarCsvReturn {
                   tokenomics: 0,
                   software: 0,
                   network: 0,
-                  geography: 0,
-                };
+                  geography: 0
+                }
 
                 // Find values for each metric
                 results.data.forEach((row) => {
-                  const metric = (row[''] as string)?.toLowerCase()?.trim();
-                  const value = parseFloat(row[protocol]) || 0;
+                  const metric = (row[''] as string)?.toLowerCase()?.trim()
+                  const value = parseFloat(row[protocol]) || 0
 
                   if (
                     metric &&
                     metric in protocolData &&
                     metric !== 'protocol'
                   ) {
-                    (protocolData as any)[metric] = value;
+                    ;(protocolData as any)[metric] = value
                   }
-                });
+                })
 
-                parsedData.push(protocolData);
-              });
+                parsedData.push(protocolData)
+              })
 
               //console.log('Parsed radar data:', parsedData); // Debug log
-              setData(parsedData);
+              setData(parsedData)
             } catch (parseError) {
-              console.error('Error parsing radar CSV data:', parseError);
-              setError('Failed to parse CSV data');
+              console.error('Error parsing radar CSV data:', parseError)
+              setError('Failed to parse CSV data')
             }
           },
           error: (error: Error) => {
-            console.error('Papa Parse error:', error);
+            console.error('Papa Parse error:', error)
             setError(
               `Failed to parse CSV file: ${error.message || 'Unknown error'}`
-            );
-          },
-        });
+            )
+          }
+        })
       } catch (fetchError) {
-        console.error('Error fetching radar CSV:', fetchError);
+        console.error('Error fetching radar CSV:', fetchError)
         setError(
           fetchError instanceof Error
             ? fetchError.message
             : 'Failed to fetch data'
-        );
+        )
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchData();
-  }, [csvPath]);
+    fetchData()
+  }, [csvPath])
 
-  return { data, loading, error };
+  return { data, loading, error }
 }

@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react"
-import { findMinMaxValues, getChartData } from "@/utils"
-import type { DataEntry } from "@/utils/types"
-import type { ChartData, LayerType } from "@/utils"
+import { useEffect, useState } from 'react'
+import { findMinMaxValues, getChartData } from '@/utils'
+import type { DataEntry } from '@/utils/types'
+import type { ChartData, LayerType } from '@/utils'
 
 export function useChartData(
   metric: string,
@@ -34,7 +34,6 @@ export function useChartData(
       setChartData(data)
     }
   }, [sliderValue, csvData, metric, type])
-
 
   return {
     chartData,

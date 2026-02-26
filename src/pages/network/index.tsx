@@ -7,21 +7,21 @@ import {
   DoughnutCard,
   BarChart,
   SystemSelector
-} from "@/components"
-import { useEffect, useRef, useMemo, useState } from "react"
+} from '@/components'
+import { useEffect, useRef, useMemo, useState } from 'react'
 
-import { useLocation, useNavigate } from "@tanstack/react-router"
-import { networkContributorRoute } from "@/router"
-import { useNetworkCsv } from "@/hooks"
-import { getNetworkDoughnutCsvFileName, NETWORK_METRICS } from "@/utils/network"
+import { useLocation, useNavigate } from '@tanstack/react-router'
+import { networkContributorRoute } from '@/router'
+import { useNetworkCsv } from '@/hooks'
+import { getNetworkDoughnutCsvFileName, NETWORK_METRICS } from '@/utils/network'
 import {
   DOUGHNUT_CARD,
   NETWORK_CARD,
   NETWORK_DOUGHNUT_LEDGERS,
   NETWORK_LEDGERS,
   ORG_DISTRIBUTOR
-} from "@/utils"
-import { networkMethodologyTo } from "@/routes/routePaths"
+} from '@/utils'
+import { networkMethodologyTo } from '@/routes/routePaths'
 
 export function Network() {
   const contributorRef = useRef<HTMLDivElement | null>(null)
@@ -30,16 +30,16 @@ export function Network() {
 
   useEffect(() => {
     if (
-      location.pathname === "/network/contributor" &&
+      location.pathname === '/network/contributor' &&
       contributorRef.current
     ) {
-      contributorRef.current.scrollIntoView({ behavior: "smooth" })
+      contributorRef.current.scrollIntoView({ behavior: 'smooth' })
     }
   }, [location.pathname])
 
   const handleContributorScrollClick = () => {
     if (location.pathname === networkContributorRoute.to) {
-      contributorRef.current?.scrollIntoView({ behavior: "smooth" })
+      contributorRef.current?.scrollIntoView({ behavior: 'smooth' })
     } else {
       navigate({ to: networkContributorRoute.to })
     }
@@ -65,7 +65,7 @@ export function Network() {
 
   const [selectedSystems, setSelectedSystems] = useState<Set<string>>(() => {
     try {
-      const saved = localStorage.getItem("network_selectedSystems")
+      const saved = localStorage.getItem('network_selectedSystems')
       return saved
         ? new Set(JSON.parse(saved))
         : new Set(NETWORK_LEDGERS.map((l) => l.ledger))
@@ -84,7 +84,7 @@ export function Network() {
   const handleSelectionChange = (selected: Set<string>) => {
     setSelectedSystems(selected)
     localStorage.setItem(
-      "network_selectedSystems",
+      'network_selectedSystems',
       JSON.stringify([...selected])
     )
   }
@@ -98,7 +98,7 @@ export function Network() {
     }
     setSelectedSystems(newSelected)
     localStorage.setItem(
-      "network_selectedSystems",
+      'network_selectedSystems',
       JSON.stringify([...newSelected])
     )
   }
@@ -142,7 +142,7 @@ export function Network() {
           {error && <div className="text-error mt-2">{error.message}</div>}
         </div>
         <MetricsTopCard
-          title={"Organisations metrics"}
+          title={'Organisations metrics'}
           description={
             "The following graphs represent different metrics concerning the distribution of nodes across organisations. An organisation here corresponds to the entity that is responsible for the network of the node's IP address. In the case of Bitcoin, a large fraction of nodes use Tor, thereby not revealing the organisations behind them. For the purpose of calculating the metrics, it was therefore decided to distribute Tor nodes proportionally among the observed organisations."
           }
@@ -173,7 +173,7 @@ export function Network() {
 
         <div ref={contributorRef}>
           <DoughnutTopCard
-            title={"Organisation Distribution"}
+            title={'Organisation Distribution'}
             description={
               "These charts represent the distribution of nodes across organisations, based on the latest snapshot for each system. An organisation corresponds to the entity that is responsible for the network of the node's IP address."
             }
@@ -184,7 +184,7 @@ export function Network() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
           {NETWORK_DOUGHNUT_LEDGERS.map((ledger, index) => (
             <DoughnutCard
-              type={"network"}
+              type={'network'}
               key={index}
               title={ledger.displayName}
               githubUrl={`https://github.com/Blockchain-Technology-Lab/network-decentralization`}

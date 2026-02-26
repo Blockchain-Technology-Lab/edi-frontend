@@ -1,21 +1,21 @@
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate } from '@tanstack/react-router'
 
 type DoughnutTopCardProps = {
-  title: string;
-  description: string;
-  imageSrc: string;
-  methodologyPath: string;
-  btnTitle?: string;
-};
+  title: string
+  description: string
+  imageSrc: string
+  methodologyPath: string
+  btnTitle?: string
+}
 
 export function DoughnutTopCard({
   title,
   description,
   imageSrc,
   methodologyPath,
-  btnTitle = "Methodology",
+  btnTitle = 'Methodology'
 }: DoughnutTopCardProps) {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   return (
     <div className="card lg:card-side bg-base-200 shadow-lg border border-base-300 rounded-box">
@@ -39,5 +39,5 @@ export function DoughnutTopCard({
         </div>
       </div>
     </div>
-  );
+  )
 }

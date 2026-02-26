@@ -1,17 +1,17 @@
-import type { ReactNode } from "react";
-import { Github, FileText } from "lucide-react";
-import { Link } from "@tanstack/react-router";
+import type { ReactNode } from 'react'
+import { Github, FileText } from 'lucide-react'
+import { Link } from '@tanstack/react-router'
 
 type HomepageCardProps = {
-  title: string;
-  desc: string;
-  icon: ReactNode;
-  onPress: () => void;
-  disabled?: boolean;
-  background: string;
-  github?: string;
-  methodologyLink?: string;
-};
+  title: string
+  desc: string
+  icon: ReactNode
+  onPress: () => void
+  disabled?: boolean
+  background: string
+  github?: string
+  methodologyLink?: string
+}
 
 export function HomepageCard({
   title,
@@ -20,14 +20,14 @@ export function HomepageCard({
   background,
   onPress,
   disabled = false,
-  github = "",
-  methodologyLink = "",
+  github = '',
+  methodologyLink = ''
 }: HomepageCardProps) {
   return (
     <div
       onClick={!disabled ? onPress : undefined}
       className={`card m-2   bg-base-200 shadow-md  cursor-pointer transition duration-300 ease-in-out 
-        ${disabled ? "opacity-80 cursor-not-allowed" : "hover:scale-105"}`}
+        ${disabled ? 'opacity-80 cursor-not-allowed' : 'hover:scale-105'}`}
     >
       <figure className="w-full h-24 sm:h-48 md:h-60 overflow-hidden">
         <img
@@ -50,7 +50,7 @@ export function HomepageCard({
       </div>
 
       {/* Footer (optional) */}
-      <div className="card-actions justify-end m-1 p-1 pt-1" >
+      <div className="card-actions justify-end m-1 p-1 pt-1">
         {methodologyLink && (
           <Link
             to={methodologyLink}
@@ -75,5 +75,5 @@ export function HomepageCard({
         )}
       </div>
     </div>
-  );
+  )
 }

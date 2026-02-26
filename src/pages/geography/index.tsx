@@ -6,10 +6,10 @@ import {
   MetricsCard,
   DoughnutCard,
   SystemSelector
-} from "@/components"
-import { useGeographyCsv } from "@/hooks"
-import { geographyContributorRoute } from "@/router"
-import { geographyMethodologyTo } from "@/routes/routePaths"
+} from '@/components'
+import { useGeographyCsv } from '@/hooks'
+import { geographyContributorRoute } from '@/router'
+import { geographyMethodologyTo } from '@/routes/routePaths'
 import {
   COUNTRIES_METRICS,
   DOUGHNUT_CARD,
@@ -19,9 +19,9 @@ import {
   GEOGRAPHY_DOUGHNUT_LEDGERS,
   GEOGRAPHY_LEDGERS,
   getGeographyDoughnutCsvFileName
-} from "@/utils"
-import { useLocation, useNavigate } from "@tanstack/react-router"
-import { useEffect, useRef, useMemo, useState } from "react"
+} from '@/utils'
+import { useLocation, useNavigate } from '@tanstack/react-router'
+import { useEffect, useRef, useMemo, useState } from 'react'
 
 export function Geography() {
   const contributorRef = useRef<HTMLDivElement | null>(null)
@@ -30,16 +30,16 @@ export function Geography() {
 
   useEffect(() => {
     if (
-      location.pathname === "/geography/contributor" &&
+      location.pathname === '/geography/contributor' &&
       contributorRef.current
     ) {
-      contributorRef.current.scrollIntoView({ behavior: "smooth" })
+      contributorRef.current.scrollIntoView({ behavior: 'smooth' })
     }
   }, [location.pathname])
 
   const handleContributorScrollClick = () => {
     if (location.pathname === geographyContributorRoute.to) {
-      contributorRef.current?.scrollIntoView({ behavior: "smooth" })
+      contributorRef.current?.scrollIntoView({ behavior: 'smooth' })
     } else {
       navigate({ to: geographyContributorRoute.to })
     }
@@ -65,7 +65,7 @@ export function Geography() {
 
   const [selectedSystems, setSelectedSystems] = useState<Set<string>>(() => {
     try {
-      const saved = localStorage.getItem("geography_selectedSystems")
+      const saved = localStorage.getItem('geography_selectedSystems')
       return saved
         ? new Set(JSON.parse(saved))
         : new Set(GEOGRAPHY_LEDGERS.map((l) => l.ledger))
@@ -84,7 +84,7 @@ export function Geography() {
   const handleSelectionChange = (selected: Set<string>) => {
     setSelectedSystems(selected)
     localStorage.setItem(
-      "geography_selectedSystems",
+      'geography_selectedSystems',
       JSON.stringify([...selected])
     )
   }
@@ -98,7 +98,7 @@ export function Geography() {
     }
     setSelectedSystems(newSelected)
     localStorage.setItem(
-      "geography_selectedSystems",
+      'geography_selectedSystems',
       JSON.stringify([...newSelected])
     )
   }
@@ -133,9 +133,9 @@ export function Geography() {
         </div>
 
         <MetricsTopCard
-          title={"Countries metrics"}
+          title={'Countries metrics'}
           description={
-            "The following graphs represent different metrics concerning the distribution of nodes across countries. Regarding the Bitcoin network, more than half of the nodes use Tor, and it is impossible to know in which countries they are located. For the metrics shown below, it was therefore decided to distribute these nodes proportionally among the different countries."
+            'The following graphs represent different metrics concerning the distribution of nodes across countries. Regarding the Bitcoin network, more than half of the nodes use Tor, and it is impossible to know in which countries they are located. For the metrics shown below, it was therefore decided to distribute these nodes proportionally among the different countries.'
           }
           imageSrc={COUNTRIES_METRICS}
         />
@@ -164,9 +164,9 @@ export function Geography() {
 
         <div ref={contributorRef}>
           <DoughnutTopCard
-            title={"Country Distribution"}
+            title={'Country Distribution'}
             description={
-              "These charts represent the distribution of nodes across countries, based on the latest snapshot for each system."
+              'These charts represent the distribution of nodes across countries, based on the latest snapshot for each system.'
             }
             imageSrc={DOUGHNUT_CARD}
             methodologyPath={geographyMethodologyTo}
@@ -182,7 +182,7 @@ export function Geography() {
                 ledger.ledger
               )}`}
               fileName={ledger.ledger}
-              type={"geography"}
+              type={'geography'}
             />
           ))}
         </div>

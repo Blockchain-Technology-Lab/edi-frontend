@@ -1,4 +1,4 @@
-import { findLedgerByName } from "@/utils"
+import { findLedgerByName } from '@/utils'
 
 interface SystemSelectorProps {
   systems: string[] // e.g., ["bitcoin", "bitcoin-cash-node", "go-ethereum", ...]
@@ -12,7 +12,7 @@ export function SystemSelector({
   systems,
   selectedSystems,
   onSelectionChange,
-  label = "Select Systems",
+  label = 'Select Systems',
   columns
 }: SystemSelectorProps) {
   const handleToggle = (system: string) => {
@@ -27,10 +27,10 @@ export function SystemSelector({
 
   const containerClassName =
     columns === 2
-      ? "grid grid-cols-2 gap-3"
+      ? 'grid grid-cols-2 gap-3'
       : columns === 1
-        ? "grid grid-cols-1 gap-3"
-        : "flex flex-wrap gap-3"
+        ? 'grid grid-cols-1 gap-3'
+        : 'flex flex-wrap gap-3'
 
   return (
     <div className="card bg-base-200 shadow-lg border border-base-300 rounded-box p-4">
@@ -58,7 +58,7 @@ export function SystemSelector({
               />
               <div
                 className={`w-11 h-6 rounded-full transition-all duration-300 peer-checked:after:translate-x-5 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all relative ${
-                  isSelected ? "bg-opacity-700" : "bg-base-300"
+                  isSelected ? 'bg-opacity-700' : 'bg-base-300'
                 }`}
                 style={isSelected ? { backgroundColor: color } : {}}
               />

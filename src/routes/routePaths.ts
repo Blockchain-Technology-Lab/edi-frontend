@@ -1,6 +1,6 @@
 // src/routes/routePaths.ts
 
-import { basePath } from "@/utils/paths"
+import { basePath } from '@/utils/paths'
 
 export const consensusTo = `${basePath}/consensus`
 export const tokenomicsTo = `${basePath}/tokenomics`

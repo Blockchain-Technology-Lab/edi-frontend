@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useMemo, useState } from 'react'
 import {
   type ClusteringOption,
   getTokenomicsCsvFileName,
@@ -6,7 +6,7 @@ import {
   TOKENOMICS_CSV,
   TOKENOMICS_METRICS,
   TOKENOMICS_LEDGERS
-} from "@/utils"
+} from '@/utils'
 
 import {
   LayerTopCard,
@@ -14,23 +14,23 @@ import {
   SystemSelector,
   ToggleMulti,
   RadioGroup
-} from "@/components"
-import { useTokenomicsCsv } from "@/hooks"
-import { tokenomicsMethodologyTo } from "@/routes/routePaths"
+} from '@/components'
+import { useTokenomicsCsv } from '@/hooks'
+import { tokenomicsMethodologyTo } from '@/routes/routePaths'
 
 const THRESHOLDING_ITEMS = [
-  { label: "100", value: "100" },
-  { label: "1000", value: "1000" },
-  { label: "50%", value: "50p" },
-  { label: "Above $0.01", value: "above" },
-  { label: "None", value: "none" }
+  { label: '100', value: '100' },
+  { label: '1000', value: '1000' },
+  { label: '50%', value: '50p' },
+  { label: 'Above $0.01', value: 'above' },
+  { label: 'None', value: 'none' }
 ]
 
 const CLUSTERING_ITEMS = [
-  { label: "Explorers", value: "explorers" },
-  { label: "Staking Keys", value: "staking" },
-  { label: "Multi-input Transactions", value: "multi" },
-  { label: "Crystal Intelligence", value: "crystal" }
+  { label: 'Explorers', value: 'explorers' },
+  { label: 'Staking Keys', value: 'staking' },
+  { label: 'Multi-input Transactions', value: 'multi' },
+  { label: 'Crystal Intelligence', value: 'crystal' }
 ]
 
 export function Tokenomics() {
@@ -70,7 +70,7 @@ export function Tokenomics() {
 
   const [selectedSystems, setSelectedSystems] = useState<Set<string>>(() => {
     try {
-      const saved = localStorage.getItem("tokenomics_selectedSystems")
+      const saved = localStorage.getItem('tokenomics_selectedSystems')
       return saved
         ? new Set(JSON.parse(saved))
         : new Set(TOKENOMICS_LEDGERS.map((l) => l.ledger))
@@ -89,7 +89,7 @@ export function Tokenomics() {
   const handleSelectionChange = (selected: Set<string>) => {
     setSelectedSystems(selected)
     localStorage.setItem(
-      "tokenomics_selectedSystems",
+      'tokenomics_selectedSystems',
       JSON.stringify([...selected])
     )
   }
@@ -103,7 +103,7 @@ export function Tokenomics() {
     }
     setSelectedSystems(newSelected)
     localStorage.setItem(
-      "tokenomics_selectedSystems",
+      'tokenomics_selectedSystems',
       JSON.stringify([...newSelected])
     )
   }

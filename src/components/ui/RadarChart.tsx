@@ -1,5 +1,5 @@
-import { useRef, useState, useContext, useMemo, useEffect } from "react"
-import { Radar } from "react-chartjs-2"
+import { useRef, useState, useContext, useMemo, useEffect } from 'react'
+import { Radar } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -8,22 +8,22 @@ import {
   Filler,
   Tooltip,
   Legend
-} from "chart.js"
-import { Scale, Coins, Network, Code, Globe } from "lucide-react"
+} from 'chart.js'
+import { Scale, Coins, Network, Code, Globe } from 'lucide-react'
 
-import { ImageDown } from "lucide-react"
-import { ThemeContext } from "@/contexts"
-import { useExportChart } from "@/hooks"
-import type { RadarDataPoint } from "@/hooks/useRadarCsv"
+import { ImageDown } from 'lucide-react'
+import { ThemeContext } from '@/contexts'
+import { useExportChart } from '@/hooks'
+import type { RadarDataPoint } from '@/hooks/useRadarCsv'
 import {
   transformRadarDataWithSegments,
   getRadarChartOptions,
   LINECHART_WATERMARK_WHITE,
   LINECHART_WATERMARK_BLACK
-} from "@/utils"
-import { ProtocolToggleGroup } from "./ProtocolToggleGroup"
-import { AccordionGroup } from "./AccordionGroup"
-import { useNavigate } from "@tanstack/react-router"
+} from '@/utils'
+import { ProtocolToggleGroup } from './ProtocolToggleGroup'
+import { AccordionGroup } from './AccordionGroup'
+import { useNavigate } from '@tanstack/react-router'
 
 import {
   consensusRoute,
@@ -31,7 +31,7 @@ import {
   networkRoute,
   softwareRoute,
   geographyRoute
-} from "@/router"
+} from '@/router'
 
 // Register Chart.js components
 ChartJS.register(
@@ -56,11 +56,11 @@ interface RadarChartProps {
 
 export function RadarChart({
   data,
-  title = "Protocol Decentralisation Comparison",
-  description = "",
+  title = 'Protocol Decentralisation Comparison',
+  description = '',
   //height = 500,
   showExport = true,
-  className = ""
+  className = ''
 }: RadarChartProps) {
   const { theme: resolvedTheme } = useContext(ThemeContext)
   const chartRef = useRef<HTMLCanvasElement | null>(null)
@@ -81,7 +81,7 @@ export function RadarChart({
   const chartData = transformRadarDataWithSegments(data)
 
   useEffect(() => {
-    const isMobile = window.matchMedia("(max-width: 768px)").matches
+    const isMobile = window.matchMedia('(max-width: 768px)').matches
     setTooltipEnabled(!isMobile) // enable tooltips by default if not mobile
   }, [])
 
@@ -131,7 +131,7 @@ export function RadarChart({
   const options = useMemo(() => {
     if (resolvedTheme) {
       const baseOptions = getRadarChartOptions(
-        resolvedTheme === "dim" ? "dark" : "light"
+        resolvedTheme === 'dim' ? 'dark' : 'light'
       )
       return {
         ...baseOptions,
@@ -173,7 +173,7 @@ export function RadarChart({
   }
 
   const handleExport = () => {
-    exportChart(chartRef, title.toLowerCase().replace(/\s+/g, "-"), {
+    exportChart(chartRef, title.toLowerCase().replace(/\s+/g, '-'), {
       watermarkSrc: watermarkSrc,
       watermarkSize: 60,
       watermarkOpacity: 0.1
@@ -181,7 +181,7 @@ export function RadarChart({
   }
 
   const watermarkSrc =
-    resolvedTheme === "dim"
+    resolvedTheme === 'dim'
       ? LINECHART_WATERMARK_WHITE
       : LINECHART_WATERMARK_BLACK
 
@@ -194,13 +194,13 @@ export function RadarChart({
 
   const EDI_LAYERS = [
     {
-      name: "Consensus",
+      name: 'Consensus',
       description: (
         <>
           Measures the decentralisation of consensus participants (block
           producers). The metric used in the Decentralisation Compass is the
           Herfindahl-Hirschman Index (HHI), inverted and scaled. For broader
-          comparisons across systems, metrics, and timeframes, see{" "}
+          comparisons across systems, metrics, and timeframes, see{' '}
           <span
             className="text-blue-500 underline cursor-pointer"
             onClick={() => navigate({ to: consensusRoute.to })}
@@ -211,22 +211,22 @@ export function RadarChart({
         </>
       ),
       details: [
-        "Validator/miner distribution",
-        "Voting power concentration",
-        "Consensus participation rates",
-        "Block production diversity"
+        'Validator/miner distribution',
+        'Voting power concentration',
+        'Consensus participation rates',
+        'Block production diversity'
       ],
-      color: "#3B82F6",
+      color: '#3B82F6',
       icon: Scale
     },
     {
-      name: "Tokenomics",
+      name: 'Tokenomics',
       description: (
         <>
           Measures the decentralisation of native asset (token) ownership. The
           metric used in the Decentralisation Compass is the 3-concentration
           ratio, inverted and scaled. For broader comparisons across systems,
-          metrics, and timeframes, see{" "}
+          metrics, and timeframes, see{' '}
           <span
             className="text-blue-500 underline cursor-pointer"
             onClick={() => navigate({ to: tokenomicsRoute.to })}
@@ -237,22 +237,22 @@ export function RadarChart({
         </>
       ),
       details: [
-        "Token distribution fairness",
-        "Wealth concentration metrics",
-        "Economic incentive alignment",
-        "Staking participation"
+        'Token distribution fairness',
+        'Wealth concentration metrics',
+        'Economic incentive alignment',
+        'Staking participation'
       ],
-      color: "#10B981",
+      color: '#10B981',
       icon: Coins
     },
     {
-      name: "Software",
+      name: 'Software',
       description: (
         <>
           Measures the decentralisation of contributors to full node software
           implementations. The metric used in the Decentralisation Compass is
           the Herfindahl-Hirschman Index (HHI), inverted and scaled. For broader
-          comparisons across systems, metrics, and timeframes, see{" "}
+          comparisons across systems, metrics, and timeframes, see{' '}
           <span
             className="text-blue-500 underline cursor-pointer"
             onClick={() => navigate({ to: softwareRoute.to })}
@@ -263,16 +263,16 @@ export function RadarChart({
         </>
       ),
       details: [
-        "Developer contribution diversity",
-        "Code repository distribution",
-        "Implementation varieties",
-        "Development governance"
+        'Developer contribution diversity',
+        'Code repository distribution',
+        'Implementation varieties',
+        'Development governance'
       ],
-      color: "#F59E0B",
+      color: '#F59E0B',
       icon: Code
     },
     {
-      name: "Network",
+      name: 'Network',
       description: (
         <>
           Measures the decentralisation of organisations operating a network's
@@ -280,7 +280,7 @@ export function RadarChart({
           refers to Execution Layer nodes. The metric used in the
           Decentralisation Compass is the Herfindahl-Hirschman Index (HHI),
           inverted and scaled. For broader comparisons across systems, metrics,
-          and timeframes, see{" "}
+          and timeframes, see{' '}
           <span
             className="text-blue-500 underline cursor-pointer"
             onClick={() => navigate({ to: networkRoute.to })}
@@ -291,23 +291,23 @@ export function RadarChart({
         </>
       ),
       details: [
-        "Node geographical spread",
-        "Infrastructure diversity",
-        "Network resilience",
-        "Operational independence"
+        'Node geographical spread',
+        'Infrastructure diversity',
+        'Network resilience',
+        'Operational independence'
       ],
-      color: "#EF4444",
+      color: '#EF4444',
       icon: Network
     },
     {
-      name: "Geography",
+      name: 'Geography',
       description: (
         <>
           Measures the decentralisation of countries where full nodes are
           located. Note that for the case of Ethereum, this specifically refers
           to Execution Layer nodes. The metric shown in the Decentralisation
           Compass is the Herfindahl-Hirschman Index (HHI), inverted and scaled.
-          For broader comparisons across systems, metrics, and timeframes, see{" "}
+          For broader comparisons across systems, metrics, and timeframes, see{' '}
           <span
             className="text-blue-500 underline cursor-pointer"
             onClick={() => navigate({ to: geographyRoute.to })}
@@ -318,12 +318,12 @@ export function RadarChart({
         </>
       ),
       details: [
-        "Global participant spread",
-        "Regional concentration risks",
-        "Regulatory jurisdiction diversity",
-        "Physical infrastructure distribution"
+        'Global participant spread',
+        'Regional concentration risks',
+        'Regulatory jurisdiction diversity',
+        'Physical infrastructure distribution'
       ],
-      color: "#8B5CF6",
+      color: '#8B5CF6',
       icon: Globe
     }
   ]
@@ -373,7 +373,7 @@ export function RadarChart({
           {/* Left Side - Chart (2/3 width on desktop, full on mobile) */}
           <div
             className="w-full lg:w-2/3 relative"
-            style={{ height: "clamp(300px, 60vh, 500px)" }}
+            style={{ height: 'clamp(300px, 60vh, 500px)' }}
           >
             <Radar
               data={filteredChartData}
@@ -391,13 +391,13 @@ export function RadarChart({
               alt="Edinburgh Decentralisation Index"
               className="absolute top-1 left-1 sm:top-3 sm:left-3 md:top-4 md:left-4 lg:top-6 lg:left-6 opacity-10 pointer-events-none select-none z-10"
               style={{
-                width: "clamp(40px, 8vw, 120px)",
-                height: "clamp(40px, 8vw, 120px)",
-                objectFit: "contain",
-                userSelect: "none",
-                WebkitUserSelect: "none",
-                MozUserSelect: "none",
-                msUserSelect: "none"
+                width: 'clamp(40px, 8vw, 120px)',
+                height: 'clamp(40px, 8vw, 120px)',
+                objectFit: 'contain',
+                userSelect: 'none',
+                WebkitUserSelect: 'none',
+                MozUserSelect: 'none',
+                msUserSelect: 'none'
               }}
               draggable={false}
             />
@@ -438,7 +438,7 @@ export function RadarChart({
   )
 }
 
-function RadarChartSkeleton({ className = "" }: { className?: string }) {
+function RadarChartSkeleton({ className = '' }: { className?: string }) {
   return (
     <div className={`card bg-base-300 shadow-lg p-6 ${className}`}>
       <div className="flex items-center justify-center h-64">

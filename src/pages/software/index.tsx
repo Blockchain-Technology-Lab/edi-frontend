@@ -6,8 +6,8 @@ import {
   DoughnutCard,
   SystemSelector,
   RadioGroup
-} from "@/components"
-import { useSoftwareCsv } from "@/hooks"
+} from '@/components'
+import { useSoftwareCsv } from '@/hooks'
 import {
   DOUGHNUT_CARD,
   generateDoughnutPaths,
@@ -18,40 +18,40 @@ import {
   SOFTWARE_DOUGHNUT_LEDGER_NAMES,
   SOFTWARE_METRICS,
   SOFTWARE_LEDGERS
-} from "@/utils"
-import { useMemo, useState, useRef, useEffect } from "react"
-import { useNavigate, useLocation } from "@tanstack/react-router"
-import { softwareContributorRoute } from "@/router"
-import { softwareMethodologyTo } from "@/routes/routePaths"
+} from '@/utils'
+import { useMemo, useState, useRef, useEffect } from 'react'
+import { useNavigate, useLocation } from '@tanstack/react-router'
+import { softwareContributorRoute } from '@/router'
+import { softwareMethodologyTo } from '@/routes/routePaths'
 
 // Constants
 const WEIGHT_ITEMS = [
-  { label: "Commits", value: "commits" },
-  { label: "Merge commits", value: "merge" },
-  { label: "Lines changed", value: "lines" }
+  { label: 'Commits', value: 'commits' },
+  { label: 'Merge commits', value: 'merge' },
+  { label: 'Lines changed', value: 'lines' }
 ]
 
 const ENTITY_ITEMS = [
-  { label: "Author", value: "author" },
-  { label: "Committer", value: "committer" }
+  { label: 'Author', value: 'author' },
+  { label: 'Committer', value: 'committer' }
 ]
 
 const COMMITS_ITEMS = [
-  { label: "100", value: "100" },
-  { label: "250", value: "250" },
-  { label: "500", value: "500" },
-  { label: "1000", value: "1000" }
+  { label: '100', value: '100' },
+  { label: '250', value: '250' },
+  { label: '500', value: '500' },
+  { label: '1000', value: '1000' }
 ]
 
 const DOUGHNUT_WEIGHT_ITEMS = [
-  { label: "Commits", value: "commits" },
-  { label: "Merge commits", value: "merge" },
-  { label: "Lines changed", value: "lines" }
+  { label: 'Commits', value: 'commits' },
+  { label: 'Merge commits', value: 'merge' },
+  { label: 'Lines changed', value: 'lines' }
 ]
 
 const DOUGHNUT_ENTITY_ITEMS = [
-  { label: "Author", value: "author" },
-  { label: "Committer", value: "committer" }
+  { label: 'Author', value: 'author' },
+  { label: 'Committer', value: 'committer' }
 ]
 
 // Default selections
@@ -67,9 +67,9 @@ function useContributorScroll() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (location.pathname === "/software/contributor") {
+    if (location.pathname === '/software/contributor') {
       const timeout = setTimeout(() => {
-        contributorRef.current?.scrollIntoView({ behavior: "smooth" })
+        contributorRef.current?.scrollIntoView({ behavior: 'smooth' })
       }, SCROLL_DELAY)
 
       return () => clearTimeout(timeout)
@@ -78,7 +78,7 @@ function useContributorScroll() {
 
   const handleContributorScrollClick = () => {
     if (location.pathname === softwareContributorRoute.to) {
-      contributorRef.current?.scrollIntoView({ behavior: "smooth" })
+      contributorRef.current?.scrollIntoView({ behavior: 'smooth' })
     } else {
       navigate({ to: softwareContributorRoute.to })
     }
@@ -148,7 +148,7 @@ export function Software() {
 
   const [selectedSystems, setSelectedSystems] = useState<Set<string>>(() => {
     try {
-      const saved = localStorage.getItem("software_selectedSystems")
+      const saved = localStorage.getItem('software_selectedSystems')
       return saved
         ? new Set(JSON.parse(saved))
         : new Set(SOFTWARE_LEDGERS.map((l) => l.ledger))
@@ -167,7 +167,7 @@ export function Software() {
   const handleSelectionChange = (selected: Set<string>) => {
     setSelectedSystems(selected)
     localStorage.setItem(
-      "software_selectedSystems",
+      'software_selectedSystems',
       JSON.stringify([...selected])
     )
   }
@@ -181,7 +181,7 @@ export function Software() {
     }
     setSelectedSystems(newSelected)
     localStorage.setItem(
-      "software_selectedSystems",
+      'software_selectedSystems',
       JSON.stringify([...newSelected])
     )
   }
@@ -297,9 +297,9 @@ export function Software() {
         </div>
         <div ref={contributorRef}>
           <DoughnutTopCard
-            title={"Contributor Distribution"}
+            title={'Contributor Distribution'}
             description={
-              "These graphs represent the all-time distribution of contributors for various blockchain implementations."
+              'These graphs represent the all-time distribution of contributors for various blockchain implementations.'
             }
             imageSrc={DOUGHNUT_CARD}
             methodologyPath={softwareMethodologyTo}
@@ -336,7 +336,7 @@ export function Software() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
           {SOFTWARE_DOUGHNUT_LEDGER_NAMES.map((repoItem) => (
             <DoughnutCard
-              type={"software"}
+              type={'software'}
               title={repoItem.name}
               key={repoItem.name}
               githubUrl={repoItem.url}

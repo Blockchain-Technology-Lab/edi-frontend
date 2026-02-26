@@ -1,13 +1,13 @@
-import { useMemo, useState } from "react"
-import { LayerTopCard, MetricsCard, SystemSelector } from "@/components"
+import { useMemo, useState } from 'react'
+import { LayerTopCard, MetricsCard, SystemSelector } from '@/components'
 import {
   getConsensusCsvFileName,
   CONSENSUS_METRICS,
   CONSENSUS_CARD,
   CONSENSUS_LEDGERS
-} from "@/utils"
-import { useConsensusCsvAll } from "@/hooks"
-import { consensusMethodologyTo } from "@/routes/routePaths"
+} from '@/utils'
+import { useConsensusCsvAll } from '@/hooks'
+import { consensusMethodologyTo } from '@/routes/routePaths'
 
 export function Consensus() {
   //const CLUSTERING_ITEMS = [{ label: "Clustered", value: "clustered" }]
@@ -20,7 +20,7 @@ export function Consensus() {
 
   const [selectedSystems, setSelectedSystems] = useState<Set<string>>(() => {
     try {
-      const saved = localStorage.getItem("consensus_selectedSystems")
+      const saved = localStorage.getItem('consensus_selectedSystems')
       return saved ? new Set(JSON.parse(saved)) : new Set(consensusSystems)
     } catch {
       return new Set(consensusSystems)
@@ -35,7 +35,7 @@ export function Consensus() {
 */
   }
   const fileName = useMemo(() => {
-    return getConsensusCsvFileName(["clustered"])
+    return getConsensusCsvFileName(['clustered'])
   }, [])
 
   const { data, loading, error } = useConsensusCsvAll(fileName)
@@ -57,7 +57,7 @@ export function Consensus() {
     }
     setSelectedSystems(newSelected)
     localStorage.setItem(
-      "consensus_selectedSystems",
+      'consensus_selectedSystems',
       JSON.stringify([...newSelected])
     )
   }
@@ -65,7 +65,7 @@ export function Consensus() {
   const handleSelectionChange = (selected: Set<string>) => {
     setSelectedSystems(selected)
     localStorage.setItem(
-      "consensus_selectedSystems",
+      'consensus_selectedSystems',
       JSON.stringify([...selected])
     )
   }
@@ -77,7 +77,7 @@ export function Consensus() {
           title="Consensus Layer"
           description={
             <>
-              These graphs represent the historical decentralisation of{" "}
+              These graphs represent the historical decentralisation of{' '}
               <span className="italic">block production</span> for various
               blockchain systems. Each metric is calculated from the
               distribution of blocks across producing entities.

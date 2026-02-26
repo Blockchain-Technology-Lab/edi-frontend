@@ -3,9 +3,9 @@ import {
   MetricsCard,
   MetricsTopCard,
   DoughnutCard
-} from "@/components"
-import { useGovernanceCsv } from "@/hooks/useGovernanceCsv"
-import { governanceMethodologyTo } from "@/routes/routePaths"
+} from '@/components'
+import { useGovernanceCsv } from '@/hooks/useGovernanceCsv'
+import { governanceMethodologyTo } from '@/routes/routePaths'
 import {
   BIP_NETWORK_CARD,
   GOVERNANCE_CARD,
@@ -14,8 +14,8 @@ import {
   adaptGovernanceToDataEntry,
   transformCommunityDataForMultiAxis,
   transformPostsCommentsForMultiAxis
-} from "@/utils"
-import { useMemo } from "react"
+} from '@/utils'
+import { useMemo } from 'react'
 
 export function Governance() {
   const {
@@ -60,7 +60,7 @@ export function Governance() {
         />
 
         <MetricsTopCard
-          title={"BIP Network"}
+          title={'BIP Network'}
           description={
             <>
               This network visualization represents user interactions within
@@ -84,7 +84,7 @@ export function Governance() {
         />
 
         <MetricsTopCard
-          title={"BIP Metrics"}
+          title={'BIP Metrics'}
           description={
             <>
               The following graphs represent different metrics concerning the
@@ -100,10 +100,10 @@ export function Governance() {
           {/* Gini Coefficient Chart */}
           <MetricsCard
             metric={{
-              metric: "gini_coefficient",
-              title: "Gini coefficient of activities per user",
+              metric: 'gini_coefficient',
+              title: 'Gini coefficient of activities per user',
               description:
-                "Measures inequality in authorship concentration among contributors.",
+                'Measures inequality in authorship concentration among contributors.',
               decimals: 2
             }}
             data={adaptGovernanceToDataEntry(giniData)}
@@ -115,20 +115,20 @@ export function Governance() {
           {/* Multi-line chart showing Posts, Comments, and Users (multi-axis) */}
           <MetricsCard
             metric={{
-              metric: "unified_metric",
-              title: "Posts, Comments, and Users",
+              metric: 'unified_metric',
+              title: 'Posts, Comments, and Users',
               description:
-                "Total number of posts, comments, and active users per year.",
+                'Total number of posts, comments, and active users per year.',
               decimals: 0,
               multiAxis: {
                 // Put Posts on the left, Comments and Users on the right
-                leftAxisMetric: "Posts",
-                leftAxisLabel: "Posts",
-                leftAxisColor: "#ef4444",
+                leftAxisMetric: 'Posts',
+                leftAxisLabel: 'Posts',
+                leftAxisColor: '#ef4444',
 
-                rightAxisMetrics: ["Comments", "Users"],
-                rightAxisColors: ["#3b82f6", "#10b981"],
-                rightAxisLabel: "Comments / Users"
+                rightAxisMetrics: ['Comments', 'Users'],
+                rightAxisColors: ['#3b82f6', '#10b981'],
+                rightAxisLabel: 'Comments / Users'
               }
             }}
             data={transformedPostsCommentsForMultiAxis}
@@ -139,20 +139,20 @@ export function Governance() {
 
           <MetricsCard
             metric={{
-              metric: "multi-axis",
-              title: "Community Structure Analysis",
+              metric: 'multi-axis',
+              title: 'Community Structure Analysis',
               description:
                 "Number of communities, modularity score and nodes over time, showing the evolution of Bitcoin's governance network structure.",
               decimals: 2,
               multiAxis: {
                 // left: communities, right: modularity + nodes
-                leftAxisMetric: "Number of Communities",
-                leftAxisLabel: "Number of Communities",
-                leftAxisColor: "#ef4444",
+                leftAxisMetric: 'Number of Communities',
+                leftAxisLabel: 'Number of Communities',
+                leftAxisColor: '#ef4444',
 
-                rightAxisMetrics: ["Modularity Score"],
-                rightAxisColors: ["#3b82f6", "#10b981"],
-                rightAxisLabel: "Modularity"
+                rightAxisMetrics: ['Modularity Score'],
+                rightAxisColors: ['#3b82f6', '#10b981'],
+                rightAxisLabel: 'Modularity'
               }
             }}
             data={transformedCommunityData}
@@ -163,7 +163,7 @@ export function Governance() {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-1 gap-4 w-full">
           <DoughnutCard
-            type={"governance"}
+            type={'governance'}
             title="Top 10 Authors by Comments"
             path={govDoughnutFile}
             description="Distribution of comments among the most active authors in Bitcoin governance discussions."

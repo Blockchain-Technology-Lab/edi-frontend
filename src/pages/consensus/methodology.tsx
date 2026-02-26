@@ -1,27 +1,27 @@
-import { AppLink } from "@/components"
-import { CONSENSUS_METHOD_CARD, CONSENSUS_METRICS } from "@/utils"
+import { AppLink } from '@/components'
+import { CONSENSUS_METHOD_CARD, CONSENSUS_METRICS } from '@/utils'
 
 export function ConsensusMethodology() {
   const explorerLinks = [
-    { name: "BitInfoCharts", url: "https://bitinfocharts.com/" },
-    { name: "Etherscan", url: "https://etherscan.io/" },
-    { name: "Wallet Explorer", url: "https://www.walletexplorer.com/" },
-    { name: "Dogecoin Whale Alert", url: "https://dogecoinwhalealert.com/" },
-    { name: "TzKT", url: "https://tzkt.io/" },
+    { name: 'BitInfoCharts', url: 'https://bitinfocharts.com/' },
+    { name: 'Etherscan', url: 'https://etherscan.io/' },
+    { name: 'Wallet Explorer', url: 'https://www.walletexplorer.com/' },
+    { name: 'Dogecoin Whale Alert', url: 'https://dogecoinwhalealert.com/' },
+    { name: 'TzKT', url: 'https://tzkt.io/' },
 
-    { name: "Blockchain.com", url: "https://blockchain.com/" },
-    { name: "BTC.com", url: "https://btc.com/" },
+    { name: 'Blockchain.com', url: 'https://blockchain.com/' },
+    { name: 'BTC.com', url: 'https://btc.com/' },
     {
-      name: "bitcoin-data/mining-pools",
-      url: "https://github.com/bitcoin-data/mining-pools"
+      name: 'bitcoin-data/mining-pools',
+      url: 'https://github.com/bitcoin-data/mining-pools'
     },
     {
-      name: "btccom/Blockchain-Known-Pools-LTC",
-      url: "https://github.com/btccom/Blockchain-Known-Pools-LTC"
+      name: 'btccom/Blockchain-Known-Pools-LTC',
+      url: 'https://github.com/btccom/Blockchain-Known-Pools-LTC'
     },
     {
-      name: "blockchain/Blockchain-Known-Pools",
-      url: "https://github.com/blockchain/Blockchain-Known-Pools"
+      name: 'blockchain/Blockchain-Known-Pools',
+      url: 'https://github.com/blockchain/Blockchain-Known-Pools'
     }
   ]
 
@@ -60,7 +60,7 @@ export function ConsensusMethodology() {
               className="link link-primary"
             >
               The Edinburgh Decentralisation Index (EDI)
-            </a>{" "}
+            </a>{' '}
             is a methodology framework for defining, analysing, and evaluating
             the decentralisation level of blockchain systems across multiple
             layers. These layers are: Hardware, Software, Network, Consensus,
@@ -79,7 +79,7 @@ export function ConsensusMethodology() {
             the respective charts.
           </p>
           <p className="">
-            Historical block data for each blockchain is collected from{" "}
+            Historical block data for each blockchain is collected from{' '}
             <a
               href="https://console.cloud.google.com/bigquery"
               target="_blank"
@@ -87,7 +87,7 @@ export function ConsensusMethodology() {
               className="link"
             >
               BigQuery
-            </a>{" "}
+            </a>{' '}
             and self-hosted full nodes. Each block is mapped to its creator (see
             clustering options below), and then the distribution of blocks
             across entities is calculated for each 30-day interval. Active
@@ -95,7 +95,7 @@ export function ConsensusMethodology() {
             least one block in the preceding or following window.
           </p>
           <p className="">
-            For detailed information, refer to the open-source GitHub{" "}
+            For detailed information, refer to the open-source GitHub{' '}
             <a
               href="https://github.com/Blockchain-Technology-Lab/consensus-decentralization"
               target="_blank"

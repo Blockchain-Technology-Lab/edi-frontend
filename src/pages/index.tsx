@@ -1,5 +1,5 @@
-import { HomepageCard, HomeTopCard, RadarChart } from "@/components"
-import { useRadarCsv } from "@/hooks"
+import { HomepageCard, HomeTopCard, RadarChart } from '@/components'
+import { useRadarCsv } from '@/hooks'
 import {
   consensusTo,
   consensusMethodologyTo,
@@ -13,7 +13,7 @@ import {
   geographyMethodologyTo,
   governanceTo,
   governanceMethodologyTo
-} from "@/routes/routePaths"
+} from '@/routes/routePaths'
 import {
   CONSENSUS_CARD,
   EDI_CARD,
@@ -23,72 +23,72 @@ import {
   RADAR_CSV,
   SOFTWARE_CARD,
   TOKENOMICS_CARD
-} from "@/utils/paths"
-import { useNavigate } from "@tanstack/react-router"
+} from '@/utils/paths'
+import { useNavigate } from '@tanstack/react-router'
 
-import { Scale, Coins, Network, Code, Globe, Gavel } from "lucide-react"
+import { Scale, Coins, Network, Code, Globe, Gavel } from 'lucide-react'
 
 const layers = [
   {
-    title: "Consensus",
-    desc: "This layer describes the decentralisation of block production over time.",
+    title: 'Consensus',
+    desc: 'This layer describes the decentralisation of block production over time.',
     icon: <Scale />,
     background: CONSENSUS_CARD,
     path: consensusTo,
     github:
-      "https://github.com/Blockchain-Technology-Lab/consensus-decentralization",
+      'https://github.com/Blockchain-Technology-Lab/consensus-decentralization',
     methodologyLink: consensusMethodologyTo
   },
   {
-    title: "Tokenomics",
-    desc: "This layer describes the decentralisation of token ownership over time.",
+    title: 'Tokenomics',
+    desc: 'This layer describes the decentralisation of token ownership over time.',
     icon: <Coins />,
     background: TOKENOMICS_CARD,
     path: tokenomicsTo,
     github:
-      "https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization/",
+      'https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization/',
     methodologyLink: tokenomicsMethodologyTo
   },
   {
-    title: "Software",
-    desc: "This layer describes the decentralisation of the development of full node software projects over time.",
+    title: 'Software',
+    desc: 'This layer describes the decentralisation of the development of full node software projects over time.',
     icon: <Code />,
     background: SOFTWARE_CARD,
     path: softwareTo,
     github:
-      "https://github.com/Blockchain-Technology-Lab/software-decentralization",
+      'https://github.com/Blockchain-Technology-Lab/software-decentralization',
     methodologyLink: softwareMethodologyTo
   },
   {
-    title: "Network",
-    desc: "This layer describes the decentralisation of nodes over time, in terms of the service providers (organisations) they use.",
+    title: 'Network',
+    desc: 'This layer describes the decentralisation of nodes over time, in terms of the service providers (organisations) they use.',
     icon: <Network />,
     background: NETWORK_CARD,
     path: networkTo,
     github:
-      "https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin",
+      'https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin',
     methodologyLink: networkMethodologyTo
   },
   {
-    title: "Geography",
-    desc: "This layer describes the geographic decentralisation of nodes over time.",
+    title: 'Geography',
+    desc: 'This layer describes the geographic decentralisation of nodes over time.',
     icon: <Globe />,
     background: GEOGRAPHY_CARD,
     path: geographyTo,
     disabled: false,
     github:
-      "https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin",
+      'https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin',
     methodologyLink: geographyMethodologyTo
   },
   {
-    title: "Governance",
-    desc: "This layer describes the governance structures and processes in place within blockchain networks. We plan to publish this layer soon.",
+    title: 'Governance',
+    desc: 'This layer describes the governance structures and processes in place within blockchain networks. We plan to publish this layer soon.',
     icon: <Gavel />,
     background: GOVERNANCE_CARD,
     path: governanceTo,
     disabled: true,
     github:
-      "https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin",
+      'https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin',
     methodologyLink: governanceMethodologyTo
   }
 ]
