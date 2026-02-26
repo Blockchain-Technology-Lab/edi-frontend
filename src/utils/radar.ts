@@ -307,6 +307,12 @@ export function getRadarChartOptions(
         cornerRadius: 8,
         displayColors: true,
         callbacks: {
+          title: function (tooltipItems: any[]) {
+            if (!tooltipItems || tooltipItems.length === 0) return ''
+            // Show the metric name (e.g., "Consensus", "Tokenomics")
+            const labels = tooltipItems[0].chart.data.labels || []
+            return labels[tooltipItems[0].dataIndex] || ''
+          },
           label: function (context: any) {
             const label = context.dataset?.label || ''
             const dataIndex = context.dataIndex
@@ -328,41 +334,6 @@ export function getRadarChartOptions(
             if (Number.isNaN(numeric)) return `${label}: N/A`
 
             return `${label}: ${numeric.toFixed(1)}`
-          },
-          afterBody: function (tooltipItems: any[]) {
-            try {
-              if (!tooltipItems || tooltipItems.length === 0) return undefined
-              const dataIndex = tooltipItems[0].dataIndex
-              const chart = tooltipItems[0].chart
-              if (!chart) return undefined
-
-              const allDatasets =
-                chart.options?._allDatasets || chart.data.datasets || []
-              const shownDatasetIndices = new Set<number>()
-              tooltipItems.forEach((ti: any) => {
-                if (typeof ti.datasetIndex === 'number')
-                  shownDatasetIndices.add(ti.datasetIndex)
-              })
-
-              const lines: string[] = []
-              allDatasets.forEach((ds: any, i: number) => {
-                // Skip datasets already shown by the default tooltip items
-                if (shownDatasetIndices.has(i)) return
-                const label = ds.label || ''
-                const val = Array.isArray(ds.data)
-                  ? ds.data[dataIndex]
-                  : undefined
-                const display =
-                  val == null || val === undefined || Number.isNaN(val)
-                    ? 'N/A'
-                    : Number(val).toFixed(1)
-                lines.push(`${label}: ${display}`)
-              })
-
-              return lines.length > 0 ? lines : undefined
-            } catch (e) {
-              return undefined
-            }
           }
         }
       },
