@@ -434,19 +434,25 @@ function getChartOptions(
         border: {
           display: false
         },
-        min: Math.floor(minYRaw),
-        ...(padYAxis && {
-          afterDataLimits(scale) {
-            const values = scale.chart.data.datasets.flatMap((ds) =>
-              ds.data.map((p: any) => (typeof p === 'number' ? p : p.y))
-            )
-            const min = Math.min(...values)
-            const max = Math.max(...values)
-            const pad = (max - min || 1) * 0.25
-            scale.min = Math.floor(min - pad)
-            scale.max = Math.ceil(max + pad)
-          }
-        })
+        // Data-dependent y-axis: auto-scales to actual data range
+        ...(padYAxis
+          ? {
+              // When padding enabled, add margins around data
+              afterDataLimits(scale) {
+                const values = scale.chart.data.datasets.flatMap((ds) =>
+                  ds.data.map((p: any) => (typeof p === 'number' ? p : p.y))
+                )
+                const min = Math.min(...values)
+                const max = Math.max(...values)
+                const pad = (max - min || 1) * 0.25
+                scale.min = Math.floor(min - pad)
+                scale.max = Math.ceil(max + pad)
+              }
+            }
+          : {
+              // No padding: let Chart.js auto-scale based purely on data
+              // This ensures the y-axis tightly fits the actual data range
+            })
       }
     }
   }
