@@ -19,7 +19,8 @@ import {
   NETWORK_CARD,
   NETWORK_DOUGHNUT_LEDGERS,
   NETWORK_LEDGERS,
-  ORG_DISTRIBUTOR
+  ORG_DISTRIBUTOR,
+  getOrderedSystemsForLayer
 } from '@/utils'
 import { networkMethodologyTo } from '@/routes/routePaths'
 
@@ -49,18 +50,12 @@ export function Network() {
 
   // Extract unique systems from actual data and merge with constants
   const networkSystems = useMemo((): string[] => {
-    const dataLedgers = new Set(
-      orgData.filter((d) => d.ledger).map((d) => d.ledger)
+    const orderedSystems = getOrderedSystemsForLayer(
+      'network',
+      orgData.map((d) => d.ledger)
     )
-    const constantLedgersArray: string[] = NETWORK_LEDGERS.map(
-      (l) => l.ledger
-    ).filter(Boolean) as string[]
-    const allSystems = Array.from(
-      new Set([...dataLedgers, ...constantLedgersArray])
-    ).sort()
-    return (
-      allSystems.length > 0 ? allSystems : constantLedgersArray
-    ) as string[]
+    const fallback = NETWORK_LEDGERS.map((l) => l.ledger)
+    return orderedSystems.length > 0 ? orderedSystems : fallback
   }, [orgData])
 
   const [selectedSystems, setSelectedSystems] = useState<Set<string>>(() => {
