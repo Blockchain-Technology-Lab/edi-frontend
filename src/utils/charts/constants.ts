@@ -15,14 +15,14 @@ export const BASE_LEDGERS = {
   bitcoin_cash: {
     ledger: 'bitcoin_cash',
     displayName: 'Bitcoin Cash',
-    color: 'rgba(54, 162, 235, 1)',
-    background: 'rgba(54, 162, 235, 0.2)',
-    border: 'rgba(54, 162, 235, 1)',
-    point: 'rgba(54, 162, 235, 1)'
+    color: 'rgba(0, 204, 102, 1)', //0, 204, 102
+    background: 'rgba(0, 204, 102, 0.2)',
+    border: 'rgba(0, 204, 102, 1)',
+    point: 'rgba(0, 204, 102, 1)'
   },
   bitcoin_without_tor: {
     ledger: 'bitcoin_without_tor',
-    displayName: 'Bitcoin', //'Bitcoinᵀᵒʳ',
+    displayName: 'Bitcoin w/o Tor', //'Bitcoinᵀᵒʳ',
     color: 'rgba(242, 169, 0, 1)',
     background: 'rgba(242, 169, 0, 0.2)',
     border: 'rgba(242, 169, 0, 1)',
@@ -39,7 +39,7 @@ export const BASE_LEDGERS = {
   dogecoin: {
     ledger: 'dogecoin',
     displayName: 'Dogecoin',
-    color: 'rgba(255, 159, 64, 1)',
+    color: 'rgba(255,235,50, 1)',
     background: 'rgba(255, 159, 64, 0.2)',
     border: 'rgba(255, 159, 64, 1)',
     point: 'rgba(255, 159, 64, 1)'
@@ -79,15 +79,15 @@ export const BASE_LEDGERS = {
   zcash: {
     ledger: 'zcash',
     displayName: 'ZCash',
-    color: 'rgba(0, 204, 102, 1)',
-    background: 'rgba(0, 204, 102, 0.2)',
-    border: 'rgba(0, 204, 102, 1)',
-    point: 'rgba(0, 204, 102, 1)'
+    color: 'rgba(54, 162, 235, 1)',
+    background: 'rgba(54, 162, 235, 0.2)',
+    border: 'rgba(54, 162, 235, 1)',
+    point: 'rgba(54, 162, 235, 1)'
   },
   go_ethereum: {
     ledger: 'go-ethereum',
     displayName: 'Go Ethereum',
-    color: 'rgba(255, 0, 204, 1)',
+    color: 'rgba(153, 102, 255, 1)',
     background: 'rgba(255, 0, 204, 0.2)',
     border: 'rgba(255, 0, 204, 1)',
     point: 'rgba(255, 0, 204, 1)'
@@ -143,18 +143,18 @@ export const BASE_LEDGERS = {
   ethereum_consensus: {
     ledger: 'consensus',
     displayName: 'Ethereum (Consensus)',
-    color: 'rgba(128, 128, 128, 1)',
-    background: 'rgba(128, 128, 128, 0.2)',
-    border: 'rgba(128, 128, 128, 1)',
-    point: 'rgba(128, 128, 128, 1)'
+    color: 'rgba(138,43,226, 1)',
+    background: 'rgba(138,43,226, 0.2)',
+    border: 'rgba(138,43,226, 1)',
+    point: 'rgba(138,43,226, 1)'
   },
   ethereum_execution: {
     ledger: 'execution',
     displayName: 'Ethereum (Execution)',
-    color: 'rgba(90, 90, 91, 1)',
-    background: 'rgba(90, 90, 91, 0.2)',
-    border: 'rgba(90, 90, 91, 1)',
-    point: 'rgba(90, 90, 91, 1)'
+    color: 'rgba(148,0,211, 1)',
+    background: 'rgba(148,0,211, 0.2)',
+    border: 'rgba(148,0,211, 1)',
+    point: 'rgba(148,0,211, 1)'
   }
 } as const
 
