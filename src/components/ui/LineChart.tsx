@@ -174,17 +174,10 @@ export function LineChart({
   const options = useMemo(() => {
     if (!resolvedTheme || !chartData) return undefined
 
-    const dataToUse = multiAxis ? enhancedChartData : chartData
-    const allYValues: number[] =
-      dataToUse?.datasets.flatMap((ds) =>
-        (ds.data as { x: Date; y: number }[]).map((point) => point.y)
-      ) || []
-
     return getChartOptions(
       metric,
       resolvedTheme,
       timeUnit,
-      allYValues,
       padYAxis,
       tooltipDecimals,
       yAxisDecimals,
@@ -291,7 +284,6 @@ function getChartOptions(
   metric: string,
   theme: string,
   timeUnit: 'year' | 'month' | 'day' = 'year',
-  yValues: number[] = [],
   padYAxis = false,
   tooltipDecimals?: number,
   yAxisDecimals?: number | null,
@@ -300,7 +292,6 @@ function getChartOptions(
   selectedSystems?: Set<string>
 ): ChartOptions<'line'> {
   const mainColor = theme === 'dim' ? 'white' : 'black'
-  const minYRaw = Math.min(...yValues)
 
   const baseOptions: ChartOptions<'line'> = {
     responsive: true,
