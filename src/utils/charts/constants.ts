@@ -22,7 +22,7 @@ export const BASE_LEDGERS = {
   },
   bitcoin_without_tor: {
     ledger: 'bitcoin_without_tor',
-    displayName: 'Bitcoin (without Tor)',
+    displayName: 'Bitcoin', //'Bitcoinᵀᵒʳ',
     color: 'rgba(242, 169, 0, 1)',
     background: 'rgba(242, 169, 0, 0.2)',
     border: 'rgba(242, 169, 0, 1)',
@@ -403,7 +403,9 @@ export function getOrderedSystemsForLayer(
 ): string[] {
   const baseOrder = getLayerLedgerNames(layer)
   const extras = Array.from(
-    new Set(observedLedgers.filter((ledger): ledger is string => Boolean(ledger)))
+    new Set(
+      observedLedgers.filter((ledger): ledger is string => Boolean(ledger))
+    )
   )
     .filter((ledger) => !baseOrder.includes(ledger))
     .sort((a, b) => a.localeCompare(b))
