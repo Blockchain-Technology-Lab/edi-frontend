@@ -18,6 +18,7 @@ import {
   GEOGRAPHY_METRICS,
   GEOGRAPHY_DOUGHNUT_LEDGERS,
   GEOGRAPHY_LEDGERS,
+  getOrderedSystemsForLayer,
   getGeographyDoughnutCsvFileName
 } from '@/utils'
 import { useLocation, useNavigate } from '@tanstack/react-router'
@@ -49,18 +50,12 @@ export function Geography() {
 
   // Extract unique systems from actual data and merge with constants
   const geographySystems = useMemo((): string[] => {
-    const dataLedgers = new Set(
-      nodesData.filter((d) => d.ledger).map((d) => d.ledger)
+    const orderedSystems = getOrderedSystemsForLayer(
+      'geography',
+      nodesData.map((d) => d.ledger)
     )
-    const constantLedgersArray: string[] = GEOGRAPHY_LEDGERS.map(
-      (l) => l.ledger
-    ).filter(Boolean) as string[]
-    const allSystems = Array.from(
-      new Set([...dataLedgers, ...constantLedgersArray])
-    ).sort()
-    return (
-      allSystems.length > 0 ? allSystems : constantLedgersArray
-    ) as string[]
+    const fallback = GEOGRAPHY_LEDGERS.map((l) => l.ledger)
+    return orderedSystems.length > 0 ? orderedSystems : fallback
   }, [nodesData])
 
   const [selectedSystems, setSelectedSystems] = useState<Set<string>>(() => {
