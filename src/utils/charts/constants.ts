@@ -94,7 +94,7 @@ export const BASE_LEDGERS = {
   },
   bitcoin_cash_node: {
     ledger: 'bitcoin-cash-node',
-    displayName: 'Bitcoin Cash Node',
+    displayName: 'Bitcoin Cash',
     color: 'rgba(0, 102, 204, 1)',
     background: 'rgba(0, 102, 204, 0.2)',
     border: 'rgba(0, 102, 204, 1)',
@@ -102,7 +102,7 @@ export const BASE_LEDGERS = {
   },
   cardano_node: {
     ledger: 'cardano-node',
-    displayName: 'Cardano Node',
+    displayName: 'Cardano',
     color: 'rgba(204, 102, 0, 1)',
     background: 'rgba(204, 102, 0, 0.2)',
     border: 'rgba(204, 102, 0, 1)',
@@ -134,7 +134,7 @@ export const BASE_LEDGERS = {
   },
   tezos_mirror: {
     ledger: 'tezos-mirror',
-    displayName: 'Tezos Mirror',
+    displayName: 'Tezos',
     color: 'rgba(128, 0, 128, 1)',
     background: 'rgba(128, 0, 128, 0.2)',
     border: 'rgba(128, 0, 128, 1)',
