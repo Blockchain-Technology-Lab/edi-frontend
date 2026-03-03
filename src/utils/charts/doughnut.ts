@@ -1,4 +1,4 @@
-import { getColorsForChart } from '@/utils'
+import { getColorsForChart, getCountryColors } from '@/utils'
 import type {
   FinalData,
   DoughnutDataEntry,
@@ -7,12 +7,14 @@ import type {
 
 // Function to prepare finalData for single doughnutData
 export function prepareFinalDataForSingleChart(
-  doughnutData: DoughnutDataEntry[]
+  doughnutData: DoughnutDataEntry[],
+  isGeography: boolean = false
 ): FinalData {
-  const colors = getColorsForChart(doughnutData.length)
+  const labels = doughnutData.map((item) => item.author || 'Unknown')
+  const colors = isGeography ? getCountryColors(labels) : getColorsForChart(labels.length)
 
   return {
-    labels: doughnutData.map((item) => item.author || 'Unknown'),
+    labels,
     datasets: [
       {
         data: doughnutData.map((item) => Math.round(Number(item.commits))),

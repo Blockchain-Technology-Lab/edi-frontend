@@ -146,3 +146,83 @@ export function parseCountryNodesDoughnutCSV(
 export function getGeographyDoughnutCsvFileName(ledger: string): string {
   return `${GEOGRAPHY_DISTRIBUTION_PREFIX}_${ledger}.csv`
 }
+
+/**
+ * Dynamic Country Color Mapper
+ * Generates consistent, visually distinct colors for countries
+ * uses localStorage for persistence across sessions
+ */
+class CountryColorMapper {
+  private colorMap = new Map<string, string>()
+  private colorIndex = 0
+  private readonly STORAGE_KEY = 'EDI_COUNTRY_COLORS'
+
+  constructor() {
+    this.loadFromStorage()
+  }
+
+  /**
+   * Get color for a country (generates and caches if not yet seen)
+   */
+  getColor(country: string): string {
+    if (this.colorMap.has(country)) {
+      return this.colorMap.get(country)!
+    }
+
+    const newColor = this.generateNextColor()
+    this.colorMap.set(country, newColor)
+    this.saveToStorage()
+    return newColor
+  }
+
+  /**
+   * Generate next color using golden angle for optimal visual distinction
+   * Golden angle (137.5°) naturally produces harmonious, distinct colors
+   */
+  private generateNextColor(): string {
+    const hue = (this.colorIndex * 137.5) % 360
+    const saturation = 75
+    const lightness = 55
+    this.colorIndex++
+    return `hsl(${Math.round(hue)}, ${saturation}%, ${lightness}%)`
+  }
+
+  /**
+   * Persist color map to localStorage for cross-session consistency
+   */
+  private saveToStorage(): void {
+    try {
+      const data = Object.fromEntries(this.colorMap)
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(data))
+    } catch {
+      // Silently fail if storage unavailable (SSR, private mode, etc.)
+    }
+  }
+
+  /**
+   * Load color map from localStorage if available
+   */
+  private loadFromStorage(): void {
+    try {
+      const data = localStorage.getItem(this.STORAGE_KEY)
+      if (data) {
+        const map = JSON.parse(data)
+        this.colorMap = new Map(Object.entries(map) as [string, string][])
+        this.colorIndex = this.colorMap.size
+      }
+    } catch {
+      // Silently fail - start fresh if storage read fails
+    }
+  }
+}
+
+// Singleton instance shared across app
+const countryColorMapper = new CountryColorMapper()
+
+/**
+ * Get colors for country-based doughnut charts
+ * Automatically generates and caches colors for each country
+ */
+export function getCountryColors(countries: string[]): string[] {
+  return countries.map((country) => countryColorMapper.getColor(country))
+}
