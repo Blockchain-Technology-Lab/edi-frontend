@@ -24,6 +24,7 @@ export function DoughnutChartRenderer({
 
   // Determine which result to use based on type
   const isGovernance = type === LAYER_NAMES.GOVERNANCE
+  const isGeography = type === LAYER_NAMES.GEOGRAPHY
 
   const { governanceDoughnutData, doughnutLoading: govLoading } =
     governanceResult
@@ -38,7 +39,7 @@ export function DoughnutChartRenderer({
   //let finalData;
   const finalData = isGovernance
     ? prepareFinalDataForGovChart(governanceDoughnutData)
-    : prepareFinalDataForSingleChart(doughnutData)
+    : prepareFinalDataForSingleChart(doughnutData, isGeography)
 
   return <DoughnutChart data={finalData} fileName={fileName} />
 }
