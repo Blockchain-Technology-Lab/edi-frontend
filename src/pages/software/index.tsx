@@ -17,7 +17,8 @@ import {
   SOFTWARE_CSV,
   SOFTWARE_DOUGHNUT_LEDGER_NAMES,
   SOFTWARE_METRICS,
-  SOFTWARE_LEDGERS
+  SOFTWARE_LEDGERS,
+  getOrderedSystemsForLayer
 } from '@/utils'
 import { useMemo, useState, useRef, useEffect } from 'react'
 import { useNavigate, useLocation } from '@tanstack/react-router'
@@ -132,18 +133,12 @@ export function Software() {
 
   // Extract unique systems from actual data and merge with constants
   const softwareSystems = useMemo((): string[] => {
-    const dataLedgers = new Set(
-      data.filter((d) => d.ledger).map((d) => d.ledger)
+    const orderedSystems = getOrderedSystemsForLayer(
+      'software',
+      data.map((d) => d.ledger)
     )
-    const constantLedgersArray: string[] = SOFTWARE_LEDGERS.map(
-      (l) => l.ledger
-    ).filter(Boolean) as string[]
-    const allSystems = Array.from(
-      new Set([...dataLedgers, ...constantLedgersArray])
-    ).sort()
-    return (
-      allSystems.length > 0 ? allSystems : constantLedgersArray
-    ) as string[]
+    const fallback = SOFTWARE_LEDGERS.map((l) => l.ledger)
+    return orderedSystems.length > 0 ? orderedSystems : fallback
   }, [data])
 
   const [selectedSystems, setSelectedSystems] = useState<Set<string>>(() => {

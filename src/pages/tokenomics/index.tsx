@@ -5,7 +5,8 @@ import {
   TOKENOMICS_CARD,
   TOKENOMICS_CSV,
   TOKENOMICS_METRICS,
-  TOKENOMICS_LEDGERS
+  TOKENOMICS_LEDGERS,
+  getOrderedSystemsForLayer
 } from '@/utils'
 
 import {
@@ -54,18 +55,12 @@ export function Tokenomics() {
 
   // Extract unique systems from actual data and merge with constants
   const tokenomicsSystems = useMemo((): string[] => {
-    const dataLedgers = new Set(
-      data.filter((d) => d.ledger).map((d) => d.ledger)
+    const orderedSystems = getOrderedSystemsForLayer(
+      'tokenomics',
+      data.map((d) => d.ledger)
     )
-    const constantLedgersArray: string[] = TOKENOMICS_LEDGERS.map(
-      (l) => l.ledger
-    ).filter(Boolean) as string[]
-    const allSystems = Array.from(
-      new Set([...dataLedgers, ...constantLedgersArray])
-    ).sort()
-    return (
-      allSystems.length > 0 ? allSystems : constantLedgersArray
-    ) as string[]
+    const fallback = TOKENOMICS_LEDGERS.map((l) => l.ledger)
+    return orderedSystems.length > 0 ? orderedSystems : fallback
   }, [data])
 
   const [selectedSystems, setSelectedSystems] = useState<Set<string>>(() => {
