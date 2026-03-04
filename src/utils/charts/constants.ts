@@ -20,14 +20,6 @@ export const BASE_LEDGERS = {
     border: 'rgba(0, 204, 102, 1)',
     point: 'rgba(0, 204, 102, 1)'
   },
-  bitcoin_without_tor: {
-    ledger: 'bitcoin_without_tor',
-    displayName: 'Bitcoin w/o Tor', //'Bitcoinᵀᵒʳ',
-    color: 'rgba(242, 169, 0, 1)',
-    background: 'rgba(242, 169, 0, 0.2)',
-    border: 'rgba(242, 169, 0, 1)',
-    point: 'rgba(242, 169, 0, 1)'
-  },
   cardano: {
     ledger: 'cardano',
     displayName: 'Cardano',
@@ -216,7 +208,6 @@ export const SOFTWARE_LEDGERS = SOFTWARE_KEYS.map(
 
 const NETWORK_KEYS = [
   'bitcoin',
-  'bitcoin_without_tor',
   'bitcoin_cash',
   'cardano',
   'dogecoin',
@@ -246,7 +237,7 @@ export const NETWORK_DOUGHNUT_LEDGERS = NETWORK_DOUGHNUT_KEYS.map(
 ).sort((a, b) => a.displayName.localeCompare(b.displayName))
 
 const GEOGRAPHY_KEYS = [
-  'bitcoin_without_tor',
+  'bitcoin',
   'bitcoin_cash',
   'cardano',
   'dogecoin',

@@ -1,7 +1,7 @@
 // utils/network.ts
 import type { DataEntry } from '@/utils/types'
 import { NETWORK_CSV } from '@/utils/paths'
-import { BASE_LEDGER_COLORS } from '@/utils/charts/constants'
+import { NETWORK_LEDGERS } from '@/utils/charts/constants'
 
 // --- Constants ---
 
@@ -197,54 +197,6 @@ export async function loadNetworkBarCsvData(
   }
 }
 
-export const NETWORK_BAR_CHART_LEDGER_DETAILS = [
-  {
-    ledger: 'bitcoin',
-    displayName: 'Bitcoin',
-    color: BASE_LEDGER_COLORS.bitcoin
-  },
-  {
-    ledger: 'bitcoin_without_tor',
-    displayName: 'Bitcoin (without Tor)',
-    color: BASE_LEDGER_COLORS.bitcoin_without_tor
-  },
-  {
-    ledger: 'bitcoin_cash',
-    displayName: 'Bitcoin Cash',
-    color: BASE_LEDGER_COLORS.bitcoin_cash
-  },
-  {
-    ledger: 'dogecoin',
-    displayName: 'Dogecoin',
-    color: BASE_LEDGER_COLORS.dogecoin
-  },
-  {
-    ledger: 'litecoin',
-    displayName: 'Litecoin',
-    color: BASE_LEDGER_COLORS.litecoin
-  },
-  {
-    ledger: 'zcash',
-    displayName: 'ZCash',
-    color: BASE_LEDGER_COLORS.zcash
-  },
-  {
-    ledger: 'consensus',
-    displayName: 'Ethereum (Consensus)',
-    color: '#808080'
-  },
-  {
-    ledger: 'execution',
-    displayName: 'Ethereum (Execution)',
-    color: '#b0b0b0'
-  },
-  {
-    ledger: 'cardano',
-    displayName: 'Cardano',
-    color: BASE_LEDGER_COLORS.cardano
-  }
-]
-
 export const NETWORK_DEFAULT_BAR_COLOUR = '#2563eb' // fallback blue
 
 export function prepareBarChartData(data: NetworkBarEntry[]) {
@@ -264,15 +216,11 @@ export function prepareBarChartData(data: NetworkBarEntry[]) {
 }
 
 export function getBarLedgerDisplayName(ledger: string): string {
-  const entry = NETWORK_BAR_CHART_LEDGER_DETAILS.find(
-    (item) => item.ledger === ledger
-  )
+  const entry = NETWORK_LEDGERS.find((item) => item.ledger === ledger)
   return entry ? entry.displayName : ledger // Fallback to the ledger key if not found
 }
 
 export function getBarLedgerColor(ledger: string): string {
-  const entry = NETWORK_BAR_CHART_LEDGER_DETAILS.find(
-    (item) => item.ledger === ledger
-  )
+  const entry = NETWORK_LEDGERS.find((item) => item.ledger === ledger)
   return entry ? entry.color : NETWORK_DEFAULT_BAR_COLOUR // Fallback to a default color if not found
 }

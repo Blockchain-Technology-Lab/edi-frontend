@@ -44,17 +44,9 @@ export const GEOGRAPHY_METRICS = [
   }
 ]
 
-export function getGeographyCsvFileName(
-  ledger: string,
-  options?: { withoutTor?: boolean }
-): string {
+export function getGeographyCsvFileName(ledger: string): string {
   const fileNamePrefix = 'output_countries'
   let fileName = `${fileNamePrefix}_${ledger}.csv`
-
-  if (options?.withoutTor) {
-    fileName = `${fileNamePrefix}_${ledger}_without_tor.csv`
-  }
-
   return fileName
 }
 
