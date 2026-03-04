@@ -12,3 +12,23 @@
 # Set proper MIME types
 AddType application/javascript .js
 AddType text/css .css
+
+# Cache Control Headers
+# Don't cache index.html - forces browser to check for new version
+<Files "index.html">
+  <IfModule mod_headers.c>
+    Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
+  </IfModule>
+</Files>
+
+# Cache static assets (JS, CSS with content hashes) for 1 year
+<FilesMatch "\.(js|css|woff2|woff|ttf|eot|svg|png|jpg|jpeg|gif|ico|webp)$">
+  <IfModule mod_headers.c>
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </IfModule>
+</FilesMatch>
+
+# Cache everything else for 1 day
+<IfModule mod_headers.c>
+  Header set Cache-Control "public, max-age=86400"
+</IfModule>
