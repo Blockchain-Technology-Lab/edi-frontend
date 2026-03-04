@@ -143,7 +143,7 @@ export const BASE_LEDGERS = {
   ethereum_execution: {
     ledger: 'execution',
     displayName: 'Ethereum (Execution)',
-    color: 'rgba(148,0,211, 1)',
+    color: 'rgba(0, 255, 255, 1)',
     background: 'rgba(148,0,211, 0.2)',
     border: 'rgba(148,0,211, 1)',
     point: 'rgba(148,0,211, 1)'
