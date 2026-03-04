@@ -146,7 +146,7 @@ export function Geography() {
             GEOGRAPHY_METRICS.map((m) => (
               <MetricsCard
                 key={m.metric}
-                metric={{ ...m, decimals: 2 }}
+                metric={m}
                 data={filteredData}
                 loading={loading}
                 type="geography"
