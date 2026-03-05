@@ -6,8 +6,15 @@ interface WorldMapData {
   [countryName: string]: number
 }
 
+interface WorldMapDataBreakdown {
+  [countryName: string]: {
+    [ledger: string]: number
+  }
+}
+
 interface UseWorldMapDataReturn {
   mapData: WorldMapData
+  mapDataBreakdown?: WorldMapDataBreakdown
   loading: boolean
   error: Error | null
 }
@@ -16,12 +23,16 @@ interface UseWorldMapDataReturn {
  * Hook to load and prepare country data for the world map visualization
  * @param ledger - Optional specific ledger to load (e.g., 'bitcoin'). If not provided, aggregates all ledgers.
  * @param selectedSystems - Optional set of selected systems to filter data
+ * @param includeBreakdown - If true, returns breakdown by ledger for tooltips
  */
 export function useWorldMapData(
   ledger?: string,
-  selectedSystems?: Set<string>
+  selectedSystems?: Set<string>,
+  includeBreakdown: boolean = false
 ): UseWorldMapDataReturn {
   const [mapData, setMapData] = useState<WorldMapData>({})
+  const [mapDataBreakdown, setMapDataBreakdown] =
+    useState<WorldMapDataBreakdown>({})
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
 
@@ -54,19 +65,31 @@ export function useWorldMapData(
             }
 
             const csvData = await response.text()
-            return parseCountryData(csvData)
+            return { ledger: ledgerName, data: parseCountryData(csvData) }
           })
         )
 
-        // Aggregate data from all ledgers
+        // Aggregate data from all ledgers and build breakdown
         const aggregatedData: WorldMapData = {}
-        results.forEach((ledgerData) => {
+        const breakdownData: WorldMapDataBreakdown = {}
+
+        results.forEach(({ ledger: ledgerName, data: ledgerData }) => {
           Object.entries(ledgerData).forEach(([country, count]) => {
             aggregatedData[country] = (aggregatedData[country] || 0) + count
+
+            if (includeBreakdown) {
+              if (!breakdownData[country]) {
+                breakdownData[country] = {}
+              }
+              breakdownData[country][ledgerName] = count
+            }
           })
         })
 
         setMapData(aggregatedData)
+        if (includeBreakdown) {
+          setMapDataBreakdown(breakdownData)
+        }
       } catch (err) {
         setError(err instanceof Error ? err : new Error('Unknown error'))
       } finally {
@@ -75,9 +98,14 @@ export function useWorldMapData(
     }
 
     fetchData()
-  }, [ledgersToLoad])
+  }, [ledgersToLoad, includeBreakdown])
 
-  return { mapData, loading, error }
+  return {
+    mapData,
+    mapDataBreakdown: includeBreakdown ? mapDataBreakdown : undefined,
+    loading,
+    error
+  }
 }
 
 /**

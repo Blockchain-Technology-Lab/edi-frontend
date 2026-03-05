@@ -5,7 +5,8 @@ import {
   LayerTopCard,
   MetricsCard,
   SystemSelector,
-  GeographyLedgerCards
+  GeographyLedgerCards,
+  WorldMapCardTotal
 } from '@/components'
 import { useGeographyCsv } from '@/hooks'
 import { geographyContributorRoute } from '@/router'
@@ -125,6 +126,10 @@ export function Geography() {
             imageSrc={DOUGHNUT_CARD}
             onClick={handleContributorScrollClick}
           />
+        </div>
+
+        <div>
+          <WorldMapCardTotal />
         </div>
 
         <MetricsTopCard

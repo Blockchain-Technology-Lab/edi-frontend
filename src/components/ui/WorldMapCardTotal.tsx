@@ -1,26 +1,33 @@
 import { ImageDown } from 'lucide-react'
-import { useExportChart, useWorldMapChart } from '@/hooks'
+import { useExportChart, useWorldMapChart, useWorldMapData } from '@/hooks'
 import { DEFAULT_MAP_COLOR_SCHEME } from '@/utils/mapColors'
-import { formatTotalTooltip } from '@/utils/mapTooltips'
+import { formatBreakdownTooltip } from '@/utils/mapTooltips'
 
-interface WorldMapCardProps {
-  data: Record<string, number>
-  title: string
-  loading?: boolean
+interface WorldMapCardTotalProps {
+  title?: string
 }
 
-export function WorldMapCard({
-  data,
-  title,
-  loading = false
-}: WorldMapCardProps) {
+/**
+ * Standalone world map showing aggregated node distribution across all blockchain platforms
+ * Displays breakdown by platform in tooltip when hovering over countries
+ */
+export function WorldMapCardTotal({
+  title = 'Global Node Distribution (All Platforms)'
+}: WorldMapCardTotalProps) {
   const exportChart = useExportChart()
 
+  const { mapData, mapDataBreakdown, loading } = useWorldMapData(
+    undefined,
+    undefined,
+    true // Request breakdown data
+  )
+
   const { chartRef, error } = useWorldMapChart({
-    mapData: data,
+    mapData: mapData || {},
+    mapDataBreakdown,
     isLoading: loading,
     colorScheme: DEFAULT_MAP_COLOR_SCHEME,
-    onTooltipLabel: formatTotalTooltip
+    onTooltipLabel: formatBreakdownTooltip
   })
 
   if (loading) {
@@ -37,7 +44,6 @@ export function WorldMapCard({
     <div className="card-body m-1" key={title} title={title}>
       <div className="flex justify-between items-center shadow-lg text-xl card-title bg-base-300 alert w-full mb-4">
         <span>{title}</span>
-        <div className="flex gap-2" />
       </div>
 
       {error ? (
@@ -53,10 +59,7 @@ export function WorldMapCard({
             <button
               className="btn btn-sm bg-base-100"
               onClick={() =>
-                exportChart(
-                  chartRef,
-                  title.replace(/\s+/g, '-').toLowerCase() + '-map'
-                )
+                exportChart(chartRef, 'global-node-distribution-map')
               }
               aria-label="Download as PNG"
               title="Download as PNG"

@@ -57,3 +57,5 @@ export const GOVERNANCE_CSV = basePath + '/output/governance/'
 export const CHANGELOG_JSON = basePath + '/changelog/changes.json'
 export const INFOGRAPHICS = basePath + '/infographics/'
 export const RADAR_CSV = basePath + '/output/radar_chart.csv'
+
+export const WORLD_MAP_JSON = basePath + '/data/world-atlas-110m.json'
