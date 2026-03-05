@@ -74,6 +74,17 @@ function buildProject(outputDir) {
   console.log(chalk.green(`Build completed.`))
 }
 
+function copyHtaccessFile(outputDir) {
+  console.log(chalk.cyan(`Copying .htaccess file...`))
+  try {
+    fs.copyFileSync('htaccess/.htaccess.demo', `${outputDir}/.htaccess`)
+    console.log(chalk.green(`.htaccess file copied successfully.`))
+  } catch (error) {
+    console.error(chalk.red('Failed to copy .htaccess file:', error))
+    process.exit(1)
+  }
+}
+
 function deployToAFS(localDir, afsDir, skipOutputFolder = false) {
   console.log(chalk.green('\nDeploying to AFS...'))
   try {
@@ -172,6 +183,9 @@ function safeRestoreAndExit(code = 1) {
 
     console.log(chalk.blueBright('Running build...'))
     buildProject(config.outputDir)
+
+    console.log(chalk.blueBright('Copying .htaccess file...'))
+    copyHtaccessFile(config.outputDir)
 
     console.log(chalk.blueBright('Restoring original configuration...'))
     restoreFiles()
