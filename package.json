@@ -21,6 +21,7 @@
     "chalk": "^5.4.1",
     "chart.js": "^4.5.0",
     "chartjs-adapter-date-fns": "^3.0.0",
+    "chartjs-chart-geo": "^4.3.6",
     "daisyui": "^5.0.43",
     "date-fns": "^4.1.0",
     "fs-extra": "^11.3.0",
@@ -31,6 +32,7 @@
     "react-dom": "^19.1.0",
     "react-photoswipe-gallery": "^3.1.1",
     "tailwind-merge": "^3.3.1",
+    "topojson-client": "^3.1.0",
     "yargs": "^18.0.0"
   },
   "devDependencies": {
@@ -40,6 +42,7 @@
     "@types/papaparse": "^5.3.16",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
+    "@types/topojson-client": "^3.1.5",
     "@vitejs/plugin-react": "^4.5.2",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.29.0",
