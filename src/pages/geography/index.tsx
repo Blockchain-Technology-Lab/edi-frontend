@@ -4,8 +4,8 @@ import {
   DoughnutTopCard,
   LayerTopCard,
   MetricsCard,
-  DoughnutCard,
-  SystemSelector
+  SystemSelector,
+  GeographyLedgerCards
 } from '@/components'
 import { useGeographyCsv } from '@/hooks'
 import { geographyContributorRoute } from '@/router'
@@ -169,15 +169,15 @@ export function Geography() {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
           {GEOGRAPHY_DOUGHNUT_LEDGERS.map((ledger, index) => (
-            <DoughnutCard
-              title={ledger.displayName}
+            <GeographyLedgerCards
               key={index}
-              githubUrl={`https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin`}
-              path={`${GEOGRAPHY_CSV}${getGeographyDoughnutCsvFileName(
+              ledger={ledger}
+              csvPath={`${GEOGRAPHY_CSV}${getGeographyDoughnutCsvFileName(
                 ledger.ledger
               )}`}
               fileName={ledger.ledger}
               type={'geography'}
+              githubUrl={`https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin`}
             />
           ))}
         </div>
