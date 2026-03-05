@@ -61,7 +61,7 @@ export function WorldMapCard({
     let isMounted = true
 
     // Fetch world map GeoJSON from local file
-    fetch(`${import.meta.env.BASE_URL}data/world-atlas-110m.json`)
+    fetch(`${import.meta.env.BASE_URL}/data/world-atlas-110m.json`)
       .then((r) => r.json())
       .then((worldData: WorldAtlasTopology) => {
         if (!isMounted) return
