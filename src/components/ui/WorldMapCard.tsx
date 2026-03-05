@@ -9,9 +9,7 @@ import {
 import * as topojson from 'topojson-client'
 import type { Topology, GeometryCollection } from 'topojson-specification'
 import type { Feature, FeatureCollection } from 'geojson'
-import { GitHubButton } from '@/components'
-import Tippy from '@tippyjs/react'
-import { Info, ImageDown } from 'lucide-react'
+import { ImageDown } from 'lucide-react'
 import { useExportChart } from '@/hooks'
 
 // Register chart.js geo components
@@ -20,9 +18,9 @@ Chart.register(ChoroplethController, GeoFeature, ColorScale, ProjectionScale)
 interface WorldMapCardProps {
   data: Record<string, number>
   title: string
-  description?: string
+  // description?: string
   loading?: boolean
-  githubUrl?: string
+  // githubUrl?: string
   colorScheme?: {
     minColor: string
     maxColor: string
@@ -43,9 +41,9 @@ interface WorldAtlasTopology extends Topology {
 export function WorldMapCard({
   data,
   title,
-  description,
+  //description,
   loading = false,
-  githubUrl,
+  //githubUrl,
   colorScheme = {
     minColor: '#f3e8ff',
     maxColor: '#7c3aed',
@@ -63,7 +61,7 @@ export function WorldMapCard({
     let isMounted = true
 
     // Fetch world map GeoJSON from local file
-    fetch('/world-atlas-110m.json')
+    fetch(`${import.meta.env.BASE_URL}data/world-atlas-110m.json`)
       .then((r) => r.json())
       .then((worldData: WorldAtlasTopology) => {
         if (!isMounted) return
@@ -192,7 +190,7 @@ export function WorldMapCard({
 
         <div className="flex gap-2">
           {/* Info button with tooltip if description provided */}
-          {description && (
+          {/*{description && (
             <Tippy content={description} placement="bottom">
               <button
                 type="button"
@@ -203,10 +201,10 @@ export function WorldMapCard({
                 <Info size={16} />
               </button>
             </Tippy>
-          )}
+          )} */}
 
           {/* GitHub button if URL provided */}
-          {githubUrl && <GitHubButton url={githubUrl} />}
+          {/*{githubUrl && <GitHubButton url={githubUrl} />} */}
         </div>
       </div>
 

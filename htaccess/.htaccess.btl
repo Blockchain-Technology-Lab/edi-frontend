@@ -6,12 +6,14 @@
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} !\.json$
   RewriteRule . /edi-dashboard/index.html [L]
 </IfModule>
 
 # Set proper MIME types
 AddType application/javascript .js
 AddType text/css .css
+AddType application/json .json
 
 # Cache Control Headers
 # Don't cache index.html - forces browser to check for new version
