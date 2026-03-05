@@ -22,6 +22,7 @@
     "chart.js": "^4.5.0",
     "chartjs-adapter-date-fns": "^3.0.0",
     "chartjs-chart-geo": "^4.3.6",
+    "chartjs-plugin-zoom": "^2.2.0",
     "daisyui": "^5.0.43",
     "date-fns": "^4.1.0",
     "fs-extra": "^11.3.0",

@@ -1,25 +1,43 @@
+import { useMemo } from 'react'
 import { ImageDown } from 'lucide-react'
 import { useExportChart, useWorldMapChart } from '@/hooks'
-import { DEFAULT_MAP_COLOR_SCHEME } from '@/utils/mapColors'
+import {
+  DEFAULT_MAP_COLOR_SCHEME,
+  createColorSchemeFromLedgerColor
+} from '@/utils/mapColors'
 import { formatTotalTooltip } from '@/utils/mapTooltips'
+import { BASE_LEDGERS } from '@/utils'
 
 interface WorldMapCardProps {
   data: Record<string, number>
   title: string
   loading?: boolean
+  ledger?: string
 }
 
 export function WorldMapCard({
   data,
   title,
-  loading = false
+  loading = false,
+  ledger
 }: WorldMapCardProps) {
   const exportChart = useExportChart()
+
+  // Generate color scheme from ledger color if available
+  const colorScheme = useMemo(() => {
+    if (ledger) {
+      const baseLedger = BASE_LEDGERS[ledger as keyof typeof BASE_LEDGERS]
+      if (baseLedger?.color) {
+        return createColorSchemeFromLedgerColor(baseLedger.color)
+      }
+    }
+    return DEFAULT_MAP_COLOR_SCHEME
+  }, [ledger])
 
   const { chartRef, error } = useWorldMapChart({
     mapData: data,
     isLoading: loading,
-    colorScheme: DEFAULT_MAP_COLOR_SCHEME,
+    colorScheme,
     onTooltipLabel: formatTotalTooltip
   })
 

@@ -41,3 +41,46 @@ export const DEFAULT_MAP_COLOR_SCHEME = {
   maxColor: '#7c3aed',
   noDataColor: '#e5e7eb'
 }
+
+/**
+ * Convert rgba color to hex
+ */
+function rgbaToHex(rgba: string): string {
+  const match = rgba.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/)
+  if (!match) return '#7c3aed' // fallback
+
+  const r = parseInt(match[1])
+  const g = parseInt(match[2])
+  const b = parseInt(match[3])
+
+  return '#' + [r, g, b].map((x) => x.toString(16).padStart(2, '0')).join('')
+}
+
+/**
+ * Create a color scheme from a ledger's brand color
+ * Generates a light version for min and uses the brand color for max
+ */
+export function createColorSchemeFromLedgerColor(
+  ledgerColor: string
+): typeof DEFAULT_MAP_COLOR_SCHEME {
+  const maxColor = rgbaToHex(ledgerColor)
+
+  // Extract RGB values from the max color
+  const hex = maxColor.replace('#', '')
+  const r = parseInt(hex.substring(0, 2), 16)
+  const g = parseInt(hex.substring(2, 4), 16)
+  const b = parseInt(hex.substring(4, 6), 16)
+
+  // Create a lighter version by mixing with white (increase RGB values)
+  const lightR = Math.round(r + (255 - r) * 0.85)
+  const lightG = Math.round(g + (255 - g) * 0.85)
+  const lightB = Math.round(b + (255 - b) * 0.85)
+
+  const minColor = `#${lightR.toString(16).padStart(2, '0')}${lightG.toString(16).padStart(2, '0')}${lightB.toString(16).padStart(2, '0')}`
+
+  return {
+    minColor,
+    maxColor,
+    noDataColor: '#e5e7eb'
+  }
+}

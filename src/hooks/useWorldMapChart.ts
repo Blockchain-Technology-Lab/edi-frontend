@@ -6,13 +6,20 @@ import {
   ColorScale,
   ProjectionScale
 } from 'chartjs-chart-geo'
+import zoomPlugin from 'chartjs-plugin-zoom'
 import * as topojson from 'topojson-client'
 import type { Topology, GeometryCollection } from 'topojson-specification'
 import type { Feature, FeatureCollection } from 'geojson'
 import { WORLD_MAP_JSON } from '@/utils/paths'
 import { interpolateColor, DEFAULT_MAP_COLOR_SCHEME } from '@/utils/mapColors'
 
-Chart.register(ChoroplethController, GeoFeature, ColorScale, ProjectionScale)
+Chart.register(
+  ChoroplethController,
+  GeoFeature,
+  ColorScale,
+  ProjectionScale,
+  zoomPlugin
+)
 
 interface WorldAtlasTopology extends Topology {
   objects: {
@@ -78,9 +85,9 @@ export function useWorldMapChart({
           worldData.objects.countries
         ) as FeatureCollection
 
-        const maxValue = Math.max(
-          ...Object.values(mapData).filter((v) => v > 0)
-        )
+        const values = Object.values(mapData).filter((v) => v > 0)
+        const maxValue = Math.max(...values)
+        const minValue = Math.min(...values)
 
         const countryNames: string[] = []
         const chartData: ChartCountryData[] = countries.features.map(
@@ -173,12 +180,50 @@ export function useWorldMapChart({
                     return `Total Nodes: ${value.toLocaleString()}`
                   }
                 }
+              },
+              zoom: {
+                pan: {
+                  enabled: true,
+                  mode: 'xy'
+                },
+                zoom: {
+                  wheel: {
+                    enabled: true,
+                    speed: 0.1
+                  },
+                  pinch: {
+                    enabled: true
+                  },
+                  mode: 'xy'
+                },
+                limits: {
+                  x: { min: -200, max: 200 },
+                  y: { min: -200, max: 200 }
+                }
               }
             },
             scales: {
               projection: {
                 axis: 'x',
                 projection: 'equalEarth'
+              },
+              color: {
+                axis: 'x',
+                quantize: 5,
+                min: minValue,
+                max: maxValue,
+                legend: {
+                  position: 'bottom-right',
+                  align: 'bottom'
+                },
+                missing: colorScheme.noDataColor,
+                interpolate: (normalizedValue: number) => {
+                  return interpolateColor(
+                    colorScheme.minColor,
+                    colorScheme.maxColor,
+                    normalizedValue
+                  )
+                }
               }
             }
           }

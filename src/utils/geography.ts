@@ -81,13 +81,18 @@ export function parseGeographyCSV(
     if (values.length !== headers.length) continue
 
     const entry: DataEntry = {} as DataEntry
+    let hasValidDate = false
 
     headers.forEach((header, index) => {
       const value = values[index].trim()
       const key = header.trim()
 
       if (key === 'date') {
-        entry.date = new Date(value)
+        const date = new Date(value)
+        if (!isNaN(date.getTime())) {
+          entry.date = date
+          hasValidDate = true
+        }
       } else if (key === 'ledger') {
         entry.ledger = overrideLedgerName || value
       } else if (GEOGRAPHY_COUNTRIES_COLUMNS.includes(key)) {
@@ -95,7 +100,10 @@ export function parseGeographyCSV(
       }
     })
 
-    data.push(entry)
+    // Only push entries with valid dates
+    if (hasValidDate && entry.date) {
+      data.push(entry)
+    }
   }
 
   data.sort((a, b) => {

@@ -38,9 +38,8 @@ export function GeographyLedgerCards({
       <WorldMapCard
         data={mapData}
         title={`${ledger.displayName} - Country Distribution`}
-        //description={`Interactive world map showing the geographic distribution of ${ledger.displayName} nodes across countries.`}
         loading={mapLoading}
-        //githubUrl={githubUrl}
+        ledger={ledger.ledger}
       />
     </div>
   )
