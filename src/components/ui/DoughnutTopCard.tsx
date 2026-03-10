@@ -27,7 +27,9 @@ export function DoughnutTopCard({
         />
       </figure>
       <div className="card-body">
-        <h2 className="card-title text-2xl">{title}</h2>
+        <h2 className="card-title text-base sm:text-lg lg:text-xl leading-snug break-words">
+          {title}
+        </h2>
         <p>{description}</p>
         <div className="card-actions justify-end gap-2">
           <button

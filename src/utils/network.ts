@@ -5,8 +5,6 @@ import { NETWORK_LEDGERS } from '@/utils/charts/constants'
 
 // --- Constants ---
 
-//export const NETWORK_CSV_PREFIX = "/output/network/";
-
 export const NETWORK_METRICS = [
   {
     metric: 'hhi',
@@ -72,13 +70,13 @@ export function getNetworkFullNodes() {
 export async function loadNetworkNodesCsvData(
   fileName: string
 ): Promise<DataEntry[]> {
-  return await fetchAndParseCsv(fileName, NETWORK_NODES.COLUMNS, 'nodes')
+  return fetchAndParseCsv(fileName, NETWORK_NODES.COLUMNS, 'nodes')
 }
 
 export async function loadNetworkOrganizationsCsvData(
   fileName: string
 ): Promise<DataEntry[]> {
-  return await fetchAndParseCsv(fileName, NETWORK_ORGANIZATIONS.COLUMNS, 'orgs')
+  return fetchAndParseCsv(fileName, NETWORK_ORGANIZATIONS.COLUMNS, 'orgs')
 }
 
 // --- Parser ---

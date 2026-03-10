@@ -46,8 +46,7 @@ export const GEOGRAPHY_METRICS = [
 
 export function getGeographyCsvFileName(ledger: string): string {
   const fileNamePrefix = 'output_countries'
-  let fileName = `${fileNamePrefix}_${ledger}.csv`
-  return fileName
+  return `${fileNamePrefix}_${ledger}.csv`
 }
 
 export async function loadGeographyCsvData(
@@ -130,9 +129,7 @@ export function parseCountryNodesDoughnutCSV(
   csvData: string
 ): DoughnutDataEntry[] {
   const lines = csvData.trim().split('\n')
-  const [, dateLine] = lines
   const dataLines = lines.slice(2)
-  console.log('dateLine:', dateLine) // Debugging line to check the date line
 
   return dataLines.map((line) => {
     const [label, value] = line.split(',')

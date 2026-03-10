@@ -1,5 +1,3 @@
-//import { CONSENSUS_CSV } from "@/utils/paths"
-//import type { DataEntry } from '@/utils';
 import type { DataEntry } from '@/utils/types'
 import { CONSENSUS_CSV } from '@/utils'
 import { basePath } from '@/utils/paths'
@@ -235,12 +233,7 @@ export async function loadConsensusCsvData(
 // --------------------------- File Name Generation ----------------------------
 
 export function getConsensusCsvFileName(clustering: string[]): string {
-  const isClustered = clustering.includes('clustered')
-
-  if (isClustered) {
-    return 'output_clustered.csv'
-  }
-
+  void clustering // keep function signature stable while clustering option is disabled
   return 'output_clustered.csv' // removing clustering option "output_non_clustered.csv"
 }
 

@@ -24,10 +24,12 @@ export function DoughnutCard({
 }: DoughnutCardProps) {
   return (
     <div className="card-body m-1" key={title} title={title}>
-      <div className="flex justify-between items-center shadow-lg text-2xl card-title bg-base-300 alert w-full mb-4">
-        <span>{title}</span>
+      <div className="flex justify-between items-center shadow-lg card-title bg-base-300 alert w-full mb-4 gap-3">
+        <span className="min-w-0 flex-1 text-sm sm:text-base lg:text-lg leading-snug break-words line-clamp-1">
+          {title}
+        </span>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 shrink-0">
           {/* Info button with tooltip if description provided */}
           {showInfo && description && (
             <Tippy content={description} placement="bottom">
