@@ -108,8 +108,10 @@ export default function HomePage() {
           title=""
           description="The Edinburgh Decentralisation Index (EDI) studies blockchain decentralisation from first principles, archives relevant datasets, develops metrics, and offers a dashboard to track decentralisation trends over time and across systems."
           imageSrc={EDI_CARD}
-          btnTitle="Website"
-          btnDesc="Visit the EDI website for more information"
+          btnWebsite="Website"
+          btnWebDesc="Visit the EDI website for more information"
+          btnMethod="Methodology"
+          btnMethodDesc="View the methodology for the EDI"
           webUrl="https://informatics.ed.ac.uk/blockchain/edi"
         />
       </div>
