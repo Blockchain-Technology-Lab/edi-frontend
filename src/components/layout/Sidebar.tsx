@@ -75,7 +75,8 @@ const layerItems = [
 
 export function Sidebar() {
   const { location } = useRouterState()
-  const isActive = (path: string) => location.pathname.startsWith(path)
+  const isActive = (path: string) =>
+    location.pathname === path || location.pathname.startsWith(`${path}/`)
 
   return (
     <div className="flex flex-col h-full pt-6 px-2">
