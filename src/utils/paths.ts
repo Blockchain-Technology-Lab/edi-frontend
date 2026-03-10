@@ -35,7 +35,7 @@ export const CONSENSUS_METHOD_CARD = getImageUrl(
   '/images/methodology/consensus.png'
 )
 export const TOKENOMICS_METHOD_CARD = getImageUrl(
-  '/images/methodology/tokenomics.png'
+  '/images/cards/tokenomics.png'
 )
 export const DOUGHNUT_CARD = getImageUrl('/images/cards/doughnut.png')
 export const ORG_DISTRIBUTOR = getImageUrl('/images/cards/org_distributor.png')
