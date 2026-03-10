@@ -46,6 +46,7 @@ interface UseWorldMapChartProps {
     countryName: string,
     breakdown?: Record<string, number>
   ) => string | string[]
+  useLogScale?: boolean
 }
 
 /**
@@ -57,11 +58,23 @@ export function useWorldMapChart({
   mapDataBreakdown,
   isLoading,
   colorScheme = DEFAULT_MAP_COLOR_SCHEME,
-  onTooltipLabel
+  onTooltipLabel,
+  useLogScale = false
 }: UseWorldMapChartProps) {
   const chartRef = useRef<HTMLCanvasElement>(null)
   const chartInstance = useRef<Chart | null>(null)
   const [error, setError] = useState<string | null>(null)
+
+  /**
+   * Calculate ratio for color mapping, supporting linear and logarithmic scales
+   */
+  const calculateRatio = (value: number, maxVal: number): number => {
+    if (value === 0) return 0
+    if (useLogScale) {
+      return Math.log10(value + 1) / Math.log10(maxVal + 1)
+    }
+    return value / maxVal
+  }
 
   useEffect(() => {
     if (
@@ -124,7 +137,7 @@ export function useWorldMapChart({
                   const value = (context.raw as { value: number }).value
                   if (value === 0) return colorScheme.noDataColor
 
-                  const ratio = value / maxValue
+                  const ratio = calculateRatio(value, maxValue)
                   return interpolateColor(
                     colorScheme.minColor,
                     colorScheme.maxColor,
@@ -242,7 +255,7 @@ export function useWorldMapChart({
         chartInstance.current.destroy()
       }
     }
-  }, [mapData, mapDataBreakdown, isLoading, colorScheme, onTooltipLabel])
+  }, [mapData, mapDataBreakdown, isLoading, colorScheme, onTooltipLabel, useLogScale])
 
   return { chartRef, error }
 }
