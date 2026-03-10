@@ -1,10 +1,14 @@
+import { methodologyTo } from '@/routes/routePaths'
+
 type HomeTopCardProps = {
   title: string
   description: string
   imageSrc: string
   webUrl?: string
-  btnTitle?: string
-  btnDesc?: string
+  btnWebsite?: string
+  btnWebDesc?: string
+  btnMethod?: string
+  btnMethodDesc?: string
 }
 
 export function HomeTopCard({
@@ -12,8 +16,10 @@ export function HomeTopCard({
   description,
   imageSrc,
   webUrl,
-  btnTitle = 'Website',
-  btnDesc = ''
+  btnWebsite = 'Website',
+  btnWebDesc = '',
+  btnMethod = 'Methodology',
+  btnMethodDesc = ''
 }: HomeTopCardProps) {
   return (
     <div className="card lg:card-side bg-base-200 shadow-lg border border-base-300 rounded-box">
@@ -29,13 +35,21 @@ export function HomeTopCard({
         <p className="tracking-wide text-lg">{description}</p>
         <div className="card-actions justify-end gap-2">
           <a
+            href={methodologyTo}
+            rel="noopener noreferrer"
+            className={`btn btn-outline btn-dash btn-ghost text-base-content`}
+            title={btnMethodDesc}
+          >
+            {btnMethod}
+          </a>
+          <a
             href={webUrl}
             target="_blank"
             rel="noopener noreferrer"
             className={`btn btn-outline btn-dash btn-ghost text-base-content`}
-            title={btnDesc}
+            title={btnWebDesc}
           >
-            {btnTitle}
+            {btnWebsite}
           </a>
         </div>
       </div>
