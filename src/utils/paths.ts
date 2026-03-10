@@ -46,6 +46,8 @@ export const BIP_NETWORK_CARD = getImageUrl(
   '/images/governance/bip_network.png'
 )
 
+export const UOE_LOGO = basePath + '/images/uoe.webp'
+
 // CSV paths (these stay the same - no need for Cloudinary)
 export const TOKENOMICS_CSV = basePath + '/output/tokenomics/'
 export const CONSENSUS_CSV = basePath + '/output/consensus/'
