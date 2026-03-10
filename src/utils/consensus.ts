@@ -17,6 +17,7 @@ const CONSENSUS_COLUMNS = [
   'nakamoto_coefficient',
   'theil_index',
   'concentration_ratio=1',
+  'tau_index=0.33',
   'tau_index=0.66'
 ] as const
 
@@ -58,8 +59,16 @@ export const CONSENSUS_METRICS = [
     icon: `${basePath}/images/cards/ratio.png`
   },
   {
+    metric: 'tau_index=0.33',
+    title: 'τ-decentralisation index (τ=0.33)',
+    decimals: 0,
+    description:
+      'The τ-decentralisation index represents the minimum number of entities that collectively control more than a fraction τ of the total resources (in this case more than 33% of mining / staking power).',
+    icon: `${basePath}/images/cards/tau0.66.png`
+  },
+  {
     metric: 'tau_index=0.66',
-    title: 'τ-decentralisation index',
+    title: 'τ-decentralisation index (τ=0.66)',
     decimals: 0,
     description:
       'The τ-decentralisation index represents the minimum number of entities that collectively control more than a fraction τ of the total resources (in this case more than 66% of mining / staking power).',
@@ -82,6 +91,25 @@ export const CONSENSUS_METRICS = [
     icon: `${basePath}/images/cards/gini.png`
   }
 ] as const
+
+// --------------------------- Tau Variant Helpers ----------------------------
+
+export const DEFAULT_TAU_VARIANT = '0.66' as const
+export type TauVariant = '0.33' | '0.66'
+
+export function isTauMetric(metric: string): boolean {
+  return metric.startsWith('tau_index=')
+}
+
+export function filterMetricsByTauVariant(
+  metrics: typeof CONSENSUS_METRICS,
+  variant: TauVariant
+) {
+  return metrics.filter((m) => {
+    if (isTauMetric(m.metric)) return m.metric === `tau_index=${variant}`
+    return true
+  })
+}
 
 // --------------------------- CSV Parsing Logic ----------------------------
 
