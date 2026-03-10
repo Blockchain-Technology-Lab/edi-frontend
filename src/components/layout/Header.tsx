@@ -87,7 +87,9 @@ export function Header() {
           style={{ opacity: scrollY > 50 ? 0.7 : 1 }}
         >
           <span className="sm:hidden">EDI</span>
-          <span className="hidden sm:inline">Edinburgh Decentralisation Index</span>
+          <span className="hidden sm:inline">
+            Edinburgh Decentralisation Index
+          </span>
           <sup className="ml-1 align-super text-xs sm:text-sm">™</sup>
         </h1>
       </Link>
