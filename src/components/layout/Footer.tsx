@@ -2,6 +2,7 @@ import { accessibilityRoute, changelogRoute, infographicsRoute } from '@/router'
 import { Link } from '@tanstack/react-router'
 import { Github, ExternalLink, ArrowUp } from 'lucide-react'
 import { ShortcutsHelp } from '@/components'
+import { INFORMATICS_LOGO } from '@/utils/paths'
 
 export function Footer() {
   const scrollToTop = (event: React.MouseEvent) => {
@@ -54,6 +55,19 @@ export function Footer() {
           <br />
           is a registered trademark in the UK.
         </p>
+        <a
+          href="https://informatics.ed.ac.uk/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block w-fit"
+          aria-label="School of Informatics"
+        >
+          <img
+            src={INFORMATICS_LOGO}
+            alt="School of Informatics"
+            className="h-6 sm:h-7 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+          />
+        </a>
         <div className="text-[10px] opacity-60">Last updated: {buildDate}</div>
       </aside>
 
