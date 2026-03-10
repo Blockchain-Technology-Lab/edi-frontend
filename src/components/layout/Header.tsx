@@ -90,7 +90,6 @@ export function Header() {
           <span className="hidden sm:inline">
             Edinburgh Decentralisation Index
           </span>
-          <sup className="ml-1 align-super text-xs sm:text-sm">™</sup>
         </h1>
       </Link>
 
