@@ -33,9 +33,9 @@ export function Footer() {
     : 'Build date not available'
 
   return (
-    <footer className="footer sm:footer-horizontal bg-base-200 text-base-content p-4 relative">
+    <footer className="footer sm:footer-horizontal bg-base-200 text-base-content px-4 pt-3 pb-4 sm:p-4 relative gap-y-5">
       {/* Top-right button group */}
-      <div className="absolute right-4 top-2 flex items-center gap-2 z-50">
+      <div className="w-full flex justify-end items-center gap-2 sm:w-auto sm:absolute sm:right-4 sm:top-2 z-10 order-first sm:order-none">
         <ShortcutsHelp />
         <button
           onClick={scrollToTop}
@@ -47,7 +47,7 @@ export function Footer() {
         </button>
       </div>
 
-      <aside className="flex flex-col gap-2">
+      <aside className="flex flex-col gap-2 w-full sm:w-auto sm:pr-24">
         <p>
           <span className="text-lg font-bold">
             Edinburgh Decentralisation Index™
@@ -71,7 +71,7 @@ export function Footer() {
         <div className="text-[10px] opacity-60">Last updated: {buildDate}</div>
       </aside>
 
-      <nav>
+      <nav className="text-sm">
         <h6 className="footer-title">Project</h6>
         <Link to={changelogRoute.to} className="link link-hover">
           Changelog
@@ -88,7 +88,7 @@ export function Footer() {
         </a>
       </nav>
 
-      <nav>
+      <nav className="text-sm">
         <h6 className="footer-title">BTL</h6>
         <a
           className="link link-hover flex items-center gap-1"
@@ -107,7 +107,7 @@ export function Footer() {
         </Link>
       </nav>
 
-      <nav>
+      <nav className="text-sm">
         <h6 className="footer-title">Legal</h6>
         <a
           className="link link-hover flex items-center gap-1"
