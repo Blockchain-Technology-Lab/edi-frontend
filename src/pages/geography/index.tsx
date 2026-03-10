@@ -102,9 +102,9 @@ export function Geography() {
   return (
     <>
       <div className="flex flex-col gap-6">
-        <div className="grid grid-cols-4 gap-4 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 items-stretch">
           {/* 3/4th - LayerTopCard */}
-          <div className="col-span-3">
+          <div className="lg:col-span-3">
             <LayerTopCard
               title="Geography Layer"
               description={
