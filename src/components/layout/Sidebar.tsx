@@ -79,17 +79,18 @@ export function Sidebar() {
     location.pathname === path || location.pathname.startsWith(`${path}/`)
 
   return (
-    <div className="flex flex-col h-full pt-6 px-2">
+    <div className="flex flex-col h-full pt-4 sm:pt-6 px-2 sm:px-2.5">
       {layerItems.map((item) => (
         <Link
           key={item.label}
           to={item.path}
           {...(item.disabled && { onClick: (e) => e.preventDefault() })}
-          className="mb-4"
+          className="mb-2 sm:mb-4"
         >
           <LayerMenuItem
             label={item.label}
             icon={item.icon}
+            //shortcut={item.shortcut}
             bgColor={item.bg}
             textColor={item.text}
             active={isActive(item.path)}
