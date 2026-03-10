@@ -16,6 +16,10 @@ export function withBase(path: string) {
   return `${basePath}${path}`
 }
 
+const Methodology = lazy(() =>
+  import('@/pages/methodology').then((mod) => ({ default: mod.Methodology }))
+)
+
 const Consensus = lazy(() =>
   import('@/pages/consensus').then((mod) => ({ default: mod.Consensus }))
 )
@@ -102,6 +106,12 @@ export const indexRoute = createRoute({
   path: withBase('/'),
   getParentRoute: () => rootRoute,
   component: HomePage
+})
+
+export const methodologyRoute = createRoute({
+  path: withBase('/methodology'),
+  getParentRoute: () => rootRoute,
+  component: Methodology
 })
 
 export const consensusRoute = createRoute({
@@ -215,6 +225,7 @@ export const infographicsRoute = createRoute({
 // Route tree
 export const routeTree = rootRoute.addChildren([
   indexRoute,
+  methodologyRoute,
   consensusRoute,
   consensusMethodologyRoute,
   tokenomicsRoute,

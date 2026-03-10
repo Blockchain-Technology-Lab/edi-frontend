@@ -10,6 +10,7 @@ export const geographyTo = `${basePath}/geography`
 export const governanceTo = `${basePath}/governance`
 export const hardwareTo = `${basePath}/hardware`
 export const homeTo = `${basePath}/`
+export const methodologyTo = `${basePath}/methodology`
 export const consensusMethodologyTo = `${consensusTo}/methodology`
 export const tokenomicsMethodologyTo = `${tokenomicsTo}/methodology`
 export const softwareMethodologyTo = `${softwareTo}/methodology`
