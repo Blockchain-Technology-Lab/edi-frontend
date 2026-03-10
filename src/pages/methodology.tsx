@@ -1,56 +1,81 @@
-import { AppLink } from '@/components'
-import { CONSENSUS_METHOD_CARD, CONSENSUS_METRICS } from '@/utils'
+import { MethodologyCard } from '@/components'
+import {
+  CONSENSUS_METHOD_CARD,
+  CONSENSUS_METRICS,
+  GEOGRAPHY_CARD,
+  GOVERNANCE_CARD,
+  NETWORK_CARD,
+  SOFTWARE_CARD,
+  TOKENOMICS_METHOD_CARD
+} from '@/utils'
+import {
+  consensusMethodologyTo,
+  geographyMethodologyTo,
+  governanceMethodologyTo,
+  networkMethodologyTo,
+  softwareMethodologyTo,
+  tokenomicsMethodologyTo
+} from '@/routes/routePaths'
+import {
+  ConsensusContent,
+  TokenomicsContent,
+  NetworkContent,
+  SoftwareContent,
+  GeographyContent,
+  GovernanceContent
+} from '@/content'
 
 export function Methodology() {
-  const explorerLinks = [
-    { name: 'BitInfoCharts', url: 'https://bitinfocharts.com/' },
-    { name: 'Etherscan', url: 'https://etherscan.io/' },
-    { name: 'Wallet Explorer', url: 'https://www.walletexplorer.com/' },
-    { name: 'Dogecoin Whale Alert', url: 'https://dogecoinwhalealert.com/' },
-    { name: 'TzKT', url: 'https://tzkt.io/' },
-
-    { name: 'Blockchain.com', url: 'https://blockchain.com/' },
-    { name: 'BTC.com', url: 'https://btc.com/' },
+  const layerSections = [
     {
-      name: 'bitcoin-data/mining-pools',
-      url: 'https://github.com/bitcoin-data/mining-pools'
+      title: 'Consensus',
+      image: CONSENSUS_METHOD_CARD,
+      to: consensusMethodologyTo,
+      content: ConsensusContent
     },
     {
-      name: 'btccom/Blockchain-Known-Pools-LTC',
-      url: 'https://github.com/btccom/Blockchain-Known-Pools-LTC'
+      title: 'Tokenomics',
+      image: TOKENOMICS_METHOD_CARD,
+      to: tokenomicsMethodologyTo,
+      content: TokenomicsContent
     },
     {
-      name: 'blockchain/Blockchain-Known-Pools',
-      url: 'https://github.com/blockchain/Blockchain-Known-Pools'
+      title: 'Network',
+      image: NETWORK_CARD,
+      to: networkMethodologyTo,
+      content: NetworkContent
+    },
+    {
+      title: 'Software',
+      image: SOFTWARE_CARD,
+      to: softwareMethodologyTo,
+      content: SoftwareContent
+    },
+    {
+      title: 'Geography',
+      image: GEOGRAPHY_CARD,
+      to: geographyMethodologyTo,
+      content: GeographyContent
+    },
+    {
+      title: 'Governance',
+      image: GOVERNANCE_CARD,
+      to: governanceMethodologyTo,
+      content: GovernanceContent
     }
   ]
-
-  const half = Math.ceil(explorerLinks.length / 2)
-  const firstColumn = explorerLinks.slice(0, half)
-  const secondColumn = explorerLinks.slice(half)
 
   return (
     <div className="space-y-16 font-roboto">
       {/* Header Image Card with Title */}
 
-      <div className="card w-full bg-base-200 shadow-md overflow-hidden h-48">
+      <div className="card w-full bg-base-200 shadow-md overflow-hidden">
         <div className="card-body">
           <h1 className="text-3xl font-bold text-center text-base-content">
             Methodology
           </h1>
         </div>
-        <div className="divider divider-accent"></div>
 
-        <figure>
-          <img
-            src={CONSENSUS_METHOD_CARD}
-            alt="Methodology"
-            className="w-full h-full object-cover opacity-50"
-          />
-        </figure>
-      </div>
-
-      <div className="card w-full bg-base-200 shadow-md overflow-hidden opacity-80">
         <div className="card-body p-4 text-base">
           <p>
             <a
@@ -67,19 +92,18 @@ export function Methodology() {
             Tokenomics, Client API, Governance, and Geography.
           </p>
           <p className="">
-            This page offers visualisations of the Consensus layer results. The
-            ledgers that are currently supported are: Bitcoin, Bitcoin Cash,
-            Cardano, Dogecoin, Ethereum, Litecoin, Tezos, and Zcash.
-            Decentralisation is evaluated by applying metrics on the
-            distribution of blocks across the entities that produced them.
-            Specifically, the following metrics are presented in the dashboard:
-            Nakamoto coefficient, Gini coefficient, Shannon entropy,
-            Herfindahl-Hirschman index (HHI), Theil index, 1-concentration
-            ratio, and the 0.66-tau index. Metric definitions are provided in
-            the respective charts.
+            This page serves as a central methodology hub. Each layer below has
+            its own dedicated methodology page with domain-specific data
+            sources, assumptions, and metric definitions.
           </p>
           <p className="">
-            Historical block data for each blockchain is collected from{' '}
+            EDI combines data from public infrastructure, explorers,
+            repositories, and curated datasets to provide a consistent and
+            comparable decentralisation lens across layers.
+          </p>
+          <p className="">
+            For consensus-specific metrics, historical block data is collected
+            from{' '}
             <a
               href="https://console.cloud.google.com/bigquery"
               target="_blank"
@@ -111,58 +135,6 @@ export function Methodology() {
 
       <div className="space-y-12 font-roboto">
         <div className="card bg-base-200 shadow-md font-roboto pt-4">
-          <div className="card-body p-4 ">
-            <h1 className="text-2xl font-bold  text-base-content">
-              Clustering
-            </h1>
-          </div>
-          <div className="divider divider-accent"></div>
-          <div className="card-body p-4 text-base">
-            <p className="">
-              We use clustering methods to attribute resources to real-world
-              entities instead of blockchain addresses. On the consensus layer,
-              clustering helps to attribute multiple blocks to the same
-              producer, such as a mining pool, even if different addresses are
-              used to claim the rewards each time. In particular, we use
-              metadata included in a block to identify the entity associated
-              with it (e.g. a pool’s “tag” from Bitcoin’s coinbase parameter
-              field, or a pool’s “ticker” on Cardano). Additionally, we collect
-              addresses that belong to known entities from explorers and other
-              public repositories. Last, we use legal links (e.g., following an
-              acquisition) to combine actors that are controlled by the same
-              organisation. The explorers and repositories we collect data from
-              are:
-            </p>
-
-            <div className="flex flex-col md:flex-row gap-4 justify-between p-2">
-              <ul className="list bg-base-100 rounded-box shadow-md flex-1">
-                {firstColumn.map((link) => (
-                  <li className="list-row" key={link.url}>
-                    <div>
-                      <div>{link.name}</div>
-                      <AppLink href={link.url}>{link.url}</AppLink>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-
-              <ul className="list bg-base-100 rounded-box shadow-md flex-1">
-                {secondColumn.map((link) => (
-                  <li className="list-row" key={link.url}>
-                    <div>
-                      <div>{link.name}</div>
-                      <AppLink href={link.url}>{link.url}</AppLink>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="space-y-12 font-roboto">
-        <div className="card bg-base-200 shadow-md font-roboto pt-4">
           <div className="card-body p-4">
             <h1 className="text-xl font-bold text-base-content mb-6">
               Metrics
@@ -176,8 +148,12 @@ export function Methodology() {
                   className="card lg:card-side bg-base-100 shadow-sm mb-4"
                 >
                   {isEven && (
-                    <figure className="lg:w-1/2">
-                      <img src={`${metric.icon}`} alt={metric.title} />
+                    <figure className="w-full lg:w-[30%] h-40 sm:h-48 lg:h-56 overflow-hidden bg-base-200 shrink-0">
+                      <img
+                        src={`${metric.icon}`}
+                        alt={metric.title}
+                        className="w-full h-full object-cover"
+                      />
                     </figure>
                   )}
 
@@ -187,13 +163,45 @@ export function Methodology() {
                   </div>
 
                   {!isEven && (
-                    <figure className="lg:w-1/2">
-                      <img src={`${metric.icon}`} alt={metric.title} />
+                    <figure className="w-full lg:w-[30%] h-40 sm:h-48 lg:h-56 overflow-hidden bg-base-200 shrink-0">
+                      <img
+                        src={`${metric.icon}`}
+                        alt={metric.title}
+                        className="w-full h-full object-cover"
+                      />
                     </figure>
                   )}
                 </div>
               )
             })}
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-12 font-roboto">
+        <div className="card bg-base-200 shadow-md font-roboto pt-4">
+          <div className="card-body p-4">
+            <h1 className="text-xl font-bold text-base-content mb-2">
+              Layer Methodologies
+            </h1>
+            <p className="text-sm text-base-content/80">
+              Explore each methodology section for detailed assumptions,
+              datasets, and interpretation notes.
+            </p>
+          </div>
+          <div className="divider divider-accent"></div>
+          <div className="card-body p-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {layerSections.map((section) => (
+                <MethodologyCard
+                  key={section.title}
+                  title={section.title}
+                  image={section.image}
+                  to={section.to}
+                  content={section.content}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>

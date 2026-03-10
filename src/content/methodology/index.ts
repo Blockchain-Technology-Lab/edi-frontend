@@ -1,0 +1,6 @@
+export { default as ConsensusContent } from './consensus.mdx'
+export { default as TokenomicsContent } from './tokenomics.mdx'
+export { default as NetworkContent } from './network.mdx'
+export { default as SoftwareContent } from './software.mdx'
+export { default as GeographyContent } from './geography.mdx'
+export { default as GovernanceContent } from './governance.mdx'
