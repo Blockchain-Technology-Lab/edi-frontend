@@ -68,7 +68,7 @@ export function Footer() {
             className="h-6 sm:h-7 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
           />
         </a>
-        <div className="text-[10px] opacity-60">Last updated: {buildDate}</div>
+        {/* <div className="text-[10px] opacity-60">Last updated: {buildDate}</div> */}
       </aside>
 
       <nav className="text-sm">
@@ -86,6 +86,7 @@ export function Footer() {
           GitHub
           <ExternalLink size={10} />
         </a>
+        <div className="text-[10px] opacity-60">Last updated: {buildDate}</div>
       </nav>
 
       <nav className="text-sm">
