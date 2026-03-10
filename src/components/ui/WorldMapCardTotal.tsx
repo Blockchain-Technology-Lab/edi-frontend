@@ -67,7 +67,9 @@ export function WorldMapCardTotal({
                 className="checkbox checkbox-sm"
                 aria-label="Toggle logarithmic scale"
               />
-              <span className="text-sm text-base-content/80">Logarithmic Scale</span>
+              <span className="text-sm text-base-content/80">
+                Logarithmic Scale
+              </span>
             </label>
             <button
               className="btn btn-sm bg-base-100"

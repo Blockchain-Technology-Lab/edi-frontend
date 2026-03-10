@@ -255,7 +255,14 @@ export function useWorldMapChart({
         chartInstance.current.destroy()
       }
     }
-  }, [mapData, mapDataBreakdown, isLoading, colorScheme, onTooltipLabel, useLogScale])
+  }, [
+    mapData,
+    mapDataBreakdown,
+    isLoading,
+    colorScheme,
+    onTooltipLabel,
+    useLogScale
+  ])
 
   return { chartRef, error }
 }
