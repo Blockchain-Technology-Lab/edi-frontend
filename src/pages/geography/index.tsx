@@ -25,6 +25,24 @@ import {
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { useEffect, useRef, useMemo, useState } from 'react'
 
+const SYSTEMS_STORAGE_KEY = 'geography_selectedSystems'
+const DEFAULT_GEOGRAPHY_SYSTEMS = GEOGRAPHY_LEDGERS.map((l) => l.ledger)
+
+function initialSelectedSystems(): Set<string> {
+  try {
+    const saved = localStorage.getItem(SYSTEMS_STORAGE_KEY)
+    return saved
+      ? new Set(JSON.parse(saved))
+      : new Set(DEFAULT_GEOGRAPHY_SYSTEMS)
+  } catch {
+    return new Set(DEFAULT_GEOGRAPHY_SYSTEMS)
+  }
+}
+
+function persistSelectedSystems(systems: Set<string>) {
+  localStorage.setItem(SYSTEMS_STORAGE_KEY, JSON.stringify([...systems]))
+}
+
 export function Geography() {
   const contributorRef = useRef<HTMLDivElement | null>(null)
   const location = useLocation()
@@ -55,138 +73,120 @@ export function Geography() {
       'geography',
       nodesData.map((d) => d.ledger)
     )
-    const fallback = GEOGRAPHY_LEDGERS.map((l) => l.ledger)
+    const fallback = DEFAULT_GEOGRAPHY_SYSTEMS
     return orderedSystems.length > 0 ? orderedSystems : fallback
   }, [nodesData])
 
-  const [selectedSystems, setSelectedSystems] = useState<Set<string>>(() => {
-    try {
-      const saved = localStorage.getItem('geography_selectedSystems')
-      return saved
-        ? new Set(JSON.parse(saved))
-        : new Set(GEOGRAPHY_LEDGERS.map((l) => l.ledger))
-    } catch {
-      return new Set(GEOGRAPHY_LEDGERS.map((l) => l.ledger))
-    }
-  })
+  const [selectedSystems, setSelectedSystems] = useState<Set<string>>(
+    initialSelectedSystems
+  )
 
-  const filteredData = useMemo(() => {
-    return nodesData.filter((entry) => {
-      if (!entry.ledger) return true
-      return selectedSystems.has(entry.ledger)
-    })
-  }, [nodesData, selectedSystems])
+  const filteredData = useMemo(
+    () =>
+      nodesData.filter(
+        (entry) => !entry.ledger || selectedSystems.has(entry.ledger)
+      ),
+    [nodesData, selectedSystems]
+  )
 
   const handleSelectionChange = (selected: Set<string>) => {
     setSelectedSystems(selected)
-    localStorage.setItem(
-      'geography_selectedSystems',
-      JSON.stringify([...selected])
-    )
+    persistSelectedSystems(selected)
   }
 
   const handleSystemToggle = (system: string) => {
-    const newSelected = new Set(selectedSystems)
-    if (newSelected.has(system)) {
-      newSelected.delete(system)
-    } else {
-      newSelected.add(system)
-    }
-    setSelectedSystems(newSelected)
-    localStorage.setItem(
-      'geography_selectedSystems',
-      JSON.stringify([...newSelected])
-    )
+    const next = new Set(selectedSystems)
+    next.has(system) ? next.delete(system) : next.add(system)
+    setSelectedSystems(next)
+    persistSelectedSystems(next)
   }
 
   return (
-    <>
-      <div className="flex flex-col gap-6">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 items-stretch">
-          {/* 3/4th - LayerTopCard */}
-          <div className="lg:col-span-3">
-            <LayerTopCard
-              title="Geography Layer"
-              description={
-                <>
-                  These graphs represent the geographic decentralisation. The
-                  results are based only on data we have collected and do not
-                  include extensive historical data.
-                </>
-              }
-              imageSrc={GEOGRAPHY_CARD}
-              methodologyPath={geographyMethodologyTo}
-              githubUrl="https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin"
-            />
-          </div>
-
-          {/* 1/4th - Doughnut Link Card */}
-          <DistributionCard
-            title="Country Distribution"
-            imageSrc={DOUGHNUT_CARD}
-            onClick={handleContributorScrollClick}
-          />
-        </div>
-
-        <div>
-          <WorldMapCardTotal />
-        </div>
-
-        <MetricsTopCard
-          title={'Countries metrics'}
-          description={
-            'The following graphs represent different metrics concerning the distribution of nodes across countries. Regarding the Bitcoin network, more than half of the nodes use Tor, and it is impossible to know in which countries they are located. For the metrics shown below, it was therefore decided to distribute these nodes proportionally among the different countries.'
-          }
-          imageSrc={COUNTRIES_METRICS}
-        />
-        <SystemSelector
-          systems={geographySystems}
-          selectedSystems={selectedSystems}
-          onSelectionChange={handleSelectionChange}
-          label="Platforms"
-        />
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
-          {!error &&
-            GEOGRAPHY_METRICS.map((m) => (
-              <MetricsCard
-                key={m.metric}
-                metric={m}
-                data={filteredData}
-                loading={loading}
-                type="geography"
-                timeUnit="month"
-                selectedSystems={selectedSystems}
-                onSystemToggle={handleSystemToggle}
-              />
-            ))}
-        </div>
-
-        <div ref={contributorRef}>
-          <DoughnutTopCard
-            title={'Country Distribution'}
+    <div className="flex flex-col gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 items-stretch">
+        {/* 3/4th - LayerTopCard */}
+        <div className="lg:col-span-3">
+          <LayerTopCard
+            title="Geography Layer"
             description={
-              'These charts represent the distribution of nodes across countries, based on the latest snapshot for each system.'
+              <>
+                These graphs represent the geographic decentralisation. The
+                results are based only on data we have collected and do not
+                include extensive historical data.
+              </>
             }
-            imageSrc={DOUGHNUT_CARD}
+            imageSrc={GEOGRAPHY_CARD}
             methodologyPath={geographyMethodologyTo}
+            githubUrl="https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin"
           />
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
-          {GEOGRAPHY_DOUGHNUT_LEDGERS.map((ledger, index) => (
-            <GeographyLedgerCards
-              key={index}
-              ledger={ledger}
-              csvPath={`${GEOGRAPHY_CSV}${getGeographyDoughnutCsvFileName(
-                ledger.ledger
-              )}`}
-              fileName={ledger.ledger}
-              type={'geography'}
-              githubUrl={`https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin`}
+
+        {/* 1/4th - Doughnut Link Card */}
+        <DistributionCard
+          title="Country Distribution"
+          imageSrc={DOUGHNUT_CARD}
+          onClick={handleContributorScrollClick}
+        />
+      </div>
+
+      <div>
+        <WorldMapCardTotal />
+      </div>
+
+      <MetricsTopCard
+        title={'Countries metrics'}
+        description={
+          'The following graphs represent different metrics concerning the distribution of nodes across countries. Regarding the Bitcoin network, more than half of the nodes use Tor, and it is impossible to know in which countries they are located. For the metrics shown below, it was therefore decided to distribute these nodes proportionally among the different countries.'
+        }
+        imageSrc={COUNTRIES_METRICS}
+      />
+      <SystemSelector
+        systems={geographySystems}
+        selectedSystems={selectedSystems}
+        onSelectionChange={handleSelectionChange}
+        label="Platforms"
+      />
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+        {!error &&
+          GEOGRAPHY_METRICS.map((m) => (
+            <MetricsCard
+              key={m.metric}
+              metric={m}
+              data={filteredData}
+              loading={loading}
+              type="geography"
+              timeUnit="month"
+              selectedSystems={selectedSystems}
+              onSystemToggle={handleSystemToggle}
             />
           ))}
-        </div>
       </div>
-    </>
+
+      <div ref={contributorRef}>
+        <DoughnutTopCard
+          title={'Country Distribution'}
+          description={
+            'These charts represent the distribution of nodes across countries, based on the latest snapshot for each system.'
+          }
+          imageSrc={DOUGHNUT_CARD}
+          methodologyPath={geographyMethodologyTo}
+        />
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+        {GEOGRAPHY_DOUGHNUT_LEDGERS.map((ledger, index) => (
+          <GeographyLedgerCards
+            key={index}
+            ledger={ledger}
+            csvPath={`${GEOGRAPHY_CSV}${getGeographyDoughnutCsvFileName(
+              ledger.ledger
+            )}`}
+            fileName={ledger.ledger}
+            type={'geography'}
+            githubUrl={`https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin`}
+          />
+        ))}
+      </div>
+    </div>
   )
 }

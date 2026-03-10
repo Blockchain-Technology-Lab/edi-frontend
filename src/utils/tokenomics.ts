@@ -43,13 +43,6 @@ export const TOKENOMICS_METRICS = [
     description:
       'The Herfindahl-Hirschman Index (HHI) is a measure of market concentration. It is defined as the sum of the squares of the market shares (as whole numbers, e.g. 40 for 40%) of the entities in the system. Values close to 0 indicate low concentration (many entities hold a similar number of tokens) and values close to 10,000 indicate high concentration (one entity controls most or all tokens).'
   },
-  /*{
-    metric: 'theil',
-    title: 'Theil index',
-    decimals: 0,
-    description:
-      'The Theil index captures the lack of diversity, or the redundancy, in a population. In practice, it is calculated as the maximum possible entropy minus the observed entropy. Values close to 0 indicate equality and values towards infinity indicate inequality.',
-  }, */
   {
     metric: 'mpr',
     title: '1-concentration ratio',
@@ -153,8 +146,6 @@ export function getTokenomicsCsvFileName(
     above: 'output-exclude_below_usd_cent.csv',
     none: 'output.csv'
   }
-
-  //const clusteringKey = clustering.slice().sort().join('-');
 
   const directoryMapping: Record<string, string> = {
     '': 'no_clustering',

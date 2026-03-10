@@ -60,6 +60,23 @@ const DEFAULT_COMMITS_INDEX = 2 // "500"
 const DEFAULT_ENTITY_INDEX = 0 // "Author"
 const DEFAULT_WEIGHT_INDEX = 0 // "Commits"
 const SCROLL_DELAY = 100
+const SYSTEMS_STORAGE_KEY = 'software_selectedSystems'
+const DEFAULT_SOFTWARE_SYSTEMS = SOFTWARE_LEDGERS.map((l) => l.ledger)
+
+function initialSelectedSystems(): Set<string> {
+  try {
+    const saved = localStorage.getItem(SYSTEMS_STORAGE_KEY)
+    return saved
+      ? new Set(JSON.parse(saved))
+      : new Set(DEFAULT_SOFTWARE_SYSTEMS)
+  } catch {
+    return new Set(DEFAULT_SOFTWARE_SYSTEMS)
+  }
+}
+
+function persistSelectedSystems(systems: Set<string>) {
+  localStorage.setItem(SYSTEMS_STORAGE_KEY, JSON.stringify([...systems]))
+}
 
 // Custom hook for scroll-to-contributor functionality
 function useContributorScroll() {
@@ -137,211 +154,174 @@ export function Software() {
       'software',
       data.map((d) => d.ledger)
     )
-    const fallback = SOFTWARE_LEDGERS.map((l) => l.ledger)
+    const fallback = DEFAULT_SOFTWARE_SYSTEMS
     return orderedSystems.length > 0 ? orderedSystems : fallback
   }, [data])
 
-  const [selectedSystems, setSelectedSystems] = useState<Set<string>>(() => {
-    try {
-      const saved = localStorage.getItem('software_selectedSystems')
-      return saved
-        ? new Set(JSON.parse(saved))
-        : new Set(SOFTWARE_LEDGERS.map((l) => l.ledger))
-    } catch {
-      return new Set(SOFTWARE_LEDGERS.map((l) => l.ledger))
-    }
-  })
+  const [selectedSystems, setSelectedSystems] = useState<Set<string>>(
+    initialSelectedSystems
+  )
 
-  const filteredData = useMemo(() => {
-    return data.filter((entry) => {
-      if (!entry.ledger) return true
-      return selectedSystems.has(entry.ledger)
-    })
-  }, [data, selectedSystems])
+  const filteredData = useMemo(
+    () =>
+      data.filter(
+        (entry) => !entry.ledger || selectedSystems.has(entry.ledger)
+      ),
+    [data, selectedSystems]
+  )
 
   const handleSelectionChange = (selected: Set<string>) => {
     setSelectedSystems(selected)
-    localStorage.setItem(
-      'software_selectedSystems',
-      JSON.stringify([...selected])
-    )
+    persistSelectedSystems(selected)
   }
 
   const handleSystemToggle = (system: string) => {
-    const newSelected = new Set(selectedSystems)
-    if (newSelected.has(system)) {
-      newSelected.delete(system)
-    } else {
-      newSelected.add(system)
-    }
-    setSelectedSystems(newSelected)
-    localStorage.setItem(
-      'software_selectedSystems',
-      JSON.stringify([...newSelected])
-    )
+    const next = new Set(selectedSystems)
+    next.has(system) ? next.delete(system) : next.add(system)
+    setSelectedSystems(next)
+    persistSelectedSystems(next)
   }
 
   return (
-    <>
-      <div className="flex flex-col gap-6">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 items-stretch">
-          {/* 3/4th - LayerTopCard */}
-          <div className="lg:col-span-3">
-            <LayerTopCard
-              title="Software Layer"
-              description={
-                <>
-                  These graphs represent the historical decentralisation of
-                  software development for various blockchain implementations.
-                  Each metric value is calculated based on the distribution of
-                  some contribution type (e.g. number of commits or lines
-                  changed) across contributors over a sample of commits.
-                </>
-              }
-              imageSrc={SOFTWARE_CARD}
-              methodologyPath={softwareMethodologyTo}
-              githubUrl="https://github.com/Blockchain-Technology-Lab/software-decentralization"
-            />
-          </div>
-
-          {/* 1/4th - Doughnut Link Card */}
-          <DistributionCard
-            title="Contributor Distribution"
-            imageSrc={DOUGHNUT_CARD}
-            onClick={handleContributorScrollClick}
-          />
-        </div>
-
-        <SystemSelector
-          systems={softwareSystems}
-          selectedSystems={selectedSystems}
-          onSelectionChange={handleSelectionChange}
-          label="Platforms"
-        />
-
-        <div className="card lg:card-side bg-base-200 shadow-lg border border-base-300 rounded-box">
-          <div className="card-body">
-            <div className="flex flex-col lg:flex-row gap-4 h-full items-stretch">
-              <div className="flex-1 h-full">
-                {/*<ListBox
-                  label="Contribution Type"
-                  items={WEIGHT_ITEMS}
-                  selectedItem={selectedWeight}
-                  onChange={setSelectedWeight}
-                /> */}
-                <RadioGroup
-                  label="Contribution Type"
-                  items={WEIGHT_ITEMS}
-                  selectedItem={selectedWeight}
-                  onChange={setSelectedWeight}
-                  fullHeight={true}
-                  stacked={true}
-                />
-              </div>
-              <div className="flex-1 h-full">
-                {/*<ListBox
-                  label="Contributor Type"
-                  items={ENTITY_ITEMS}
-                  selectedItem={selectedEntity}
-                  onChange={setSelectedEntity}
-                /> */}
-                <RadioGroup
-                  label="Contributor Type"
-                  items={ENTITY_ITEMS}
-                  selectedItem={selectedEntity}
-                  onChange={setSelectedEntity}
-                  fullHeight={true}
-                  stacked={true}
-                />
-              </div>
-              <div className="flex-1 h-full">
-                {/*<ListBox
-                  label="Commits per Sample Window"
-                  items={COMMITS_ITEMS}
-                  selectedItem={selectedCommits}
-                  onChange={setSelectedCommits}
-                /> */}
-
-                <RadioGroup
-                  label="Commits per Sample Window"
-                  items={COMMITS_ITEMS}
-                  selectedItem={selectedCommits}
-                  onChange={setSelectedCommits}
-                  fullHeight={true}
-                  stacked={true}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
-          {!error &&
-            SOFTWARE_METRICS.map((metric) => (
-              <MetricsCard
-                key={metric.metric}
-                metric={metric}
-                data={filteredData}
-                loading={loading}
-                type="software"
-                timeUnit="month"
-                selectedSystems={selectedSystems}
-                onSystemToggle={handleSystemToggle}
-              />
-            ))}
-        </div>
-        <div ref={contributorRef}>
-          <DoughnutTopCard
-            title={'Contributor Distribution'}
+    <div className="flex flex-col gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 items-stretch">
+        {/* 3/4th - LayerTopCard */}
+        <div className="lg:col-span-3">
+          <LayerTopCard
+            title="Software Layer"
             description={
-              'These graphs represent the all-time distribution of contributors for various blockchain implementations.'
+              <>
+                These graphs represent the historical decentralisation of
+                software development for various blockchain implementations.
+                Each metric value is calculated based on the distribution of
+                some contribution type (e.g. number of commits or lines changed)
+                across contributors over a sample of commits.
+              </>
             }
-            imageSrc={DOUGHNUT_CARD}
+            imageSrc={SOFTWARE_CARD}
             methodologyPath={softwareMethodologyTo}
+            githubUrl="https://github.com/Blockchain-Technology-Lab/software-decentralization"
           />
         </div>
 
-        <div className="card lg:card-side bg-base-200 shadow-lg border border-base-300 rounded-box">
-          <div className="card-body">
-            <div className="flex flex-col lg:flex-row gap-2 h-full">
-              <div className="flex-1 h-full">
-                <RadioGroup
-                  label="Contribution Type"
-                  items={DOUGHNUT_WEIGHT_ITEMS}
-                  selectedItem={selectedDoughnutWeight}
-                  onChange={setSelectedDoughnutWeight}
-                  fullHeight={true}
-                  stacked={true}
-                />
-              </div>
-              <div className="flex-1">
-                <RadioGroup
-                  label="Contributor Type"
-                  items={DOUGHNUT_ENTITY_ITEMS}
-                  selectedItem={selectedDoughnutEntity}
-                  onChange={setSelectedDoughnutEntity}
-                  fullHeight={true}
-                  stacked={true}
-                />
-              </div>
+        {/* 1/4th - Doughnut Link Card */}
+        <DistributionCard
+          title="Contributor Distribution"
+          imageSrc={DOUGHNUT_CARD}
+          onClick={handleContributorScrollClick}
+        />
+      </div>
+
+      <SystemSelector
+        systems={softwareSystems}
+        selectedSystems={selectedSystems}
+        onSelectionChange={handleSelectionChange}
+        label="Platforms"
+      />
+
+      <div className="card lg:card-side bg-base-200 shadow-lg border border-base-300 rounded-box">
+        <div className="card-body">
+          <div className="flex flex-col lg:flex-row gap-4 h-full items-stretch">
+            <div className="flex-1 h-full">
+              <RadioGroup
+                label="Contribution Type"
+                items={WEIGHT_ITEMS}
+                selectedItem={selectedWeight}
+                onChange={setSelectedWeight}
+                fullHeight={true}
+                stacked={true}
+              />
+            </div>
+            <div className="flex-1 h-full">
+              <RadioGroup
+                label="Contributor Type"
+                items={ENTITY_ITEMS}
+                selectedItem={selectedEntity}
+                onChange={setSelectedEntity}
+                fullHeight={true}
+                stacked={true}
+              />
+            </div>
+            <div className="flex-1 h-full">
+              <RadioGroup
+                label="Commits per Sample Window"
+                items={COMMITS_ITEMS}
+                selectedItem={selectedCommits}
+                onChange={setSelectedCommits}
+                fullHeight={true}
+                stacked={true}
+              />
             </div>
           </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
-          {SOFTWARE_DOUGHNUT_LEDGER_NAMES.map((repoItem) => (
-            <DoughnutCard
-              type={'software'}
-              title={repoItem.name}
-              key={repoItem.name}
-              githubUrl={repoItem.url}
-              path={doughnutPaths[repoItem.name]}
-              fileName={repoItem.repo}
-              showInfo={true}
-            />
-          ))}
         </div>
       </div>
-    </>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+        {!error &&
+          SOFTWARE_METRICS.map((metric) => (
+            <MetricsCard
+              key={metric.metric}
+              metric={metric}
+              data={filteredData}
+              loading={loading}
+              type="software"
+              timeUnit="month"
+              selectedSystems={selectedSystems}
+              onSystemToggle={handleSystemToggle}
+            />
+          ))}
+      </div>
+      <div ref={contributorRef}>
+        <DoughnutTopCard
+          title={'Contributor Distribution'}
+          description={
+            'These graphs represent the all-time distribution of contributors for various blockchain implementations.'
+          }
+          imageSrc={DOUGHNUT_CARD}
+          methodologyPath={softwareMethodologyTo}
+        />
+      </div>
+
+      <div className="card lg:card-side bg-base-200 shadow-lg border border-base-300 rounded-box">
+        <div className="card-body">
+          <div className="flex flex-col lg:flex-row gap-2 h-full">
+            <div className="flex-1 h-full">
+              <RadioGroup
+                label="Contribution Type"
+                items={DOUGHNUT_WEIGHT_ITEMS}
+                selectedItem={selectedDoughnutWeight}
+                onChange={setSelectedDoughnutWeight}
+                fullHeight={true}
+                stacked={true}
+              />
+            </div>
+            <div className="flex-1">
+              <RadioGroup
+                label="Contributor Type"
+                items={DOUGHNUT_ENTITY_ITEMS}
+                selectedItem={selectedDoughnutEntity}
+                onChange={setSelectedDoughnutEntity}
+                fullHeight={true}
+                stacked={true}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+        {SOFTWARE_DOUGHNUT_LEDGER_NAMES.map((repoItem) => (
+          <DoughnutCard
+            type={'software'}
+            title={repoItem.name}
+            key={repoItem.name}
+            githubUrl={repoItem.url}
+            path={doughnutPaths[repoItem.name]}
+            fileName={repoItem.repo}
+            showInfo={true}
+          />
+        ))}
+      </div>
+    </div>
   )
 }
