@@ -79,34 +79,34 @@ export const BASE_LEDGERS = {
   go_ethereum: {
     ledger: 'go-ethereum',
     displayName: 'Go Ethereum',
-    color: 'rgba(153, 102, 255, 1)',
-    background: 'rgba(255, 0, 204, 0.2)',
-    border: 'rgba(255, 0, 204, 1)',
-    point: 'rgba(255, 0, 204, 1)'
+    color: 'rgba(138,43,226, 1)',
+    background: 'rgba(138,43,226, 0.2)',
+    border: 'rgba(138,43,226, 1)',
+    point: 'rgba(138,43,226, 1)'
   },
   bitcoin_cash_node: {
     ledger: 'bitcoin-cash-node',
     displayName: 'Bitcoin Cash',
-    color: 'rgba(0, 102, 204, 1)',
-    background: 'rgba(0, 102, 204, 0.2)',
-    border: 'rgba(0, 102, 204, 1)',
-    point: 'rgba(0, 102, 204, 1)'
+    color: 'rgba(0, 204, 102, 1)',
+    background: 'rgba(0, 204, 102, 0.2)',
+    border: 'rgba(0, 204, 102, 1)',
+    point: 'rgba(0, 204, 102, 1)'
   },
   cardano_node: {
     ledger: 'cardano-node',
     displayName: 'Cardano',
-    color: 'rgba(204, 102, 0, 1)',
-    background: 'rgba(204, 102, 0, 0.2)',
-    border: 'rgba(204, 102, 0, 1)',
-    point: 'rgba(204, 102, 0, 1)'
+    color: 'rgba(255, 99, 132, 1)',
+    background: 'rgba(255, 99, 132, 0.2)',
+    border: 'rgba(255, 99, 132, 1)',
+    point: 'rgba(255, 99, 132, 1)'
   },
   nethermind: {
     ledger: 'nethermind',
     displayName: 'Nethermind (Ethereum)',
-    color: 'rgba(255, 102, 0, 1)',
-    background: 'rgba(255, 102, 0, 0.2)',
-    border: 'rgba(255, 102, 0, 1)',
-    point: 'rgba(255, 102, 0, 1)'
+    color: 'rgba(207, 159, 255, 1)',
+    background: 'rgba(207, 159, 255, 0.2)',
+    border: 'rgba(207, 159, 255, 1)',
+    point: 'rgba(207, 159, 255, 1)'
   },
   polkadot_sdk: {
     ledger: 'polkadot-sdk',
@@ -127,10 +127,10 @@ export const BASE_LEDGERS = {
   tezos_mirror: {
     ledger: 'tezos-mirror',
     displayName: 'Tezos',
-    color: 'rgba(128, 0, 128, 1)',
-    background: 'rgba(128, 0, 128, 0.2)',
-    border: 'rgba(128, 0, 128, 1)',
-    point: 'rgba(128, 0, 128, 1)'
+    color: 'rgba(157, 102, 89, 1)',
+    background: 'rgba(157, 102, 89, 0.2)',
+    border: 'rgba(157, 102, 89, 1)',
+    point: 'rgba(157, 102, 89, 1)'
   },
   ethereum_consensus: {
     ledger: 'consensus',
