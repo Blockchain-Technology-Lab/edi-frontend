@@ -2,6 +2,7 @@ import { LayerMenuItem } from '@/components'
 import { Link, useRouterState } from '@tanstack/react-router'
 
 import {
+  homeTo,
   consensusTo,
   tokenomicsTo,
   networkTo,
@@ -10,15 +11,23 @@ import {
   governanceTo
 } from '@/routes/routePaths'
 
-import { Scale, Coins, Network, Code, Globe, Gavel } from 'lucide-react'
+import { Scale, Coins, Network, Code, Globe, Gavel, House } from 'lucide-react'
 
 const layerItems = [
+  {
+    label: 'Home',
+    path: homeTo,
+    bg: 'bg-base-200',
+    text: 'text-base-content',
+    icon: <House size={36} />,
+    shortcut: '0'
+  },
   {
     label: 'Consensus',
     path: consensusTo,
     bg: 'bg-base-200',
     text: 'text-base-content',
-    icon: <Scale size={36} />, // Reduced icon size for smaller sidebar
+    icon: <Scale size={36} />,
     shortcut: '1'
   },
   {
