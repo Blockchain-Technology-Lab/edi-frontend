@@ -2,6 +2,7 @@ import { LineChart } from '@/components'
 import { Info } from 'lucide-react'
 import Tippy from '@tippyjs/react'
 import 'tippy.js/dist/tippy.css'
+import type { ReactNode } from 'react'
 import type { LayerType } from '@/utils'
 import type { DataEntry } from '@/utils/types'
 
@@ -55,6 +56,7 @@ interface MetricsCardProps {
   padYAxis?: boolean
   selectedSystems?: Set<string>
   onSystemToggle?: (system: string) => void
+  headerControl?: ReactNode
 }
 
 // (Metric already declared above)
@@ -67,22 +69,28 @@ export function MetricsCard({
   timeUnit = 'year',
   padYAxis = false,
   selectedSystems,
-  onSystemToggle
+  onSystemToggle,
+  headerControl
 }: MetricsCardProps) {
   return (
     <div className="card-body" key={metric.metric} title={metric.title}>
-      <div className="flex justify-between items-center shadow-lg text-2xl card-title bg-base-300 alert w-full mb-1">
-        {metric.title}
-        <Tippy content={metric.description} placement="bottom">
-          <button
-            type="button"
-            tabIndex={0}
-            className="btn btn-circle btn-ghost text-base-content hover:text-accent"
-            aria-label={`Info about ${metric.title}`}
-          >
-            <Info />
-          </button>
-        </Tippy>
+      <div className="flex justify-between items-center shadow-lg card-title bg-base-300 alert w-full mb-1 gap-3">
+        <span className="min-w-0 flex-1 text-sm sm:text-base lg:text-lg leading-snug break-words line-clamp-1">
+          {metric.title}
+        </span>
+        <div className="flex items-center gap-2 shrink-0">
+          {headerControl}
+          <Tippy content={metric.description} placement="bottom">
+            <button
+              type="button"
+              tabIndex={0}
+              className="btn btn-circle btn-ghost text-base-content hover:text-accent"
+              aria-label={`Info about ${metric.title}`}
+            >
+              <Info />
+            </button>
+          </Tippy>
+        </div>
       </div>
       <LineChart
         type={type}
