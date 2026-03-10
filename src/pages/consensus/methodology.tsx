@@ -33,7 +33,7 @@ export function ConsensusMethodology() {
     <div className="space-y-16 font-roboto">
       {/* Header Image Card with Title */}
 
-      <div className="card w-full bg-base-200 shadow-md overflow-hidden h-48">
+      <div className="card w-full bg-base-200 shadow-md overflow-hidden">
         <div className="card-body">
           <h1 className="text-3xl font-bold text-center text-base-content">
             Consensus Methodology
@@ -41,7 +41,7 @@ export function ConsensusMethodology() {
         </div>
         <div className="divider divider-accent"></div>
 
-        <figure>
+        <figure className="w-full h-32 sm:h-36 lg:h-40 overflow-hidden bg-base-100">
           <img
             src={CONSENSUS_METHOD_CARD}
             alt="Consensus Methodology"
@@ -176,8 +176,12 @@ export function ConsensusMethodology() {
                   className="card lg:card-side bg-base-100 shadow-sm mb-4"
                 >
                   {isEven && (
-                    <figure className="lg:w-1/2">
-                      <img src={`${metric.icon}`} alt={metric.title} />
+                    <figure className="w-full lg:w-[30%] h-40 sm:h-48 lg:h-56 overflow-hidden bg-base-200 shrink-0">
+                      <img
+                        src={`${metric.icon}`}
+                        alt={metric.title}
+                        className="w-full h-full object-cover"
+                      />
                     </figure>
                   )}
 
@@ -187,8 +191,12 @@ export function ConsensusMethodology() {
                   </div>
 
                   {!isEven && (
-                    <figure className="lg:w-1/2">
-                      <img src={`${metric.icon}`} alt={metric.title} />
+                    <figure className="w-full lg:w-[30%] h-40 sm:h-48 lg:h-56 overflow-hidden bg-base-200 shrink-0">
+                      <img
+                        src={`${metric.icon}`}
+                        alt={metric.title}
+                        className="w-full h-full object-cover"
+                      />
                     </figure>
                   )}
                 </div>
