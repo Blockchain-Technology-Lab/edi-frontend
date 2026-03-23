@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { ImageDown } from 'lucide-react'
 import { useExportChart, useWorldMapChart, useWorldMapData } from '@/hooks'
 import { DEFAULT_MAP_COLOR_SCHEME } from '@/utils/mapColors'
@@ -15,7 +14,7 @@ interface WorldMapCardTotalProps {
 export function WorldMapCardTotal({
   title = 'Global Node Distribution (All Platforms)'
 }: WorldMapCardTotalProps) {
-  const [useLogScale, setUseLogScale] = useState(true)
+  const useLogScale = true
   const exportChart = useExportChart()
 
   const { mapData, mapDataBreakdown, loading } = useWorldMapData(
@@ -45,7 +44,7 @@ export function WorldMapCardTotal({
 
   return (
     <div className="card-body m-1" key={title} title={title}>
-      <div className="flex justify-between items-center shadow-lg text-xl card-title bg-base-300 alert w-full mb-4">
+      <div className="flex justify-between items-center shadow-lg text-xl card-title bg-base-300 alert w-full mb-1">
         <span>{title}</span>
       </div>
 
@@ -58,19 +57,7 @@ export function WorldMapCardTotal({
           <div className="aspect-[16/9] mt-2">
             <canvas ref={chartRef} className="w-full h-full" />
           </div>
-          <div className="flex justify-between items-center gap-2">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={useLogScale}
-                onChange={(e) => setUseLogScale(e.target.checked)}
-                className="checkbox checkbox-sm"
-                aria-label="Toggle logarithmic scale"
-              />
-              <span className="text-sm text-base-content/80">
-                Logarithmic Scale
-              </span>
-            </label>
+          <div className="flex justify-end items-center gap-2">
             <button
               className="btn btn-sm bg-base-100"
               onClick={() =>

@@ -1,5 +1,14 @@
-The software layer evaluates decentralisation by measuring client diversity, implementation concentration, and version distribution.
+import { AppLink } from '@/components'
 
-Client telemetry and ecosystem sources are used to estimate reliance on dominant implementations and upgrade coordination risks.
+On the software layer, decentralisation is evaluated by looking at the open source repositories that are associated with different blockchain clients, and specifically looking at their commit history. The projects that are currently supported are: <AppLink href="https://github.com/bitcoin/bitcoin">Bitcoin Core</AppLink> (Bitcoin), <AppLink href="https://github.com/bitcoin-cash-node/bitcoin-cash-node">Bitcoin Cash Node</AppLink> (Bitcoin Cash), <AppLink href="https://github.com/IntersectMBO/cardano-node">Cardano Node</AppLink> (Cardano), <AppLink href="https://github.com/ethereum/go-ethereum">Go Ethereum</AppLink> (Ethereum), <AppLink href="https://github.com/NethermindEth/nethermind">Nethermind</AppLink> (Ethereum), <AppLink href="https://github.com/litecoin-project/litecoin">Litecoin Core</AppLink> (Litecoin), <AppLink href="https://github.com/tezos/tezos">Tezos</AppLink> (Tezos) and <AppLink href="https://github.com/zcash/zcash">Zcash</AppLink> (Zcash). Specifically, the following metrics are presented in the dashboard: Shannon entropy, Herfindahl-Hirschman index (HHI), 1-concentration ratio, number of total entities.
 
-Higher diversity suggests reduced single-implementation risk and stronger protocol robustness under changing operational conditions.
+Users can choose which options will be taken into account when generating the graphs. These include:
+
+- Contribution Type, i.e. what counts as a contribution. The options are:
+  - Commits: each commit is counted as a single contribution.
+  - Merge commits: only merge commits are counted as contributions.
+  - Lines changed: each line of code changed (added or removed) counts as a contribution. In this case, all commits are counted, but each is assigned a different contribution weight, based on the number of updated lines associated with it.
+- Contributor Type, i.e. who is seen as responsible for the contribution. The options are:
+  - Author: the person who wrote the code of the commit.
+  - Committer: the person who committed the code on behalf of the original author (can be the same or different from the author).
+- Commits per sample window, i.e. how many consecutive commits to group together before applying a metric. It can be one of: 100, 250, 500, 1000.

@@ -1,5 +1,55 @@
-The **consensus** layer evaluates decentralisation by analysing how block production is distributed across identifiable entities over time.
+import { AppLink } from '@/components'
 
-Primary sources include blockchain explorers, public pool labels, and self-hosted node data. Clustering combines metadata tags, known addresses, and legal affiliations.
+On the consensus layer, decentralisation is evaluated by applying metrics on the distribution of blocks across the entities that produced them. The ledgers that are currently supported are: Bitcoin, Bitcoin Cash, Cardano, Dogecoin, Ethereum, Litecoin, Tezos, and Zcash. Specifically, the following metrics are presented in the dashboard: Herfindahl-Hirschman index (HHI), Nakamoto coefficient, 1-concentration ratio, 0.33-tau and 0.66-tau indexes, Shannon entropy and Gini coefficient.
 
-Key outputs include concentration and inequality metrics such as Nakamoto, Gini, Shannon entropy, HHI, Theil, and concentration ratios.
+Historical block data for each blockchain is collected from <AppLink href="https://console.cloud.google.com/bigquery">BigQuery</AppLink>, <AppLink href="https://blockchair.com/">Blockchair</AppLink> and self-hosted full nodes. Each block is mapped to its creator (see clustering information below), and then the distribution of blocks across entities is calculated for each 30-day interval. Active participants are identified by including those that produced at least one block in the preceding or following window.
+
+We use clustering methods to attribute resources to real-world entities instead of blockchain addresses. On the consensus layer, clustering helps to attribute multiple blocks to the same producer, such as a mining pool, even if different addresses are used to claim the rewards each time. In particular, we use metadata included in a block to identify the entity associated with it (e.g. a pool's "tag" from Bitcoin's coinbase parameter field, or a pool's "ticker" on Cardano). Additionally, we collect addresses that belong to known entities from explorers and other public repositories. Last, we use legal links (e.g., following an acquisition) to combine actors that are controlled by the same organisation. The explorers and repositories we collect data from are:
+
+export const explorerLinks = [
+  { name: 'BitInfoCharts', url: 'https://bitinfocharts.com/' },
+  { name: 'Etherscan', url: 'https://etherscan.io/' },
+  { name: 'Wallet Explorer', url: 'https://www.walletexplorer.com/' },
+  { name: 'Dogecoin Whale Alert', url: 'https://dogecoinwhalealert.com/' },
+  { name: 'TzKT', url: 'https://tzkt.io/' },
+  { name: 'Blockchain.com', url: 'https://blockchain.com/' },
+  { name: 'BTC.com', url: 'https://btc.com/' },
+  {
+    name: 'bitcoin-data/mining-pools',
+    url: 'https://github.com/bitcoin-data/mining-pools'
+  },
+  {
+    name: 'btccom/Blockchain-Known-Pools-LTC',
+    url: 'https://github.com/btccom/Blockchain-Known-Pools-LTC'
+  },
+  {
+    name: 'blockchain/Blockchain-Known-Pools',
+    url: 'https://github.com/blockchain/Blockchain-Known-Pools'
+  }
+]
+export const half = Math.ceil(explorerLinks.length / 2)
+export const firstColumn = explorerLinks.slice(0, half)
+export const secondColumn = explorerLinks.slice(half)
+
+<div className="flex gap-4">
+  <ul className="list bg-base-100 rounded-box shadow-md flex-1">
+    {firstColumn.map((link) => (
+      <li className="list-row" key={link.url}>
+        <div>
+          <div>{link.name}</div>
+          <AppLink href={link.url}>{link.url}</AppLink>
+        </div>
+      </li>
+    ))}
+  </ul>
+  <ul className="list bg-base-100 rounded-box shadow-md flex-1">
+    {secondColumn.map((link) => (
+      <li className="list-row" key={link.url}>
+        <div>
+          <div>{link.name}</div>
+          <AppLink href={link.url}>{link.url}</AppLink>
+        </div>
+      </li>
+    ))}
+  </ul>
+</div>

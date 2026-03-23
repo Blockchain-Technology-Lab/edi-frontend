@@ -2,17 +2,11 @@ import { HomepageCard, HomeTopCard, RadarChart } from '@/components'
 import { useRadarCsv } from '@/hooks'
 import {
   consensusTo,
-  consensusMethodologyTo,
   tokenomicsTo,
-  tokenomicsMethodologyTo,
   softwareTo,
-  softwareMethodologyTo,
   networkTo,
-  networkMethodologyTo,
   geographyTo,
-  geographyMethodologyTo,
-  governanceTo,
-  governanceMethodologyTo
+  governanceTo
 } from '@/routes/routePaths'
 import {
   CONSENSUS_CARD,
@@ -36,8 +30,8 @@ const layers = [
     background: CONSENSUS_CARD,
     path: consensusTo,
     github:
-      'https://github.com/Blockchain-Technology-Lab/consensus-decentralization',
-    methodologyLink: consensusMethodologyTo
+      'https://github.com/Blockchain-Technology-Lab/consensus-decentralization'
+    //methodologyLink: consensusMethodologyTo
   },
   {
     title: 'Tokenomics',
@@ -46,8 +40,8 @@ const layers = [
     background: TOKENOMICS_CARD,
     path: tokenomicsTo,
     github:
-      'https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization/',
-    methodologyLink: tokenomicsMethodologyTo
+      'https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization/'
+    //methodologyLink: tokenomicsMethodologyTo
   },
   {
     title: 'Software',
@@ -56,8 +50,8 @@ const layers = [
     background: SOFTWARE_CARD,
     path: softwareTo,
     github:
-      'https://github.com/Blockchain-Technology-Lab/software-decentralization',
-    methodologyLink: softwareMethodologyTo
+      'https://github.com/Blockchain-Technology-Lab/software-decentralization'
+    //methodologyLink: softwareMethodologyTo
   },
   {
     title: 'Network',
@@ -66,8 +60,8 @@ const layers = [
     background: NETWORK_CARD,
     path: networkTo,
     github:
-      'https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin',
-    methodologyLink: networkMethodologyTo
+      'https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin'
+    //methodologyLink: networkMethodologyTo
   },
   {
     title: 'Geography',
@@ -77,8 +71,8 @@ const layers = [
     path: geographyTo,
     disabled: false,
     github:
-      'https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin',
-    methodologyLink: geographyMethodologyTo
+      'https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin'
+    //methodologyLink: geographyMethodologyTo
   },
   {
     title: 'Governance',
@@ -88,8 +82,8 @@ const layers = [
     path: governanceTo,
     disabled: true,
     github:
-      'https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin',
-    methodologyLink: governanceMethodologyTo
+      'https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin'
+    //methodologyLink: governanceMethodologyTo
   }
 ]
 export default function HomePage() {
@@ -153,7 +147,7 @@ export default function HomePage() {
             onPress={() => navigate({ to: layer.path })}
             disabled={layer.disabled}
             github={layer.github}
-            methodologyLink={layer.methodologyLink}
+            //methodologyLink={layer.methodologyLink}
           />
         ))}
       </div>

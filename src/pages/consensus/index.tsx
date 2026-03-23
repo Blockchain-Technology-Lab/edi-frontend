@@ -11,7 +11,7 @@ import {
   filterMetricsByTauVariant
 } from '@/utils'
 import { useConsensusCsvAll } from '@/hooks'
-import { consensusMethodologyTo } from '@/routes/routePaths'
+import { methodologyConsensusTo } from '@/routes/routePaths'
 
 const CONSENSUS_SYSTEMS = CONSENSUS_LEDGERS.map((l) => l.ledger)
 const CONSENSUS_FILE_NAME = getConsensusCsvFileName(['clustered'])
@@ -94,7 +94,7 @@ export function Consensus() {
           </>
         }
         imageSrc={CONSENSUS_CARD}
-        methodologyPath={consensusMethodologyTo}
+        methodologyPath={methodologyConsensusTo}
         githubUrl="https://github.com/Blockchain-Technology-Lab/consensus-decentralization"
       />
 

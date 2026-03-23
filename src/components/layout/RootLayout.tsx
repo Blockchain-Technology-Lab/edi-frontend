@@ -66,7 +66,7 @@ export function RootLayout() {
         </div>
 
         {/* Main Content - Desktop only */}
-        <main className="flex-1 overflow-y-auto bg-base-100 pb-20 mb-10 hidden md:block ml-48">
+        <main className="flex-1 overflow-y-auto bg-base-100 pb-8 mb-2 hidden md:block ml-48">
           <div className="p-6 min-h-full">
             <Breadcrumb />
             <Outlet />
@@ -74,7 +74,7 @@ export function RootLayout() {
         </main>
 
         {/* Mobile Main Content */}
-        <main className="flex-1 overflow-y-auto bg-base-100 pb-20 mb-10 md:hidden">
+        <main className="flex-1 overflow-y-auto bg-base-100 pb-8 mb-2 md:hidden">
           <div className="p-6 min-h-full">
             <Breadcrumb />
             <Outlet />

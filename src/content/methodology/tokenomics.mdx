@@ -1,5 +1,16 @@
-The tokenomics layer focuses on the distribution of token ownership and how concentration evolves over time.
+import { AppLink } from '@/components'
 
-Address-level balances are aggregated into analytical cohorts to estimate ownership concentration, inequality, and stability under changing market conditions.
+On the tokenomics layer, decentralisation is evaluated based on the distribution of tokens across token holders. The ledgers that are currently supported are: Bitcoin, Bitcoin Cash, Cardano, Dogecoin, Ethereum, Litecoin, Tezos, and XRPL. Specifically, the following metrics are presented in the dashboard: Gini coefficient, Shannon entropy, Herfindahl-Hirschman index (HHI), 1-concentration ratio, Nakamoto coefficient, 0.66-tau index.
 
-This layer highlights whether economic power is broadly distributed or concentrated among a small number of large holders.
+The blockchain data that is needed to determine these distributions are collected from <AppLink href="https://console.cloud.google.com/bigquery">BigQuery</AppLink> and self-hosted full nodes. The dashboard offers various options to the users for customising the results.
+
+First, users can choose which off-chain sources to use to attribute blockchain data to real world entities. This enables the clustering of seemingly independent objects under the same identity. On the tokenomics layer, clustering enables the attribution of multiple independent addresses to the same wallet. The clustering options are: "Explorers", "Staking keys", "Multi-input Transactions" and "Crystal Intelligence". Users can select any combination of these options. By default, all options are applied:
+
+- "Explorers" refers to attribution and deanonymisation data collected from blockchain explorers, namely <AppLink href="https://bitinfocharts.com/">BitInfoCharts</AppLink>, <AppLink href="https://etherscan.io/">Etherscan</AppLink>, <AppLink href="https://www.walletexplorer.com/">Wallet Explorer</AppLink>, <AppLink href="https://whale-alert.io/">Dogecoin Whale Alert</AppLink>, <AppLink href="https://tzkt.io/">TzKT</AppLink>.
+- "Staking keys" refers to the data collected from stake pools and validators that are used to attribute staking addresses to the same entity.
+- "Multi-input Transactions" allows attributing addresses to the same entity when they are used as inputs in the same transaction, a well-established heuristic for clustering addresses in UTXO-based ledgers.
+- "Crystal Intelligence" leverages advanced clustering algorithms from <AppLink href="https://crystalintelligence.com/">Crystal Intelligence & Crypto Compliance</AppLink> to more accurately group public addresses belonging to the same real-world entity. Unlike the other clustering methods, which are developed in-house, "Crystal Intelligence" is an external integration.
+
+Explorer data is used for all ledgers except Cardano, whereas staking keys are used only for Cardano.
+
+Users can also apply the decentralisation metrics on all or part of the data by choosing the relevant inclusion threshold on each layer. For example, if the option "100" is chosen, then the metrics will apply on the top 100 richest entities in the system, while ignoring the rest. Similarly, if the option "Above $0.01" is chosen, the metrics will apply on entities that control tokens that were worth, at the given point in time, at least $0.01. Threshold options are: “100”, “1000”, “50%”, “Above $0.01” and “None”. By default, no inclusion threshold is applied.

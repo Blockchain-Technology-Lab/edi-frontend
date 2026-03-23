@@ -22,7 +22,7 @@ import {
   ORG_DISTRIBUTOR,
   getOrderedSystemsForLayer
 } from '@/utils'
-import { networkMethodologyTo } from '@/routes/routePaths'
+import { methodologyNetworkTo } from '@/routes/routePaths'
 
 const SYSTEMS_STORAGE_KEY = 'network_selectedSystems'
 const DEFAULT_NETWORK_SYSTEMS = NETWORK_LEDGERS.map((l) => l.ledger)
@@ -113,7 +113,7 @@ export function Network() {
               </>
             }
             imageSrc={NETWORK_CARD}
-            methodologyPath={networkMethodologyTo}
+            methodologyPath={methodologyNetworkTo}
             githubUrl="https://github.com/Blockchain-Technology-Lab/network-decentralization"
           />
         </div>
@@ -172,7 +172,7 @@ export function Network() {
             "These charts represent the distribution of nodes across organisations, based on the latest snapshot for each system. An organisation corresponds to the entity that is responsible for the network of the node's IP address."
           }
           imageSrc={DOUGHNUT_CARD}
-          methodologyPath={networkMethodologyTo}
+          methodologyPath={methodologyNetworkTo}
         />
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">

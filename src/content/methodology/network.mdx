@@ -1,5 +1,9 @@
-The network layer examines decentralisation through node topology, peer connectivity, and network-level resilience indicators.
+import { AppLink } from '@/components'
+import { geographyTo, networkTo } from '@/routes/routePaths'
 
-Measurements include distribution of reachable nodes, client exposure, and structural concentration patterns in peer discovery and routing.
+On the network layer, decentralisation is evaluated based on the distribution of nodes across organisations. On the geography layer, it is based on the distribution of nodes across countries. The ledgers that are currently supported for these two layers are: Bitcoin, Bitcoin Cash, Cardano, Ethereum, Litecoin, Dogecoin and Zcash. The following metrics are presented in the dashboard: Herfindahl-Hirschman index (HHI), Nakamoto coefficient, 1-concentration ratio and Shannon entropy (only for geography).
 
-The objective is to estimate whether communication and propagation paths depend on a narrow subset of infrastructure.
+The blockchain data that is needed to determine these distributions are collected using crawlers running on each network. The results are based only on data we have collected and do not include extensive historical data.
+For the Bitcoin, Bitcoin Cash, Litecoin, Dogecoin and Zcash networks, the crawler we use is based on the <AppLink href="https://bitnodes.io/">Bitnodes</AppLink> project. More than half of the Bitcoin nodes use Tor (see <AppLink href={`${networkTo}/contributor`} target="\_self">Organisation Distribution</AppLink> and <AppLink href={`${geographyTo}/contributor`} target="\_self">Country Distribution</AppLink>), and it is therefore impossible to know by which organisations they are hosted or in which countries they are located. For the metrics, it was therefore decided to distribute these nodes proportionally among the different organisations/countries.
+In Ethereum's case, the network architecture consists of two distinct layers: execution and consensus. The dashboard reflects this architectural separation. The crawler used is <AppLink href="https://github.com/cskiraly/fast-ethereum-crawler">fast-ethereum-crawler</AppLink>.
+Finally, data about Cardano relay nodes is collected using <AppLink href="https://blockfrost.io/">Blockfrost</AppLink>.
