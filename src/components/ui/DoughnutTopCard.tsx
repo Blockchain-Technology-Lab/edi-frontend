@@ -4,7 +4,7 @@ type DoughnutTopCardProps = {
   title: string
   description: string
   imageSrc: string
-  methodologyPath: string
+  methodologyPath?: string
   btnTitle?: string
 }
 

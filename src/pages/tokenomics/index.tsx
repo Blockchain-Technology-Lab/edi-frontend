@@ -17,7 +17,7 @@ import {
   RadioGroup
 } from '@/components'
 import { useTokenomicsCsv } from '@/hooks'
-import { tokenomicsMethodologyTo } from '@/routes/routePaths'
+import { methodologyTokenomicsTo } from '@/routes/routePaths'
 
 const THRESHOLDING_ITEMS = [
   { label: '100', value: '100' },
@@ -121,7 +121,7 @@ export function Tokenomics() {
           </>
         }
         imageSrc={TOKENOMICS_CARD}
-        methodologyPath={tokenomicsMethodologyTo}
+        methodologyPath={methodologyTokenomicsTo}
         githubUrl="https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization"
       />
       <SystemSelector

@@ -38,7 +38,8 @@ export function WorldMapCard({
     mapData: data,
     isLoading: loading,
     colorScheme,
-    onTooltipLabel: formatTotalTooltip
+    onTooltipLabel: formatTotalTooltip,
+    useLogScale: true
   })
 
   if (loading) {

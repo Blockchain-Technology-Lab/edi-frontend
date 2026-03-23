@@ -59,7 +59,7 @@ export function useWorldMapChart({
   isLoading,
   colorScheme = DEFAULT_MAP_COLOR_SCHEME,
   onTooltipLabel,
-  useLogScale = false
+  useLogScale = true
 }: UseWorldMapChartProps) {
   const chartRef = useRef<HTMLCanvasElement>(null)
   const chartInstance = useRef<Chart | null>(null)

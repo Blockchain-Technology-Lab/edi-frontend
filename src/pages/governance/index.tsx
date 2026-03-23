@@ -5,7 +5,7 @@ import {
   DoughnutCard
 } from '@/components'
 import { useGovernanceCsv } from '@/hooks/useGovernanceCsv'
-import { governanceMethodologyTo } from '@/routes/routePaths'
+//import { governanceMethodologyTo } from '@/routes/routePaths'
 import {
   BIP_NETWORK_CARD,
   GOVERNANCE_CARD,
@@ -54,7 +54,7 @@ export function Governance() {
         title="Governance Layer"
         description={<>We plan to publish this layer soon.</>}
         imageSrc={GOVERNANCE_CARD}
-        methodologyPath={governanceMethodologyTo}
+        //methodologyPath={governanceMethodologyTo}
         githubUrl="https://github.com/Blockchain-Technology-Lab/governance-decentralization"
       />
 

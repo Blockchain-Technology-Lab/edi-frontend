@@ -23,7 +23,7 @@ import {
 import { useMemo, useState, useRef, useEffect } from 'react'
 import { useNavigate, useLocation } from '@tanstack/react-router'
 import { softwareContributorRoute } from '@/router'
-import { softwareMethodologyTo } from '@/routes/routePaths'
+import { methodologySoftwareTo } from '@/routes/routePaths'
 
 // Constants
 const WEIGHT_ITEMS = [
@@ -199,7 +199,7 @@ export function Software() {
               </>
             }
             imageSrc={SOFTWARE_CARD}
-            methodologyPath={softwareMethodologyTo}
+            methodologyPath={methodologySoftwareTo}
             githubUrl="https://github.com/Blockchain-Technology-Lab/software-decentralization"
           />
         </div>
@@ -278,7 +278,7 @@ export function Software() {
             'These graphs represent the all-time distribution of contributors for various blockchain implementations.'
           }
           imageSrc={DOUGHNUT_CARD}
-          methodologyPath={softwareMethodologyTo}
+          methodologyPath={methodologySoftwareTo}
         />
       </div>
 

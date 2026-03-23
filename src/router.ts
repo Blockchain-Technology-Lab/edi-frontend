@@ -222,10 +222,39 @@ export const infographicsRoute = createRoute({
   component: Infographics
 })
 
+export const methodologyConsensusRoute = createRoute({
+  path: 'consensus',
+  getParentRoute: () => methodologyRoute,
+  component: Methodology
+})
+
+export const methodologyTokenomicsRoute = createRoute({
+  path: 'tokenomics',
+  getParentRoute: () => methodologyRoute,
+  component: Methodology
+})
+
+export const methodologyNetworkRoute = createRoute({
+  path: 'network',
+  getParentRoute: () => methodologyRoute,
+  component: Methodology
+})
+
+export const methodologySoftwareRoute = createRoute({
+  path: 'software',
+  getParentRoute: () => methodologyRoute,
+  component: Methodology
+})
+
 // Route tree
 export const routeTree = rootRoute.addChildren([
   indexRoute,
-  methodologyRoute,
+  methodologyRoute.addChildren([
+    methodologyConsensusRoute,
+    methodologyTokenomicsRoute,
+    methodologyNetworkRoute,
+    methodologySoftwareRoute
+  ]),
   consensusRoute,
   consensusMethodologyRoute,
   tokenomicsRoute,
