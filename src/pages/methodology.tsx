@@ -1,4 +1,4 @@
-import { MethodologyCard } from '@/components'
+import { AppLink, MethodologyCard } from '@/components'
 import {
   basePath,
   CONSENSUS_METHOD_CARD,
@@ -136,14 +136,9 @@ export function Methodology() {
 
         <div className="card-body p-4 text-base">
           <p>
-            <a
-              href="https://informatics.ed.ac.uk/blockchain/edi"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link link-primary"
-            >
+            <AppLink href="https://informatics.ed.ac.uk/blockchain/edi">
               The Edinburgh Decentralisation Index (EDI)
-            </a>{' '}
+            </AppLink>{' '}
             is a methodology framework for defining, analysing, and evaluating
             the decentralisation level of blockchain systems across multiple
             layers. These layers are consensus, tokenomics, network, software,
@@ -157,14 +152,9 @@ export function Methodology() {
             own dedicated methodology section. Metric definitions are also
             provided below.
           </p>
-          <a
-            href="https://github.com/Blockchain-Technology-Lab"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="link link-primary"
-          >
+          <AppLink href="https://github.com/Blockchain-Technology-Lab">
             The EDI codebase
-          </a>{' '}
+          </AppLink>
           is fully open-source.
         </div>
       </div>
