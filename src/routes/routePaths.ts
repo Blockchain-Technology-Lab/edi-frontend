@@ -26,4 +26,5 @@ export const changelogTo = `${basePath}/changelog`
 export const methodologyConsensusTo = `${methodologyTo}/consensus`
 export const methodologyTokenomicsTo = `${methodologyTo}/tokenomics`
 export const methodologyNetworkTo = `${methodologyTo}/network`
+export const methodologyGeographyTo = `${methodologyTo}/geography`
 export const methodologySoftwareTo = `${methodologyTo}/software`

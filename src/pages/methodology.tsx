@@ -2,7 +2,7 @@ import { MethodologyCard } from '@/components'
 import {
   basePath,
   CONSENSUS_METHOD_CARD,
-  //GEOGRAPHY_CARD,
+  GEOGRAPHY_CARD,
   //GOVERNANCE_CARD,
   NETWORK_CARD,
   SOFTWARE_CARD,
@@ -12,8 +12,8 @@ import {
   ConsensusContent,
   TokenomicsContent,
   NetworkContent,
-  SoftwareContent
-  //GeographyContent,
+  SoftwareContent,
+  GeographyContent
   //GovernanceContent
 } from '@/content'
 import { useLocation } from '@tanstack/react-router'
@@ -46,7 +46,7 @@ export function Methodology() {
       content: TokenomicsContent
     },
     {
-      title: 'Network & Geography',
+      title: 'Network',
       sectionId: 'network',
       image: NETWORK_CARD,
       content: NetworkContent
@@ -56,13 +56,13 @@ export function Methodology() {
       sectionId: 'software',
       image: SOFTWARE_CARD,
       content: SoftwareContent
-    }
-    /*{
+    },
+    {
       title: 'Geography',
+      sectionId: 'geography',
       image: GEOGRAPHY_CARD,
-      to: geographyMethodologyTo,
       content: GeographyContent
-    }, */
+    }
     /*
     {
       title: 'Governance',

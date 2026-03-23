@@ -10,7 +10,7 @@ import {
 } from '@/components'
 import { useGeographyCsv } from '@/hooks'
 import { geographyContributorRoute } from '@/router'
-import { methodologyNetworkTo } from '@/routes/routePaths'
+import { methodologyGeographyTo } from '@/routes/routePaths'
 import {
   COUNTRIES_METRICS,
   DOUGHNUT_CARD,
@@ -116,7 +116,7 @@ export function Geography() {
               </>
             }
             imageSrc={GEOGRAPHY_CARD}
-            methodologyPath={methodologyNetworkTo}
+            methodologyPath={methodologyGeographyTo}
             githubUrl="https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin"
           />
         </div>
@@ -170,7 +170,7 @@ export function Geography() {
             'These charts represent the distribution of nodes across countries, based on the latest snapshot for each system.'
           }
           imageSrc={DOUGHNUT_CARD}
-          methodologyPath={methodologyNetworkTo}
+          methodologyPath={methodologyGeographyTo}
         />
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
