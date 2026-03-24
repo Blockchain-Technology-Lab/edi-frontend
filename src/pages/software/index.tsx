@@ -86,17 +86,23 @@ function useContributorScroll() {
 
   useEffect(() => {
     if (location.pathname === '/software/contributor') {
-      const timeout = setTimeout(() => {
-        contributorRef.current?.scrollIntoView({ behavior: 'smooth' })
-      }, SCROLL_DELAY)
-
-      return () => clearTimeout(timeout)
+      // Double requestAnimationFrame ensures layout is painted
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          contributorRef.current?.scrollIntoView({ behavior: 'smooth' })
+        })
+      })
     }
   }, [location.pathname])
 
   const handleContributorScrollClick = () => {
     if (location.pathname === softwareContributorRoute.to) {
-      contributorRef.current?.scrollIntoView({ behavior: 'smooth' })
+      // Double requestAnimationFrame to ensure DOM is ready
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          contributorRef.current?.scrollIntoView({ behavior: 'smooth' })
+        })
+      })
     } else {
       navigate({ to: softwareContributorRoute.to })
     }

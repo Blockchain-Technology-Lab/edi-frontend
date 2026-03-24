@@ -151,11 +151,11 @@ export function Methodology() {
             This page serves as a central methodology hub. Each layer has its
             own dedicated methodology section. Metric definitions are also
             provided below.
+            <AppLink href="https://github.com/Blockchain-Technology-Lab">
+              The EDI codebase
+            </AppLink>{' '}
+            is fully open-source.
           </p>
-          <AppLink href="https://github.com/Blockchain-Technology-Lab">
-            The EDI codebase
-          </AppLink>
-          is fully open-source.
         </div>
       </div>
 

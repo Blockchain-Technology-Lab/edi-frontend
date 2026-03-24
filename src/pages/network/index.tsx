@@ -50,13 +50,23 @@ export function Network() {
       location.pathname === '/network/contributor' &&
       contributorRef.current
     ) {
-      contributorRef.current.scrollIntoView({ behavior: 'smooth' })
+      // Double requestAnimationFrame ensures layout is painted
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          contributorRef.current?.scrollIntoView({ behavior: 'smooth' })
+        })
+      })
     }
   }, [location.pathname])
 
   const handleContributorScrollClick = () => {
     if (location.pathname === networkContributorRoute.to) {
-      contributorRef.current?.scrollIntoView({ behavior: 'smooth' })
+      // Double requestAnimationFrame to ensure DOM is ready
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          contributorRef.current?.scrollIntoView({ behavior: 'smooth' })
+        })
+      })
     } else {
       navigate({ to: networkContributorRoute.to })
     }
