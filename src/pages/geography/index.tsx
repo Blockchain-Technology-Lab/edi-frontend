@@ -53,13 +53,23 @@ export function Geography() {
       location.pathname === '/geography/contributor' &&
       contributorRef.current
     ) {
-      contributorRef.current.scrollIntoView({ behavior: 'smooth' })
+      // Double requestAnimationFrame ensures layout is painted
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          contributorRef.current?.scrollIntoView({ behavior: 'smooth' })
+        })
+      })
     }
   }, [location.pathname])
 
   const handleContributorScrollClick = () => {
     if (location.pathname === geographyContributorRoute.to) {
-      contributorRef.current?.scrollIntoView({ behavior: 'smooth' })
+      // Double requestAnimationFrame to ensure DOM is ready
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          contributorRef.current?.scrollIntoView({ behavior: 'smooth' })
+        })
+      })
     } else {
       navigate({ to: geographyContributorRoute.to })
     }
