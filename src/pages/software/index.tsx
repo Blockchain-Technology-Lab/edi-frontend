@@ -59,7 +59,6 @@ const DOUGHNUT_ENTITY_ITEMS = [
 const DEFAULT_COMMITS_INDEX = 2 // "500"
 const DEFAULT_ENTITY_INDEX = 0 // "Author"
 const DEFAULT_WEIGHT_INDEX = 0 // "Commits"
-const SCROLL_DELAY = 100
 const SYSTEMS_STORAGE_KEY = 'software_selectedSystems'
 const DEFAULT_SOFTWARE_SYSTEMS = SOFTWARE_LEDGERS.map((l) => l.ledger)
 
