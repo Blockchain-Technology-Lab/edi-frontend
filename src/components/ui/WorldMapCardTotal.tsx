@@ -34,7 +34,7 @@ export function WorldMapCardTotal({
 
   if (loading) {
     return (
-      <div className="card-body m-1">
+      <div className="card-body w-full p-0">
         <div className="flex justify-center items-center h-96">
           <span className="loading loading-spinner loading-lg"></span>
         </div>
@@ -43,8 +43,8 @@ export function WorldMapCardTotal({
   }
 
   return (
-    <div className="card-body m-1" key={title} title={title}>
-      <div className="flex justify-between items-center shadow-lg text-xl card-title bg-base-300 alert w-full mb-1">
+    <div className="card-body w-full p-0 m-1" key={title} title={title}>
+      <div className="flex justify-between items-center shadow-lg text-xl card-title bg-base-300 alert w-full mb-2">
         <span>{title}</span>
       </div>
 
@@ -53,11 +53,11 @@ export function WorldMapCardTotal({
           <span>{error}</span>
         </div>
       ) : (
-        <div className="card bg-base-300 shadow-lg p-1 space-y-4">
-          <div className="aspect-[16/9] mt-2">
+        <div className="card bg-base-300 shadow-lg w-full overflow-hidden p-1 space-y-4">
+          <div className="h-64 lg:h-72 xl:h-80 w-full mt-2">
             <canvas ref={chartRef} className="w-full h-full" />
           </div>
-          <div className="flex justify-end items-center gap-2">
+          <div className="flex justify-end items-center gap-2 px-2 pb-2">
             <button
               className="btn btn-sm bg-base-100"
               onClick={() =>

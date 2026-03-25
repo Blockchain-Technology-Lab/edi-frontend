@@ -8,11 +8,11 @@ import {
   BarChart,
   SystemSelector
 } from '@/components'
-import { useEffect, useRef, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { networkContributorRoute } from '@/router'
-import { useNetworkCsv } from '@/hooks'
+import { useContributorSectionNavigation, useNetworkCsv } from '@/hooks'
 import { getNetworkDoughnutCsvFileName, NETWORK_METRICS } from '@/utils/network'
 import {
   DOUGHNUT_CARD,
@@ -41,36 +41,14 @@ function persistSelectedSystems(systems: Set<string>) {
 }
 
 export function Network() {
-  const contributorRef = useRef<HTMLDivElement | null>(null)
   const location = useLocation()
   const navigate = useNavigate()
-
-  useEffect(() => {
-    if (
-      location.pathname === '/network/contributor' &&
-      contributorRef.current
-    ) {
-      // Double requestAnimationFrame ensures layout is painted
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          contributorRef.current?.scrollIntoView({ behavior: 'smooth' })
-        })
-      })
-    }
-  }, [location.pathname])
-
-  const handleContributorScrollClick = () => {
-    if (location.pathname === networkContributorRoute.to) {
-      // Double requestAnimationFrame to ensure DOM is ready
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          contributorRef.current?.scrollIntoView({ behavior: 'smooth' })
-        })
-      })
-    } else {
-      navigate({ to: networkContributorRoute.to })
-    }
-  }
+  const { contributorRef, handleContributorScrollClick } =
+    useContributorSectionNavigation({
+      currentPath: location.pathname,
+      contributorPath: networkContributorRoute.to,
+      navigateToContributor: () => navigate({ to: networkContributorRoute.to })
+    })
 
   const { nodesData, orgData, loading, error } = useNetworkCsv()
 
