@@ -8,7 +8,7 @@ import {
   GeographyLedgerCards,
   WorldMapCardTotal
 } from '@/components'
-import { useGeographyCsv } from '@/hooks'
+import { useContributorSectionNavigation, useGeographyCsv } from '@/hooks'
 import { geographyContributorRoute } from '@/router'
 import { methodologyGeographyTo } from '@/routes/routePaths'
 import {
@@ -23,7 +23,7 @@ import {
   getGeographyDoughnutCsvFileName
 } from '@/utils'
 import { useLocation, useNavigate } from '@tanstack/react-router'
-import { useEffect, useRef, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 const SYSTEMS_STORAGE_KEY = 'geography_selectedSystems'
 const DEFAULT_GEOGRAPHY_SYSTEMS = GEOGRAPHY_LEDGERS.map((l) => l.ledger)
@@ -44,36 +44,15 @@ function persistSelectedSystems(systems: Set<string>) {
 }
 
 export function Geography() {
-  const contributorRef = useRef<HTMLDivElement | null>(null)
   const location = useLocation()
   const navigate = useNavigate()
-
-  useEffect(() => {
-    if (
-      location.pathname === '/geography/contributor' &&
-      contributorRef.current
-    ) {
-      // Double requestAnimationFrame ensures layout is painted
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          contributorRef.current?.scrollIntoView({ behavior: 'smooth' })
-        })
-      })
-    }
-  }, [location.pathname])
-
-  const handleContributorScrollClick = () => {
-    if (location.pathname === geographyContributorRoute.to) {
-      // Double requestAnimationFrame to ensure DOM is ready
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          contributorRef.current?.scrollIntoView({ behavior: 'smooth' })
-        })
-      })
-    } else {
-      navigate({ to: geographyContributorRoute.to })
-    }
-  }
+  const { contributorRef, handleContributorScrollClick } =
+    useContributorSectionNavigation({
+      currentPath: location.pathname,
+      contributorPath: geographyContributorRoute.to,
+      navigateToContributor: () =>
+        navigate({ to: geographyContributorRoute.to })
+    })
 
   const { nodesData, loading, error } = useGeographyCsv()
 
@@ -139,7 +118,7 @@ export function Geography() {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+      <div className="w-full">
         <WorldMapCardTotal />
       </div>
 

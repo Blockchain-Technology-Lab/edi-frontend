@@ -7,7 +7,7 @@ import {
   SystemSelector,
   RadioGroup
 } from '@/components'
-import { useSoftwareCsv } from '@/hooks'
+import { useContributorSectionNavigation, useSoftwareCsv } from '@/hooks'
 import {
   DOUGHNUT_CARD,
   generateDoughnutPaths,
@@ -20,7 +20,7 @@ import {
   SOFTWARE_LEDGERS,
   getOrderedSystemsForLayer
 } from '@/utils'
-import { useMemo, useState, useRef, useEffect } from 'react'
+import { useMemo, useState } from 'react'
 import { useNavigate, useLocation } from '@tanstack/react-router'
 import { softwareContributorRoute } from '@/router'
 import { methodologySoftwareTo } from '@/routes/routePaths'
@@ -77,40 +77,9 @@ function persistSelectedSystems(systems: Set<string>) {
   localStorage.setItem(SYSTEMS_STORAGE_KEY, JSON.stringify([...systems]))
 }
 
-// Custom hook for scroll-to-contributor functionality
-function useContributorScroll() {
-  const contributorRef = useRef<HTMLDivElement | null>(null)
+export function Software() {
   const location = useLocation()
   const navigate = useNavigate()
-
-  useEffect(() => {
-    if (location.pathname === '/software/contributor') {
-      // Double requestAnimationFrame ensures layout is painted
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          contributorRef.current?.scrollIntoView({ behavior: 'smooth' })
-        })
-      })
-    }
-  }, [location.pathname])
-
-  const handleContributorScrollClick = () => {
-    if (location.pathname === softwareContributorRoute.to) {
-      // Double requestAnimationFrame to ensure DOM is ready
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          contributorRef.current?.scrollIntoView({ behavior: 'smooth' })
-        })
-      })
-    } else {
-      navigate({ to: softwareContributorRoute.to })
-    }
-  }
-
-  return { contributorRef, handleContributorScrollClick }
-}
-
-export function Software() {
   const [selectedCommits, setSelectedCommits] = useState(
     COMMITS_ITEMS[DEFAULT_COMMITS_INDEX]
   )
@@ -128,7 +97,11 @@ export function Software() {
   )
 
   const { contributorRef, handleContributorScrollClick } =
-    useContributorScroll()
+    useContributorSectionNavigation({
+      currentPath: location.pathname,
+      contributorPath: softwareContributorRoute.to,
+      navigateToContributor: () => navigate({ to: softwareContributorRoute.to })
+    })
 
   const filename = useMemo(
     () =>
