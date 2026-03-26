@@ -201,7 +201,7 @@ export function useWorldMapChart({
                 },
                 zoom: {
                   wheel: {
-                    enabled: true,
+                    enabled: false,
                     speed: 0.1
                   },
                   pinch: {
