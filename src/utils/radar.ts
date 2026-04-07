@@ -1,5 +1,7 @@
 import {
   Chart as ChartJS,
+  type ChartDataset,
+  type TooltipItem,
   RadialLinearScale,
   PointElement,
   LineElement,
@@ -138,9 +140,28 @@ export function transformRadarData(data: RadarDataPoint[]) {
   return { labels, datasets }
 }
 
+type RadarDataset = ChartDataset<'radar', (number | null)[]> & {
+  _displayValues?: string[]
+  _protocolColors?: { border?: string }
+  _missingIndices?: number[]
+  opacity?: number
+}
+
+type RadarScaleRuntime = {
+  xCenter: number
+  yCenter: number
+  drawingArea: number
+  pointLabels: string[]
+  options: {
+    pointLabels?: {
+      color?: string
+    }
+  }
+}
+
 export function transformRadarDataWithSegments(data: RadarDataPoint[]) {
   const labels = ['Consensus', 'Tokenomics', 'Software', 'Network', 'Geography']
-  const datasets: any[] = []
+  const datasets: RadarDataset[] = []
 
   data.forEach((protocol, index) => {
     const protocolColors = resolveProtocolColors(protocol.protocol, index)
@@ -190,10 +211,10 @@ export function transformRadarDataWithSegments(data: RadarDataPoint[]) {
 // missing with dashed radial lines.
 const radarMissingSpokesPlugin = {
   id: 'radarMissingSpokes',
-  afterDatasetsDraw: (chart: any) => {
+  afterDatasetsDraw: (chart: ChartJS<'radar'>) => {
     const ctx = chart.ctx
     const { data, scales } = chart
-    const rScale = scales.r
+    const rScale = scales.r as unknown as RadarScaleRuntime
     if (!rScale) return
 
     const centerX = rScale.xCenter
@@ -201,18 +222,27 @@ const radarMissingSpokesPlugin = {
     const outerRadius = rScale.drawingArea
     const labelCount = (data.labels || []).length || 0
 
-    data.datasets.forEach((dataset: any) => {
+    data.datasets.forEach((dataset) => {
       // Prefer explicit flag, otherwise infer missing indices from null data
-      let missing: number[] = dataset._missingIndices || []
-      if ((!missing || missing.length === 0) && Array.isArray(dataset.data)) {
-        missing = dataset.data
-          .map((v: any, i: number) => (v == null || v === undefined ? i : -1))
+      const customDataset = dataset as RadarDataset & {
+        _missingIndices?: number[]
+        _protocolColors?: { border?: string }
+        borderColor?: string | string[]
+        data?: Array<number | null | undefined>
+      }
+      let missing: number[] = customDataset._missingIndices || []
+      if (
+        (!missing || missing.length === 0) &&
+        Array.isArray(customDataset.data)
+      ) {
+        missing = customDataset.data
+          .map((v, i: number) => (v == null || v === undefined ? i : -1))
           .filter((i: number) => i >= 0)
       }
 
-      const colors = dataset._protocolColors || undefined
+      const colors = customDataset._protocolColors || undefined
       // Also allow direct borderColor fallback (might be a string or array)
-      const fallbackBorder = dataset.borderColor || undefined
+      const fallbackBorder = customDataset.borderColor || undefined
       if (!missing || missing.length === 0) return
 
       ctx.save()
@@ -244,9 +274,9 @@ const radarMissingSpokesPlugin = {
 
 const horizontalLabelsPlugin = {
   id: 'horizontalLabels',
-  afterDraw: (chart: any) => {
+  afterDraw: (chart: ChartJS<'radar'>) => {
     const { ctx, scales } = chart
-    const scale = scales.r
+    const scale = scales.r as unknown as RadarScaleRuntime
     const labels = scale.pointLabels
     const labelCount = labels.length
 
@@ -258,7 +288,9 @@ const horizontalLabelsPlugin = {
     ctx.font = '12px sans-serif'
     ctx.textAlign = 'center'
     ctx.textBaseline = 'middle'
-    ctx.fillStyle = scale.options.pointLabels.color
+    const pointLabelColor =
+      (scale.options.pointLabels?.color as string | undefined) || '#374151'
+    ctx.fillStyle = pointLabelColor
 
     labels.forEach((label: string, i: number) => {
       const angle = (i / labelCount) * (2 * Math.PI) - Math.PI / 2
@@ -307,13 +339,13 @@ export function getRadarChartOptions(
         cornerRadius: 8,
         displayColors: true,
         callbacks: {
-          title: function (tooltipItems: any[]) {
+          title: function (tooltipItems: TooltipItem<'radar'>[]) {
             if (!tooltipItems || tooltipItems.length === 0) return ''
             // Show the metric name (e.g., "Consensus", "Tokenomics")
             const labels = tooltipItems[0].chart.data.labels || []
             return labels[tooltipItems[0].dataIndex] || ''
           },
-          label: function (context: any) {
+          label: function (context: TooltipItem<'radar'>) {
             const label = context.dataset?.label || ''
             const dataIndex = context.dataIndex
             const dataset = context.dataset || {}
@@ -358,7 +390,7 @@ export function getRadarChartOptions(
           },
           backdropColor: 'rgba(255, 255, 255, 0.9)',
           backdropPadding: 4,
-          callback: function (value: any) {
+          callback: function (value: unknown) {
             return value
           },
           z: 10
@@ -390,7 +422,7 @@ export function getRadarChartOptions(
       animateScale: true,
       animateRotate: true
     }
-  } as ChartOptions<'radar'>
+  } as unknown as ChartOptions<'radar'>
 }
 
 // Export chart data for screenshots

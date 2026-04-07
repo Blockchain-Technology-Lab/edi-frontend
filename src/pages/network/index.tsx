@@ -8,11 +8,15 @@ import {
   BarChart,
   SystemSelector
 } from '@/components'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { networkContributorRoute } from '@/router'
-import { useContributorSectionNavigation, useNetworkCsv } from '@/hooks'
+import {
+  useContributorSectionNavigation,
+  useNetworkCsv,
+  usePersistedSystemSelection
+} from '@/hooks'
 import { getNetworkDoughnutCsvFileName, NETWORK_METRICS } from '@/utils/network'
 import {
   DOUGHNUT_CARD,
@@ -26,19 +30,6 @@ import { methodologyNetworkTo } from '@/routes/routePaths'
 
 const SYSTEMS_STORAGE_KEY = 'network_selectedSystems'
 const DEFAULT_NETWORK_SYSTEMS = NETWORK_LEDGERS.map((l) => l.ledger)
-
-function initialSelectedSystems(): Set<string> {
-  try {
-    const saved = localStorage.getItem(SYSTEMS_STORAGE_KEY)
-    return saved ? new Set(JSON.parse(saved)) : new Set(DEFAULT_NETWORK_SYSTEMS)
-  } catch {
-    return new Set(DEFAULT_NETWORK_SYSTEMS)
-  }
-}
-
-function persistSelectedSystems(systems: Set<string>) {
-  localStorage.setItem(SYSTEMS_STORAGE_KEY, JSON.stringify([...systems]))
-}
 
 export function Network() {
   const location = useLocation()
@@ -62,9 +53,8 @@ export function Network() {
     return orderedSystems.length > 0 ? orderedSystems : fallback
   }, [orgData])
 
-  const [selectedSystems, setSelectedSystems] = useState<Set<string>>(
-    initialSelectedSystems
-  )
+  const { selectedSystems, handleSelectionChange, handleSystemToggle } =
+    usePersistedSystemSelection(SYSTEMS_STORAGE_KEY, DEFAULT_NETWORK_SYSTEMS)
 
   const filteredData = useMemo(
     () =>
@@ -73,18 +63,6 @@ export function Network() {
       ),
     [orgData, selectedSystems]
   )
-
-  const handleSelectionChange = (selected: Set<string>) => {
-    setSelectedSystems(selected)
-    persistSelectedSystems(selected)
-  }
-
-  const handleSystemToggle = (system: string) => {
-    const next = new Set(selectedSystems)
-    next.has(system) ? next.delete(system) : next.add(system)
-    setSelectedSystems(next)
-    persistSelectedSystems(next)
-  }
 
   return (
     <div className="flex flex-col gap-6">

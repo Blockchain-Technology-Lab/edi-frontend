@@ -17,6 +17,18 @@ interface UseRadarCsvReturn {
   error: string | null
 }
 
+type RadarMetricKey = keyof Omit<RadarDataPoint, 'protocol'>
+
+function isRadarMetricKey(metric: string): metric is RadarMetricKey {
+  return (
+    metric === 'consensus' ||
+    metric === 'tokenomics' ||
+    metric === 'software' ||
+    metric === 'network' ||
+    metric === 'geography'
+  )
+}
+
 export function useRadarCsv(csvPath: string = RADAR_CSV): UseRadarCsvReturn {
   const [data, setData] = useState<RadarDataPoint[]>([])
   const [loading, setLoading] = useState(true)
@@ -35,7 +47,7 @@ export function useRadarCsv(csvPath: string = RADAR_CSV): UseRadarCsvReturn {
 
         const csvText = await response.text()
 
-        Papa.parse<Record<string, any>>(csvText, {
+        Papa.parse<Record<string, unknown>>(csvText, {
           header: true,
           skipEmptyLines: true,
           dynamicTyping: true,
@@ -71,14 +83,10 @@ export function useRadarCsv(csvPath: string = RADAR_CSV): UseRadarCsvReturn {
                 // Find values for each metric
                 results.data.forEach((row) => {
                   const metric = (row[''] as string)?.toLowerCase()?.trim()
-                  const value = parseFloat(row[protocol]) || 0
+                  const value = Number(row[protocol]) || 0
 
-                  if (
-                    metric &&
-                    metric in protocolData &&
-                    metric !== 'protocol'
-                  ) {
-                    ;(protocolData as any)[metric] = value
+                  if (metric && isRadarMetricKey(metric)) {
+                    protocolData[metric] = value
                   }
                 })
 

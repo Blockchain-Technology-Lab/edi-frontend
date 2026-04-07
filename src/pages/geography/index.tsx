@@ -23,25 +23,11 @@ import {
   getGeographyDoughnutCsvFileName
 } from '@/utils'
 import { useLocation, useNavigate } from '@tanstack/react-router'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
+import { usePersistedSystemSelection } from '@/hooks'
 
 const SYSTEMS_STORAGE_KEY = 'geography_selectedSystems'
 const DEFAULT_GEOGRAPHY_SYSTEMS = GEOGRAPHY_LEDGERS.map((l) => l.ledger)
-
-function initialSelectedSystems(): Set<string> {
-  try {
-    const saved = localStorage.getItem(SYSTEMS_STORAGE_KEY)
-    return saved
-      ? new Set(JSON.parse(saved))
-      : new Set(DEFAULT_GEOGRAPHY_SYSTEMS)
-  } catch {
-    return new Set(DEFAULT_GEOGRAPHY_SYSTEMS)
-  }
-}
-
-function persistSelectedSystems(systems: Set<string>) {
-  localStorage.setItem(SYSTEMS_STORAGE_KEY, JSON.stringify([...systems]))
-}
 
 export function Geography() {
   const location = useLocation()
@@ -66,9 +52,11 @@ export function Geography() {
     return orderedSystems.length > 0 ? orderedSystems : fallback
   }, [nodesData])
 
-  const [selectedSystems, setSelectedSystems] = useState<Set<string>>(
-    initialSelectedSystems
-  )
+  const { selectedSystems, handleSelectionChange, handleSystemToggle } =
+    usePersistedSystemSelection(
+      SYSTEMS_STORAGE_KEY,
+      DEFAULT_GEOGRAPHY_SYSTEMS
+    )
 
   const filteredData = useMemo(
     () =>
@@ -77,18 +65,6 @@ export function Geography() {
       ),
     [nodesData, selectedSystems]
   )
-
-  const handleSelectionChange = (selected: Set<string>) => {
-    setSelectedSystems(selected)
-    persistSelectedSystems(selected)
-  }
-
-  const handleSystemToggle = (system: string) => {
-    const next = new Set(selectedSystems)
-    next.has(system) ? next.delete(system) : next.add(system)
-    setSelectedSystems(next)
-    persistSelectedSystems(next)
-  }
 
   return (
     <div className="flex flex-col gap-6">

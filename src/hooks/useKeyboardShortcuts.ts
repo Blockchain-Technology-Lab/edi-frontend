@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 
 // Helper function to scroll to top
@@ -21,8 +21,22 @@ const showShortcutFeedback = (message: string) => {
   document.dispatchEvent(event)
 }
 
+const NAV_SHORTCUTS: Record<string, { to: string; message: string }> = {
+  '1': { to: '/consensus', message: 'Navigated to Consensus Layer' },
+  '2': { to: '/tokenomics', message: 'Navigated to Tokenomics Layer' },
+  '3': { to: '/network', message: 'Navigated to Network Layer' },
+  '4': { to: '/software', message: 'Navigated to Software Layer' },
+  '5': { to: '/geography', message: 'Navigated to Geography Layer' },
+  '6': { to: '/governance', message: 'Navigated to Governance Layer' },
+  h: { to: '/', message: 'Navigated to Home' }
+}
+
 export function useKeyboardShortcuts() {
   const navigate = useNavigate()
+  const navigateToPath = useCallback(
+    (to: string) => navigate({ to: to as never }),
+    [navigate]
+  )
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -44,43 +58,11 @@ export function useKeyboardShortcuts() {
         !event.shiftKey &&
         !event.metaKey
       ) {
-        switch (event.key) {
-          case '1':
-            event.preventDefault()
-            navigate({ to: '/consensus' as any })
-            showShortcutFeedback('Navigated to Consensus Layer')
-            break
-          case '2':
-            event.preventDefault()
-            navigate({ to: '/tokenomics' as any })
-            showShortcutFeedback('Navigated to Tokenomics Layer')
-            break
-          case '3':
-            event.preventDefault()
-            navigate({ to: '/network' as any })
-            showShortcutFeedback('Navigated to Network Layer')
-            break
-          case '4':
-            event.preventDefault()
-            navigate({ to: '/software' as any })
-            showShortcutFeedback('Navigated to Software Layer')
-            break
-          case '5':
-            event.preventDefault()
-            navigate({ to: '/geography' as any })
-            showShortcutFeedback('Navigated to Geography Layer')
-            break
-          case '6':
-            event.preventDefault()
-            navigate({ to: '/governance' as any })
-            showShortcutFeedback('Navigated to Governance Layer')
-            break
-          case 'h':
-          case 'H':
-            event.preventDefault()
-            navigate({ to: '/' })
-            showShortcutFeedback('Navigated to Home')
-            break
+        const shortcut = NAV_SHORTCUTS[event.key.toLowerCase()]
+        if (shortcut) {
+          event.preventDefault()
+          navigateToPath(shortcut.to)
+          showShortcutFeedback(shortcut.message)
         }
       }
 
@@ -94,14 +76,16 @@ export function useKeyboardShortcuts() {
             showShortcutFeedback('Scrolled to top')
             break
           case '/':
-            // Focus search if it exists
-            event.preventDefault()
-            const searchInput = document.querySelector(
-              'input[type="search"], input[placeholder*="search" i]'
-            ) as HTMLInputElement
-            if (searchInput) {
-              searchInput.focus()
-              showShortcutFeedback('Focused search')
+            {
+              // Focus search if it exists
+              event.preventDefault()
+              const searchInput = document.querySelector(
+                'input[type="search"], input[placeholder*="search" i]'
+              ) as HTMLInputElement
+              if (searchInput) {
+                searchInput.focus()
+                showShortcutFeedback('Focused search')
+              }
             }
             break
         }
@@ -132,7 +116,7 @@ export function useKeyboardShortcuts() {
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
     }
-  }, [navigate])
+  }, [navigateToPath])
 
   return {
     shortcuts: {
