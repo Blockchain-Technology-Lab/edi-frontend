@@ -7,7 +7,7 @@ export function useAnalytics() {
   const analytics = getAnalytics()
 
   const trackEvent = useCallback(
-    (eventName: string, parameters?: Record<string, any>) => {
+    (eventName: string, parameters?: Record<string, unknown>) => {
       if (!analytics) {
         console.warn('Analytics not initialized')
         return
@@ -40,7 +40,7 @@ export function useAnalytics() {
   )
 
   const setUserProperties = useCallback(
-    (properties: Record<string, any>) => {
+    (properties: Record<string, unknown>) => {
       if (!analytics) {
         console.warn('Analytics not initialized')
         return

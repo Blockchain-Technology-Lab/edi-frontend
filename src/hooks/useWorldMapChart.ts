@@ -65,17 +65,6 @@ export function useWorldMapChart({
   const chartInstance = useRef<Chart | null>(null)
   const [error, setError] = useState<string | null>(null)
 
-  /**
-   * Calculate ratio for color mapping, supporting linear and logarithmic scales
-   */
-  const calculateRatio = (value: number, maxVal: number): number => {
-    if (value === 0) return 0
-    if (useLogScale) {
-      return Math.log10(value + 1) / Math.log10(maxVal + 1)
-    }
-    return value / maxVal
-  }
-
   useEffect(() => {
     if (
       !chartRef.current ||
@@ -87,6 +76,14 @@ export function useWorldMapChart({
     }
 
     let isMounted = true
+
+    const calculateRatio = (value: number, maxVal: number): number => {
+      if (value === 0) return 0
+      if (useLogScale) {
+        return Math.log10(value + 1) / Math.log10(maxVal + 1)
+      }
+      return value / maxVal
+    }
 
     fetch(WORLD_MAP_JSON)
       .then((r) => r.json())

@@ -3,6 +3,7 @@ import { Line } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
   type ChartOptions,
+  type ChartDataset,
   LineElement,
   PointElement,
   CategoryScale,
@@ -90,9 +91,12 @@ export function LineChart({
 
     const leftAxisData = filteredCsv
       .filter((entry) => entry.metric === leftMetricKey)
-      .map((entry) => ({ x: entry.date, y: entry.value }))
+      .flatMap((entry) => {
+        const y = Number(entry.value)
+        return Number.isFinite(y) ? [{ x: entry.date, y }] : []
+      })
 
-    const datasets: any[] = [
+    const datasets: ChartDataset<'line', { x: Date; y: number }[]>[] = [
       {
         label: leftLabel,
         data: leftAxisData,
@@ -119,7 +123,10 @@ export function LineChart({
 
         const data = filteredCsv
           .filter((entry) => entry.metric === metricName)
-          .map((entry) => ({ x: entry.date, y: entry.value }))
+          .flatMap((entry) => {
+            const y = Number(entry.value)
+            return Number.isFinite(y) ? [{ x: entry.date, y }] : []
+          })
 
         datasets.push({
           label,
@@ -147,7 +154,10 @@ export function LineChart({
 
       const rightAxisData = filteredCsv
         .filter((entry) => entry.metric === rightMetricKey)
-        .map((entry) => ({ x: entry.date, y: entry.value }))
+        .flatMap((entry) => {
+          const y = Number(entry.value)
+          return Number.isFinite(y) ? [{ x: entry.date, y }] : []
+        })
 
       datasets.push({
         label: rightLabel,
@@ -190,7 +200,6 @@ export function LineChart({
     resolvedTheme,
     timeUnit,
     chartData,
-    enhancedChartData,
     padYAxis,
     tooltipDecimals,
     yAxisDecimals,
@@ -345,24 +354,15 @@ function getChartOptions(
         labels: {
           color: mainColor,
           usePointStyle: true,
-          pointStyle: multiAxis ? 'line' : 'circle',
-          filter: function (legendItem, chartData) {
-            if (multiAxis && typeof legendItem.datasetIndex === 'number') {
-              const dataset = chartData.datasets[legendItem.datasetIndex]
-              if (dataset) {
-                ;(legendItem as any).fontColor = dataset.borderColor
-              }
-            }
-            return true
-          }
+          pointStyle: multiAxis ? 'line' : 'circle'
         },
-        onClick: (e: any) => {
+        onClick: (_event, legendItem, legend) => {
           if (
             onSystemToggle &&
             selectedSystems &&
-            typeof e.datasetIndex === 'number'
+            typeof legendItem.datasetIndex === 'number'
           ) {
-            const dataset = e.chart.data.datasets[e.datasetIndex]
+            const dataset = legend.chart.data.datasets[legendItem.datasetIndex]
             if (dataset && dataset.label) {
               const systemName = dataset.label
                 .toLowerCase()
@@ -431,7 +431,17 @@ function getChartOptions(
               // When padding enabled, add margins around data
               afterDataLimits(scale) {
                 const values = scale.chart.data.datasets.flatMap((ds) =>
-                  ds.data.map((p: any) => (typeof p === 'number' ? p : p.y))
+                  ds.data.map((p) => {
+                    if (typeof p === 'number') {
+                      return p
+                    }
+
+                    if (typeof p === 'object' && p !== null && 'y' in p) {
+                      return Number((p as { y: number }).y)
+                    }
+
+                    return 0
+                  })
                 )
                 const min = Math.min(...values)
                 const max = Math.max(...values)

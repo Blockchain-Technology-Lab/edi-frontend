@@ -1,4 +1,5 @@
-import type { DataEntry } from '@/utils/types'
+import type { CsvParseEntry, DataEntry } from '@/utils/types'
+import { forEachCsvDataRow, parseCsvDate, splitCsvContent } from './csvParsing'
 
 const TOKENOMICS_COLUMNS = [
   'hhi',
@@ -72,15 +73,12 @@ export type ClusteringOption = 'explorers' | 'staking' | 'multi' | 'crystal'
  * Parses the tokenomics CSV content into DataEntry[]
  */
 export function parseTokenomicsCsv(csv: string): DataEntry[] {
-  const lines = csv.trim().split('\n')
-  const headers = lines[0].split(',').map((h) => h.trim())
+  const { lines, headers } = splitCsvContent(csv)
   const data: DataEntry[] = []
 
-  for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(',')
-    if (values.length !== headers.length) continue
-
-    const entry: { [key: string]: any } = {}
+  forEachCsvDataRow(lines, headers, {
+    onRow: (i, values) => {
+    const entry: CsvParseEntry = {}
     let ledger: string | undefined
 
     for (let j = 0; j < headers.length; j++) {
@@ -88,8 +86,8 @@ export function parseTokenomicsCsv(csv: string): DataEntry[] {
       const value = values[j].trim()
 
       if (header === 'date') {
-        const date = new Date(value)
-        if (isNaN(date.getTime())) {
+        const date = parseCsvDate(value)
+        if (!date) {
           console.warn(`Invalid date: "${value}" at row ${i}`)
           continue
         }
@@ -107,7 +105,8 @@ export function parseTokenomicsCsv(csv: string): DataEntry[] {
     if (entry.date && ledger && TOKENOMICS_ALLOWED_LEDGERS.includes(ledger)) {
       data.push(entry as DataEntry)
     }
-  }
+    }
+  })
 
   return data.sort(sortByLedgerAndDate)
 }

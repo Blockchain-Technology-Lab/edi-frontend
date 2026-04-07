@@ -1,7 +1,8 @@
 import { getColorsForChart, SOFTWARE_DOUGHNUT_CSV } from '@/utils'
 import DevLogger from './devLogger'
+import { forEachCsvDataRow, parseCsvDate, splitCsvContent } from './csvParsing'
 
-import type { DataEntry, DoughnutDataEntry } from '@/utils/types'
+import type { CsvParseEntry, DataEntry, DoughnutDataEntry } from '@/utils/types'
 
 // Types
 type SoftwareRepoConfig = {
@@ -93,28 +94,25 @@ export const SOFTWARE_METRICS = [
  * Parses software layer CSV content into DataEntry[]
  */
 export function parseSoftwareCsv(csv: string): DataEntry[] {
-  const lines = csv.trim().split('\n')
-  const headers = lines[0].split(',').map((h) => h.trim())
+  const { lines, headers } = splitCsvContent(csv)
   const data: DataEntry[] = []
 
   let malformedCount = 0
   let invalidDateCount = 0
   let totalProcessed = 0
 
-  for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(',')
-    totalProcessed++
-
-    if (values.length !== headers.length) {
+  forEachCsvDataRow(lines, headers, {
+    onMalformedRow: (i, actualColumns, expectedColumns) => {
       malformedCount++
       DevLogger.warnOnce(
         `malformed-csv-line-${i}`,
-        `Malformed CSV line at row ${i}: expected ${headers.length} columns, got ${values.length}`
+        `Malformed CSV line at row ${i}: expected ${expectedColumns} columns, got ${actualColumns}`
       )
-      continue
-    }
-
-    const entry: { [key: string]: any } = {}
+      totalProcessed++
+    },
+    onRow: (i, values) => {
+      totalProcessed++
+    const entry: CsvParseEntry = {}
     let ledger: string | undefined
 
     for (let j = 0; j < headers.length; j++) {
@@ -122,8 +120,8 @@ export function parseSoftwareCsv(csv: string): DataEntry[] {
       const value = values[j].trim()
 
       if (header === 'date') {
-        const date = new Date(value)
-        if (isNaN(date.getTime())) {
+        const date = parseCsvDate(value)
+        if (!date) {
           invalidDateCount++
           DevLogger.warnOnce(
             `invalid-date-${i}`,
@@ -144,7 +142,8 @@ export function parseSoftwareCsv(csv: string): DataEntry[] {
     if (entry.date && ledger && SOFTWARE_ALLOWED_LEDGERS.includes(ledger)) {
       data.push(entry as DataEntry)
     }
-  }
+    }
+  })
 
   // Log parsing summary once
   DevLogger.logOnce(

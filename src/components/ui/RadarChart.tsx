@@ -1,7 +1,16 @@
-import { useRef, useState, useContext, useMemo, useEffect } from 'react'
+import {
+  useRef,
+  useState,
+  useContext,
+  useMemo,
+  useEffect,
+  useCallback
+} from 'react'
 import { Radar } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
+  type ChartEvent,
+  type LegendItem,
   RadialLinearScale,
   PointElement,
   LineElement,
@@ -62,6 +71,7 @@ export function RadarChart({
   showExport = true,
   className = ''
 }: RadarChartProps) {
+  const navigate = useNavigate()
   const { theme: resolvedTheme } = useContext(ThemeContext)
   const chartRef = useRef<HTMLCanvasElement | null>(null)
   const exportChart = useExportChart()
@@ -128,6 +138,23 @@ export function RadarChart({
       })
   }
 
+  const handleDatasetToggle = useCallback(
+    (index: number) => {
+      const newVisibleDatasets = new Set(visibleDatasets)
+      if (newVisibleDatasets.has(index)) {
+        newVisibleDatasets.delete(index)
+      } else {
+        newVisibleDatasets.add(index)
+      }
+      setVisibleDatasets(newVisibleDatasets)
+
+      // Show visual feedback for legend click
+      setRecentlyClickedDataset(index)
+      setTimeout(() => setRecentlyClickedDataset(null), 500)
+    },
+    [visibleDatasets]
+  )
+
   const options = useMemo(() => {
     if (resolvedTheme) {
       const baseOptions = getRadarChartOptions(
@@ -145,9 +172,8 @@ export function RadarChart({
           },
           legend: {
             ...baseOptions.plugins?.legend,
-            onClick: (e: any) => {
-              // Get the index of the clicked legend item
-              const index = e.datasetIndex
+            onClick: (_event: ChartEvent, legendItem: LegendItem) => {
+              const index = legendItem.datasetIndex
               if (index !== undefined) {
                 handleDatasetToggle(index)
               }
@@ -156,21 +182,7 @@ export function RadarChart({
         }
       }
     }
-  }, [resolvedTheme, tooltipEnabled, hoveredDatasetIndex])
-
-  const handleDatasetToggle = (index: number) => {
-    const newVisibleDatasets = new Set(visibleDatasets)
-    if (newVisibleDatasets.has(index)) {
-      newVisibleDatasets.delete(index)
-    } else {
-      newVisibleDatasets.add(index)
-    }
-    setVisibleDatasets(newVisibleDatasets)
-
-    // Show visual feedback for legend click
-    setRecentlyClickedDataset(index)
-    setTimeout(() => setRecentlyClickedDataset(null), 500)
-  }
+  }, [resolvedTheme, tooltipEnabled, chartData.datasets, handleDatasetToggle])
 
   const handleExport = () => {
     exportChart(chartRef, title.toLowerCase().replace(/\s+/g, '-'), {
@@ -190,7 +202,6 @@ export function RadarChart({
   }
 
   if (!options) return null
-  const navigate = useNavigate()
 
   const EDI_LAYERS = [
     {

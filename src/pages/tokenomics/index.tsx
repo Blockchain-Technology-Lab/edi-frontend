@@ -16,7 +16,7 @@ import {
   ToggleMulti,
   RadioGroup
 } from '@/components'
-import { useTokenomicsCsv } from '@/hooks'
+import { usePersistedSystemSelection, useTokenomicsCsv } from '@/hooks'
 import { methodologyTokenomicsTo } from '@/routes/routePaths'
 
 const THRESHOLDING_ITEMS = [
@@ -36,21 +36,6 @@ const CLUSTERING_ITEMS = [
 
 const SYSTEMS_STORAGE_KEY = 'tokenomics_selectedSystems'
 const DEFAULT_TOKENOMICS_SYSTEMS = TOKENOMICS_LEDGERS.map((l) => l.ledger)
-
-function initialSelectedSystems(): Set<string> {
-  try {
-    const saved = localStorage.getItem(SYSTEMS_STORAGE_KEY)
-    return saved
-      ? new Set(JSON.parse(saved))
-      : new Set(DEFAULT_TOKENOMICS_SYSTEMS)
-  } catch {
-    return new Set(DEFAULT_TOKENOMICS_SYSTEMS)
-  }
-}
-
-function persistSelectedSystems(systems: Set<string>) {
-  localStorage.setItem(SYSTEMS_STORAGE_KEY, JSON.stringify([...systems]))
-}
 
 export function Tokenomics() {
   const [selectedThreshold, setSelectedThreshold] = useState(
@@ -84,9 +69,11 @@ export function Tokenomics() {
     return orderedSystems.length > 0 ? orderedSystems : fallback
   }, [data])
 
-  const [selectedSystems, setSelectedSystems] = useState<Set<string>>(
-    initialSelectedSystems
-  )
+  const { selectedSystems, handleSelectionChange, handleSystemToggle } =
+    usePersistedSystemSelection(
+      SYSTEMS_STORAGE_KEY,
+      DEFAULT_TOKENOMICS_SYSTEMS
+    )
 
   const filteredData = useMemo(
     () =>
@@ -95,18 +82,6 @@ export function Tokenomics() {
       ),
     [data, selectedSystems]
   )
-
-  const handleSelectionChange = (selected: Set<string>) => {
-    setSelectedSystems(selected)
-    persistSelectedSystems(selected)
-  }
-
-  const handleSystemToggle = (system: string) => {
-    const next = new Set(selectedSystems)
-    next.has(system) ? next.delete(system) : next.add(system)
-    setSelectedSystems(next)
-    persistSelectedSystems(next)
-  }
 
   return (
     <div className="flex flex-col gap-6">
