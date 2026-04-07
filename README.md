@@ -22,96 +22,101 @@ The Edinburgh Decentralisation Index ([EDI](https://informatics.ed.ac.uk/blockch
 
 The [EDI team](https://informatics.ed.ac.uk/blockchain/edi/team) includes specialist researchers, scientists and engineers.
 
-## Website
+## Website stack
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This project is a React + TypeScript frontend built with [Vite](https://vite.dev/).
 
-### Getting Started
+## Getting started
 
-These instructions will help you set up and run the project on your local machine for development and production purposes.
+These instructions help you run the project locally for development and production checks.
 
-#### Prerequisites
+### Prerequisites
 
-Before you begin, ensure you have the following installed on your machine:
+- [Node.js](https://nodejs.org/) 20+ (CI runs on Node 22)
 
-- [Node.js](https://nodejs.org/) (v20.14 or later)
-
-#### Installation
+### Installation
 
 ```bash
 npm install
 ```
 
-#### Running the Development Server
-
-To start the development server, run:
+### Common commands
 
 ```bash
 npm run dev
+npm run lint
+npm run build
+npm run preview
 ```
 
-This will start the server on [http://localhost:3000](http://localhost:3000). The page will reload if you make edits. You will also see any lint errors in the console.
+Notes:
 
-#### Building for Production
+- Vite dev server defaults to http://localhost:5173 unless configured otherwise.
+- This repository's default build output is configured in vite.config.ts (currently upload/demo).
 
-```bash
-npm build
-```
+## Build and deployment helpers
 
-This will generate an optimized version of your application in the `/dist` folder, ready to be deployed. It can be hosted on any web server that can serve HTML/CSS/JS static assets. Read more more about [static exports](https://nextjs.org/docs/pages/building-your-application/deploying/static-exports) and [deployments](https://nextjs.org/docs/pages/building-your-application/deploying/static-exports#deploying).
-
-#### Demo Production
-
-After building the project, you can preview the production build with:
+After building, deployment-oriented scripts are available:
 
 ```bash
 node demo-build.mjs --deploy
-```
-
-#### Multi-build Production
-
-After building the project, you can preview the production build with:
-
-```bash
 node multi-build.mjs --deploy
 ```
 
-The production server will run on [http://localhost:3000](http://localhost:3000).
+## Project structure
 
-### Adding a new page
+- src/pages: Route-level page components.
+- src/components: Shared and layer-specific UI components.
+- src/hooks: Data loading, chart wiring, and interaction hooks.
+- src/utils: CSV parsing, data transforms, and chart metadata/constants.
+- public/output: Layer CSV inputs consumed by the app.
 
-In Next.js, pages are created by adding files to the `pages` directory. Each file inside this directory automatically becomes a route that corresponds to its file path.
+## Adding a new page
 
-If you create `src/pages/about.tsx` that exports a React component like below, it will be accessible at `/about`.
+Add a new component under src/pages and wire it into the app routing setup (TanStack Router is used in this project).
 
-```tsx
-export default function About() {
-  return <div>About</div>
-}
+Examples:
+
+- src/pages/consensus/index.tsx
+- src/pages/methodology.tsx
+
+## Adding or updating data sources
+
+Examples of chart pages and data flow can be found in:
+
+- src/pages/index.tsx
+- src/pages/consensus/index.tsx
+
+CSV-related notes:
+
+- CSV files live under public/output.
+- Layer-specific filename mapping and parsing are maintained in:
+  - src/utils/tokenomics.ts
+  - src/utils/consensus.ts
+  - src/utils/software.ts
+  - src/utils/network.ts
+  - src/utils/geography.ts
+- Shared parsing helpers live in src/utils/csvParsing.ts.
+
+Chart metadata and color definitions:
+
+- src/utils/charts/constants.ts
+
+## CI and data validation
+
+This repository includes GitHub Actions workflows:
+
+- CI workflow: .github/workflows/ci.yml
+  - Type check
+  - ESLint (src)
+  - Production build
+
+- CSV validation workflow: .github/workflows/csv-validation.yml
+  - Runs when files in public/output/\*_/_.csv change
+  - Executes scripts/validate-csvs.mjs
+
+You can run the CSV validation locally:
+
+```bash
+node scripts/validate-csvs.mjs
 ```
-
-For nested routes, you can create a nested folder structure and files will automatically be routed in the same way.
-
-- `src/pages/consensus/index.tsx` → `/consensus`
-- `src/pages/consensus/methodology.tsx` → `/consensus/methodology`
-
-**Examples**
-
-Please see `src/pages/methodology.tsx` and `src/pages/accessibility.tsx` for examples on how a static page can be structured.
-
-[Learn more about Next.js pages](https://nextjs.org/docs/pages/building-your-application/routing/pages-and-layouts)
-
-### Adding a new data source
-
-Examples on how charts pages are structured can be found under `src/pages/index.tsx` and `src/pages/consensus/index.tsx`.
-
-**CSV files:**
-
-- All `.csv` files can be found under `public/output/`
-- The filter/csv mapping happens under the `getTokenomicsCsvFileName` and can be found on `src/utils/csv.tsx`
-- CSV data will be parsed according to the columns defined under `TOKENOMICS_COLUMNS` and `CONSENSUS_COLUMNS` on `src/utils/csv.tsx`
-
-**Chart data:**
-
-- Labels and datasets for each chart are built using the function `getChartData`
-- They are built based on ledgers and colours defined on `src/utils/charts/constants.ts`
