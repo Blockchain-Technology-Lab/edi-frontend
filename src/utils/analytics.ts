@@ -7,6 +7,8 @@ declare global {
   }
 }
 
+export const GOOGLE_ANALYTICS_TRACKING_ID = 'G-4H72FE76WD'
+
 export interface AnalyticsConfig {
   trackingId: string
   debug?: boolean

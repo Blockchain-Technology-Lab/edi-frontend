@@ -1,16 +1,17 @@
 // src/components/GoogleAnalytics.tsx
 
 import { useEffect } from 'react'
-import { initializeAnalytics } from '../../utils/analytics'
+import {
+  GOOGLE_ANALYTICS_TRACKING_ID,
+  initializeAnalytics
+} from '../../utils/analytics'
 
 export function GoogleAnalytics() {
-  const trackingId = import.meta.env.VITE_GA_TRACKING_ID
+  const trackingId = GOOGLE_ANALYTICS_TRACKING_ID
 
   useEffect(() => {
     if (!trackingId) {
-      console.warn(
-        'Google Analytics tracking ID not found in environment variables'
-      )
+      console.warn('Google Analytics tracking ID is not configured')
       return
     }
 

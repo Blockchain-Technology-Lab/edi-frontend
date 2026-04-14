@@ -1,9 +1,8 @@
 import { basePath } from './paths'
 
 // Cloudinary configuration
-export const CLOUDINARY_CLOUD_NAME =
-  import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || 'edi-dashboard'
-export const USE_CLOUDINARY = import.meta.env.VITE_USE_CLOUDINARY === 'true'
+export const CLOUDINARY_CLOUD_NAME = 'edi-dashboard'
+export const USE_CLOUDINARY = true
 
 // Image transformation options
 export interface CloudinaryOptions {
