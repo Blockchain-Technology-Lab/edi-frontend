@@ -9,6 +9,11 @@ export type DataEntry = BaseDataEntry & {
   [key: string]: number | string | Date | null | undefined
 }
 
+export type CsvParseEntry = Record<string, unknown> & {
+  date?: Date
+  ledger?: string
+}
+
 export type DoughnutDataEntry = {
   author: string
   commits: number

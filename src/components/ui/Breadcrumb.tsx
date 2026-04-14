@@ -5,6 +5,13 @@ import { basePath } from '@/utils/paths'
 
 const BASE_PATH: string = basePath || ''
 
+interface RouteNode {
+  path?: string
+  fullPath?: string
+  children?: RouteNode[]
+  options?: { title?: string }
+}
+
 export function Breadcrumb() {
   const { location } = useRouterState({ router }) as {
     location: { pathname: string }
@@ -28,10 +35,13 @@ export function Breadcrumb() {
     const segment = segments[index]
 
     // find the route in the router
-    const routes = (router.routeTree.children as unknown as any[]) || []
+    const routes = (router.routeTree.children as unknown as RouteNode[]) || []
 
     // Helper function to find route recursively
-    const findRoute = (routeNodes: any[], targetPath: string): any => {
+    const findRoute = (
+      routeNodes: RouteNode[],
+      targetPath: string
+    ): RouteNode | null => {
       for (const route of routeNodes) {
         if (route.path === targetPath || route.fullPath === targetPath) {
           return route
@@ -129,7 +139,7 @@ export function Breadcrumb() {
             <li key={index}>
               {isClickable ? (
                 <Link
-                  to={segmentInfo.path as any}
+                  to={segmentInfo.path as never}
                   className="flex items-center gap-1 hover:opacity-100 hover:text-primary"
                 >
                   {segmentInfo.label}

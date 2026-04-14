@@ -7,7 +7,11 @@ import {
   SystemSelector,
   RadioGroup
 } from '@/components'
-import { useContributorSectionNavigation, useSoftwareCsv } from '@/hooks'
+import {
+  useContributorSectionNavigation,
+  usePersistedSystemSelection,
+  useSoftwareCsv
+} from '@/hooks'
 import {
   DOUGHNUT_CARD,
   generateDoughnutPaths,
@@ -61,21 +65,6 @@ const DEFAULT_ENTITY_INDEX = 0 // "Author"
 const DEFAULT_WEIGHT_INDEX = 0 // "Commits"
 const SYSTEMS_STORAGE_KEY = 'software_selectedSystems'
 const DEFAULT_SOFTWARE_SYSTEMS = SOFTWARE_LEDGERS.map((l) => l.ledger)
-
-function initialSelectedSystems(): Set<string> {
-  try {
-    const saved = localStorage.getItem(SYSTEMS_STORAGE_KEY)
-    return saved
-      ? new Set(JSON.parse(saved))
-      : new Set(DEFAULT_SOFTWARE_SYSTEMS)
-  } catch {
-    return new Set(DEFAULT_SOFTWARE_SYSTEMS)
-  }
-}
-
-function persistSelectedSystems(systems: Set<string>) {
-  localStorage.setItem(SYSTEMS_STORAGE_KEY, JSON.stringify([...systems]))
-}
 
 export function Software() {
   const location = useLocation()
@@ -136,9 +125,8 @@ export function Software() {
     return orderedSystems.length > 0 ? orderedSystems : fallback
   }, [data])
 
-  const [selectedSystems, setSelectedSystems] = useState<Set<string>>(
-    initialSelectedSystems
-  )
+  const { selectedSystems, handleSelectionChange, handleSystemToggle } =
+    usePersistedSystemSelection(SYSTEMS_STORAGE_KEY, DEFAULT_SOFTWARE_SYSTEMS)
 
   const filteredData = useMemo(
     () =>
@@ -147,18 +135,6 @@ export function Software() {
       ),
     [data, selectedSystems]
   )
-
-  const handleSelectionChange = (selected: Set<string>) => {
-    setSelectedSystems(selected)
-    persistSelectedSystems(selected)
-  }
-
-  const handleSystemToggle = (system: string) => {
-    const next = new Set(selectedSystems)
-    next.has(system) ? next.delete(system) : next.add(system)
-    setSelectedSystems(next)
-    persistSelectedSystems(next)
-  }
 
   return (
     <div className="flex flex-col gap-6">

@@ -1,7 +1,13 @@
-import type { DataEntry } from '@/utils/types'
+import type { CsvParseEntry, DataEntry } from '@/utils/types'
 import { CONSENSUS_CSV } from '@/utils'
 import { basePath } from '@/utils/paths'
 import { BASE_LEDGERS, CONSENSUS_LEDGERS } from '@/utils/charts/constants'
+import { findLedgerByName } from '@/utils/charts/constants'
+import {
+  forEachCsvDataRow,
+  parseCsvDate,
+  splitCsvContent
+} from './csvParsing'
 import DevLogger from './devLogger'
 
 // --------------------------- Constants ----------------------------
@@ -112,8 +118,7 @@ export function filterMetricsByTauVariant(
 // --------------------------- CSV Parsing Logic ----------------------------
 
 export function parseConsensusCsv(csv: string): DataEntry[] {
-  const lines = csv.trim().split('\n')
-  const headers = lines[0].split(CSV_DELIMITER).map((h) => h.trim())
+  const { lines, headers } = splitCsvContent(csv, CSV_DELIMITER)
   const data: DataEntry[] = []
   let skippedLines = 0
   const isProduction = process.env.NODE_ENV === 'production'
@@ -122,21 +127,19 @@ export function parseConsensusCsv(csv: string): DataEntry[] {
   const csvHash = csv.slice(0, 100).replace(/\W/g, '').substring(0, 20)
   const csvId = `consensus-csv-${lines.length}-${csvHash}`
 
-  for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(CSV_DELIMITER)
-
-    if (values.length !== headers.length) {
+  forEachCsvDataRow(lines, headers, {
+    delimiter: CSV_DELIMITER,
+    onMalformedRow: (i, actualColumns, expectedColumns) => {
       skippedLines++
       if (!isProduction) {
         DevLogger.warnOnce(
           `${csvId}-header-mismatch-${i}`,
-          `Row ${i}: Expected ${headers.length} columns, got ${values.length}`
+          `Row ${i}: Expected ${expectedColumns} columns, got ${actualColumns}`
         )
       }
-      continue
-    }
-
-    const entry: { [key: string]: any } = {}
+    },
+    onRow: (i, values) => {
+    const entry: CsvParseEntry = {}
     let ledger: string | undefined
     let hasValidData = false
 
@@ -145,8 +148,8 @@ export function parseConsensusCsv(csv: string): DataEntry[] {
       const value = values[j].trim()
 
       if (header === 'date') {
-        const date = new Date(value)
-        if (isNaN(date.getTime())) {
+        const date = parseCsvDate(value)
+        if (!date) {
           DevLogger.warnOnce(
             `${csvId}-invalid-date-${i}`,
             `Invalid date: "${value}" at row ${i}`
@@ -183,7 +186,8 @@ export function parseConsensusCsv(csv: string): DataEntry[] {
         )
       }
     }
-  }
+    }
+  })
 
   // Log summary only once per CSV file - only if there are significant issues
   if (skippedLines > 5) {
@@ -239,37 +243,17 @@ export function getConsensusCsvFileName(clustering: string[]): string {
 
 // --------------------------- Display Name Mapping (Updated to use BASE_LEDGERS) ----------------------------
 
-export function generateLedgerDisplayNames(
-  ledgers: string[]
-): Record<string, string> {
-  const displayNames: Record<string, string> = {}
+function resolveConsensusDisplayName(ledger: string): string {
+  const byKey = BASE_LEDGERS[ledger as keyof typeof BASE_LEDGERS]
+  const byLedgerName = findLedgerByName(ledger)
+  const resolved = byKey || byLedgerName
 
-  ledgers.forEach((ledger) => {
-    // Use BASE_LEDGERS for display names
-    const baseLedger = BASE_LEDGERS[ledger as keyof typeof BASE_LEDGERS]
+  if (resolved) {
+    return resolved.displayName
+  }
 
-    if (baseLedger) {
-      displayNames[ledger] = baseLedger.displayName
-    } else {
-      DevLogger.warnOnce(
-        `missing-ledger-display-name-${ledger}`,
-        `No display name found for ledger: ${ledger} in BASE_LEDGERS`
-      )
-      // Provide fallback display name
-      displayNames[ledger] =
-        ledger.charAt(0).toUpperCase() + ledger.slice(1).replace('_', ' ')
-    }
-  })
-
-  return displayNames
-}
-
-// Helper function to get consensus ledger display name (optional - for convenience)
-export function getConsensusLedgerDisplayName(ledger: string): string {
-  const baseLedger = BASE_LEDGERS[ledger as keyof typeof BASE_LEDGERS]
-
-  if (baseLedger) {
-    return baseLedger.displayName
+  if (ledger === 'nodes') {
+    return 'Nodes'
   }
 
   DevLogger.warnOnce(
@@ -277,8 +261,24 @@ export function getConsensusLedgerDisplayName(ledger: string): string {
     `No display name found for ledger: ${ledger} in BASE_LEDGERS`
   )
 
-  // Return a fallback display name
   return ledger.charAt(0).toUpperCase() + ledger.slice(1).replace('_', ' ')
+}
+
+export function generateLedgerDisplayNames(
+  ledgers: string[]
+): Record<string, string> {
+  const displayNames: Record<string, string> = {}
+
+  ledgers.forEach((ledger) => {
+    displayNames[ledger] = resolveConsensusDisplayName(ledger)
+  })
+
+  return displayNames
+}
+
+// Helper function to get consensus ledger display name (optional - for convenience)
+export function getConsensusLedgerDisplayName(ledger: string): string {
+  return resolveConsensusDisplayName(ledger)
 }
 
 // Helper function to get consensus ledger color (optional - for convenience)

@@ -2,8 +2,8 @@
 
 declare global {
   interface Window {
-    dataLayer: any[]
-    gtag: (...args: any[]) => void
+    dataLayer: unknown[]
+    gtag: (...args: unknown[]) => void
   }
 }
 
@@ -32,7 +32,7 @@ export class Analytics {
       // Initialize dataLayer
       window.dataLayer = window.dataLayer || []
 
-      function gtag(...args: any[]) {
+      function gtag(...args: unknown[]) {
         window.dataLayer.push(args)
       }
 
@@ -88,7 +88,7 @@ export class Analytics {
     // For example, send events to your own analytics endpoint
   }
 
-  track(eventName: string, parameters?: Record<string, any>): void {
+  track(eventName: string, parameters?: Record<string, unknown>): void {
     if (!this.isLoaded) {
       if (this.config.debug) {
         console.warn('Analytics not loaded, event not tracked:', eventName)
@@ -129,7 +129,7 @@ export class Analytics {
     }
   }
 
-  setUserProperties(properties: Record<string, any>): void {
+  setUserProperties(properties: Record<string, unknown>): void {
     if (!this.isLoaded) return
 
     try {
