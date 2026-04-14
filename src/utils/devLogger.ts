@@ -2,14 +2,14 @@
 class DevLogger {
   private static loggedKeys = new Set<string>()
 
-  static logOnce(key: string, message: string, ...args: any[]) {
+  static logOnce(key: string, message: string, ...args: unknown[]) {
     if (process.env.NODE_ENV === 'development' && !this.loggedKeys.has(key)) {
       this.loggedKeys.add(key)
       console.log(message, ...args)
     }
   }
 
-  static warnOnce(key: string, message: string, ...args: any[]) {
+  static warnOnce(key: string, message: string, ...args: unknown[]) {
     if (process.env.NODE_ENV === 'development' && !this.loggedKeys.has(key)) {
       this.loggedKeys.add(key)
       console.warn(message, ...args)

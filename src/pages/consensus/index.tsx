@@ -10,25 +10,12 @@ import {
   isTauMetric,
   filterMetricsByTauVariant
 } from '@/utils'
-import { useConsensusCsvAll } from '@/hooks'
+import { useConsensusCsvAll, usePersistedSystemSelection } from '@/hooks'
 import { methodologyConsensusTo } from '@/routes/routePaths'
 
 const CONSENSUS_SYSTEMS = CONSENSUS_LEDGERS.map((l) => l.ledger)
 const CONSENSUS_FILE_NAME = getConsensusCsvFileName(['clustered'])
 const SYSTEMS_STORAGE_KEY = 'consensus_selectedSystems'
-
-function initialSystems(): Set<string> {
-  try {
-    const saved = localStorage.getItem(SYSTEMS_STORAGE_KEY)
-    return saved ? new Set(JSON.parse(saved)) : new Set(CONSENSUS_SYSTEMS)
-  } catch {
-    return new Set(CONSENSUS_SYSTEMS)
-  }
-}
-
-function persistSystems(systems: Set<string>) {
-  localStorage.setItem(SYSTEMS_STORAGE_KEY, JSON.stringify([...systems]))
-}
 
 interface TauToggleProps {
   variant: TauVariant
@@ -53,8 +40,8 @@ function TauToggle({ variant, onChange }: TauToggleProps) {
 }
 
 export function Consensus() {
-  const [selectedSystems, setSelectedSystems] =
-    useState<Set<string>>(initialSystems)
+  const { selectedSystems, handleSelectionChange, handleSystemToggle } =
+    usePersistedSystemSelection(SYSTEMS_STORAGE_KEY, CONSENSUS_SYSTEMS)
   const [tauVariant, setTauVariant] = useState<TauVariant>(DEFAULT_TAU_VARIANT)
 
   const displayMetrics = useMemo(
@@ -68,18 +55,6 @@ export function Consensus() {
     () => data.filter((e) => !e.ledger || selectedSystems.has(e.ledger)),
     [data, selectedSystems]
   )
-
-  const handleSystemToggle = (system: string) => {
-    const next = new Set(selectedSystems)
-    next.has(system) ? next.delete(system) : next.add(system)
-    setSelectedSystems(next)
-    persistSystems(next)
-  }
-
-  const handleSelectionChange = (selected: Set<string>) => {
-    setSelectedSystems(selected)
-    persistSystems(selected)
-  }
 
   return (
     <div className="flex flex-col gap-6">

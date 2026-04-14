@@ -1,6 +1,7 @@
 import { Bar } from 'react-chartjs-2'
 import {
   Chart,
+  type Chart as ChartInstance,
   CategoryScale,
   LinearScale,
   BarElement,
@@ -30,7 +31,7 @@ export function BarChart({ data, loading, title, description }: BarChartProps) {
   useEffect(() => {
     const rightWatermarkPlugin = {
       id: 'barChartRightWatermark',
-      beforeDraw: (chart: any) => {
+      beforeDraw: (chart: ChartInstance<'bar'>) => {
         const ctx = chart.ctx
         const canvas = chart.canvas
 
@@ -52,7 +53,11 @@ export function BarChart({ data, loading, title, description }: BarChartProps) {
       }
     }
 
-    const drawRightWatermark = (ctx: any, canvas: any, img: any) => {
+    const drawRightWatermark = (
+      ctx: CanvasRenderingContext2D,
+      canvas: HTMLCanvasElement,
+      img: HTMLImageElement
+    ) => {
       //  Add null check for canvas
       if (!canvas) {
         console.warn('Canvas is null, skipping watermark draw')
