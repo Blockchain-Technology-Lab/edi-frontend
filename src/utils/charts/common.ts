@@ -30,7 +30,8 @@ export const LAYER_TYPES = [
   'network',
   'geography',
   'governance',
-  'governance-posts'
+  'governance-posts',
+  'governance-discussion'
 ] as const
 //export type LayerType = (typeof LAYER_TYPES)[number]
 
@@ -41,7 +42,8 @@ export const LAYER_NAMES = {
   NETWORK: 'network',
   GEOGRAPHY: 'geography',
   GOVERNANCE: 'governance',
-  GOVERNANCE_POSTS: 'governance-posts'
+  GOVERNANCE_POSTS: 'governance-posts',
+  GOVERNANCE_DISCUSSION: 'governance-discussion'
 } as const
 export type LayerType = (typeof LAYER_NAMES)[keyof typeof LAYER_NAMES]
 
