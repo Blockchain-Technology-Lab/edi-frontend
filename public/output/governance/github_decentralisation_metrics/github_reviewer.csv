@@ -1,4 +1,4 @@
-Chain,date,gini,nakamoto,shannon_entropy,hhi
+chain,date,gini,nakamoto,shannon_entropy,hhi
 bitcoin,2013-01-01,0.00,1,0.00,10000.00
 bitcoin,2014-01-01,0.13,3,2.25,2222.22
 bitcoin,2015-01-01,0.00,3,2.00,2500.00

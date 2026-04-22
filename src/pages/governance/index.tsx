@@ -3,17 +3,26 @@ import {
   LayerTopCard,
   MetricsTopCard,
   MetricsCard,
-  SystemSelector
+  SystemSelector,
+  RadioGroup
 } from '@/components'
-import { useGovernanceCsv, usePersistedSystemSelection } from '@/hooks'
+import {
+  useGovernanceCsv,
+  useGovernanceGithubMetricsCsv,
+  useGovernanceProposalMetricsCsv,
+  usePersistedSystemSelection
+} from '@/hooks'
 import {
   BIP_NETWORK_CARD,
   GOVERNANCE_CARD,
   ORG_DISTRIBUTOR,
+  GOVERNANCE_GITHUB_METRICS,
   GOVERNANCE_METRICS,
+  GOVERNANCE_PROPOSAL_METRICS,
   getOrderedSystemsForLayer,
   GOVERNANCE_LEDGERS,
-  type GovernanceGranularity
+  type GovernanceGranularity,
+  type GovernanceGithubRole
 } from '@/utils'
 
 interface GranularityToggleProps {
@@ -40,14 +49,34 @@ function GranularityToggle({ granularity, onChange }: GranularityToggleProps) {
   )
 }
 
+const GITHUB_ROLE_ITEMS: Array<{ label: string; value: GovernanceGithubRole }> =
+  [
+    { label: 'Commenter', value: 'commenter' },
+    { label: 'Participant', value: 'participant' },
+    { label: 'Author', value: 'pr_author' },
+    { label: 'Reviewer', value: 'reviewer' }
+  ]
+
 const SYSTEMS_STORAGE_KEY = 'governance_selectedSystems'
 const DEFAULT_GOVERNANCE_SYSTEMS = GOVERNANCE_LEDGERS.map((l) => l.ledger)
 
 export function Governance() {
   const [selectedGranularity, setSelectedGranularity] =
     useState<GovernanceGranularity>('yearly')
+  const [selectedGithubRole, setSelectedGithubRole] =
+    useState<(typeof GITHUB_ROLE_ITEMS)[number]>(GITHUB_ROLE_ITEMS[0])
 
   const { data, loading, error } = useGovernanceCsv(selectedGranularity)
+  const {
+    data: proposalData,
+    loading: proposalLoading,
+    error: proposalError
+  } = useGovernanceProposalMetricsCsv()
+  const {
+    data: githubData,
+    loading: githubLoading,
+    error: githubError
+  } = useGovernanceGithubMetricsCsv(selectedGithubRole.value)
 
   const governanceSystems = useMemo((): string[] => {
     const orderedSystems = getOrderedSystemsForLayer(
@@ -71,6 +100,22 @@ export function Governance() {
     [data, selectedSystems]
   )
 
+  const filteredProposalData = useMemo(
+    () =>
+      proposalData.filter(
+        (entry) => !entry.ledger || selectedSystems.has(entry.ledger)
+      ),
+    [proposalData, selectedSystems]
+  )
+
+  const filteredGithubData = useMemo(
+    () =>
+      githubData.filter(
+        (entry) => !entry.ledger || selectedSystems.has(entry.ledger)
+      ),
+    [githubData, selectedSystems]
+  )
+
   return (
     <div className="flex flex-col gap-6">
       <LayerTopCard
@@ -79,7 +124,8 @@ export function Governance() {
           <>
             These graphs represent concentration in governance participation
             over time, measured as the share of activity contributed by the top
-            three contributors in each period.
+            three contributors in each period, as well as metrics derived from
+            proposal authorship decentralisation.
           </>
         }
         imageSrc={GOVERNANCE_CARD}
@@ -111,7 +157,7 @@ export function Governance() {
       />
 
       <MetricsTopCard
-        title={'BIP Metrics'}
+        title={'Top 3 Contributor Activity Concentration'}
         description={
           <>
             The chart below shows the historical 3-concentration ratio of
@@ -153,6 +199,86 @@ export function Governance() {
       </div>
 
       {error && <div className="text-error mt-2">{error.message}</div>}
+
+      <MetricsTopCard
+        title={'Proposal Decentralisation Metrics'}
+        description={
+          <>
+            The charts below represent decentralisation metrics of proposal
+            authorship for Bitcoin Improvement Proposals (BIP), Cardano
+            Improvement Proposals (CIP), and Ethereum Improvement Proposals
+            (EIP).
+          </>
+        }
+        layout="default"
+        imageSrc={ORG_DISTRIBUTOR}
+      />
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+        {!proposalError &&
+          GOVERNANCE_PROPOSAL_METRICS.map((metric) => (
+            <MetricsCard
+              key={metric.metric}
+              metric={metric}
+              data={filteredProposalData}
+              loading={proposalLoading}
+              type="governance"
+              timeUnit="month"
+              selectedSystems={selectedSystems}
+              onSystemToggle={handleSystemToggle}
+            />
+          ))}
+      </div>
+
+      {proposalError && (
+        <div className="text-error mt-2">{proposalError.message}</div>
+      )}
+
+      <MetricsTopCard
+        title={'GitHub Decentralisation Metrics'}
+        description={
+          <>
+            These charts show decentralisation metrics for GitHub governance
+            activity. Use the role toggle below to switch
+            between commenter, participant, author, and reviewer roles.
+          </>
+        }
+        layout="default"
+        imageSrc={ORG_DISTRIBUTOR}
+      />
+
+      <div className="card bg-base-300 shadow-lg border border-base-300 rounded-box p-2">
+        <div className="flex items-center justify-between gap-3 flex-wrap">
+          <div className="w-full lg:w-auto">
+            <RadioGroup
+              label="GitHub role"
+              items={GITHUB_ROLE_ITEMS}
+              selectedItem={selectedGithubRole}
+              onChange={(item) =>
+                setSelectedGithubRole(item as (typeof GITHUB_ROLE_ITEMS)[number])
+              }
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+        {!githubError &&
+          GOVERNANCE_GITHUB_METRICS.map((metric) => (
+            <MetricsCard
+              key={`github-${metric.metric}`}
+              metric={metric}
+              data={filteredGithubData}
+              loading={githubLoading}
+              type="governance"
+              timeUnit="month"
+              selectedSystems={selectedSystems}
+              onSystemToggle={handleSystemToggle}
+            />
+          ))}
+      </div>
+
+      {githubError && <div className="text-error mt-2">{githubError.message}</div>}
     </div>
   )
 }
