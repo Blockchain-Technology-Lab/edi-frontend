@@ -1,12 +1,131 @@
-Author,Contribution(%)
-Pieter Wuille,8.66
-Ava Chow,6.97
-Luke Dashjr,6.78
-Gavin Andresen,6.50
-Amir Taaki,2.54
-Johnson Lau,2.45
-Suhas Daftuar,2.26
-Eric Lombrozo,2.07
-BtcDrak,2.02
-Jonas Schnelli,2.02
-Others,57.72
+Rank,Author,Weighted_Contribution,Percentage
+1,Pieter Wuille,15.3,8.66
+2,Ava Chow,12.3,6.97
+3,Luke Dashjr,12.0,6.78
+4,Gavin Andresen,11.5,6.5
+5,Amir Taaki,4.5,2.54
+6,Johnson Lau,4.3,2.45
+7,Suhas Daftuar,4.0,2.26
+8,Eric Lombrozo,3.7,2.07
+9,BtcDrak,3.6,2.02
+10,Jonas Schnelli,3.6,2.02
+11,Karl-Johan Alm,3.5,1.98
+12,Matt Corallo,3.0,1.69
+13,Mike Hearn,3.0,1.69
+14,Shaolin Fry,2.5,1.41
+15,Jeff Garzik,2.3,1.32
+16,Peter Todd,2.2,1.27
+17,Pavol Rusnak,2.2,1.27
+18,Mark Friedenbach,2.1,1.18
+19,Justus Ranvier,2.0,1.13
+20,Kristov Atlas,2.0,1.13
+21,Jimmy Song,2.0,1.13
+22,Kalle Rosenbaum,2.0,1.13
+23,Gloria Zhao,2.0,1.13
+24,Anthony Towns,1.7,0.94
+25,Chris Belcher,1.5,0.85
+26,Christian Decker,1.5,0.85
+27,Jonas Nick,1.3,0.75
+28,Marek Palatinus,1.2,0.71
+29,Nicolas Dorier,1.2,0.71
+30,Alan Reiner,1.0,0.56
+31,Stefan Thomas,1.0,0.56
+32,Aaron Voisine,1.0,0.56
+33,Fontaine,1.0,0.56
+34,Daniel Weigl,1.0,0.56
+35,Stephen Pair,1.0,0.56
+36,Toby Padilla,1.0,0.56
+37,Ryan Havar,1.0,0.56
+38,Robert Spigler,1.0,0.56
+39,Dmitry Petukhov,1.0,0.56
+40,James Hilliard,1.0,0.56
+41,Fabian Jahr,1.0,0.56
+42,Kalle Alm,1.0,0.56
+43,Jorge Timón,1.0,0.56
+44,t.khan,1.0,0.56
+45,Upal Chakraborty,1.0,0.56
+46,Washington Y. Sanchez,1.0,0.56
+47,Jeremy Rubin,1.0,0.56
+48,Marco Pontello,1.0,0.56
+49,Steven Roose,1.0,0.56
+50,Chris Priest,1.0,0.56
+51,Andy Chase,1.0,0.56
+52,Alex Morcos,1.0,0.56
+53,Tom Zander,1.0,0.56
+54,Sancho Panza,1.0,0.56
+55,Christopher Gilliard,1.0,0.56
+56,Wladimir J. van der Laan,1.0,0.56
+57,Paul Sztorc,1.0,0.56
+58,CryptAxe,1.0,0.56
+59,Craig Raw,1.0,0.56
+60,Tom Briar,1.0,0.56
+61,Maxim Orlovsky,1.0,0.56
+62,Salvatore Ingala,1.0,0.56
+63,Tim Ruffing,0.9,0.52
+64,Thomas Kerin,0.8,0.47
+65,Olaoluwa Osuntokun,0.8,0.47
+66,Alex Akselrod,0.8,0.47
+67,josibake,0.8,0.47
+68,Ruben Somsen,0.8,0.47
+69,Greg Maxwell,0.8,0.42
+70,Sean Bowe,0.8,0.42
+71,Andrew Toth,0.7,0.38
+72,Patrick Strateman,0.5,0.28
+73,Nils Schneider,0.5,0.28
+74,Mike Caldwell,0.5,0.28
+75,Thebora Kompanioni,0.5,0.28
+76,Michael Dubrovsky,0.5,0.28
+77,Bogdan Penkovsky,0.5,0.28
+78,Ethan Kosakovsky,0.5,0.28
+79,Aneesh Karve,0.5,0.28
+80,Leon Olsson Curr and Pearlwort Sneed,0.5,0.28
+81,Andrew Poelstra,0.5,0.28
+82,William Swanson,0.5,0.28
+83,David A. Harding,0.5,0.28
+84,Omar Shibli,0.5,0.28
+85,Nicholas Gregory,0.5,0.28
+86,Emil Engler,0.5,0.28
+87,Matthew Black,0.5,0.28
+88,Tony Cai,0.5,0.28
+89,Daira Hopwood,0.5,0.28
+90,Pavel Moravec,0.5,0.28
+91,Jan Čapek,0.5,0.28
+92,Gleb Naumenko,0.5,0.28
+93,Shinobius,0.5,0.28
+94,Michael Folkson,0.5,0.28
+95,James O'Beirne,0.5,0.28
+96,Greg Sanders,0.5,0.28
+97,Ethan Heilman,0.5,0.28
+98,Armin Sabouri,0.5,0.28
+99,Alfred Hodler,0.5,0.28
+100,Clark Moody,0.5,0.28
+101,Bastien Teinturier,0.5,0.28
+102,Manuel Araoz,0.3,0.19
+103,Ryan X. Charles,0.3,0.19
+104,Matias Alejo Garcia,0.3,0.19
+105,Jean-Pierre Rupp,0.3,0.19
+106,Ruben de Vries,0.3,0.19
+107,Tom Harding,0.3,0.19
+108,Dagur Valberg Johannsson,0.3,0.19
+109,Велеслав,0.3,0.19
+110,Daniel Pape,0.3,0.19
+111,Jim Posen,0.3,0.19
+112,Elliott Jin,0.3,0.19
+113,Sebastian Falbesoner,0.3,0.19
+114,Rusty Russell,0.2,0.14
+115,kinoshitajona,0.2,0.14
+116,Justin Newton,0.2,0.14
+117,Matt David,0.2,0.14
+118,James MacWhyte,0.2,0.14
+119,Dhruv Mehta,0.2,0.14
+120,Hugo Nguyen,0.2,0.11
+121,Peter Gray,0.2,0.11
+122,Marko Bencun,0.2,0.11
+123,Aaron Chen,0.2,0.11
+124,Rodolfo Novak,0.2,0.11
+125,Brad Denby,0.2,0.09
+126,Andrew Miller,0.2,0.09
+127,Giulia Fanti,0.2,0.09
+128,Surya Bakshi,0.2,0.09
+129,Shaileshh Bojja Venkatakrishnan,0.2,0.09
+130,Pramod Viswanath,0.2,0.09
