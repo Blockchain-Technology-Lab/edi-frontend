@@ -1,45 +1,45 @@
-Discussion Source,date,gini,nakamoto,shannon_entropy,hhi
-Bitcoin – Forum,2010-01-01,0.33,1,1.30,4687.50
-Bitcoin – Forum,2011-01-01,0.36,20,6.02,222.72
-Bitcoin – Forum,2012-01-01,0.46,18,6.05,212.73
-Bitcoin – Forum,2013-01-01,0.37,30,6.69,132.24
-Bitcoin – Forum,2014-01-01,0.37,72,7.94,56.39
-Bitcoin – Forum,2015-01-01,0.49,59,7.91,105.03
-Bitcoin – Forum,2016-01-01,0.41,45,7.31,132.26
-Bitcoin – Forum,2017-01-01,0.38,141,9.02,33.74
-Bitcoin – Forum,2018-01-01,0.29,153,8.74,46.22
-Bitcoin – Forum,2019-01-01,0.33,34,6.86,123.89
-Bitcoin – Forum,2020-01-01,0.39,35,7.07,117.83
-Bitcoin – Forum,2021-01-01,0.44,19,6.22,231.06
-Bitcoin – Forum,2022-01-01,0.37,35,6.97,119.94
-Bitcoin – Forum,2023-01-01,0.41,32,6.93,131.71
-Bitcoin – Forum,2024-01-01,0.51,17,6.30,215.65
-Bitcoin – Forum,2025-01-01,0.22,19,5.43,324.39
-Bitcoin – Mailing List,2011-01-01,0.68,8,5.03,471.19
-Bitcoin – Mailing List,2012-01-01,0.68,8,5.08,464.02
-Bitcoin – Mailing List,2013-01-01,0.73,8,5.47,482.39
-Bitcoin – Mailing List,2014-01-01,0.75,11,6.03,350.09
-Bitcoin – Mailing List,2015-01-01,0.74,20,6.78,190.43
-Bitcoin – Mailing List,2016-01-01,0.63,15,6.13,264.24
-Bitcoin – Mailing List,2017-01-01,0.66,22,6.72,157.34
-Bitcoin – Mailing List,2018-01-01,0.62,17,6.40,210.61
-Bitcoin – Mailing List,2019-01-01,0.64,14,5.92,399.42
-Bitcoin – Mailing List,2020-01-01,0.64,9,5.36,682.29
-Bitcoin – Mailing List,2021-01-01,0.67,15,6.14,258.61
-Bitcoin – Mailing List,2022-01-01,0.67,12,5.89,296.24
-Bitcoin – Mailing List,2023-01-01,0.63,13,5.98,285.38
-Bitcoin – Mailing List,2024-01-01,0.39,6,4.16,764.09
-Cardano – Forum,2020-01-01,0.43,10,5.12,376.48
-Cardano – Forum,2021-01-01,0.54,11,5.63,402.14
-Cardano – Forum,2022-01-01,0.63,9,5.38,435.33
-Cardano – Forum,2023-01-01,0.51,4,3.80,1105.77
-Cardano – Forum,2024-01-01,0.26,3,2.82,1597.63
-Cardano – Forum,2025-01-01,0.19,2,2.23,2266.67
-Ethereum – Magicians,2018-01-01,0.57,17,6.18,284.76
-Ethereum – Magicians,2019-01-01,0.68,16,6.23,283.06
-Ethereum – Magicians,2020-01-01,0.61,15,6.11,278.85
-Ethereum – Magicians,2021-01-01,0.61,24,6.92,179.60
-Ethereum – Magicians,2022-01-01,0.59,48,7.80,135.06
-Ethereum – Magicians,2023-01-01,0.58,38,7.57,139.55
-Ethereum – Magicians,2024-01-01,0.62,24,7.07,178.51
-Ethereum – Magicians,2025-01-01,0.59,25,7.05,162.64
+discussion_source,date,gini,nakamoto,shannon_entropy,hhi
+bitcoin_forum,2010-01-01,0.33,1,1.30,4687.50
+bitcoin_forum,2011-01-01,0.36,20,6.02,222.72
+bitcoin_forum,2012-01-01,0.46,18,6.05,212.73
+bitcoin_forum,2013-01-01,0.37,30,6.69,132.24
+bitcoin_forum,2014-01-01,0.37,72,7.94,56.39
+bitcoin_forum,2015-01-01,0.49,59,7.91,105.03
+bitcoin_forum,2016-01-01,0.41,45,7.31,132.26
+bitcoin_forum,2017-01-01,0.38,141,9.02,33.74
+bitcoin_forum,2018-01-01,0.29,153,8.74,46.22
+bitcoin_forum,2019-01-01,0.33,34,6.86,123.89
+bitcoin_forum,2020-01-01,0.39,35,7.07,117.83
+bitcoin_forum,2021-01-01,0.44,19,6.22,231.06
+bitcoin_forum,2022-01-01,0.37,35,6.97,119.94
+bitcoin_forum,2023-01-01,0.41,32,6.93,131.71
+bitcoin_forum,2024-01-01,0.51,17,6.30,215.65
+bitcoin_forum,2025-01-01,0.22,19,5.43,324.39
+bitcoin_mailing_list,2011-01-01,0.68,8,5.03,471.19
+bitcoin_mailing_list,2012-01-01,0.68,8,5.08,464.02
+bitcoin_mailing_list,2013-01-01,0.73,8,5.47,482.39
+bitcoin_mailing_list,2014-01-01,0.75,11,6.03,350.09
+bitcoin_mailing_list,2015-01-01,0.74,20,6.78,190.43
+bitcoin_mailing_list,2016-01-01,0.63,15,6.13,264.24
+bitcoin_mailing_list,2017-01-01,0.66,22,6.72,157.34
+bitcoin_mailing_list,2018-01-01,0.62,17,6.40,210.61
+bitcoin_mailing_list,2019-01-01,0.64,14,5.92,399.42
+bitcoin_mailing_list,2020-01-01,0.64,9,5.36,682.29
+bitcoin_mailing_list,2021-01-01,0.67,15,6.14,258.61
+bitcoin_mailing_list,2022-01-01,0.67,12,5.89,296.24
+bitcoin_mailing_list,2023-01-01,0.63,13,5.98,285.38
+bitcoin_mailing_list,2024-01-01,0.39,6,4.16,764.09
+cardano_forum,2020-01-01,0.43,10,5.12,376.48
+cardano_forum,2021-01-01,0.54,11,5.63,402.14
+cardano_forum,2022-01-01,0.63,9,5.38,435.33
+cardano_forum,2023-01-01,0.51,4,3.80,1105.77
+cardano_forum,2024-01-01,0.26,3,2.82,1597.63
+cardano_forum,2025-01-01,0.19,2,2.23,2266.67
+ethereum_magicians,2018-01-01,0.57,17,6.18,284.76
+ethereum_magicians,2019-01-01,0.68,16,6.23,283.06
+ethereum_magicians,2020-01-01,0.61,15,6.11,278.85
+ethereum_magicians,2021-01-01,0.61,24,6.92,179.60
+ethereum_magicians,2022-01-01,0.59,48,7.80,135.06
+ethereum_magicians,2023-01-01,0.58,38,7.57,139.55
+ethereum_magicians,2024-01-01,0.62,24,7.07,178.51
+ethereum_magicians,2025-01-01,0.59,25,7.05,162.64
