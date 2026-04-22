@@ -321,7 +321,7 @@ export function Governance() {
               metric={metric}
               data={communityDiscussionData}
               loading={communityDiscussionLoading}
-              type="governance-discussion"
+              type="governance"
               timeUnit="month"
             />
           ))}
