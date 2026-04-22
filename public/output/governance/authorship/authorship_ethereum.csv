@@ -1,12 +1,1302 @@
-Author,Contribution(%)
-Vitalik Buterin,3.20
-Alex Beregszaszi,2.56
-Nick Johnson,1.85
-Zainan Victor Zhou,1.42
-Gavin John,1.29
-Micah Zoltu,1.08
-William Morriss,0.97
-Etan Kissling (@etan-status),0.90
-Danno Ferrin,0.83
-Tim Beiko,0.77
-Others,85.14
+Rank,Author,Weighted_Contribution,Percentage
+1,Vitalik Buterin,34.7,3.2
+2,Alex Beregszaszi,27.7,2.56
+3,Nick Johnson,20.0,1.85
+4,Zainan Victor Zhou,15.4,1.42
+5,Gavin John,14.0,1.29
+6,Micah Zoltu,11.8,1.08
+7,William Morriss,10.5,0.97
+8,Etan Kissling (@etan-status),9.8,0.9
+9,Danno Ferrin,9.0,0.83
+10,Tim Beiko,8.3,0.77
+11,Wei Tang,8.2,0.76
+12,Paweł Bylica,8.1,0.75
+13,Francisco Giordano,8.0,0.74
+14,Qi Zhou,7.7,0.71
+15,Martin Holst Swende,7.6,0.7
+16,Hadrien Croubois,7.5,0.69
+17,William Entriken,7.0,0.65
+18,Charles Cooper (@charles-cooper),6.9,0.64
+19,lightclient,6.7,0.61
+20,Toni Wahrstätter,6.6,0.61
+21,James Hancock,6.6,0.61
+22,Gajinder Singh,6.3,0.58
+23,Ansgar Dietrichs,6.3,0.58
+24,Sam Wilson,6.2,0.58
+25,Guillaume Ballet,6.1,0.56
+26,Danny Ryan,6.1,0.56
+27,Felix Lange,5.9,0.55
+28,Alexey Akhunov,5.9,0.54
+29,Marius van der Wijden,5.5,0.51
+30,Erik Marks,5.5,0.5
+31,Anders Elowsson,5.4,0.5
+32,Nick Mudge,5.2,0.48
+33,Alex Stokes,5.2,0.48
+34,Alex Forshtat,5.2,0.48
+35,Ronan Sandford,5.1,0.47
+36,Abdelhamid Bakhta,4.9,0.45
+37,Francesco D'Amato,4.8,0.45
+38,Mikhail Kalinin,4.7,0.43
+39,Christian Reitwiessner,4.6,0.42
+40,Afri Schoedon,4.5,0.42
+41,Maria Silva,4.5,0.41
+42,Andrei Maiboroda,4.5,0.41
+43,Ben Adams,4.5,0.41
+44,Alex Van de Sande,4.3,0.4
+45,Péter Szilágyi,4.2,0.38
+46,Gregory Markou,4.1,0.38
+47,James Kempton,4.0,0.37
+48,Greg Colvin,3.9,0.36
+49,Dankrad Feist,3.9,0.36
+50,Giulio Rebuffo,3.8,0.35
+51,Ernesto García,3.7,0.34
+52,Francesco Sullo,3.7,0.34
+53,Yoav Weiss,3.7,0.34
+54,Dan Finlay,3.5,0.32
+55,Jan Turk,3.5,0.32
+56,Jim McDonald,3.5,0.32
+57,Matt Garnett,3.5,0.32
+58,ligi,3.4,0.31
+59,Ricardo Guilherme Schmidt,3.3,0.31
+60,Dror Tirosh,3.2,0.29
+61,Loredana Cirstea,3.0,0.28
+62,Carl Beekhuizen (@CarlBeek),3.0,0.28
+63,Rickey,3.0,0.28
+64,Chen Liaoyuan (@chenly),3.0,0.28
+65,Jordi Baylina,2.8,0.26
+66,Piper Merriam,2.8,0.26
+67,Alex Vlasov,2.8,0.25
+68,Daniel Lehrner,2.7,0.25
+69,Martin Swende,2.7,0.25
+70,Richard Moore,2.6,0.24
+71,Joey Santoro,2.6,0.24
+72,Steven Pineda,2.5,0.23
+73,pcaversaccio,2.5,0.23
+74,Lion,2.5,0.23
+75,Marc Harvey-Hill,2.5,0.23
+76,Aryaethn,2.5,0.23
+77,Peter Davies,2.5,0.23
+78,Wei Han Ng,2.4,0.22
+79,Pedro Gomes,2.3,0.21
+80,Brooklyn Zelenka,2.2,0.21
+81,David Kim,2.2,0.21
+82,Nicolas Deschildre,2.2,0.21
+83,Samuel Gwlanold Edoumou,2.2,0.2
+84,Csaba Kiraly,2.1,0.2
+85,Carl Beekhuizen,2.1,0.19
+86,Anders,2.1,0.19
+87,Sam Wilson (@SamWilsn),2.1,0.19
+88,Dexaran (@Dexaran),2.0,0.18
+89,Renan Rodrigues de Souza,2.0,0.18
+90,Weiwu Zhang,2.0,0.18
+91,James Sangalli,2.0,0.18
+92,Jet Lim,2.0,0.18
+93,Christian Tzurcanu,2.0,0.18
+94,Sean Papanikolas,2.0,0.18
+95,Martin Lundfall,2.0,0.18
+96,Justice Hudson,2.0,0.18
+97,Alex Papageorgiou (@alex-ppg),2.0,0.18
+98,Simon Tian,2.0,0.18
+99,Jules Lai,2.0,0.18
+100,Tim Daubenschütz,2.0,0.18
+101,George,2.0,0.18
+102,Josh Weintraub,2.0,0.18
+103,Eduard López i Fina,2.0,0.18
+104,Cheng Qian (@jamesavechives),2.0,0.18
+105,Tim Pechersky,2.0,0.18
+106,Kwame Bryan,2.0,0.18
+107,Shahaf Nacson,2.0,0.18
+108,Jochem Brouwer (@jochem-brouwer),1.9,0.18
+109,Andreas Freund,1.8,0.17
+110,Cayman,1.8,0.17
+111,dapplion,1.8,0.17
+112,Philippe Castonguay,1.7,0.16
+113,Casey Detrio,1.7,0.15
+114,Jorge Izquierdo,1.7,0.15
+115,Julio Faura,1.7,0.15
+116,Fernando Paris,1.7,0.15
+117,Pandapip1,1.7,0.15
+118,Ahmad Bitar (@smartprogrammer93),1.7,0.15
+119,Diederik Loerakker,1.6,0.15
+120,Lance,1.6,0.15
+121,Shrug,1.6,0.15
+122,0age,1.6,0.14
+123,Auryn Macmillan (@auryn-macmillan),1.6,0.14
+124,Hudson Jameson,1.5,0.14
+125,Pelle Braendgaard,1.5,0.14
+126,Jeff Huang,1.5,0.14
+127,Soham Zemse,1.5,0.14
+128,Zhenyu Sun,1.5,0.14
+129,William Schwab,1.5,0.14
+130,Ross Campbell,1.5,0.14
+131,Mark Mackey,1.5,0.14
+132,Agustin Aguilar,1.5,0.14
+133,Bruno Škvorc,1.5,0.14
+134,Stevan Bogosavljevic,1.5,0.14
+135,Artem Chystiakov,1.5,0.14
+136,Guilherme Neves,1.5,0.14
+137,Justin Drake (@JustinDrake),1.5,0.14
+138,Lukas Rosario,1.5,0.14
+139,Jake Moxey,1.5,0.14
+140,Fabian Vogelsteller,1.5,0.13
+141,Piotr Dobaczewski,1.4,0.13
+142,Maurelian,1.4,0.13
+143,Jeroen Offerijns,1.4,0.13
+144,Remco Bloemen,1.3,0.12
+145,Jacques Dafflon,1.3,0.12
+146,pinkiebell,1.3,0.12
+147,Piyush Chittara (@piyush-chittara),1.3,0.12
+148,Xiang,1.3,0.12
+149,Ben77,1.3,0.12
+150,Mingshi S.,1.3,0.12
+151,Zsolt Felföldi,1.3,0.12
+152,Ignacio Hagopian,1.3,0.12
+153,cygaar,1.3,0.12
+154,Isaac Ardis,1.2,0.12
+155,Richard Meissner,1.2,0.12
+156,Matt,1.2,0.12
+157,msfew,1.2,0.12
+158,Alberto Cuesta Cañada,1.2,0.11
+159,Potuz,1.2,0.11
+160,Artem Chystiakov (@arvolear),1.2,0.11
+161,Eric Conner,1.2,0.11
+162,Terence,1.2,0.11
+163,Zihao Chen,1.2,0.11
+164,Konrad Kopp (@kopy-kat),1.2,0.11
+165,Łukasz Rozmej,1.1,0.11
+166,Kosala Hemachandra,1.1,0.1
+167,Kevaundray Wedderburn,1.1,0.1
+168,Gary Rong,1.1,0.1
+169,Moody Salem,1.1,0.1
+170,Santiago Palladino,1.0,0.1
+171,Kevin Owocki,1.0,0.09
+172,Joseph Chow,1.0,0.09
+173,Gavin Wood,1.0,0.09
+174,Vlad Gluhovsky,1.0,0.09
+175,Tobias Oberstein,1.0,0.09
+176,Daniel A. Nagy,1.0,0.09
+177,Yoichi Hirai,1.0,0.09
+178,Cody Burns,1.0,0.09
+179,Jack Peterson,1.0,0.09
+180,Kashish Khullar,1.0,0.09
+181,Carl Larson,1.0,0.09
+182,Dave Sag,1.0,0.09
+183,Dean Eigenmann,1.0,0.09
+184,David Stanfill,1.0,0.09
+185,Anderson Wesley,1.0,0.09
+186,Nick Savers,1.0,0.09
+187,Bradley Leatherwood,1.0,0.09
+188,Paul Bouchon,1.0,0.09
+189,nitika-goel,1.0,0.09
+190,Alan Lu,1.0,0.09
+191,Albert Chon,1.0,0.09
+192,Juliano Rizzo,1.0,0.09
+193,SmeargleUsedFly,1.0,0.09
+194,Chaitanya Potti,1.0,0.09
+195,Partha Bhattacharya,1.0,0.09
+196,EOS Classic,1.0,0.09
+197,Brian Venturo,1.0,0.09
+198,Vittorio Minacori,1.0,0.09
+199,Gerhard Wagner,1.0,0.09
+200,trustfarm,1.0,0.09
+201,Iamnot Chris,1.0,0.09
+202,Christoph Mussenbrock,1.0,0.09
+203,Michele Balistreri,1.0,0.09
+204,Ikmyeong Na,1.0,0.09
+205,Paul Berg,1.0,0.09
+206,Bruno Barbieri,1.0,0.09
+207,Alexandre Belling,1.0,0.09
+208,Adrian Sutton,1.0,0.09
+209,John Adler,1.0,0.09
+210,James Choncholas (@james-choncholas),1.0,0.09
+211,Edson Ayllon,1.0,0.09
+212,Christoph Burgdorf,1.0,0.09
+213,Filip Štamcar,1.0,0.09
+214,Joseph Stockermans,1.0,0.09
+215,Kohshi Shiba,1.0,0.09
+216,Joel Thorstensson,1.0,0.09
+217,Giuseppe Bertone,1.0,0.09
+218,Jonathan Underwood,1.0,0.09
+219,Sergio Demian Lerner,1.0,0.09
+220,Peter Grassberger,1.0,0.09
+221,Herman Junge,1.0,0.09
+222,Dr. Christopher Gorman,1.0,0.09
+223,Ben Tinner,1.0,0.09
+224,Victor Porton,1.0,0.09
+225,Michael D. Carter,1.0,0.09
+226,mineruniter969,1.0,0.09
+227,Query0x,1.0,0.09
+228,Calvin Koder,1.0,0.09
+229,Nathan Ginnever,1.0,0.09
+230,Daniel Streit,1.0,0.09
+231,Sam Porter,1.0,0.09
+232,Omnus Sunmo,1.0,0.09
+233,Ignacio Mazzara,1.0,0.09
+234,Daniel Tedesco,1.0,0.09
+235,Devin Conley,1.0,0.09
+236,Green,1.0,0.09
+237,Alexi,1.0,0.09
+238,Mudit Gupta,1.0,0.09
+239,Christophe Le Bars,1.0,0.09
+240,DerivStudio,1.0,0.09
+241,Sergio D. Lerner,1.0,0.09
+242,Yan,1.0,0.09
+243,Zainan Zhou,1.0,0.09
+244,Buzz Cai,1.0,0.09
+245,IronMan_CH,1.0,0.09
+246,Jeremy Z,1.0,0.09
+247,liszechung,1.0,0.09
+248,StartfundInc,1.0,0.09
+249,Roy Osherove,1.0,0.09
+250,Sean Darcy,1.0,0.09
+251,HonorLabs,1.0,0.09
+252,Naim Ashhab,1.0,0.09
+253,Leeren,1.0,0.09
+254,Filipp Makarov,1.0,0.09
+255,Paul Edge,1.0,0.09
+256,Simon Brown,1.0,0.09
+257,Jack Boyuan Xu,1.0,0.09
+258,Sujith Somraaj,1.0,0.09
+259,Jessica Chang,1.0,0.09
+260,Yuki Aoki (@yuki-js),1.0,0.09
+261,Chiro (@chiro-hiro),1.0,0.09
+262,Victor Dusart,1.0,0.09
+263,Ivo Georgiev,1.0,0.09
+264,Chris Walker (@cr-walker),1.0,0.09
+265,out.eth,1.0,0.09
+266,Otniel Nicola (@OT-kthd),1.0,0.09
+267,Bogdan Popa,1.0,0.09
+268,Mihai Onila,1.0,0.09
+269,Nick Zeman,1.0,0.09
+270,Narcis Cotaie,1.0,0.09
+271,qdqd (@qd-qd),1.0,0.09
+272,Abderrahmen Hanafi (@a6-dou),1.0,0.09
+273,indreams,1.0,0.09
+274,Bofu Chen,1.0,0.09
+275,Tammy Yang,1.0,0.09
+276,Guang,1.0,0.09
+277,Quy Phan,1.0,0.09
+278,Yohei Nishikubo,1.0,0.09
+279,Ko Fujimura,1.0,0.09
+280,Guy Goren (@guy-goren),1.0,0.09
+281,Aaron Yee (@aaronyee-eth),1.0,0.09
+282,Jimmy Debe,1.0,0.09
+283,Ernani São Thiago,1.0,0.09
+284,Daniel Lima,1.0,0.09
+285,Zisu,1.0,0.09
+286,1m1 (@1m1-github),1.0,0.09
+287,Ahmad Bitar,1.0,0.09
+288,wart,1.0,0.09
+289,Yvonne Zhang,1.0,0.09
+290,Aloysius Chan (@circle-aloychan),1.0,0.09
+291,Haru,1.0,0.09
+292,Igor Żuk,1.0,0.09
+293,Jame,1.0,0.09
+294,Chen Liaoyuan,1.0,0.09
+295,Greg Marlin,1.0,0.09
+296,Sennett Lau (@sennett-lau),1.0,0.09
+297,Duc Tho Tran,1.0,0.09
+298,Radek Svarz,1.0,0.09
+299,Lily Johnson,1.0,0.09
+300,Anushka Yadav (@64anushka),1.0,0.09
+301,Tim Pechersky (@peersky),1.0,0.09
+302,James Savechives (@jamesavechives),1.0,0.09
+303,frank (@frankmint2024),1.0,0.09
+304,Yaron Velner,1.0,0.09
+305,Dev Bear,1.0,0.09
+306,Ignacio Ceaglio (@Nachoxt17),1.0,0.09
+307,hellohanchen,1.0,0.09
+308,lex-clinic (@lex-clinic),1.0,0.09
+309,Gustavo Lobo,1.0,0.09
+310,Nick Juntilla (@nickjuntilla),1.0,0.09
+311,Liyi Guo,1.0,0.09
+312,Jack Chuma,1.0,0.09
+313,Valerio Massimo Camaiani (@vmc-crossmint),1.0,0.09
+314,Kumar Anirudha,1.0,0.09
+315,Wamith Mockbill,1.0,0.09
+316,Sean Luis Guada Rodríguez (@SeanLuis),1.0,0.09
+317,Sola Ogunsakin,1.0,0.09
+318,Lauri Peltonen,1.0,0.09
+319,Julius Lauterbach,1.0,0.09
+320,0xMostafas (@MostafaS),1.0,0.09
+321,raffy.eth,1.0,0.09
+322,Kyle Thornton (@kyle),1.0,0.09
+323,Andrew Richardson,1.0,0.09
+324,Lawliet Chan (@lawliet-chan),1.0,0.09
+325,Hoang,1.0,0.09
+326,Helkomine,1.0,0.09
+327,Paul Razvan Berg,1.0,0.09
+328,Bryant Eisenbach,1.0,0.09
+329,Ryan Ghods,1.0,0.09
+330,Raúl Kripalani,1.0,0.09
+331,Vectorized,0.9,0.09
+332,Nick Gheorghita,0.9,0.08
+333,Michael Connor,0.9,0.08
+334,zeroknots,0.9,0.08
+335,George Kadianakis (@asn-d6),0.9,0.08
+336,Mikhail Melnik,0.9,0.08
+337,Conner Swenberg,0.9,0.08
+338,Maria Inês Silva,0.9,0.08
+339,Vikram Arun,0.9,0.08
+340,Christian Fries,0.8,0.08
+341,Peter Kohl-Landgraf,0.8,0.08
+342,Kelvin Fichter,0.8,0.08
+343,Anushka Yadav,0.8,0.08
+344,Tanishq Jasoria,0.8,0.08
+345,vectorized,0.8,0.07
+346,Wilson Cusack,0.8,0.07
+347,Cicada,0.8,0.07
+348,Justin Drake,0.8,0.07
+349,Witek Radomski,0.8,0.07
+350,hujw77,0.8,0.07
+351,Simon Fremaux,0.8,0.07
+352,Avneet Singh,0.8,0.07
+353,0xc0de4c0ffee,0.8,0.07
+354,sirawt,0.8,0.07
+355,ADISAKBOONMARK,0.8,0.07
+356,Derek Rein,0.7,0.07
+357,Carlos Perez,0.7,0.07
+358,Tom Brand,0.7,0.06
+359,Louis Guthmann,0.7,0.06
+360,Adam Boudjemaa,0.7,0.06
+361,Andrew B Coathup,0.7,0.06
+362,5660-eth (@5660-eth),0.7,0.06
+363,Wizard Wang,0.7,0.06
+364,Keyvan Kambakhsh,0.7,0.06
+365,Nobitex Labs,0.7,0.06
+366,Daniel Gretzke,0.7,0.06
+367,Matt Solomon,0.7,0.06
+368,Tom Carchrae,0.7,0.06
+369,Gleb Naumenko,0.7,0.06
+370,Chaitanya Konda,0.7,0.06
+371,Duncan Westland,0.7,0.06
+372,Yu Liu (@yuliu-debond),0.7,0.06
+373,Isaac Patka,0.7,0.06
+374,Víctor Muñoz,0.7,0.06
+375,Josep Lluis de la Rosa,0.7,0.06
+376,Shu Dong,0.7,0.06
+377,Philipp Bolte,0.7,0.06
+378,Lauritz Leifermann,0.7,0.06
+379,Dennis von der Bey,0.7,0.06
+380,Ming Jiang,0.7,0.06
+381,Zheng Han,0.7,0.06
+382,Fan Yang,0.7,0.06
+383,João Martins,0.7,0.06
+384,Marcin Sobczak,0.7,0.06
+385,Marek Moraczyński,0.7,0.06
+386,Fil Makarov,0.7,0.06
+387,Kartin,0.7,0.06
+388,Saber Yu,0.6,0.06
+389,Shiping Chen,0.6,0.06
+390,Renaud Dubois (@rdubois-crypto),0.6,0.06
+391,Simon Masson,0.6,0.06
+392,Parithosh Jayanthi,0.6,0.06
+393,Marco Stronati,0.6,0.06
+394,Jeff Lau,0.6,0.06
+395,Jacob Evans,0.6,0.05
+396,Andrea Lanfranchi,0.6,0.05
+397,Peter Jihoon Kim,0.6,0.05
+398,Kevin Britz,0.6,0.05
+399,David Knott,0.6,0.05
+400,Chao Pi,0.6,0.05
+401,Saitama,0.6,0.05
+402,Combo,0.6,0.05
+403,Luigi,0.6,0.05
+404,Davide Crapis,0.6,0.05
+405,Anton Bukov,0.6,0.05
+406,Alex,0.5,0.05
+407,Agustín Aguilar,0.5,0.05
+408,Michael Standen,0.5,0.05
+409,Jared Wasinger,0.5,0.05
+410,Martin Becze,0.5,0.05
+411,Nikolai Mushegian,0.5,0.05
+412,Konrad Feldmeier,0.5,0.05
+413,Tyler Yasaka,0.5,0.05
+414,Federico Bond,0.5,0.05
+415,Manuel Araoz,0.5,0.05
+416,James Ray,0.5,0.05
+417,Chih-Cheng Liang,0.5,0.05
+418,Joel Torstensson,0.5,0.05
+419,Phyrex Tsai,0.5,0.05
+420,Portal Network Team,0.5,0.05
+421,Antonio Salazar Cardozo,0.5,0.05
+422,Zachary Williamson (@zac-williamson),0.5,0.05
+423,Simon Jentzsch,0.5,0.05
+424,Christoph Jentzsch,0.5,0.05
+425,ERC-1202 Working Group,0.5,0.05
+426,Min Zu,0.5,0.05
+427,Xiaoyu Wang,0.5,0.05
+428,Bicong Wang,0.5,0.05
+429,Ben Kaufman,0.5,0.05
+430,Adam Levi,0.5,0.05
+431,g. nicholas d'andrea,0.5,0.05
+432,Jean M. Cyr (@jean-m-cyr),0.5,0.05
+433,Jacques Wagener,0.5,0.05
+434,Jennifer Cooper,0.5,0.05
+435,Maxim Kupriianov,0.5,0.05
+436,Julian Svirsky,0.5,0.05
+437,Pawel Bylica,0.5,0.05
+438,Cyril Lapinte,0.5,0.05
+439,Laurent Aapro,0.5,0.05
+440,Felix J Lange,0.5,0.05
+441,Vincent Eli,0.5,0.05
+442,Gabriel Barros,0.5,0.05
+443,Patrick Gallagher,0.5,0.05
+444,Shane Jonas,0.5,0.05
+445,Zachary Belford,0.5,0.05
+446,Lee Raj,0.5,0.05
+447,Qin Jian,0.5,0.05
+448,John Max Skaller,0.5,0.05
+449,Dominic Letz,0.5,0.05
+450,Eric Dvorsak,0.5,0.05
+451,Aaron Kendall,0.5,0.05
+452,Juan Blanco,0.5,0.05
+453,Fabien Marino,0.5,0.05
+454,Fiona Kobayashi,0.5,0.05
+455,fubuloubu,0.5,0.05
+456,Austin Williams,0.5,0.05
+457,Weijia Zhang,0.5,0.05
+458,Peter Robinson,0.5,0.05
+459,HexZorro,0.5,0.05
+460,Mojtaba Tefagh,0.5,0.05
+461,Baptiste Vauthey,0.5,0.05
+462,Xinqi Yang,0.5,0.05
+463,Rex Creed,0.5,0.05
+464,Dane Scarborough,0.5,0.05
+465,Daniel Ivanov (@Daniel-K-Ivanov),0.5,0.05
+466,George Spasov,0.5,0.05
+467,Brayton Goodall (@Spore-Druid-Bray),0.5,0.05
+468,Mihir Faujdar,0.5,0.05
+469,Benjamin Chodroff,0.5,0.05
+470,David Buckman,0.5,0.05
+471,Isaac Buckman,0.5,0.05
+472,Kei Kreutler,0.5,0.05
+473,Jarno Marttila,0.5,0.05
+474,Martin Moravek,0.5,0.05
+475,James,0.5,0.05
+476,Weiwu (@weiwu-zhang),0.5,0.05
+477,Edward Amor,0.5,0.05
+478,Iván Mañús,0.5,0.05
+479,Juan Carlos Cantó,0.5,0.05
+480,Hyungsuk Kang,0.5,0.05
+481,Viktor Pernjek,0.5,0.05
+482,Samuele Marro,0.5,0.05
+483,Luca Donno,0.5,0.05
+484,elie222,0.5,0.05
+485,Lucas Martín Grasso Ramos,0.5,0.05
+486,Matias Arazi,0.5,0.05
+487,COALA Licensing Taskforce,0.5,0.05
+488,Paul Gauvreau,0.5,0.05
+489,Timi,0.5,0.05
+490,0xTriple7,0.5,0.05
+491,Austin Zhu,0.5,0.05
+492,Terry Chen,0.5,0.05
+493,Matt Stam,0.5,0.05
+494,Junyi Zhong,0.5,0.05
+495,Erhard Dinhobl,0.5,0.05
+496,Kevin Riedl,0.5,0.05
+497,Base Labs (@Base-Labs),0.5,0.05
+498,Weiji Guo (@weiji-cryptonatty),0.5,0.05
+499,Tal Be'ery,0.5,0.05
+500,RoiV,0.5,0.05
+501,Zahary Karadjov,0.5,0.05
+502,Qiang Zhu,0.5,0.05
+503,360 Core,0.5,0.05
+504,Robin Rajput,0.5,0.05
+505,Thomas Bergmueller,0.5,0.05
+506,Lukas Meyer (@ibex-technology),0.5,0.05
+507,Mohamad Hammoud,0.5,0.05
+508,Mohammad Zakeri Rad,0.5,0.05
+509,Zak Cole,0.5,0.05
+510,Alexe Spataru,0.5,0.05
+511,0xG,0.5,0.05
+512,Marco Peyfuss,0.5,0.05
+513,Chris Chung,0.5,0.05
+514,Raphael Roullet (@ra-phael),0.5,0.05
+515,Lightclient,0.5,0.05
+516,Ewan Humbert (@Xeway),0.5,0.05
+517,Lassi Maksimainen (@mlalma),0.5,0.05
+518,Mengshi Zhang,0.5,0.05
+519,Noah Litvin,0.5,0.05
+520,db (@dbeal-eth),0.5,0.05
+521,Stephen Monn,0.5,0.05
+522,Bikem Bengisu,0.5,0.05
+523,Shogo Ochiai (@shogochiai),0.5,0.05
+524,Kai Hiroi (@KaiHiroi),0.5,0.05
+525,danceratopz,0.5,0.05
+526,Shivanshi Tyagi,0.5,0.05
+527,calvbore,0.5,0.05
+528,emiliolanzalaco,0.5,0.05
+529,0xZeus1111,0.5,0.05
+530,Nvuwa,0.5,0.05
+531,kdeme,0.5,0.05
+532,Cyrus Adkisson,0.5,0.05
+533,Eirik Ulversøy,0.5,0.05
+534,Zhiqiang Xu,0.5,0.05
+535,Acme,0.5,0.05
+536,Calder,0.5,0.05
+537,Liu.C.Dao (@CDao),0.5,0.05
+538,Sam,0.5,0.05
+539,Oleg Iakushkin,0.5,0.05
+540,Kaan Uzdogan,0.5,0.05
+541,Victor Zhang,0.5,0.05
+542,James Brown,0.5,0.05
+543,Yamen Merhi,0.5,0.05
+544,Patronum Labs (@Patronum-Labs),0.5,0.05
+545,Guillaume Grosbois (@uni-guillaume),0.5,0.05
+546,Rafael Castaneda,0.5,0.05
+547,Lucas Saldanha,0.5,0.05
+548,Shubham Khandelwal (@shubh-ta),0.5,0.05
+549,Radoslaw Zagorowicz,0.5,0.05
+550,Bogdan Gusiev,0.5,0.05
+551,Sergey Bomko,0.5,0.05
+552,Henry Arneson,0.5,0.05
+553,Chris Buckland,0.5,0.05
+554,Shoham Chakraborty,0.5,0.05
+555,Ryo Ha (@sopia19910),0.5,0.05
+556,Khajiev Nizomjon (@khajievN),0.5,0.05
+557,Lin Oshitani (@linoscope),0.5,0.05
+558,Ameen Soleimani,0.5,0.05
+559,Tina Zheng,0.5,0.05
+560,Alberto La Rocca,0.5,0.05
+561,Marcelo Morgado,0.5,0.05
+562,Manoj Patidar,0.5,0.05
+563,Oleh Komendant,0.5,0.05
+564,Vijay Krishnavanshi,0.5,0.05
+565,Rohan Parikh,0.5,0.05
+566,Jon Michael Ross,0.5,0.05
+567,Barnabas Busa,0.5,0.05
+568,Chris Ridmann (@cridmann),0.5,0.05
+569,Jiahui Cui,0.5,0.05
+570,0xZPL,0.5,0.05
+571,Jordan Holberg,0.5,0.05
+572,Luca Donno (@lucadonnoh),0.5,0.05
+573,Derek Chiang,0.5,0.05
+574,Kristof Gazso,0.5,0.04
+575,Jiangshan Yu,0.5,0.04
+576,Wilkins Chung (@wwhchung),0.5,0.04
+577,Eli Ben Sasson,0.5,0.04
+578,Avihu Levy,0.5,0.04
+579,Kelly Olson,0.5,0.04
+580,Ben DiFrancesco,0.5,0.04
+581,Gavin Fu,0.5,0.04
+582,Leo Wang,0.5,0.04
+583,Bova Chen,0.5,0.04
+584,Adam Montgomery,0.5,0.04
+585,Stephan Min,0.5,0.04
+586,Storm Slivkoff,0.4,0.04
+587,Kamil Chodoła,0.4,0.04
+588,g. nicholas d’andrea,0.4,0.04
+589,Andrew Cooke,0.4,0.04
+590,James Therien,0.4,0.04
+591,Eric Binet,0.4,0.04
+592,Taek Lee,0.4,0.04
+593,Gottfried Herold,0.4,0.04
+594,Cathie So,0.4,0.04
+595,Xiaohang Yu,0.4,0.04
+596,Conway,0.4,0.04
+597,Tjaden Hess,0.4,0.04
+598,Antonio Sanso,0.4,0.04
+599,Paul Sullivan (@sullivph),0.4,0.04
+600,Rob Montgomery (@RobAnon),0.4,0.04
+601,Aryeh Greenberg,0.4,0.03
+602,Matt Condon,0.4,0.03
+603,Wayne Chang,0.4,0.03
+604,Oliver Terbu,0.4,0.03
+605,Hsiao-Wei Wang,0.4,0.03
+606,Michael Amadi,0.4,0.03
+607,Elaine Zhang (@lanyinzly),0.4,0.03
+608,Jerry,0.4,0.03
+609,Amandafanny,0.4,0.03
+610,Shouhao Wong (@wangshouh),0.4,0.03
+611,Alina Sinelnikova,0.4,0.03
+612,Farhaan Ali,0.4,0.03
+613,Thomas,0.4,0.03
+614,Kyle Den Hartog,0.3,0.03
+615,Luka Isailovic,0.3,0.03
+616,Barnabé Monnot,0.3,0.03
+617,Terence Tsao,0.3,0.03
+618,Gabriel Rocheleau,0.3,0.03
+619,Leonid Logvinov,0.3,0.03
+620,Esteban Mino,0.3,0.03
+621,Thomas Shababi,0.3,0.03
+622,Dan Phifer,0.3,0.03
+623,James Levy,0.3,0.03
+624,Reuben Youngblom,0.3,0.03
+625,Mark Beylin,0.3,0.03
+626,Peter Murray,0.3,0.03
+627,Nate Welch,0.3,0.03
+628,Joe Messerman,0.3,0.03
+629,John Shiple,0.3,0.03
+630,Howard Marks,0.3,0.03
+631,David Zhang,0.3,0.03
+632,Marius Van Der Wijden,0.3,0.03
+633,Kris Shinn,0.3,0.03
+634,Lane Rettig,0.3,0.03
+635,Johann Barbie,0.3,0.03
+636,Ben Bollen,0.3,0.03
+637,Runchao Han,0.3,0.03
+638,Haoyu Lin,0.3,0.03
+639,Kristijan Sedlak,0.3,0.03
+640,Barry WhiteHat,0.3,0.03
+641,Marta Bellés,0.3,0.03
+642,Tony Carson,0.3,0.03
+643,Mehmet Sabir Kiraz,0.3,0.03
+644,Süleyman Kardaş,0.3,0.03
+645,Michael Sproul,0.3,0.03
+646,Sacha Saint-Leger,0.3,0.03
+647,Dmitry Khovratovich,0.3,0.03
+648,Hugo De la cruz (@hugo-dc),0.3,0.03
+649,Thomas Jay Rush,0.3,0.03
+650,Omar Aflak,0.3,0.03
+651,Pol-Malo Le Bris,0.3,0.03
+652,Marvin Martin,0.3,0.03
+653,John Peterson (@John-peterson-coinbase),0.3,0.03
+654,Roberto Bayardo (@roberto-bayardo),0.3,0.03
+655,David Núñez,0.3,0.03
+656,Andres El-Fakdi,0.3,0.03
+657,Easy Innova,0.3,0.03
+658,Harikrishnan Mulackal,0.3,0.03
+659,Tyler,0.3,0.03
+660,John,0.3,0.03
+661,Pooja Ranjan,0.3,0.03
+662,Luc van Kampen,0.3,0.03
+663,Jakob Helgesson,0.3,0.03
+664,Joshua Hendrix,0.3,0.03
+665,Julian Traversa,0.3,0.03
+666,Robert Robbins,0.3,0.03
+667,Vu Nguyen,0.3,0.03
+668,Long Vuong,0.3,0.03
+669,Anton Buenavista,0.3,0.03
+670,Brendan Asselstine,0.3,0.03
+671,Pierrick Turelier,0.3,0.03
+672,Chris Whinfrey,0.3,0.03
+673,James Grimmelmann,0.3,0.03
+674,Yan Ji,0.3,0.03
+675,Tyler Kell,0.3,0.03
+676,Stanley Wu,0.3,0.03
+677,Mücahit Büyükyılmaz,0.3,0.03
+678,Muhammed Emin Aydın,0.3,0.03
+679,Olivier Fernandez,0.3,0.03
+680,Frédéric Le Coidic,0.3,0.03
+681,Julien Béranger,0.3,0.03
+682,Allen Zhou,0.3,0.03
+683,Alex Qin,0.3,0.03
+684,Gaurang Torvekar,0.3,0.03
+685,Khemraj Adhawade,0.3,0.03
+686,Nikhil Asrani,0.3,0.03
+687,Firn Protocol,0.3,0.03
+688,Fried L. Trout,0.3,0.03
+689,Weiji Guo,0.3,0.03
+690,zlace,0.3,0.03
+691,zhongfu,0.3,0.03
+692,edison0xyz,0.3,0.03
+693,Alex (@Alex-Klasma),0.3,0.03
+694,Ben Fusek,0.3,0.03
+695,Daniel Fallon-Cyr,0.3,0.03
+696,Alexandros Korpis,0.3,0.03
+697,Anderson Chen,0.3,0.03
+698,Martinet Lee,0.3,0.03
+699,Anton Cheng,0.3,0.03
+700,Peter Chen,0.3,0.03
+701,Pavel Sinelnikov,0.3,0.03
+702,Jessica,0.3,0.03
+703,Roy,0.3,0.03
+704,Jun,0.3,0.03
+705,Wilkins Chung (@wwchung),0.3,0.03
+706,Kartik Patel (@Slokh),0.3,0.03
+707,StreamNFT (@streamnft-tech),0.3,0.03
+708,Srinivas Joshi,0.3,0.03
+709,Coburn Berry,0.3,0.03
+710,Mykel Pereira,0.3,0.03
+711,Scott Silver (@scott-silver),0.3,0.03
+712,Thanh Trinh (@thanhtrinh2003),0.3,0.03
+713,Joshua Weintraub (@jhweintraub),0.3,0.03
+714,0xAA,0.3,0.03
+715,Todd Chapman,0.3,0.03
+716,Charlie Sibbach,0.3,0.03
+717,Sean Sing,0.3,0.03
+718,Hyoungsung Kim (@HyoungsungKim),0.3,0.03
+719,Yong-Suk Park,0.3,0.03
+720,Hyun-Sik Kim,0.3,0.03
+721,Devin Finzer,0.3,0.03
+722,Alex Atallah,0.3,0.03
+723,James Prestwich,0.3,0.03
+724,brockelmore,0.3,0.03
+725,Erick Pacheco Pedraza,0.3,0.03
+726,Marcos Allende,0.3,0.03
+727,Diego Lopez León,0.3,0.03
+728,Qin Wang (@qinwang-git),0.3,0.03
+729,Xenia Shape,0.3,0.03
+730,Alex Donesky,0.3,0.03
+731,Mark Toda,0.3,0.03
+732,Matt Rice,0.3,0.03
+733,Nick Pai,0.3,0.03
+734,Max Resnick,0.3,0.03
+735,Gary Schulte (@garyschulte),0.3,0.03
+736,Allen Dong,0.3,0.03
+737,Lonika Zhang,0.3,0.03
+738,Steven He,0.3,0.03
+739,Marco Castignoli,0.3,0.03
+740,Manuel Wedler,0.3,0.03
+741,Marcos Maceo,0.3,0.03
+742,Lucas Picollo,0.3,0.03
+743,Alex Netto,0.3,0.03
+744,Nitin Bhagat (@nitin312),0.3,0.03
+745,JongWook Bae,0.3,0.03
+746,Su-Hyun Lee,0.3,0.03
+747,Jacek Glen,0.3,0.03
+748,Lukasz Glen (@lukasz-glen),0.3,0.03
+749,Mike Neuder,0.3,0.03
+750,Mallesh Pai,0.3,0.03
+751,Raphina Liu,0.3,0.03
+752,Monica Jin (@mokita-j),0.3,0.03
+753,Martin Monperrus,0.3,0.03
+754,Dario Lo Buglio,0.3,0.03
+755,Tino Martinez Molina,0.3,0.03
+756,Mihai Colceriu,0.3,0.03
+757,Justin Florentine (@jflo),0.3,0.03
+758,Jochem Brouwer (@jochem-brouwer),0.3,0.03
+759,Barnabas Busa (@barnabasbusa),0.3,0.03
+760,Ulaş Erdoğan,0.3,0.03
+761,Doğan Alpaslan,0.3,0.03
+762,Nicholas Rodrigues Lordello,0.3,0.03
+763,Valentin Seehausen,0.3,0.03
+764,Sam Battenally,0.3,0.03
+765,Hai Nguyen (@hai-rise),0.3,0.03
+766,Thanh Nguyen,0.3,0.03
+767,Mike Fu,0.3,0.03
+768,Matthew Yu,0.3,0.03
+769,Kalman Lajko,0.3,0.03
+770,Valera Grinenko,0.3,0.03
+771,Akash Kothawade,0.3,0.03
+772,Atishek Singh,0.3,0.03
+773,Steve Katzman,0.3,0.03
+774,Amie Corso,0.3,0.03
+775,Stephan Cilliers,0.3,0.03
+776,Blaine Malone,0.3,0.03
+777,Sina Mahmoodi,0.3,0.03
+778,Atarpara,0.3,0.03
+779,Qin Wang,0.3,0.03
+780,mike,0.3,0.03
+781,Francesco,0.3,0.03
+782,Matt Luongo,0.2,0.02
+783,Piotr Dyraga,0.2,0.02
+784,Fan Torchz,0.2,0.02
+785,Dieter Shirley,0.2,0.02
+786,Nastassia Sachs,0.2,0.02
+787,Jay Logelin,0.2,0.02
+788,Infernal_toast,0.2,0.02
+789,Michael Seiler,0.2,0.02
+790,Brandon Grill,0.2,0.02
+791,Michael Carter,0.2,0.02
+792,IfDefElse,0.2,0.02
+793,Christopher Gewecke,0.2,0.02
+794,Anurag Angara,0.2,0.02
+795,Andy Chorlian,0.2,0.02
+796,Shane Hampton,0.2,0.02
+797,Noah Zinsmeister,0.2,0.02
+798,Billy Rennekamp,0.2,0.02
+799,Dan Long,0.2,0.02
+800,Kiryl Yermakou,0.2,0.02
+801,Nate van der Ende,0.2,0.02
+802,Hua Zhang,0.2,0.02
+803,Yuefei Tan,0.2,0.02
+804,Derek Zhou,0.2,0.02
+805,Ran Xing,0.2,0.02
+806,Tomasz Stanczak,0.2,0.02
+807,Benjamin Hauser,0.2,0.02
+808,Gianluca Perletti,0.2,0.02
+809,Alan Scarpellini,0.2,0.02
+810,Roberto Gorini,0.2,0.02
+811,Manuel Olivi,0.2,0.02
+812,Zach Burks,0.2,0.02
+813,James Morgan,0.2,0.02
+814,James Seibel,0.2,0.02
+815,Youssef El Housni,0.2,0.02
+816,Aurore Guillevic,0.2,0.02
+817,Lukas Schor,0.2,0.02
+818,Javier Arcenegui (@Hardblock-IMSE-CNM),0.2,0.02
+819,Rosario Arjona,0.2,0.02
+820,Roberto Román,0.2,0.02
+821,Iluminada Baturone,0.2,0.02
+822,Nathan,0.2,0.02
+823,Tomasz Kajetan Stanczak,0.2,0.02
+824,Eric Marti Haynes,0.2,0.02
+825,Josh Klopfenstein,0.2,0.02
+826,Abhimanyu Nag,0.2,0.02
+827,Yale ReiSoleil,0.2,0.02
+828,dRadiant,0.2,0.02
+829,D Wang,0.2,0.02
+830,PhD,0.2,0.02
+831,Yan Zhu,0.2,0.02
+832,Brian R. Bondy,0.2,0.02
+833,Andrea  Brancaleoni,0.2,0.02
+834,David Levit Gurevich,0.2,0.02
+835,Keegan Lee,0.2,0.02
+836,qizhou,0.2,0.02
+837,Aubay,0.2,0.02
+838,BOCA Jeabby,0.2,0.02
+839,EL MERSHATI Laith (@lth-elm),0.2,0.02
+840,KEMP Elia,0.2,0.02
+841,Shawn Zheng,0.2,0.02
+842,Jason Cheng,0.2,0.02
+843,George Huang,0.2,0.02
+844,Kay Lin,0.2,0.02
+845,Cristian Espinoza,0.2,0.02
+846,David Huber,0.2,0.02
+847,and Arran Schlosberg,0.2,0.02
+848,John Zhang,0.2,0.02
+849,Davis Xiang,0.2,0.02
+850,Kyle Xu,0.2,0.02
+851,George Zhang,0.2,0.02
+852,Eric Lau,0.2,0.02
+853,Chloe Gu,0.2,0.02
+854,Navid X.,0.2,0.02
+855,Victor Yu,0.2,0.02
+856,Archer H.,0.2,0.02
+857,LeadBest Consulting Group,0.2,0.02
+858,Sandy Sung (@sandy-sung-lb),0.2,0.02
+859,Mars Peng,0.2,0.02
+860,Taien Wang,0.2,0.02
+861,MJ Tseng (@TsengMJ),0.2,0.02
+862,Clay (@Clay2018),0.2,0.02
+863,Jeffery.c,0.2,0.02
+864,Johnny.c,0.2,0.02
+865,Abhinav (@abhinav-d3v),0.2,0.02
+866,Prithvish Baidya (@d4mr),0.2,0.02
+867,Rajat Kumar (@rajatwasan),0.2,0.02
+868,Prasanth Kalangi,0.2,0.02
+869,Shu Dong (@dongshu2013),0.2,0.02
+870,Yudao Yan,0.2,0.02
+871,Song Z,0.2,0.02
+872,Kai Chen,0.2,0.02
+873,CT29,0.2,0.02
+874,Lee Vidor,0.2,0.02
+875,David Tan,0.2,0.02
+876,Lee Smith,0.2,0.02
+877,Gabriel Stoica,0.2,0.02
+878,Liu Zhicong,0.2,0.02
+879,Wei Qiushi,0.2,0.02
+880,Si Changjun,0.2,0.02
+881,Aiden X,0.2,0.02
+882,571nKY,0.2,0.02
+883,Cosmos,0.2,0.02
+884,f4t50,0.2,0.02
+885,Harpocrates,0.2,0.02
+886,Dominic Ryder,0.2,0.02
+887,Callum Mitchell-Clark (@AlvaraProtocol),0.2,0.02
+888,Joey van Etten,0.2,0.02
+889,Michael Ryder,0.2,0.02
+890,Arif Khan,0.2,0.02
+891,Ahmad Matyana,0.2,0.02
+892,Basil Gorin,0.2,0.02
+893,Vijay Bhayani,0.2,0.02
+894,Makoto Inoue,0.2,0.02
+895,Ryan McPeck,0.2,0.02
+896,Rob Dawson,0.2,0.02
+897,Ivica Aračić,0.2,0.02
+898,Ante Bešlić,0.2,0.02
+899,Mirko Katanić,0.2,0.02
+900,SWIAT,0.2,0.02
+901,alcueca,0.2,0.02
+902,ruvaag,0.2,0.02
+903,totomanov,0.2,0.02
+904,r0ohafza,0.2,0.02
+905,Dongri Jin,0.2,0.02
+906,Paul Harris,0.2,0.02
+907,Chris Smith,0.2,0.02
+908,Ellie Davidson,0.2,0.02
+909,Alex Xiong,0.2,0.02
+910,Philippe Camacho,0.2,0.02
+911,and Ben Fisch,0.2,0.02
+912,Kieran Goodary,0.2,0.02
+913,Pillar Wallet,0.2,0.02
+914,Luke Wickens,0.2,0.02
+915,Rana Khoury,0.2,0.02
+916,Ming Wu,0.2,0.02
+917,Jason Zeng,0.2,0.02
+918,Wei Wu,0.2,0.02
+919,Michael Heinrich,0.2,0.02
+920,parametprame,0.2,0.02
+921,Nacharoen,0.2,0.02
+922,Charlie Noyes,0.2,0.02
+923,Dan Robinson,0.2,0.02
+924,Cody Crozier,0.2,0.02
+925,Dragan Rakita,0.2,0.02
+926,Mingfei Zhang (@Mart1i1n),0.2,0.02
+927,Rujia Li,0.2,0.02
+928,Xueqian Lu,0.2,0.02
+929,Sisi Duan,0.2,0.02
+930,Alex Tian,0.2,0.02
+931,Zhixiong Pan,0.2,0.02
+932,Geoffrey (@stbrahms),0.2,0.02
+933,liyingxuan (@LiYingxuan),0.2,0.02
+934,Marco De Rossi,0.2,0.02
+935,Davide Crapis (@dcrapis),0.2,0.02
+936,Jordan Ellis,0.2,0.02
+937,Erik Reppel,0.2,0.02
+938,Matan Prasma,0.2,0.02
+939,Amirul Ashraf,0.2,0.02
+940,joxes,0.2,0.02
+941,bumblefudge,0.2,0.02
+942,Jamie Lokier,0.2,0.02
+943,Karim Taam,0.2,0.02
+944,Tim Coulter,0.2,0.02
+945,Denis Erfurt,0.2,0.02
+946,RJ Catalano,0.2,0.02
+947,Iuri Matias,0.2,0.02
+948,Matt Lockyer,0.2,0.02
+949,Jordan Schalm,0.2,0.02
+950,sebastian echeverry,0.2,0.02
+951,Tommy Nicholas,0.2,0.02
+952,Matt Russo,0.2,0.02
+953,John Zettler,0.2,0.02
+954,Victor Maia,0.2,0.02
+955,Marc Garreau,0.2,0.02
+956,Kaidong Wu,0.2,0.02
+957,Chuqiao Ren,0.2,0.02
+958,Ruthia He,0.2,0.02
+959,Yun Ma,0.2,0.02
+960,Xuanzhe Liu,0.2,0.02
+961,Leo Arias,0.2,0.02
+962,Alejo Salles,0.2,0.02
+963,Stephane Gosselin,0.2,0.02
+964,Lucas Cullen,0.2,0.02
+965,Kai Yeung,0.2,0.02
+966,Anna Crowley,0.2,0.02
+967,Caroline Marshall,0.2,0.02
+968,Katrina Donaghy,0.2,0.02
+969,Sean Gulley (@sean-sn),0.2,0.02
+970,Simon Peffers,0.2,0.02
+971,Will Villanueva,0.2,0.02
+972,Joachim Lebrun (@Joachim-Lebrun),0.2,0.02
+973,Tony Malghem,0.2,0.02
+974,Kevin Thizy,0.2,0.02
+975,Luc Falempin,0.2,0.02
+976,Gregory Rocco,0.2,0.02
+977,Brantly Millegan,0.2,0.02
+978,t11s,0.2,0.02
+979,Jet Jadeja,0.2,0.02
+980,Señor Doggo,0.2,0.02
+981,Damian Martinelli,0.2,0.02
+982,blockdev,0.2,0.02
+983,Austin Griffith,0.2,0.02
+984,Jalil Wahdatehagh,0.2,0.02
+985,Cry,0.2,0.02
+986,Sillytuna,0.2,0.02
+987,Cyberpnk,0.2,0.02
+988,Jan Smrža,0.2,0.02
+989,David Rábel,0.2,0.02
+990,Tomáš Janča,0.2,0.02
+991,Jan Bureš,0.2,0.02
+992,DOBBYLABS,0.2,0.02
+993,Veega Labs,0.2,0.02
+994,Sean NG,0.2,0.02
+995,Tiger,0.2,0.02
+996,Fred,0.2,0.02
+997,Fov Cao,0.2,0.02
+998,Guang Han,0.2,0.02
+999,Brian Wu,0.2,0.02
+1000,foobar,0.2,0.02
+1001,ryley-o (@ryley-o),0.2,0.02
+1002,Jake Rockland,0.2,0.02
+1003,andy8052,0.2,0.02
+1004,Apeguru,0.2,0.02
+1005,Marco De Vries,0.2,0.02
+1006,Mario,0.2,0.02
+1007,DeFiFoFum,0.2,0.02
+1008,Elliott Green (@elliott-green),0.2,0.02
+1009,Silvere Heraudeau (@lambdalf-dev),0.2,0.02
+1010,Martin McConnell,0.2,0.02
+1011,Abu,0.2,0.02
+1012,Gary Ghayrat,0.2,0.02
+1013,Radosław Zagórowicz,0.2,0.02
+1014,JT Riley,0.2,0.02
+1015,Dillon,0.2,0.02
+1016,Sara,0.2,0.02
+1017,Neodaoist,0.2,0.02
+1018,Mário Havel,0.2,0.02
+1019,pk910,0.2,0.02
+1020,Rémy Roy,0.2,0.02
+1021,Holly Atkinson,0.2,0.02
+1022,Tereza Burianova (@T-ess),0.2,0.02
+1023,Lee Ting Ting,0.2,0.02
+1024,Devtooligan,0.2,0.02
+1025,Ultrasecr.eth,0.2,0.02
+1026,Sam Bacha,0.2,0.02
+1027,James Wenzel (@emo-eth),0.2,0.02
+1028,Hamid Bateni,0.2,0.02
+1029,Amir Kahoori,0.2,0.02
+1030,0xwormhole,0.2,0.02
+1031,Yush G (@Divide-By-0),0.2,0.02
+1032,Kobi Gurkan,0.2,0.02
+1033,Richard Liu,0.2,0.02
+1034,Vivek Bhupatiraju,0.2,0.02
+1035,Barry Whitehat,0.2,0.02
+1036,0xPoet,0.2,0.02
+1037,Suning Yao,0.2,0.02
+1038,Hazim Jumali (@hazim-j),0.2,0.02
+1039,Sam Calder-Mason,0.2,0.02
+1040,Andrew Davis,0.2,0.02
+1041,Michael Neuder,0.2,0.02
+1042,Sara Reynolds,0.2,0.02
+1043,Alice Henshaw,0.2,0.02
+1044,Marko Veniger,0.2,0.02
+1045,JT Riley (@jtriley-eth),0.2,0.02
+1046,xiaobaiskill,0.2,0.02
+1047,Peter Kieltyka,0.2,0.02
+1048,William Hua,0.2,0.02
+1049,Oleksandr Kurbatov,0.2,0.02
+1050,Yaroslav Panasenko,0.2,0.02
+1051,Michael Elliot (@michaelelliot),0.2,0.02
+1052,Adam Hodges,0.2,0.02
+1053,Paaras Bhandari,0.2,0.02
+1054,Jake Feldman,0.2,0.02
+1055,Montana Wong,0.2,0.02
+1056,Felix Zhang (@fan-zhang-sv),0.2,0.02
+1057,Francesco D`Amato,0.2,0.02
+1058,Georgios Konstantopoulos,0.2,0.02
+1059,Christian Reitwießner,0.2,0.02
+1060,Philippe Castonguay (@phabc),0.2,0.02
+1061,Ronan Sandford (@wighawag),0.2,0.02
+1062,Amir Bandeali,0.2,0.02
+1063,Bertrand Masius,0.2,0.02
+1064,Rick Dudley,0.2,0.02
+1065,Matthew Slipper,0.2,0.02
+1066,Ian Norden (@i-norden),0.2,0.02
+1067,Ben Hauser,0.2,0.02
+1068,Uri Klarman,0.2,0.02
+1069,Anthony Sassano,0.2,0.02
+1070,Varun Deshpande (@dr-chain),0.2,0.02
+1071,Cedric Ngakam,0.2,0.02
+1072,Dhruv Malik,0.2,0.02
+1073,Toufic Batrice,0.2,0.02
+1074,Will Wang,0.2,0.02
+1075,Mike Meng,0.2,0.02
+1076,Yi Cai (@YeeTsai),0.2,0.02
+1077,Ryan Chow,0.2,0.02
+1078,Zhongxin Wu,0.2,0.02
+1079,AlvisDu,0.2,0.02
+1080,Joshua Tan,0.2,0.02
+1081,Ido Gershtein,0.2,0.02
+1082,Eyal Eithcowich,0.2,0.02
+1083,Michael Zargham,0.2,0.02
+1084,Sam Furter,0.2,0.02
+1085,Jacob Ward,0.2,0.02
+1086,Charles Lehner,0.2,0.02
+1087,Sam Gbafa,0.2,0.02
+1088,Charles Cunningham,0.2,0.02
+1089,Paul Dworzanski,0.2,0.02
+1090,Derion (@derion-io),0.2,0.02
+1091,Zergity,0.2,0.02
+1092,Ngo Quang Anh,0.2,0.02
+1093,BerlinP,0.2,0.02
+1094,Khanh Pham,0.2,0.02
+1095,Hal Blackburn,0.2,0.02
+1096,Nawar Hisso (@nawar-hisso),0.2,0.02
+1097,Khawla Hassan,0.2,0.02
+1098,Ashish Sood,0.2,0.02
+1099,Orchid-Dev (@proj-orchid-straitsx),0.2,0.02
+1100,Victor Liew,0.2,0.02
+1101,Wong Tse Jian,0.2,0.02
+1102,Jacob Shan,0.2,0.02
+1103,Chin Sin Ong,0.2,0.02
+1104,Praveen Kumar,0.2,0.02
+1105,Vitalik,0.2,0.02
+1106,potuz,0.2,0.02
+1107,Manav,0.2,0.02
+1108,Alexander Müller,0.2,0.02
+1109,Willem Olding,0.2,0.02
+1110,Belma Gutlic,0.2,0.02
+1111,Marin Petrunić,0.2,0.02
+1112,Elim Poon,0.2,0.02
+1113,Lyu Min,0.2,0.02
+1114,Doris Che (@Cheyukj),0.2,0.02
+1115,Henry Yuan (@onehumanbeing),0.2,0.02
+1116,Quit,0.2,0.02
+1117,Harrison (@pop-punk),0.2,0.02
+1118,Carson (@carsons-eels),0.2,0.02
+1119,Laurent Castillo (@lcastillo-ledger),0.2,0.02
+1120,Pierre Aoun (@paoun-ledger),0.2,0.02
+1121,Arik Galansky,0.2,0.02
+1122,Bartosz Rozwarski,0.2,0.02
+1123,Akshay Patel (@akshay-ap),0.2,0.02
+1124,Joshua Kim,0.2,0.02
+1125,Fangting (@trinity-0111),0.2,0.02
+1126,Ernesto Garcia,0.2,0.02
+1127,CJ Cobb,0.2,0.02
+1128,Sergey Gorbunov,0.2,0.02
+1129,alvarius,0.2,0.02
+1130,dk1a,0.2,0.02
+1131,frolic,0.2,0.02
+1132,ludens,0.2,0.02
+1133,vdrg,0.2,0.02
+1134,yonada,0.2,0.02
+1135,Xiaoyu Liu (@elizabethxiaoyu),0.2,0.02
+1136,Yuxiang Fu (@tmac4096),0.2,0.02
+1137,Yanyi Liang,0.2,0.02
+1138,Hao Zou (@BruceZH0915),0.2,0.02
+1139,Siyuan Zheng (@andrewcoder666),0.2,0.02
+1140,yuanshanhshan (@xunayuan),0.2,0.02
+1141,Ruiqiang Li (@richard-620),0.2,0.02
+1142,Brian Yecies,0.2,0.02
+1143,John Le,0.2,0.02
+1144,Aaron Chen,0.1,0.01
+1145,Sora Lee,0.1,0.01
+1146,Dan Miller,0.1,0.01
+1147,AndreasGassmann,0.1,0.01
+1148,xardass,0.1,0.01
+1149,Lixin Liu,0.1,0.01
+1150,Mofi Taiwo,0.1,0.01
+1151,Shange Fu,0.1,0.01
+1152,Yilin Sai,0.1,0.01
+1153,Sherry Xu,0.1,0.01
+1154,Cozy Finance,0.1,0.01
+1155,Tony Sheng,0.1,0.01
+1156,David Laprade,0.1,0.01
+1157,Payom Dousti,0.1,0.01
+1158,Chad Fleming (@chad-js),0.1,0.01
+1159,Franz Chen,0.1,0.01
+1160,2pmflow,0.1,0.01
+1161,locationtba,0.1,0.01
+1162,Cameron Robertson,0.1,0.01
+1163,Brian Weick,0.1,0.01
+1164,djdabs,0.1,0.01
+1165,RE:DREAMER Lab,0.1,0.01
+1166,Archie Chang (@ArchieR7),0.1,0.01
+1167,Kai Yu (@chihkaiyu),0.1,0.01
+1168,Yonathan Randyanto (@Randyanto),0.1,0.01
+1169,Boyu Chu (@chuboyu),0.1,0.01
+1170,Boxi Li (@boxi79),0.1,0.01
+1171,Jason Cheng (@JasonCheng0729),0.1,0.01
+1172,Richard Meissner - Safe,0.1,0.01
+1173,Robert Chen - OtterSec (@chen-robert),0.1,0.01
+1174,Matthias Egli - ChainSecurity,0.1,0.01
+1175,Jan Kalivoda - Ackee Blockchain,0.1,0.01
+1176,Michael Lewellen - OpenZeppelin,0.1,0.01
+1177,Shay Zluf - Hats Finance,0.1,0.01
+1178,Alex Papageorgiou - Omniscia (@alex-ppg),0.1,0.01
+1179,Garvit Khatri,0.1,0.01
+1180,Tomas Rocchi,0.1,0.01
+1181,OpenMind,0.1,0.01
+1182,Jan Liphardt,0.1,0.01
+1183,Shaohong Zhong,0.1,0.01
+1184,Boyuan Chen (@bchen-dev),0.1,0.01
+1185,Paige Xu,0.1,0.01
+1186,James Ball,0.1,0.01
+1187,Thamer Dridi,0.1,0.01
+1188,Thomas Thiery (@soispoke),0.1,0.01
+1189,Julian Ma,0.1,0.01
+1190,Jacob Kaufmann,0.1,0.01
+1191,Jihoon Song,0.1,0.01
+1192,Dustin,0.1,0.01
+1193,Zhenfei Zhang,0.1,0.01
+1194,Nicolas Consigny,0.1,0.01
+1195,Bosul Mun,0.1,0.01
+1196,Marios Ioannou (@mariosioannou-create),0.1,0.01
+1197,Mikhail,0.1,0.01
+1198,Aditya,0.1,0.01
+1199,Justin,0.1,0.01
+1200,Ghazi Ben Amor,0.1,0.01
+1201,Clement Danjou (@immortal-tofu),0.1,0.01
+1202,Joseph Andre Turk,0.1,0.01
+1203,Silas Davis,0.1,0.01
+1204,Nicolas Pasquier,0.1,0.01
+1205,Rachid Ajaja,0.1,0.01
+1206,Matthijs de Vries,0.1,0.01
+1207,Alexandros Athanasopulos,0.1,0.01
+1208,Pavel Rubin,0.1,0.01
+1209,Sebastian Galimberti Romano,0.1,0.01
+1210,Daniel Berbesi,0.1,0.01
+1211,Apostolos Mavropoulos,0.1,0.01
+1212,Barbara Marcano (@Barbara-Marcano),0.1,0.01
+1213,Daniel Ortega,0.1,0.01
+1214,Sihoon Lee,0.1,0.01
+1215,Im Juno,0.1,0.01
+1216,howydev,0.1,0.01
+1217,0xcuriousapple,0.1,0.01
+1218,Andrew Redden,0.1,0.01
+1219,Scott Burke,0.1,0.01
+1220,Kevin Seagraves,0.1,0.01
+1221,Luka Kacil,0.1,0.01
+1222,Štefan Šimec,0.1,0.01
+1223,Piotr Kosiński,0.1,0.01
+1224,ankit raj,0.1,0.01
+1225,John Griffin,0.1,0.01
+1226,Nathan Creswell,0.1,0.01
+1227,Glitch (@glitch-txs),0.1,0.01
+1228,Pierre Bertet,0.1,0.01
+1229,Darryl Yeo,0.1,0.01
+1230,Yaroslav Sergievsky,0.1,0.01
+1231,Idris Bowman (@V00D00-child),0.1,0.01
+1232,Jeff Smale,0.1,0.01
+1233,Sam Kaufman,0.1,0.01
+1234,Yuliya Alexiev,0.1,0.01
+1235,Teddy,0.1,0.01
+1236,Joxes,0.1,0.01
+1237,Racu,0.1,0.01
+1238,TiTi,0.1,0.01
+1239,Gori,0.1,0.01
+1240,Ardy,0.1,0.01
+1241,Onizuka (@onizuka-wl),0.1,0.01
+1242,Thomas Clowes,0.1,0.01
+1243,Prem Makeig,0.1,0.01
+1244,Mono,0.1,0.01
+1245,Orca,0.1,0.01
+1246,Josh Rudolf,0.1,0.01
+1247,Justin Traglia,0.1,0.01
+1248,Fredrik Svantes,0.1,0.01
+1249,Liraz Siri,0.1,0.01
+1250,Sachin Tomar,0.1,0.01
+1251,Patrick McCorry,0.1,0.01
+1252,Nicolas Venturo,0.1,0.01
+1253,Phillip Pon,0.1,0.01
+1254,Gary Liu,0.1,0.01
+1255,Henry Chan,0.1,0.01
+1256,Joey Liu,0.1,0.01
+1257,Lauren Ho,0.1,0.01
+1258,Jeff Leung,0.1,0.01
+1259,Brian Liang,0.1,0.01
+1260,Joyce Li,0.1,0.01
+1261,Avir Mahtani,0.1,0.01
+1262,Antoine Cote,0.1,0.01
+1263,David Leung,0.1,0.01
+1264,Sophia Gold (@sophia-gold),0.1,0.01
+1265,Josh Rudolph,0.1,0.01
+1266,Adam Egyed,0.1,0.01
+1267,Fangting Liu (@trinity-0111),0.1,0.01
+1268,Jay Paik,0.1,0.01
+1269,Huawei Gu,0.1,0.01
+1270,Daniel Lim (@dlim-circle),0.1,0.01
+1271,Ruben Koch,0.1,0.01
+1272,David Philipson,0.1,0.01
+1273,Howy Ho,0.1,0.01
+1274,Nikita Belenkov (@nikita-quantstamp),0.1,0.01
+1275,zer0dot,0.1,0.01
+1276,Borislav Itskov,0.1,0.01
+1277,Joao Tavares,0.1,0.01
+1278,Adam Fuller,0.1,0.01
+1279,Philip Liao (@phil-ociraptor),0.1,0.01
+1280,skeletor (@skeletor-spaceman),0.1,0.01
+1281,parti,0.1,0.01
+1282,ng,0.1,0.01
+1283,agus duha,0.1,0.01
+1284,disco,0.1,0.01
+1285,gotzen,0.1,0.01
+1286,Mark Tyneway,0.1,0.01
+1287,Zain Bacchus,0.1,0.01
+1288,Jayden Windle,0.1,0.01
+1289,Benny Giang,0.1,0.01
+1290,Steve Jang,0.1,0.01
+1291,Druzy Downs,0.1,0.01
+1292,Raymond Huynh,0.1,0.01
+1293,Alanah Lam,0.1,0.01
+1294,Jan-Felix Schwarz,0.1,0.01
+1295,Josh Weintraub (@jhweintraub),0.1,0.01
+1296,Víctor Martínez,0.1,0.01
+1297,Adrián Pajares,0.1,0.01
+1298,Skeletor Spaceman (@0xskeletor-spaceman),0.1,0.0
+1299,Lumi,0.1,0.0
+1300,Moebius,0.1,0.0
+1301,Skeletor Spaceman (@skeletor-spaceman),0.1,0.0

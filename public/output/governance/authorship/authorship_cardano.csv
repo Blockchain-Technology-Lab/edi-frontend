@@ -1,12 +1,149 @@
-Author,Contribution(%)
-Matthias Benkort,7.55
-Michael Peyton Jones,6.05
-Philip DiSarro,5.08
-Sebastien Guillemot,5.08
-Jared Corduan,3.52
-Ryan Williams,3.12
-Steven Johnson,2.73
-Koz Ross,2.47
-Pi Lanningham,2.34
-Kevin Hammond,2.08
-Others,59.96
+Rank,Author,Weighted_Contribution,Percentage
+1,Matthias Benkort,9.7,7.55
+2,Michael Peyton Jones,7.8,6.05
+3,Philip DiSarro,6.5,5.08
+4,Sebastien Guillemot,6.5,5.08
+5,Jared Corduan,4.5,3.52
+6,Ryan Williams,4.0,3.12
+7,Steven Johnson,3.5,2.73
+8,Koz Ross,3.2,2.47
+9,Pi Lanningham,3.0,2.34
+10,Kevin Hammond,2.7,2.08
+11,Shawn McMurdo,2.5,1.95
+12,Ola Ahlman,2.4,1.89
+13,Adam Dean,2.1,1.63
+14,Tobias Fancee,2.0,1.56
+15,Leo,2.0,1.56
+16,Iñigo Querejeta-Azurmendi,1.8,1.37
+17,Andrew Westberg,1.7,1.29
+18,Thomas Vellekoop,1.6,1.24
+19,Alessandro Konrad,1.5,1.17
+20,Vladimir Kalnitsky,1.5,1.17
+21,Martin Lang,1.4,1.11
+22,Rafael Korbas,1.3,1.04
+23,Marcin Szamotulski,1.2,0.91
+24,Jonathan Knowles,1.0,0.78
+25,Markus Gufler,1.0,0.78
+26,Luke Nadur,1.0,0.78
+27,rooooooooob,1.0,0.78
+28,Casey Gibson,1.0,0.78
+29,Simon Thompson,1.0,0.78
+30,Kieran Simkin,1.0,0.78
+31,Maksymilian 'zygomeb' Brodowicz,1.0,0.78
+32,Thaddeus Diamond,1.0,0.78
+33,Robin of Loxley,1.0,0.78
+34,fallen-icarus,1.0,0.78
+35,Niels Mündler,1.0,0.78
+36,Juan Salvador Magán Valero,1.0,0.78
+37,Sam Delaney,1.0,0.78
+38,Thomas Upfield,1.0,0.78
+39,Tomasz Rybarczy,1.0,0.78
+40,Jonathan Rodriguez,1.0,0.78
+41,Ashish Prajapati,1.0,0.78
+42,Alex Sierkov,1.0,0.78
+43,John Hughes,1.0,0.78
+44,Ryan Wiley rian222@gmail.com,1.0,0.78
+45,Alexey Kuleshevich,0.8,0.65
+46,Sebastian Nagel,0.8,0.62
+47,George Flerovsky,0.8,0.59
+48,Polina Vinogradova,0.7,0.52
+49,Ryan Wiley,0.6,0.5
+50,Robert Phair,0.5,0.39
+51,Ruslan Dudin,0.5,0.39
+52,Mike Fullman,0.5,0.39
+53,Rodney Lorrimar,0.5,0.39
+54,Smaug,0.5,0.39
+55,Huth S0lo,0.5,0.39
+56,TheRealAdamDean,0.5,0.39
+57,Andre Knispel,0.5,0.39
+58,Fabian Bormann,0.5,0.39
+59,Jaime Caso,0.5,0.39
+60,KtorZ,0.5,0.39
+61,scarmuega,0.5,0.39
+62,Maximilian König,0.5,0.39
+63,zhekson1,0.5,0.39
+64,Sergei Patrikeev,0.5,0.39
+65,Martín Schere,0.5,0.39
+66,Danielle Stanko,0.5,0.39
+67,Eystein Magnus Hansen,0.5,0.39
+68,Ana Pantilie,0.5,0.39
+69,Giovanni Garufi,0.5,0.39
+70,Nathan Bogale,0.5,0.39
+71,Marcel Baumberg,0.5,0.39
+72,Yura Lazaryev,0.5,0.39
+73,Nicolas Henin,0.5,0.39
+74,Raphael Toledo,0.5,0.39
+75,Teodora Danciu,0.5,0.39
+76,Pawel Jakubas,0.5,0.39
+77,Samuel Leathers,0.4,0.33
+78,Arnaud Bailly,0.4,0.29
+79,Marek Mahut,0.3,0.26
+80,Ján Hrnko,0.3,0.26
+81,Vicente Almonacid,0.3,0.26
+82,Rinor Hoxha,0.3,0.26
+83,Mikhail Zabaluev,0.3,0.26
+84,Gabriel Kerekes,0.3,0.26
+85,Jan Mazak,0.3,0.26
+86,Giacomo Pasini,0.3,0.26
+87,Mark Stopka,0.3,0.26
+88,Michael Peyton-Jones,0.3,0.26
+89,Iñigo Querejeta Azurmendi,0.3,0.26
+90,Bruno Martins,0.3,0.26
+91,Mateusz Czeladka,0.3,0.26
+92,Daniel Main,0.3,0.26
+93,Carl,0.3,0.26
+94,Alex Dochioiu,0.3,0.26
+95,Will Gould,0.3,0.26
+96,Ilia Rodionov,0.3,0.26
+97,Jeff Cheah,0.3,0.26
+98,Vito Melchionna,0.3,0.26
+99,Aaron Schmid,0.3,0.26
+100,Carolina Isler @LaPetiteADA,0.3,0.26
+101,Dmytro Kaidalov,0.3,0.26
+102,Adam Smolarek,0.3,0.26
+103,Yves Hauser,0.3,0.25
+104,Nicolas Ayotte,0.2,0.2
+105,Samuel Williams,0.2,0.2
+106,Nathaniel Lane,0.2,0.2
+107,Kenneth MacKenzie,0.2,0.2
+108,John Lotoski,0.2,0.2
+109,Michael Bishop,0.2,0.2
+110,David Arnold,0.2,0.2
+111,Brian W. Bush,0.2,0.16
+112,Sandro Coretti-Drayton,0.2,0.16
+113,Hans Lahe,0.2,0.16
+114,Frederic Johnson,0.2,0.13
+115,Duncan Coutts,0.2,0.13
+116,Sam Leathers,0.2,0.13
+117,Alex Moser,0.2,0.13
+118,Steve Wagendorp,0.2,0.13
+119,Nicholas Clarke,0.2,0.13
+120,Jean-Philippe Raynaud,0.2,0.13
+121,Armando Santos,0.2,0.13
+122,Neil Davies,0.2,0.13
+123,Charles Hoskinson,0.2,0.13
+124,Michael Liesenfelt,0.1,0.11
+125,Rich Manderino [ECP],0.1,0.11
+126,Stef M [RABIT],0.1,0.11
+127,Wayne [OTG],0.1,0.11
+128,Homer J (AAA),0.1,0.11
+129,Chad [BBHMM],0.1,0.11
+130,William Wolff,0.1,0.1
+131,Brian W Bush,0.1,0.1
+132,Nicolas Frisby,0.1,0.1
+133,Giorgos Panagiotakos,0.1,0.1
+134,Andre Knipsel,0.1,0.1
+135,Simon Gellis,0.1,0.1
+136,Ryan Jones,0.1,0.06
+137,Justin Morgan,0.1,0.06
+138,Ian Singer,0.1,0.06
+139,Anthony Eizmendiz,0.1,0.06
+140,Session Cruz,0.1,0.06
+141,Jimmy Londo,0.1,0.06
+142,Gudbrand Tokerud,0.1,0.06
+143,Kevin St.Clair,0.1,0.06
+144,Brandon Loyche,0.1,0.06
+145,Andrew Donovan,0.1,0.06
+146,The Finest LLC (DBA So Litty Records),0.1,0.06
+147,Cristhian Escobar,0.1,0.06
+148,Gabriel Stephan Talamantes,0.1,0.06
