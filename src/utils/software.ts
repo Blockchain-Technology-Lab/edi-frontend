@@ -267,22 +267,42 @@ export function parseDoughnutCsv(csv: string): DoughnutDataEntry[] {
   let skippedLines = 0
   const isProduction = process.env.NODE_ENV === 'production'
 
+  // Support two formats:
+  // 1) legacy: "author,commits" per line, no header
+  // 2) tabular with header columns that include author + weighted_contribution
+  const firstParts = (lines[0] || '')
+    .split(CSV_DELIMITER)
+    .map((part) => part.trim().toLowerCase())
+  const authorIndex = firstParts.indexOf('author')
+  const weightedContributionIndex = firstParts.indexOf('weighted_contribution')
+  const commitsIndex = firstParts.indexOf('commits')
+  const hasHeader =
+    authorIndex >= 0 && (weightedContributionIndex >= 0 || commitsIndex >= 0)
+  const valueIndex = weightedContributionIndex >= 0 ? weightedContributionIndex : commitsIndex
+
   // Create a unique identifier for this CSV file based on content hash
   const csvHash = csv.slice(0, 100).replace(/\W/g, '').substring(0, 20)
   const csvId = `doughnut-csv-${lines.length}-${csvHash}`
 
-  lines.forEach((line) => {
+  lines.forEach((line, index) => {
     if (!line.trim()) return // Skip empty lines
+
+    if (hasHeader && index === 0) return // Skip header row
 
     const parts = line.split(CSV_DELIMITER)
 
-    // Ensure we have exactly 2 parts (author and commits)
-    if (parts.length !== 2) {
+    const author = hasHeader ? parts[authorIndex] : parts[0]
+    const commits = hasHeader ? parts[valueIndex] : parts[1]
+
+    if (!hasHeader && parts.length !== 2) {
       skippedLines++
       return
     }
 
-    const [author, commits] = parts
+    if (hasHeader && (authorIndex < 0 || valueIndex < 0)) {
+      skippedLines++
+      return
+    }
 
     // Check if author is empty or just whitespace
     if (!author || !author.trim()) {
