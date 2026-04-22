@@ -272,24 +272,6 @@ export const GOVERNANCE_LEDGERS = [
   BASE_LEDGERS.cardano
 ] as const
 
-export const GOVERNANCE_YEARLY_POSTS_LEDGERS = [
-  {
-    ledger: 'Posts',
-    displayName: 'Posts',
-    color: 'rgba(239, 68, 68, 1)' // Red
-  },
-  {
-    ledger: 'Comments',
-    displayName: 'Comments',
-    color: 'rgba(59, 130, 246, 1)' // Blue
-  },
-  {
-    ledger: 'Users',
-    displayName: 'Users',
-    color: 'rgba(16, 185, 129, 1)' // Green
-  }
-] as const
-
 export const GOVERNANCE_DISCUSSION_SOURCE_LEDGERS = [
   {
     ledger: 'bitcoin_forum',
@@ -331,9 +313,6 @@ export const GEOGRAPHY_COLOURS = GEOGRAPHY_LEDGERS.map((l) => l.color)
 
 export const GOVERNANCE_LEDGER_NAMES = GOVERNANCE_LEDGERS.map((l) => l.ledger)
 export const GOVERNANCE_COLOURS = GOVERNANCE_LEDGERS.map((l) => l.color)
-
-export const GOVERNANCE_YEARLY_POSTS_COLOURS =
-  GOVERNANCE_YEARLY_POSTS_LEDGERS.map((l) => l.color)
 
 export const GOVERNANCE_DISCUSSION_SOURCE_COLOURS =
   GOVERNANCE_DISCUSSION_SOURCE_LEDGERS.map((l) => l.color)
@@ -386,9 +365,7 @@ const LAYER_LEDGER_MAP = {
   software: SOFTWARE_LEDGERS,
   network: NETWORK_LEDGERS,
   geography: GEOGRAPHY_LEDGERS,
-  governance: GOVERNANCE_LEDGERS,
-  'governance-posts': GOVERNANCE_YEARLY_POSTS_LEDGERS,
-  'governance-discussion': GOVERNANCE_DISCUSSION_SOURCE_LEDGERS
+  governance: [...GOVERNANCE_LEDGERS, ...GOVERNANCE_DISCUSSION_SOURCE_LEDGERS]
 } as const
 
 /**

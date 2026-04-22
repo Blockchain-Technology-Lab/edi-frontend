@@ -1,5 +1,6 @@
-import type { DataEntry } from '@/utils/types'
+import type { CsvParseEntry, DataEntry } from '@/utils/types'
 import { GOVERNANCE_CSV } from '@/utils/paths'
+import { forEachCsvDataRow, parseCsvDate, splitCsvContent } from './csvParsing'
 
 const GOVERNANCE_COLUMNS = ['3-concentration-ratio']
 const GOVERNANCE_PROPOSAL_COLUMNS = [
@@ -61,9 +62,66 @@ export const GOVERNANCE_PROPOSAL_METRICS = [
   }
 ]
 
-export const GOVERNANCE_GITHUB_METRICS = [...GOVERNANCE_PROPOSAL_METRICS]
+export const GOVERNANCE_GITHUB_METRICS = [
+  {
+    metric: 'gini',
+    title: 'Gini coefficient',
+    decimals: 2,
+    description:
+      'The Gini coefficient represents inequality in contribution distribution across contributors in the selected GitHub role.'
+  },
+  {
+    metric: 'nakamoto',
+    title: 'Nakamoto coefficient',
+    decimals: 0,
+    description:
+      'The Nakamoto coefficient represents the minimum number of contributors in the selected GitHub role required to exceed 50% of total contribution.'
+  },
+  {
+    metric: 'shannon_entropy',
+    title: 'Shannon entropy',
+    decimals: 2,
+    description:
+      'Shannon entropy measures contribution diversity across contributors in the selected GitHub role. Higher values indicate greater decentralisation.'
+  },
+  {
+    metric: 'hhi',
+    title: 'HHI',
+    decimals: 0,
+    description:
+      'The Herfindahl-Hirschman Index (HHI) measures concentration of contribution in the selected GitHub role. Higher values indicate stronger concentration.'
+  }
+]
+
 export const GOVERNANCE_COMMUNITY_DISCUSSION_METRICS = [
-  ...GOVERNANCE_PROPOSAL_METRICS
+  {
+    metric: 'gini',
+    title: 'Gini coefficient',
+    decimals: 2,
+    description:
+      'The Gini coefficient represents inequality in discussion contribution distribution for the selected community role.'
+  },
+  {
+    metric: 'nakamoto',
+    title: 'Nakamoto coefficient',
+    decimals: 0,
+    description:
+      'The Nakamoto coefficient represents the minimum number of contributors in the selected community role required to exceed 50% of total contribution.'
+  },
+  {
+    metric: 'shannon_entropy',
+    title: 'Shannon entropy',
+    decimals: 2,
+    description:
+      'Shannon entropy measures contribution diversity for the selected community role. Higher values indicate greater decentralisation.'
+  },
+  {
+    metric: 'hhi',
+    title: 'HHI',
+    decimals: 0,
+    description:
+      'The Herfindahl-Hirschman Index (HHI) measures concentration of contribution for the selected community role. Higher values indicate stronger concentration.'
+  }
 ]
 
 export const GOVERNANCE_AUTHORSHIP_DOUGHNUTS = [
@@ -149,17 +207,7 @@ export async function loadGovernanceProposalMetricsCsvData(
   ledgerName: string
 ): Promise<DataEntry[]> {
   try {
-    let response = await fetch(csvPath)
-
-    // Deployment fallback: some environments expose this folder with uppercase
-    // "Proposal_decentralisation_metrics".
-    if (!response.ok && csvPath.includes('/proposal_decentralisation_metrics/')) {
-      const fallbackPath = csvPath.replace(
-        '/proposal_decentralisation_metrics/',
-        '/Proposal_decentralisation_metrics/'
-      )
-      response = await fetch(fallbackPath)
-    }
+    const response = await fetch(csvPath)
 
     if (!response.ok) {
       throw new Error(
@@ -211,46 +259,39 @@ export async function loadGovernanceCommunityDiscussionMetricsCsvData(
 }
 
 export function parseGovernanceCsv(csvData: string): DataEntry[] {
-  const lines = csvData.trim().split('\n')
-
-  if (lines.length < 2) {
-    return []
-  }
-
-  const headers = lines[0].split(',').map((h) => h.trim())
+  const { lines, headers } = splitCsvContent(csvData)
   const data: DataEntry[] = []
 
-  for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(',')
-    if (values.length !== headers.length) continue
+  forEachCsvDataRow(lines, headers, {
+    onRow: (_i, values) => {
+      const entry: CsvParseEntry = {}
 
-    const entry: Partial<DataEntry> = {}
+      for (let j = 0; j < headers.length; j++) {
+        const header = headers[j]
+        const value = values[j].trim()
 
-    for (let j = 0; j < headers.length; j++) {
-      const header = headers[j]
-      const value = values[j].trim()
-
-      if (header === 'date') {
-        const date = new Date(value)
-        if (!Number.isNaN(date.getTime())) {
-          entry.date = date
+        if (header === 'date') {
+          const date = parseCsvDate(value)
+          if (date) {
+            entry.date = date
+          }
+        } else if (header === 'chain') {
+          entry.ledger = value
+        } else if (GOVERNANCE_COLUMNS.includes(header)) {
+          const parsed = parseFloat(value)
+          entry[header] = Number.isNaN(parsed) ? null : parsed
         }
-      } else if (header === 'chain') {
-        entry.ledger = value
-      } else if (GOVERNANCE_COLUMNS.includes(header)) {
-        const parsed = parseFloat(value)
-        entry[header] = Number.isNaN(parsed) ? null : parsed
+      }
+
+      const hasMetric = GOVERNANCE_COLUMNS.some(
+        (column) => typeof entry[column] === 'number'
+      )
+
+      if (entry.ledger && entry.date && hasMetric) {
+        data.push(entry as DataEntry)
       }
     }
-
-    const hasMetric = GOVERNANCE_COLUMNS.some(
-      (column) => typeof entry[column] === 'number'
-    )
-
-    if (entry.ledger && entry.date && hasMetric) {
-      data.push(entry as DataEntry)
-    }
-  }
+  })
 
   return data.sort(sortByLedgerAndDate)
 }
@@ -259,90 +300,76 @@ export function parseGovernanceProposalMetricsCsv(
   csvData: string,
   ledgerName: string
 ): DataEntry[] {
-  const lines = csvData.trim().split('\n')
-
-  if (lines.length < 2) {
-    return []
-  }
-
-  const headers = lines[0].split(',').map((h) => h.trim())
+  const { lines, headers } = splitCsvContent(csvData)
   const data: DataEntry[] = []
 
-  for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(',')
-    if (values.length !== headers.length) continue
+  forEachCsvDataRow(lines, headers, {
+    onRow: (_i, values) => {
+      const entry: CsvParseEntry = {}
+      entry.ledger = ledgerName
 
-    const entry: Partial<DataEntry> = {}
-    entry.ledger = ledgerName
+      for (let j = 0; j < headers.length; j++) {
+        const header = headers[j]
+        const value = values[j].trim()
 
-    for (let j = 0; j < headers.length; j++) {
-      const header = headers[j]
-      const value = values[j].trim()
-
-      if (header === 'year') {
-        const date = new Date(`${value}-01-01`)
-        if (!Number.isNaN(date.getTime())) {
-          entry.date = date
+        if (header === 'year') {
+          const date = parseCsvDate(`${value}-01-01`)
+          if (date) {
+            entry.date = date
+          }
+        } else if (GOVERNANCE_PROPOSAL_COLUMNS.includes(header)) {
+          const parsed = parseFloat(value)
+          entry[header] = Number.isNaN(parsed) ? null : parsed
         }
-      } else if (GOVERNANCE_PROPOSAL_COLUMNS.includes(header)) {
-        const parsed = parseFloat(value)
-        entry[header] = Number.isNaN(parsed) ? null : parsed
+      }
+
+      const hasMetric = GOVERNANCE_PROPOSAL_COLUMNS.some(
+        (column) => typeof entry[column] === 'number'
+      )
+
+      if (entry.date && hasMetric) {
+        data.push(entry as DataEntry)
       }
     }
-
-    const hasMetric = GOVERNANCE_PROPOSAL_COLUMNS.some(
-      (column) => typeof entry[column] === 'number'
-    )
-
-    if (entry.date && hasMetric) {
-      data.push(entry as DataEntry)
-    }
-  }
+  })
 
   return data.sort((a, b) => a.date.getTime() - b.date.getTime())
 }
 
 export function parseGovernanceGithubMetricsCsv(csvData: string): DataEntry[] {
-  const lines = csvData.trim().split('\n')
-
-  if (lines.length < 2) {
-    return []
-  }
-
-  const headers = lines[0].split(',').map((h) => h.trim())
+  const { lines, headers } = splitCsvContent(csvData)
   const data: DataEntry[] = []
 
-  for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(',')
-    if (values.length !== headers.length) continue
+  forEachCsvDataRow(lines, headers, {
+    onRow: (_i, values) => {
+      const entry: CsvParseEntry = {}
 
-    const entry: Partial<DataEntry> = {}
+      for (let j = 0; j < headers.length; j++) {
+        const header = headers[j]
+        const value = values[j].trim()
 
-    for (let j = 0; j < headers.length; j++) {
-      const header = headers[j]
-      const value = values[j].trim()
-
-      if (header === 'date') {
-        const date = new Date(value)
-        if (!Number.isNaN(date.getTime())) {
-          entry.date = date
+        if (header === 'date') {
+          const date = parseCsvDate(value)
+          if (date) {
+            entry.date = date
+          }
+        } else if (header === 'chain') {
+          entry.ledger = value
+        } else if (GOVERNANCE_PROPOSAL_COLUMNS.includes(header)) {
+          const parsed = parseFloat(value)
+          entry[header] = Number.isNaN(parsed) ? null : parsed
         }
-      } else if (header === 'chain') {
-        entry.ledger = value
-      } else if (GOVERNANCE_PROPOSAL_COLUMNS.includes(header)) {
-        const parsed = parseFloat(value)
-        entry[header] = Number.isNaN(parsed) ? null : parsed
+      }
+
+      const hasMetric = GOVERNANCE_PROPOSAL_COLUMNS.some(
+        (column) => typeof entry[column] === 'number'
+      )
+
+      if (entry.ledger && entry.date && hasMetric) {
+        data.push(entry as DataEntry)
       }
     }
-
-    const hasMetric = GOVERNANCE_PROPOSAL_COLUMNS.some(
-      (column) => typeof entry[column] === 'number'
-    )
-
-    if (entry.ledger && entry.date && hasMetric) {
-      data.push(entry as DataEntry)
-    }
-  }
+  })
 
   return data.sort(sortByLedgerAndDate)
 }
@@ -350,46 +377,39 @@ export function parseGovernanceGithubMetricsCsv(csvData: string): DataEntry[] {
 export function parseGovernanceCommunityDiscussionMetricsCsv(
   csvData: string
 ): DataEntry[] {
-  const lines = csvData.trim().split('\n')
-
-  if (lines.length < 2) {
-    return []
-  }
-
-  const headers = lines[0].split(',').map((h) => h.trim())
+  const { lines, headers } = splitCsvContent(csvData)
   const data: DataEntry[] = []
 
-  for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(',')
-    if (values.length !== headers.length) continue
+  forEachCsvDataRow(lines, headers, {
+    onRow: (_i, values) => {
+      const entry: CsvParseEntry = {}
 
-    const entry: Partial<DataEntry> = {}
+      for (let j = 0; j < headers.length; j++) {
+        const header = headers[j]
+        const value = values[j].trim()
 
-    for (let j = 0; j < headers.length; j++) {
-      const header = headers[j]
-      const value = values[j].trim()
-
-      if (header === 'date') {
-        const date = new Date(value)
-        if (!Number.isNaN(date.getTime())) {
-          entry.date = date
+        if (header === 'date') {
+          const date = parseCsvDate(value)
+          if (date) {
+            entry.date = date
+          }
+        } else if (header === 'discussion_source') {
+          entry.ledger = value
+        } else if (GOVERNANCE_PROPOSAL_COLUMNS.includes(header)) {
+          const parsed = parseFloat(value)
+          entry[header] = Number.isNaN(parsed) ? null : parsed
         }
-      } else if (header === 'discussion_source') {
-        entry.ledger = value
-      } else if (GOVERNANCE_PROPOSAL_COLUMNS.includes(header)) {
-        const parsed = parseFloat(value)
-        entry[header] = Number.isNaN(parsed) ? null : parsed
+      }
+
+      const hasMetric = GOVERNANCE_PROPOSAL_COLUMNS.some(
+        (column) => typeof entry[column] === 'number'
+      )
+
+      if (entry.ledger && entry.date && hasMetric) {
+        data.push(entry as DataEntry)
       }
     }
-
-    const hasMetric = GOVERNANCE_PROPOSAL_COLUMNS.some(
-      (column) => typeof entry[column] === 'number'
-    )
-
-    if (entry.ledger && entry.date && hasMetric) {
-      data.push(entry as DataEntry)
-    }
-  }
+  })
 
   return data.sort(sortByLedgerAndDate)
 }
