@@ -1,8 +1,7 @@
 import { DoughnutChart } from '@/components'
-import { useDoughnutCsvLoader, useGovDoughnutCsvLoader } from '@/hooks'
+import { useDoughnutCsvLoader } from '@/hooks'
 import {
   LAYER_NAMES,
-  prepareFinalDataForGovChart,
   prepareFinalDataForSingleChart,
   type LayerType
 } from '@/utils'
@@ -19,27 +18,20 @@ export function DoughnutChartRenderer({
   fileName
 }: DoughnutChartRendererProps) {
   // Always call both hooks (to follow React Hook rules)
-  const governanceResult = useGovDoughnutCsvLoader(path)
   const softwareResult = useDoughnutCsvLoader(path)
 
-  // Determine which result to use based on type
-  const isGovernance = type === LAYER_NAMES.GOVERNANCE
   const isGeography = type === LAYER_NAMES.GEOGRAPHY
 
-  const { governanceDoughnutData, doughnutLoading: govLoading } =
-    governanceResult
   const { doughnutData, doughnutLoading: softLoading } = softwareResult
 
   // Use the appropriate loading state
-  const doughnutLoading = isGovernance ? govLoading : softLoading
+  const doughnutLoading = softLoading
 
   if (doughnutLoading) return <DoughnutChartSkeleton />
 
   // Prepare data based on type
   //let finalData;
-  const finalData = isGovernance
-    ? prepareFinalDataForGovChart(governanceDoughnutData)
-    : prepareFinalDataForSingleChart(doughnutData, isGeography)
+  const finalData = prepareFinalDataForSingleChart(doughnutData, isGeography)
 
   return <DoughnutChart data={finalData} fileName={fileName} />
 }
