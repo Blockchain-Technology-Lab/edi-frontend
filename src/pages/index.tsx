@@ -80,7 +80,7 @@ const layers = [
     icon: <Gavel />,
     background: GOVERNANCE_CARD,
     path: governanceTo,
-    disabled: true,
+    disabled: false,
     github:
       'https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin'
     //methodologyLink: governanceMethodologyTo
