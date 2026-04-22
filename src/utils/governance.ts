@@ -61,6 +61,21 @@ export const GOVERNANCE_COMMUNITY_DISCUSSION_METRICS = [
   ...GOVERNANCE_PROPOSAL_METRICS
 ]
 
+export const GOVERNANCE_AUTHORSHIP_DOUGHNUTS = [
+  {
+    ledger: 'bitcoin',
+    title: 'Bitcoin'
+  },
+  {
+    ledger: 'cardano',
+    title: 'Cardano'
+  },
+  {
+    ledger: 'ethereum',
+    title: 'Ethereum'
+  }
+] as const
+
 export function getGovernanceTop3ContributionRatioCsvFileName(
   granularity: GovernanceGranularity
 ): string {
@@ -101,6 +116,10 @@ export function getGovernanceCommunityDiscussionMetricsCsvPath(
   }
 
   return `${GOVERNANCE_CSV}community_discussion_decentralisation_metrics/${fileNameMap[role]}`
+}
+
+export function getGovernanceAuthorshipCsvPath(ledger: string): string {
+  return `${GOVERNANCE_CSV}authorship/authorship_${ledger}.csv`
 }
 
 export async function loadGovernanceCsvData(
