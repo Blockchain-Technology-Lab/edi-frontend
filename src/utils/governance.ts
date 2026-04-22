@@ -10,6 +10,10 @@ export type GovernanceGithubRole =
   | 'participant'
   | 'pr_author'
   | 'reviewer'
+export type GovernanceCommunityDiscussionRole =
+  | 'commenter'
+  | 'participant'
+  | 'poster'
 
 export const GOVERNANCE_METRICS = [
   {
@@ -53,6 +57,9 @@ export const GOVERNANCE_PROPOSAL_METRICS = [
 ]
 
 export const GOVERNANCE_GITHUB_METRICS = [...GOVERNANCE_PROPOSAL_METRICS]
+export const GOVERNANCE_COMMUNITY_DISCUSSION_METRICS = [
+  ...GOVERNANCE_PROPOSAL_METRICS
+]
 
 export function getGovernanceTop3ContributionRatioCsvFileName(
   granularity: GovernanceGranularity
@@ -82,6 +89,18 @@ export function getGovernanceGithubMetricsCsvPath(
   }
 
   return `${GOVERNANCE_CSV}github_decentralisation_metrics/${fileNameMap[role]}`
+}
+
+export function getGovernanceCommunityDiscussionMetricsCsvPath(
+  role: GovernanceCommunityDiscussionRole
+): string {
+  const fileNameMap: Record<GovernanceCommunityDiscussionRole, string> = {
+    commenter: 'community_discussion_commenter.csv',
+    participant: 'community_discussion_participant.csv',
+    poster: 'community_discussion_poster.csv'
+  }
+
+  return `${GOVERNANCE_CSV}community_discussion_decentralisation_metrics/${fileNameMap[role]}`
 }
 
 export async function loadGovernanceCsvData(
@@ -131,6 +150,25 @@ export async function loadGovernanceGithubMetricsCsvData(
 
     const csvText = await response.text()
     return parseGovernanceGithubMetricsCsv(csvText)
+  } catch (error) {
+    throw error instanceof Error ? error : new Error('Unknown error occurred')
+  }
+}
+
+export async function loadGovernanceCommunityDiscussionMetricsCsvData(
+  csvPath: string
+): Promise<DataEntry[]> {
+  try {
+    const response = await fetch(csvPath)
+
+    if (!response.ok) {
+      throw new Error(
+        `Error loading governance community discussion metrics from ${csvPath}`
+      )
+    }
+
+    const csvText = await response.text()
+    return parseGovernanceCommunityDiscussionMetricsCsv(csvText)
   } catch (error) {
     throw error instanceof Error ? error : new Error('Unknown error occurred')
   }
@@ -254,6 +292,53 @@ export function parseGovernanceGithubMetricsCsv(csvData: string): DataEntry[] {
           entry.date = date
         }
       } else if (header === 'chain') {
+        entry.ledger = value
+      } else if (GOVERNANCE_PROPOSAL_COLUMNS.includes(header)) {
+        const parsed = parseFloat(value)
+        entry[header] = Number.isNaN(parsed) ? null : parsed
+      }
+    }
+
+    const hasMetric = GOVERNANCE_PROPOSAL_COLUMNS.some(
+      (column) => typeof entry[column] === 'number'
+    )
+
+    if (entry.ledger && entry.date && hasMetric) {
+      data.push(entry as DataEntry)
+    }
+  }
+
+  return data.sort(sortByLedgerAndDate)
+}
+
+export function parseGovernanceCommunityDiscussionMetricsCsv(
+  csvData: string
+): DataEntry[] {
+  const lines = csvData.trim().split('\n')
+
+  if (lines.length < 2) {
+    return []
+  }
+
+  const headers = lines[0].split(',').map((h) => h.trim())
+  const data: DataEntry[] = []
+
+  for (let i = 1; i < lines.length; i++) {
+    const values = lines[i].split(',')
+    if (values.length !== headers.length) continue
+
+    const entry: Partial<DataEntry> = {}
+
+    for (let j = 0; j < headers.length; j++) {
+      const header = headers[j]
+      const value = values[j].trim()
+
+      if (header === 'date') {
+        const date = new Date(value)
+        if (!Number.isNaN(date.getTime())) {
+          entry.date = date
+        }
+      } else if (header === 'discussion_source') {
         entry.ledger = value
       } else if (GOVERNANCE_PROPOSAL_COLUMNS.includes(header)) {
         const parsed = parseFloat(value)

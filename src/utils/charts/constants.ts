@@ -290,6 +290,29 @@ export const GOVERNANCE_YEARLY_POSTS_LEDGERS = [
   }
 ] as const
 
+export const GOVERNANCE_DISCUSSION_SOURCE_LEDGERS = [
+  {
+    ledger: 'bitcoin_forum',
+    displayName: 'Bitcoin Forum',
+    color: 'rgba(245, 158, 11, 1)'
+  },
+  {
+    ledger: 'bitcoin_mailing_list',
+    displayName: 'Bitcoin Mailing List',
+    color: 'rgba(59, 130, 246, 1)'
+  },
+  {
+    ledger: 'cardano_forum',
+    displayName: 'Cardano Forum',
+    color: 'rgba(239, 68, 68, 1)'
+  },
+  {
+    ledger: 'ethereum_magicians',
+    displayName: 'Ethereum Magicians',
+    color: 'rgba(16, 185, 129, 1)'
+  }
+] as const
+
 // Legacy exports for backward compatibility
 export const TOKENOMICS_LEDGER_NAMES = TOKENOMICS_LEDGERS.map((l) => l.ledger)
 export const TOKENOMICS_COLOURS = TOKENOMICS_LEDGERS.map((l) => l.color)
@@ -311,6 +334,9 @@ export const GOVERNANCE_COLOURS = GOVERNANCE_LEDGERS.map((l) => l.color)
 
 export const GOVERNANCE_YEARLY_POSTS_COLOURS =
   GOVERNANCE_YEARLY_POSTS_LEDGERS.map((l) => l.color)
+
+export const GOVERNANCE_DISCUSSION_SOURCE_COLOURS =
+  GOVERNANCE_DISCUSSION_SOURCE_LEDGERS.map((l) => l.color)
 
 export const SOFTWARE_DOUGHNUT_LEDGER_NAMES = [
   {
@@ -361,7 +387,8 @@ const LAYER_LEDGER_MAP = {
   network: NETWORK_LEDGERS,
   geography: GEOGRAPHY_LEDGERS,
   governance: GOVERNANCE_LEDGERS,
-  'governance-posts': GOVERNANCE_YEARLY_POSTS_LEDGERS
+  'governance-posts': GOVERNANCE_YEARLY_POSTS_LEDGERS,
+  'governance-discussion': GOVERNANCE_DISCUSSION_SOURCE_LEDGERS
 } as const
 
 /**

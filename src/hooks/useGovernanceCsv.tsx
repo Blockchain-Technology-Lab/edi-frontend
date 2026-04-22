@@ -2,13 +2,16 @@ import { useCallback, useEffect, useState } from 'react'
 import type { DataEntry } from '@/utils/types'
 import {
   type GovernanceGranularity,
+  type GovernanceCommunityDiscussionRole,
   type GovernanceGithubRole,
   getGovernanceTop3ContributionRatioCsvFileName,
   loadGovernanceCsvData,
   getGovernanceProposalMetricsCsvPath,
   loadGovernanceProposalMetricsCsvData,
   getGovernanceGithubMetricsCsvPath,
-  loadGovernanceGithubMetricsCsvData
+  loadGovernanceGithubMetricsCsvData,
+  getGovernanceCommunityDiscussionMetricsCsvPath,
+  loadGovernanceCommunityDiscussionMetricsCsvData
 } from '@/utils'
 
 export function useGovernanceCsv(granularity: GovernanceGranularity): {
@@ -104,6 +107,42 @@ export function useGovernanceGithubMetricsCsv(
 
     try {
       const csvData = await loadGovernanceGithubMetricsCsvData(csvPath)
+      setData(csvData)
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Unknown error'))
+    } finally {
+      setLoading(false)
+    }
+  }, [csvPath])
+
+  useEffect(() => {
+    load()
+  }, [load])
+
+  return { data, loading, error }
+}
+
+export function useGovernanceCommunityDiscussionMetricsCsv(
+  role: GovernanceCommunityDiscussionRole
+): {
+  data: DataEntry[]
+  loading: boolean
+  error: Error | null
+} {
+  const [data, setData] = useState<DataEntry[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<Error | null>(null)
+
+  const csvPath = getGovernanceCommunityDiscussionMetricsCsvPath(role)
+
+  const load = useCallback(async () => {
+    setLoading(true)
+    setError(null)
+
+    try {
+      const csvData = await loadGovernanceCommunityDiscussionMetricsCsvData(
+        csvPath
+      )
       setData(csvData)
     } catch (err) {
       setError(err instanceof Error ? err : new Error('Unknown error'))

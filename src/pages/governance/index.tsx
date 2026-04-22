@@ -8,12 +8,14 @@ import {
 } from '@/components'
 import {
   useGovernanceCsv,
+  useGovernanceCommunityDiscussionMetricsCsv,
   useGovernanceGithubMetricsCsv,
   useGovernanceProposalMetricsCsv,
   usePersistedSystemSelection
 } from '@/hooks'
 import {
   BIP_NETWORK_CARD,
+  GOVERNANCE_COMMUNITY_DISCUSSION_METRICS,
   GOVERNANCE_CARD,
   ORG_DISTRIBUTOR,
   GOVERNANCE_GITHUB_METRICS,
@@ -21,6 +23,7 @@ import {
   GOVERNANCE_PROPOSAL_METRICS,
   getOrderedSystemsForLayer,
   GOVERNANCE_LEDGERS,
+  type GovernanceCommunityDiscussionRole,
   type GovernanceGranularity,
   type GovernanceGithubRole
 } from '@/utils'
@@ -57,6 +60,15 @@ const GITHUB_ROLE_ITEMS: Array<{ label: string; value: GovernanceGithubRole }> =
     { label: 'Reviewer', value: 'reviewer' }
   ]
 
+const COMMUNITY_ROLE_ITEMS: Array<{
+  label: string
+  value: GovernanceCommunityDiscussionRole
+}> = [
+  { label: 'Commenter', value: 'commenter' },
+  { label: 'Poster', value: 'poster' },
+  { label: 'Participant', value: 'participant' }
+]
+
 const SYSTEMS_STORAGE_KEY = 'governance_selectedSystems'
 const DEFAULT_GOVERNANCE_SYSTEMS = GOVERNANCE_LEDGERS.map((l) => l.ledger)
 
@@ -65,6 +77,8 @@ export function Governance() {
     useState<GovernanceGranularity>('yearly')
   const [selectedGithubRole, setSelectedGithubRole] =
     useState<(typeof GITHUB_ROLE_ITEMS)[number]>(GITHUB_ROLE_ITEMS[0])
+  const [selectedCommunityRole, setSelectedCommunityRole] =
+    useState<(typeof COMMUNITY_ROLE_ITEMS)[number]>(COMMUNITY_ROLE_ITEMS[0])
 
   const { data, loading, error } = useGovernanceCsv(selectedGranularity)
   const {
@@ -77,6 +91,11 @@ export function Governance() {
     loading: githubLoading,
     error: githubError
   } = useGovernanceGithubMetricsCsv(selectedGithubRole.value)
+  const {
+    data: communityDiscussionData,
+    loading: communityDiscussionLoading,
+    error: communityDiscussionError
+  } = useGovernanceCommunityDiscussionMetricsCsv(selectedCommunityRole.value)
 
   const governanceSystems = useMemo((): string[] => {
     const orderedSystems = getOrderedSystemsForLayer(
@@ -279,6 +298,54 @@ export function Governance() {
       </div>
 
       {githubError && <div className="text-error mt-2">{githubError.message}</div>}
+
+      <MetricsTopCard
+        title={'Community Discussion Decentralisation Metrics'}
+        description={
+          <>
+            These charts show decentralisation metrics for community
+            discussions. Use the discussion source role selector below to
+            switch between commenter, poster, and participant views.
+          </>
+        }
+        layout="default"
+        imageSrc={ORG_DISTRIBUTOR}
+      />
+
+      <div className="card bg-base-300 shadow-lg border border-base-300 rounded-box p-2">
+        <div className="flex items-center justify-between gap-3 flex-wrap">
+          <div className="w-full lg:w-auto">
+            <RadioGroup
+              label="Discussion source role"
+              items={COMMUNITY_ROLE_ITEMS}
+              selectedItem={selectedCommunityRole}
+              onChange={(item) =>
+                setSelectedCommunityRole(
+                  item as (typeof COMMUNITY_ROLE_ITEMS)[number]
+                )
+              }
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+        {!communityDiscussionError &&
+          GOVERNANCE_COMMUNITY_DISCUSSION_METRICS.map((metric) => (
+            <MetricsCard
+              key={`community-${metric.metric}`}
+              metric={metric}
+              data={communityDiscussionData}
+              loading={communityDiscussionLoading}
+              type="governance-discussion"
+              timeUnit="month"
+            />
+          ))}
+      </div>
+
+      {communityDiscussionError && (
+        <div className="text-error mt-2">{communityDiscussionError.message}</div>
+      )}
     </div>
   )
 }
