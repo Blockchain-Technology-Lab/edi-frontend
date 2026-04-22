@@ -4,7 +4,8 @@ import {
   MetricsTopCard,
   MetricsCard,
   SystemSelector,
-  RadioGroup
+  RadioGroup,
+  DoughnutCard
 } from '@/components'
 import {
   useGovernanceCsv,
@@ -15,12 +16,14 @@ import {
 } from '@/hooks'
 import {
   BIP_NETWORK_CARD,
+  GOVERNANCE_AUTHORSHIP_DOUGHNUTS,
   GOVERNANCE_COMMUNITY_DISCUSSION_METRICS,
   GOVERNANCE_CARD,
   ORG_DISTRIBUTOR,
   GOVERNANCE_GITHUB_METRICS,
   GOVERNANCE_METRICS,
   GOVERNANCE_PROPOSAL_METRICS,
+  getGovernanceAuthorshipCsvPath,
   getOrderedSystemsForLayer,
   GOVERNANCE_LEDGERS,
   type GovernanceCommunityDiscussionRole,
@@ -346,6 +349,33 @@ export function Governance() {
       {communityDiscussionError && (
         <div className="text-error mt-2">{communityDiscussionError.message}</div>
       )}
+
+      <MetricsTopCard
+        title={'Authorship Distribution'}
+        description={
+          <>
+            These doughnut charts show weighted authorship contribution
+            distributions for Bitcoin, Cardano, and Ethereum.
+          </>
+        }
+        layout="default"
+        imageSrc={ORG_DISTRIBUTOR}
+      />
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+        {GOVERNANCE_AUTHORSHIP_DOUGHNUTS.map((item) => (
+          <DoughnutCard
+            key={`authorship-${item.ledger}`}
+            type={'governance'}
+            title={item.title}
+            path={getGovernanceAuthorshipCsvPath(item.ledger)}
+            fileName={`authorship_${item.ledger}`}
+            githubUrl="https://github.com/Blockchain-Technology-Lab/governance-decentralization"
+            description="Distribution of weighted contribution by author."
+            showInfo={true}
+          />
+        ))}
+      </div>
     </div>
   )
 }
