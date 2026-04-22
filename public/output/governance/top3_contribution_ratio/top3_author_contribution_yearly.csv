@@ -1,4 +1,4 @@
-Chain,date,Top3_Contribution(%)
+Chain,date,3-concentration-ratio
 bitcoin,2011-01-01,81.25
 bitcoin,2012-01-01,56.25
 bitcoin,2013-01-01,78.57
@@ -25,7 +25,6 @@ ethereum,2022-01-01,13.84
 ethereum,2023-01-01,6.27
 ethereum,2024-01-01,8.95
 ethereum,2025-01-01,10.09
-ethereum,2026-01-01,100.00
 cardano,2019-01-01,100.00
 cardano,2020-01-01,58.33
 cardano,2021-01-01,37.04
