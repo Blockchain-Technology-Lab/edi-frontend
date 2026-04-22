@@ -68,7 +68,7 @@ const layerItems = [
     bg: 'bg-base-200',
     text: 'text-base-content',
     icon: <Gavel size={36} />,
-    disabled: true,
+    disabled: false,
     shortcut: '6'
   }
 ]
