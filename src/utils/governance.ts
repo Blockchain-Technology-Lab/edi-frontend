@@ -2,7 +2,12 @@ import type { DataEntry } from '@/utils/types'
 import { GOVERNANCE_CSV } from '@/utils/paths'
 
 const GOVERNANCE_COLUMNS = ['3-concentration-ratio']
-const GOVERNANCE_PROPOSAL_COLUMNS = ['gini', 'nakamoto', 'shannon_entropy', 'hhi']
+const GOVERNANCE_PROPOSAL_COLUMNS = [
+  'gini',
+  'nakamoto',
+  'shannon_entropy',
+  'hhi'
+]
 
 export type GovernanceGranularity = 'yearly' | 'half_yearly'
 export type GovernanceGithubRole =
@@ -144,10 +149,22 @@ export async function loadGovernanceProposalMetricsCsvData(
   ledgerName: string
 ): Promise<DataEntry[]> {
   try {
-    const response = await fetch(csvPath)
+    let response = await fetch(csvPath)
+
+    // Deployment fallback: some environments expose this folder with uppercase
+    // "Proposal_decentralisation_metrics".
+    if (!response.ok && csvPath.includes('/proposal_decentralisation_metrics/')) {
+      const fallbackPath = csvPath.replace(
+        '/proposal_decentralisation_metrics/',
+        '/Proposal_decentralisation_metrics/'
+      )
+      response = await fetch(fallbackPath)
+    }
 
     if (!response.ok) {
-      throw new Error(`Error loading governance proposal metrics from ${csvPath}`)
+      throw new Error(
+        `Error loading governance proposal metrics from ${csvPath}`
+      )
     }
 
     const csvText = await response.text()
