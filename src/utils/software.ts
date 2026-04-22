@@ -112,36 +112,36 @@ export function parseSoftwareCsv(csv: string): DataEntry[] {
     },
     onRow: (i, values) => {
       totalProcessed++
-    const entry: CsvParseEntry = {}
-    let ledger: string | undefined
+      const entry: CsvParseEntry = {}
+      let ledger: string | undefined
 
-    for (let j = 0; j < headers.length; j++) {
-      const header = headers[j]
-      const value = values[j].trim()
+      for (let j = 0; j < headers.length; j++) {
+        const header = headers[j]
+        const value = values[j].trim()
 
-      if (header === 'date') {
-        const date = parseCsvDate(value)
-        if (!date) {
-          invalidDateCount++
-          DevLogger.warnOnce(
-            `invalid-date-${i}`,
-            `Invalid date: "${value}" at row ${i}`
-          )
-          continue
+        if (header === 'date') {
+          const date = parseCsvDate(value)
+          if (!date) {
+            invalidDateCount++
+            DevLogger.warnOnce(
+              `invalid-date-${i}`,
+              `Invalid date: "${value}" at row ${i}`
+            )
+            continue
+          }
+          entry.date = date
+        } else if (header === 'ledger') {
+          entry.ledger = value
+          ledger = value
+        } else if (SOFTWARE_COLUMNS.includes(header)) {
+          const parsed = parseFloat(value)
+          entry[header] = isNaN(parsed) ? null : parsed
         }
-        entry.date = date
-      } else if (header === 'ledger') {
-        entry.ledger = value
-        ledger = value
-      } else if (SOFTWARE_COLUMNS.includes(header)) {
-        const parsed = parseFloat(value)
-        entry[header] = isNaN(parsed) ? null : parsed
       }
-    }
 
-    if (entry.date && ledger && SOFTWARE_ALLOWED_LEDGERS.includes(ledger)) {
-      data.push(entry as DataEntry)
-    }
+      if (entry.date && ledger && SOFTWARE_ALLOWED_LEDGERS.includes(ledger)) {
+        data.push(entry as DataEntry)
+      }
     }
   })
 
@@ -278,7 +278,8 @@ export function parseDoughnutCsv(csv: string): DoughnutDataEntry[] {
   const commitsIndex = firstParts.indexOf('commits')
   const hasHeader =
     authorIndex >= 0 && (weightedContributionIndex >= 0 || commitsIndex >= 0)
-  const valueIndex = weightedContributionIndex >= 0 ? weightedContributionIndex : commitsIndex
+  const valueIndex =
+    weightedContributionIndex >= 0 ? weightedContributionIndex : commitsIndex
 
   // Create a unique identifier for this CSV file based on content hash
   const csvHash = csv.slice(0, 100).replace(/\W/g, '').substring(0, 20)

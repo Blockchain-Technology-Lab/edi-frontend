@@ -88,9 +88,7 @@ export function useGovernanceProposalMetricsCsv(): {
   return { data, loading, error }
 }
 
-export function useGovernanceGithubMetricsCsv(
-  role: GovernanceGithubRole
-): {
+export function useGovernanceGithubMetricsCsv(role: GovernanceGithubRole): {
   data: DataEntry[]
   loading: boolean
   error: Error | null
@@ -140,9 +138,8 @@ export function useGovernanceCommunityDiscussionMetricsCsv(
     setError(null)
 
     try {
-      const csvData = await loadGovernanceCommunityDiscussionMetricsCsvData(
-        csvPath
-      )
+      const csvData =
+        await loadGovernanceCommunityDiscussionMetricsCsvData(csvPath)
       setData(csvData)
     } catch (err) {
       setError(err instanceof Error ? err : new Error('Unknown error'))
