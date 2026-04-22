@@ -1,5 +1,5 @@
-import type { DoughnutDataEntry, GovernanceDataEntry } from '@/utils/types'
-import { loadDoughnutCsvData, loadGovernanceDoughnutCsvData } from '@/utils'
+import type { DoughnutDataEntry } from '@/utils/types'
+import { loadDoughnutCsvData } from '@/utils'
 import { useCallback, useEffect, useState } from 'react'
 
 export function useDoughnutCsvLoader(csvPath: string) {
@@ -29,34 +29,6 @@ export function useDoughnutCsvLoader(csvPath: string) {
     load()
   }, [load])
   return { doughnutData, doughnutLoading, doughnutError }
-}
-
-export function useGovDoughnutCsvLoader(csvPath: string) {
-  const [governanceDoughnutData, setGovernanceDoughnutData] = useState<
-    GovernanceDataEntry[]
-  >([])
-  const [doughnutLoading, setDoughnutLoading] = useState<boolean>(true)
-  const [doughnutError, setDoughnutError] = useState<Error | null>(null)
-
-  const load = useCallback(async () => {
-    setDoughnutLoading(true)
-    setDoughnutError(null)
-    try {
-      const governanceResult = await loadGovernanceDoughnutCsvData(csvPath)
-      setGovernanceDoughnutData(governanceResult)
-    } catch (error) {
-      setDoughnutError(
-        error instanceof Error ? error : new Error('Unknown error occurred')
-      )
-    } finally {
-      setDoughnutLoading(false)
-    }
-  }, [csvPath])
-
-  useEffect(() => {
-    load()
-  }, [load])
-  return { governanceDoughnutData, doughnutLoading, doughnutError }
 }
 
 function getTopNAuthorsWithOthers(

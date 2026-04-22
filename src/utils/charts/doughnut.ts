@@ -1,9 +1,5 @@
 import { getColorsForChart, getCountryColors } from '@/utils'
-import type {
-  FinalData,
-  DoughnutDataEntry,
-  GovernanceDataEntry
-} from '@/utils/types'
+import type { FinalData, DoughnutDataEntry } from '@/utils/types'
 
 // Function to prepare finalData for single doughnutData
 export function prepareFinalDataForSingleChart(
@@ -11,34 +7,15 @@ export function prepareFinalDataForSingleChart(
   isGeography: boolean = false
 ): FinalData {
   const labels = doughnutData.map((item) => item.author || 'Unknown')
-  const colors = isGeography ? getCountryColors(labels) : getColorsForChart(labels.length)
+  const colors = isGeography
+    ? getCountryColors(labels)
+    : getColorsForChart(labels.length)
 
   return {
     labels,
     datasets: [
       {
         data: doughnutData.map((item) => Math.round(Number(item.commits))),
-        backgroundColor: colors, // Use generated or predefined colors
-        borderColor: colors,
-        borderWidth: 0.1,
-        dataVisibility: new Array(doughnutData.length).fill(true) // If you are using this option
-      }
-    ]
-  }
-}
-
-export function prepareFinalDataForGovChart(
-  doughnutData: GovernanceDataEntry[]
-): FinalData {
-  const colors = getColorsForChart(doughnutData.length)
-
-  return {
-    labels: doughnutData.map((item) => item.author || 'Unknown'),
-    datasets: [
-      {
-        data: doughnutData.map((item) =>
-          Math.round(Number(item.total_comments))
-        ),
         backgroundColor: colors, // Use generated or predefined colors
         borderColor: colors,
         borderWidth: 0.1,
