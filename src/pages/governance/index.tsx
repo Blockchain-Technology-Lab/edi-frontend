@@ -15,7 +15,6 @@ import {
   usePersistedSystemSelection
 } from '@/hooks'
 import {
-  BIP_NETWORK_CARD,
   GOVERNANCE_AUTHORSHIP_DOUGHNUTS,
   GOVERNANCE_COMMUNITY_DISCUSSION_METRICS,
   GOVERNANCE_CARD,
