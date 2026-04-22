@@ -78,10 +78,12 @@ const DEFAULT_GOVERNANCE_SYSTEMS = GOVERNANCE_LEDGERS.map((l) => l.ledger)
 export function Governance() {
   const [selectedGranularity, setSelectedGranularity] =
     useState<GovernanceGranularity>('yearly')
-  const [selectedGithubRole, setSelectedGithubRole] =
-    useState<(typeof GITHUB_ROLE_ITEMS)[number]>(GITHUB_ROLE_ITEMS[0])
-  const [selectedCommunityRole, setSelectedCommunityRole] =
-    useState<(typeof COMMUNITY_ROLE_ITEMS)[number]>(COMMUNITY_ROLE_ITEMS[0])
+  const [selectedGithubRole, setSelectedGithubRole] = useState<
+    (typeof GITHUB_ROLE_ITEMS)[number]
+  >(GITHUB_ROLE_ITEMS[0])
+  const [selectedCommunityRole, setSelectedCommunityRole] = useState<
+    (typeof COMMUNITY_ROLE_ITEMS)[number]
+  >(COMMUNITY_ROLE_ITEMS[0])
 
   const { data, loading, error } = useGovernanceCsv(selectedGranularity)
   const {
@@ -152,30 +154,6 @@ export function Governance() {
         }
         imageSrc={GOVERNANCE_CARD}
         githubUrl="https://github.com/Blockchain-Technology-Lab/governance-decentralization"
-      />
-
-      <MetricsTopCard
-        title={'BIP Network'}
-        description={
-          <>
-            This network visualization represents user interactions within
-            Bitcoin Improvement Proposal (BIP) discussions on the forum. Each
-            node represents a forum user who has published BIP-related posts,
-            with node size proportional to the user's degree centrality,
-            indicating the number of interactions (comments) they have received
-            or made. Edges represent direct interactions between users through
-            comments on BIP-related discussions. The top 3 most active users by
-            degree are sipredrica (1,180), achow101 (862), and theymos (518).
-            Remarkably, the top 10 users account for 25% of all comments in the
-            BIP discussion network, where a small core of highly engaged
-            participants drives most of the discussion activity. This reflects
-            the concentrated nature of engagement in Bitcoin off-chain
-            governance discussions.
-          </>
-        }
-        imageSrc={BIP_NETWORK_CARD}
-        layout="split-50-50"
-        imagePosition="left"
       />
 
       <MetricsTopCard
@@ -261,8 +239,8 @@ export function Governance() {
         description={
           <>
             These charts show decentralisation metrics for GitHub governance
-            activity. Use the role toggle below to switch
-            between commenter, participant, author, and reviewer roles.
+            activity. Use the role toggle below to switch between commenter,
+            participant, author, and reviewer roles.
           </>
         }
         layout="default"
@@ -277,7 +255,9 @@ export function Governance() {
               items={GITHUB_ROLE_ITEMS}
               selectedItem={selectedGithubRole}
               onChange={(item) =>
-                setSelectedGithubRole(item as (typeof GITHUB_ROLE_ITEMS)[number])
+                setSelectedGithubRole(
+                  item as (typeof GITHUB_ROLE_ITEMS)[number]
+                )
               }
             />
           </div>
@@ -300,15 +280,17 @@ export function Governance() {
           ))}
       </div>
 
-      {githubError && <div className="text-error mt-2">{githubError.message}</div>}
+      {githubError && (
+        <div className="text-error mt-2">{githubError.message}</div>
+      )}
 
       <MetricsTopCard
         title={'Community Discussion Decentralisation Metrics'}
         description={
           <>
             These charts show decentralisation metrics for community
-            discussions. Use the discussion source role selector below to
-            switch between commenter, poster, and participant views.
+            discussions. Use the discussion source role selector below to switch
+            between commenter, poster, and participant views.
           </>
         }
         layout="default"
@@ -347,7 +329,9 @@ export function Governance() {
       </div>
 
       {communityDiscussionError && (
-        <div className="text-error mt-2">{communityDiscussionError.message}</div>
+        <div className="text-error mt-2">
+          {communityDiscussionError.message}
+        </div>
       )}
 
       <MetricsTopCard
