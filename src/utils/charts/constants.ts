@@ -267,8 +267,9 @@ export const GEOGRAPHY_DOUGHNUT_LEDGERS = GEOGRAPHY_DOUGHNUT_KEYS.map(
 ).sort((a, b) => a.displayName.localeCompare(b.displayName))
 
 export const GOVERNANCE_LEDGERS = [
-  BASE_LEDGERS.bitcoin
-  //BASE_LEDGERS.bitcoin_cash
+  BASE_LEDGERS.bitcoin,
+  BASE_LEDGERS.ethereum,
+  BASE_LEDGERS.cardano
 ] as const
 
 export const GOVERNANCE_YEARLY_POSTS_LEDGERS = [
