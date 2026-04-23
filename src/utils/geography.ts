@@ -1,4 +1,5 @@
 import type { DataEntry, DoughnutDataEntry } from '@/utils/types'
+import { fetchCsvText } from './csvParsing'
 
 const GEOGRAPHY_DISTRIBUTION_PREFIX = 'countries'
 
@@ -53,18 +54,11 @@ export async function loadGeographyCsvData(
   fileName: string,
   overrideLedgerName?: string
 ): Promise<DataEntry[]> {
-  try {
-    const response = await fetch(fileName)
-
-    if (!response.ok) {
-      throw new Error(`Error loading geography data for ${fileName}`)
-    }
-
-    const csvData = await response.text()
-    return parseGeographyCSV(csvData, overrideLedgerName)
-  } catch (error) {
-    throw error instanceof Error ? error : new Error('Unknown error occurred')
-  }
+  const csvData = await fetchCsvText(
+    fileName,
+    `Error loading geography data for ${fileName}`
+  )
+  return parseGeographyCSV(csvData, overrideLedgerName)
 }
 
 export function parseGeographyCSV(
@@ -116,12 +110,7 @@ export function parseGeographyCSV(
 export async function loadCountryNodesDoughnutData(
   fileName: string
 ): Promise<DoughnutDataEntry[]> {
-  const response = await fetch(fileName)
-  if (!response.ok) {
-    throw new Error(`Failed to load ${fileName}`)
-  }
-
-  const csv = await response.text()
+  const csv = await fetchCsvText(fileName, `Failed to load ${fileName}`)
   return parseCountryNodesDoughnutCSV(csv)
 }
 

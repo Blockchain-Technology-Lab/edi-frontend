@@ -2,6 +2,7 @@
 import type { DataEntry } from '@/utils/types'
 import { NETWORK_CSV } from '@/utils/paths'
 import { NETWORK_LEDGERS } from '@/utils/charts/constants'
+import { fetchCsvText, sortByLedgerAndDate } from './csvParsing'
 
 // --- Constants ---
 
@@ -122,29 +123,17 @@ function parseGenericCSV(csvData: string, valueColumns: string[]): DataEntry[] {
   return data
 }
 
-function sortByLedgerAndDate(a: DataEntry, b: DataEntry): number {
-  const ledgerCompare = (a.ledger || '').localeCompare(b.ledger || '')
-  return ledgerCompare !== 0
-    ? ledgerCompare
-    : a.date.getTime() - b.date.getTime()
-}
-
 async function fetchAndParseCsv(
   filePath: string,
   columns: string[],
   label: string
 ): Promise<DataEntry[]> {
-  try {
-    const response = await fetch(filePath)
-    if (!response.ok)
-      throw new Error(`Failed to fetch ${label} CSV at ${filePath}`)
-    const text = await response.text()
-    return parseGenericCSV(text, columns)
-  } catch (err) {
-    throw err instanceof Error
-      ? err
-      : new Error(`Unknown error loading ${label} CSV`)
-  }
+  const text = await fetchCsvText(
+    filePath,
+    `Failed to fetch ${label} CSV at ${filePath}`,
+    `Unknown error loading ${label} CSV`
+  )
+  return parseGenericCSV(text, columns)
 }
 
 // --- Bar Chart Types & Functions ---
@@ -182,17 +171,12 @@ export function parseNetworkBarCsv(csv: string): NetworkBarEntry[] {
 export async function loadNetworkBarCsvData(
   filePath: string
 ): Promise<NetworkBarEntry[]> {
-  try {
-    const response = await fetch(filePath)
-    if (!response.ok)
-      throw new Error(`Failed to fetch bar chart CSV at ${filePath}`)
-    const text = await response.text()
-    return parseNetworkBarCsv(text)
-  } catch (err) {
-    throw err instanceof Error
-      ? err
-      : new Error(`Unknown error loading bar chart CSV`)
-  }
+  const text = await fetchCsvText(
+    filePath,
+    `Failed to fetch bar chart CSV at ${filePath}`,
+    'Unknown error loading bar chart CSV'
+  )
+  return parseNetworkBarCsv(text)
 }
 
 export const NETWORK_DEFAULT_BAR_COLOUR = '#2563eb' // fallback blue

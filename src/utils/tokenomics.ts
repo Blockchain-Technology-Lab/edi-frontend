@@ -1,5 +1,11 @@
 import type { CsvParseEntry, DataEntry } from '@/utils/types'
-import { forEachCsvDataRow, parseCsvDate, splitCsvContent } from './csvParsing'
+import {
+  fetchCsvText,
+  forEachCsvDataRow,
+  parseCsvDate,
+  sortByLedgerAndDate,
+  splitCsvContent
+} from './csvParsing'
 
 const TOKENOMICS_COLUMNS = [
   'hhi',
@@ -117,18 +123,11 @@ export function parseTokenomicsCsv(csv: string): DataEntry[] {
 export async function loadTokenomicsCsvData(
   fileName: string
 ): Promise<DataEntry[]> {
-  try {
-    const response = await fetch(fileName)
-
-    if (!response.ok) {
-      throw new Error(`Error loading tokenomics data from ${fileName}`)
-    }
-
-    const csvText = await response.text()
-    return parseTokenomicsCsv(csvText)
-  } catch (error) {
-    throw error instanceof Error ? error : new Error('Unknown error occurred')
-  }
+  const csvText = await fetchCsvText(
+    fileName,
+    `Error loading tokenomics data from ${fileName}`
+  )
+  return parseTokenomicsCsv(csvText)
 }
 
 /**
@@ -193,12 +192,3 @@ export function getTokenomicsCsvFileName(
   return `${directory}/${fileName}`
 }
 
-function sortByLedgerAndDate(a: DataEntry, b: DataEntry): number {
-  const ledgerA = a.ledger || ''
-  const ledgerB = b.ledger || ''
-
-  const ledgerCompare = ledgerA.localeCompare(ledgerB)
-  return ledgerCompare !== 0
-    ? ledgerCompare
-    : a.date.getTime() - b.date.getTime()
-}

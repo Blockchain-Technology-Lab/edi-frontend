@@ -1,6 +1,12 @@
 import type { CsvParseEntry, DataEntry } from '@/utils/types'
 import { GOVERNANCE_CSV } from '@/utils/paths'
-import { forEachCsvDataRow, parseCsvDate, splitCsvContent } from './csvParsing'
+import {
+  fetchCsvText,
+  forEachCsvDataRow,
+  parseCsvDate,
+  sortByLedgerAndDate,
+  splitCsvContent
+} from './csvParsing'
 
 const GOVERNANCE_COLUMNS = ['3-concentration-ratio']
 const GOVERNANCE_PROPOSAL_COLUMNS = [
@@ -188,74 +194,42 @@ export function getGovernanceAuthorshipCsvPath(ledger: string): string {
 export async function loadGovernanceCsvData(
   csvPath: string
 ): Promise<DataEntry[]> {
-  try {
-    const response = await fetch(csvPath)
-
-    if (!response.ok) {
-      throw new Error(`Error loading governance data from ${csvPath}`)
-    }
-
-    const csvText = await response.text()
-    return parseGovernanceCsv(csvText)
-  } catch (error) {
-    throw error instanceof Error ? error : new Error('Unknown error occurred')
-  }
+  const csvText = await fetchCsvText(
+    csvPath,
+    `Error loading governance data from ${csvPath}`
+  )
+  return parseGovernanceCsv(csvText)
 }
 
 export async function loadGovernanceProposalMetricsCsvData(
   csvPath: string,
   ledgerName: string
 ): Promise<DataEntry[]> {
-  try {
-    const response = await fetch(csvPath)
-
-    if (!response.ok) {
-      throw new Error(
-        `Error loading governance proposal metrics from ${csvPath}`
-      )
-    }
-
-    const csvText = await response.text()
-    return parseGovernanceProposalMetricsCsv(csvText, ledgerName)
-  } catch (error) {
-    throw error instanceof Error ? error : new Error('Unknown error occurred')
-  }
+  const csvText = await fetchCsvText(
+    csvPath,
+    `Error loading governance proposal metrics from ${csvPath}`
+  )
+  return parseGovernanceProposalMetricsCsv(csvText, ledgerName)
 }
 
 export async function loadGovernanceGithubMetricsCsvData(
   csvPath: string
 ): Promise<DataEntry[]> {
-  try {
-    const response = await fetch(csvPath)
-
-    if (!response.ok) {
-      throw new Error(`Error loading governance GitHub metrics from ${csvPath}`)
-    }
-
-    const csvText = await response.text()
-    return parseGovernanceGithubMetricsCsv(csvText)
-  } catch (error) {
-    throw error instanceof Error ? error : new Error('Unknown error occurred')
-  }
+  const csvText = await fetchCsvText(
+    csvPath,
+    `Error loading governance GitHub metrics from ${csvPath}`
+  )
+  return parseGovernanceGithubMetricsCsv(csvText)
 }
 
 export async function loadGovernanceCommunityDiscussionMetricsCsvData(
   csvPath: string
 ): Promise<DataEntry[]> {
-  try {
-    const response = await fetch(csvPath)
-
-    if (!response.ok) {
-      throw new Error(
-        `Error loading governance community discussion metrics from ${csvPath}`
-      )
-    }
-
-    const csvText = await response.text()
-    return parseGovernanceCommunityDiscussionMetricsCsv(csvText)
-  } catch (error) {
-    throw error instanceof Error ? error : new Error('Unknown error occurred')
-  }
+  const csvText = await fetchCsvText(
+    csvPath,
+    `Error loading governance community discussion metrics from ${csvPath}`
+  )
+  return parseGovernanceCommunityDiscussionMetricsCsv(csvText)
 }
 
 export function parseGovernanceCsv(csvData: string): DataEntry[] {
@@ -412,11 +386,4 @@ export function parseGovernanceCommunityDiscussionMetricsCsv(
   })
 
   return data.sort(sortByLedgerAndDate)
-}
-
-function sortByLedgerAndDate(a: DataEntry, b: DataEntry): number {
-  const ledgerCompare = (a.ledger || '').localeCompare(b.ledger || '')
-  return ledgerCompare !== 0
-    ? ledgerCompare
-    : a.date.getTime() - b.date.getTime()
 }
