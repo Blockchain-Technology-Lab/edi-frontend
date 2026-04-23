@@ -1,3 +1,5 @@
+import type { DataEntry } from '@/utils/types'
+
 export function splitCsvContent(csv: string, delimiter = ',') {
   const lines = csv.trim().split('\n')
   const headers = lines[0].split(delimiter).map((h) => h.trim())
@@ -36,4 +38,29 @@ export function forEachCsvDataRow(
 export function parseCsvDate(value: string): Date | null {
   const date = new Date(value)
   return Number.isNaN(date.getTime()) ? null : date
+}
+
+export function sortByLedgerAndDate(a: DataEntry, b: DataEntry): number {
+  const ledgerCompare = (a.ledger || '').localeCompare(b.ledger || '')
+  return ledgerCompare !== 0
+    ? ledgerCompare
+    : a.date.getTime() - b.date.getTime()
+}
+
+export async function fetchCsvText(
+  csvPath: string,
+  failureMessage: string,
+  unknownErrorMessage = 'Unknown error occurred'
+): Promise<string> {
+  try {
+    const response = await fetch(csvPath)
+
+    if (!response.ok) {
+      throw new Error(failureMessage)
+    }
+
+    return await response.text()
+  } catch (error) {
+    throw error instanceof Error ? error : new Error(unknownErrorMessage)
+  }
 }
