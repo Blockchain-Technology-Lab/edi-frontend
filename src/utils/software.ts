@@ -1,6 +1,12 @@
 import { getColorsForChart, SOFTWARE_DOUGHNUT_CSV } from '@/utils'
 import DevLogger from './devLogger'
-import { forEachCsvDataRow, parseCsvDate, splitCsvContent } from './csvParsing'
+import {
+  fetchCsvText,
+  forEachCsvDataRow,
+  parseCsvDate,
+  sortByLedgerAndDate,
+  splitCsvContent
+} from './csvParsing'
 
 import type { CsvParseEntry, DataEntry, DoughnutDataEntry } from '@/utils/types'
 
@@ -157,31 +163,17 @@ export function parseSoftwareCsv(csv: string): DataEntry[] {
   return data.sort(sortByLedgerAndDate)
 }
 
-function sortByLedgerAndDate(a: DataEntry, b: DataEntry): number {
-  const ledgerCompare = (a.ledger || '').localeCompare(b.ledger || '')
-  return ledgerCompare !== 0
-    ? ledgerCompare
-    : a.date.getTime() - b.date.getTime()
-}
-
 /**
  * Loads and parses the software CSV file from a given path.
  */
 export async function loadSoftwareCsvData(
   fileName: string
 ): Promise<DataEntry[]> {
-  try {
-    const response = await fetch(fileName)
-
-    if (!response.ok) {
-      throw new Error(`Error loading software data from ${fileName}`)
-    }
-
-    const csvText = await response.text()
-    return parseSoftwareCsv(csvText)
-  } catch (error) {
-    throw error instanceof Error ? error : new Error('Unknown error occurred')
-  }
+  const csvText = await fetchCsvText(
+    fileName,
+    `Error loading software data from ${fileName}`
+  )
+  return parseSoftwareCsv(csvText)
 }
 
 export function getSoftwareCsvFileName(
