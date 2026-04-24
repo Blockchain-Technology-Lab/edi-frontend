@@ -12,6 +12,7 @@ interface RadioGroupProps {
   label?: string
   stacked?: boolean
   fullHeight?: boolean
+  twoColumnDesktop?: boolean
 }
 
 export function RadioGroup({
@@ -20,7 +21,8 @@ export function RadioGroup({
   onChange,
   label,
   stacked = false,
-  fullHeight = false
+  fullHeight = false,
+  twoColumnDesktop = false
 }: RadioGroupProps) {
   const groupId = useId()
 
@@ -32,18 +34,23 @@ export function RadioGroup({
     ? 'flex flex-col gap-2 h-full'
     : 'flex flex-col gap-2'
 
+  const optionsClassName = stacked
+    ? 'flex flex-col gap-3'
+    : twoColumnDesktop
+      ? 'grid grid-cols-1 lg:grid-cols-2 gap-3'
+      : 'flex flex-wrap gap-3'
+
+  const itemClassName = twoColumnDesktop
+    ? 'flex items-center gap-2 cursor-pointer w-full'
+    : 'flex items-center gap-2 cursor-pointer'
+
   return (
     <div className={containerClassName}>
       <div className={innerClassName}>
         {label && <h3 className="text-lg font-semibold mb-4">{label}</h3>}
-        <div
-          className={stacked ? 'flex flex-col gap-3' : 'flex flex-wrap gap-3'}
-        >
+        <div className={optionsClassName}>
           {items.map((item) => (
-            <label
-              key={item.value}
-              className="flex items-center gap-2 cursor-pointer"
-            >
+            <label key={item.value} className={itemClassName}>
               <input
                 type="radio"
                 name={groupId}
