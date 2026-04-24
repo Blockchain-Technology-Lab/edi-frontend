@@ -33,7 +33,7 @@ export function SystemSelector({
         : 'flex flex-wrap gap-3'
 
   return (
-    <div className="card bg-base-200 shadow-lg border border-base-300 rounded-box p-4">
+    <div className="card bg-base-200 shadow-lg border border-base-300 rounded-box p-2">
       <h3 className="text-lg font-semibold mb-4">{label}</h3>
 
       {/* Grid/Flex Wrap Container - Multi-row Layout */}

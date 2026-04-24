@@ -4,6 +4,7 @@ type MetricsTopCardProps = {
   imageSrc: string
   layout?: 'default' | 'split-50-50'
   imagePosition?: 'left' | 'right'
+  control?: React.ReactNode
 }
 
 export function MetricsTopCard({
@@ -11,12 +12,13 @@ export function MetricsTopCard({
   description,
   imageSrc,
   layout = 'default',
-  imagePosition = 'right'
+  imagePosition = 'right',
+  control
 }: MetricsTopCardProps) {
   if (layout === 'split-50-50') {
     return (
       <div className="card bg-base-200 shadow-lg border border-base-300 rounded-box">
-        <div className="card-body p-6">
+        <div className="card-body p-2">
           <div
             className={`flex flex-col lg:flex-row items-start gap-6 ${
               imagePosition === 'left' ? 'lg:flex-row' : 'lg:flex-row-reverse'
@@ -40,6 +42,31 @@ export function MetricsTopCard({
                 />
               </figure>
             </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (control) {
+    return (
+      <div className="card bg-base-200 shadow-lg border border-base-300 rounded-box">
+        <div className="card-body p-4">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-[2fr_5fr_3fr] lg:items-center lg:gap-6">
+            <figure className="w-full min-w-0 max-h-48 overflow-hidden rounded-lg">
+              <img
+                src={imageSrc}
+                alt={title}
+                className="object-cover w-full h-full"
+              />
+            </figure>
+
+            <div className="w-full min-w-0">
+              <h2 className="card-title text-2xl">{title}</h2>
+              <p className="break-words">{description}</p>
+            </div>
+
+            <div className="w-full min-w-0">{control}</div>
           </div>
         </div>
       </div>

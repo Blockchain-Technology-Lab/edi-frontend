@@ -3,7 +3,7 @@ import {
   basePath,
   CONSENSUS_METHOD_CARD,
   GEOGRAPHY_CARD,
-  //GOVERNANCE_CARD,
+  GOVERNANCE_CARD,
   NETWORK_CARD,
   SOFTWARE_CARD,
   TOKENOMICS_METHOD_CARD
@@ -13,8 +13,8 @@ import {
   TokenomicsContent,
   NetworkContent,
   SoftwareContent,
-  GeographyContent
-  //GovernanceContent
+  GeographyContent,
+  GovernanceContent
 } from '@/content'
 import { useLocation } from '@tanstack/react-router'
 import { useEffect } from 'react'
@@ -62,14 +62,13 @@ export function Methodology() {
       sectionId: 'geography',
       image: GEOGRAPHY_CARD,
       content: GeographyContent
-    }
-    /*
+    },
     {
       title: 'Governance',
+      sectionId: 'governance',
       image: GOVERNANCE_CARD,
-      to: governanceMethodologyTo,
       content: GovernanceContent
-    } */
+    }
   ]
 
   const METRICS = [

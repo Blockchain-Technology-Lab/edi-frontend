@@ -1,0 +1,23 @@
+import { AppLink } from '@/components'
+import { governanceTo } from '@/routes/routePaths'
+
+On the governance layer, decentralisation is evaluated based on the
+distribution of participation across the off-chain governance processes of
+Bitcoin (BIP), Ethereum (EIP), and Cardano (CIP). Off-chain governance
+encompasses the informal and formal processes through which protocol
+improvement proposals are discussed, authored, reviewed, implemented, and
+adopted. The following metrics are presented in the dashboard: Gini
+coefficient, Nakamoto coefficient, normalised Shannon entropy, and
+Herfindahl-Hirschman index (HHI).
+We model off-chain governance as a five-stage lifecycle: Stage 1
+(Deliberation), Stage 2 (Proposal), Stage 3 (Ratification), Stage 4
+(Implementation), and Stage 5 (Adoption). The dashboard currently covers
+Stage 1 and Stage 2, with the remaining stages to be incorporated in future
+updates.
+Stage 1 (Deliberation) covers community discussion prior to and during formal
+submission, including GitHub pull request reviews and comments on the
+proposal repositories, as well as participation in associated discussion
+platforms such as the bitcoin-dev mailing list and the BitcoinTalk and
+Ethereum Magicians forums. Stage 2 (Proposal) covers the formal submission
+of improvement proposals as pull requests to the respective repositories. Data
+is collected via the GitHub REST API from <AppLink href="https://github.com/bitcoin/bips">bitcoin/bips</AppLink>, <AppLink href="https://github.com/ethereum/EIPs">ethereum/EIPs</AppLink>, and <AppLink href="https://github.com/cardano-foundation/CIPs">cardano-foundation/CIPs</AppLink>, and from the <AppLink href="https://lists.linuxfoundation.org/mailman/listinfo/bitcoin-dev">bitcoin-dev</AppLink> mailing list, the <AppLink href="https://bitcointalk.org">BitcoinTalk forum</AppLink>, and the <AppLink href="https://ethereum-magicians.org">Ethereum Magicians</AppLink> forum.
