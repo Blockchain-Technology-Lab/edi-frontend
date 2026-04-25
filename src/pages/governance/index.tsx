@@ -146,17 +146,9 @@ export function Governance() {
         title="Governance Layer"
         description={
           <>
-            These graphs explore the decentralisation of governance processes
-            for platforms including Bitcoin, Cardano and Ethereum. The
-            governance lifecycle is divided into two stages: Stage 1
-            (Deliberation) captures informal and formal discussions around
-            proposed changes, while Stage 2 (Proposal) captures the formal
-            proposal process. Users can explore various decentralisation metrics
-            related to both stages, with the option to filter by platform and
-            participant role. The graphs are designed to provide insights into
-            the distribution of governance activity among participants,
-            highlighting the extent to which governance processes are
-            concentrated or distributed across different actors.
+            These graphs represent the governance decentralisation. The results
+            are based only on data we have collected about Bitcoin, Cardano and
+            Ethereum.
           </>
         }
         methodologyPath={methodologyGovernanceTo}
