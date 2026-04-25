@@ -50,7 +50,7 @@ export function MetricsTopCard({
 
   if (control) {
     return (
-      <div className="card bg-base-200 shadow-lg border border-base-300 rounded-box">
+      <div className="card bg-base-200 shadow-lg border border-base-300 rounded-box h-full flex flex-col">
         <div className="card-body p-4">
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-[2fr_5fr_3fr] lg:items-center lg:gap-6">
             <figure className="w-full min-w-0 max-h-48 overflow-hidden rounded-lg">
@@ -66,7 +66,7 @@ export function MetricsTopCard({
               <p className="break-words">{description}</p>
             </div>
 
-            <div className="w-full min-w-0">{control}</div>
+            <div className="card-actions justify-end gap-2">{control}</div>
           </div>
         </div>
       </div>

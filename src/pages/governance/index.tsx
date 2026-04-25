@@ -146,13 +146,17 @@ export function Governance() {
         title="Governance Layer"
         description={
           <>
-            These charts show the weighted contribution of improvement proposal
-            authors for each blockchain, corresponding to Stage 2 (Proposal) of
-            the governance lifecycle. Each slice represents an author's share of
-            total weighted proposals, where one proposal with n co-authors
-            contributes 1/n to each author's total. The most prolific authors
-            are shown individually, with all remaining authors grouped as
-            "Others. "
+            These graphs explore the decentralisation of governance processes
+            for platforms including Bitcoin, Cardano and Ethereum. The
+            governance lifecycle is divided into two stages: Stage 1
+            (Deliberation) captures informal and formal discussions around
+            proposed changes, while Stage 2 (Proposal) captures the formal
+            proposal process. Users can explore various decentralisation metrics
+            related to both stages, with the option to filter by platform and
+            participant role. The graphs are designed to provide insights into
+            the distribution of governance activity among participants,
+            highlighting the extent to which governance processes are
+            concentrated or distributed across different actors.
           </>
         }
         methodologyPath={methodologyGovernanceTo}
@@ -167,10 +171,10 @@ export function Governance() {
       />
       {/* Start - Community Discussion Decentralisation Merics*/}
       <MetricsTopCard
-        title={'Community Discussion Decentralisation Metrics'}
+        title={'Community Discussion Decentralisation'}
         description={
           <>
-            These charts display four decentralisation metrics (Gini
+            These graphs display four decentralisation metrics (Gini
             coefficient, Nakamoto coefficient, normalised Shannon entropy, and
             HHI) computed annually over the distribution of community discussion
             activity for each blockchain, corresponding to the informal
@@ -217,10 +221,10 @@ export function Governance() {
       {/* Ends - Community Discussion Decentralisation Merics*/}
       {/* Start - GitHub Decentralisation Merics*/}
       <MetricsTopCard
-        title={'GitHub Decentralisation Metrics'}
+        title={'GitHub Activity Decentralisation'}
         description={
           <>
-            These charts display four decentralisation metrics (Gini
+            These graphs display four decentralisation metrics (Gini
             coefficient, Nakamoto coefficient, normalised Shannon entropy, and
             HHI) computed annually over the distribution of GitHub activity on
             the improvement proposal repositories, corresponding to the formal
@@ -267,13 +271,16 @@ export function Governance() {
       /* Start - Proposal
       Decentralisation Merics*/}
       <MetricsTopCard
-        title={'Proposal Decentralisation Metrics'}
+        title={'Proposal AuthorshipDecentralisation'}
         description={
           <>
-            The charts below represent decentralisation metrics of proposal
-            authorship for Bitcoin Improvement Proposals (BIP), Cardano
-            Improvement Proposals (CIP), and Ethereum Improvement Proposals
-            (EIP).
+            These graphs display four decentralisation metrics (Gini
+            coefficient, Nakamoto coefficient, normalised Shannon entropy, and
+            HHI) computed annually over the distribution of weighted proposal
+            authorship. A higher Nakamoto coefficient and Shannon entropy
+            indicate a more distributed author base, while a higher Gini
+            coefficient and HHI indicate greater concentration. Users can toggle
+            between chains.
           </>
         }
         layout="default"
@@ -303,7 +310,7 @@ export function Governance() {
         title={'Top 3 Contributor Activity Concentration'}
         description={
           <>
-            These charts track the combined weighted contribution of the top 3
+            These graphs track the combined weighted contribution of the top 3
             most prolific authors as a share of total proposal authorship in
             each time period. A higher value indicates that proposal authorship
             is concentrated among fewer contributors. Users can toggle between
@@ -341,13 +348,13 @@ export function Governance() {
         title={'Authorship Distribution'}
         description={
           <>
-            These charts display four decentralisation metrics (Gini
-            coefficient, Nakamoto coefficient, normalised Shannon entropy, and
-            HHI) computed annually over the distribution of weighted proposal
-            authorship. A higher Nakamoto coefficient and Shannon entropy
-            indicate a more distributed author base, while a higher Gini
-            coefficient and HHI indicate greater concentration. Users can toggle
-            between chains.
+            These graphs show the weighted contribution of improvement proposal
+            authors for each blockchain, corresponding to Stage 2 (Proposal) of
+            the governance lifecycle. Each slice represents an author's share of
+            total weighted proposals, where one proposal with n co-authors
+            contributes 1/n to each author's total. The most prolific authors
+            are shown individually, with all remaining authors grouped as
+            "Others. "
           </>
         }
         layout="default"
