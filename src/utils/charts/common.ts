@@ -225,7 +225,7 @@ function drawWatermark(
   ctx.fillText(date, x_date, y_date)
   ctx.restore() // Restore the canvas state
 }
-
+/*
 // Function to generate additional unique colors if needed
 function generateUniqueColor(existingColors: string[]): string {
   // Simple function to generate random RGB color
@@ -239,6 +239,16 @@ function generateUniqueColor(existingColors: string[]): string {
   } while (existingColors.includes(newColor)) // Ensure no duplicates
   return newColor
 }
+*/
+
+// Function to generate additional deterministic colors if needed
+function generateDeterministicColor(index: number): string {
+  // Golden-angle palette generation keeps colours well distributed and stable
+  const hue = (index * 137.508) % 360
+  const saturation = 72
+  const lightness = 56
+  return `hsl(${hue}, ${saturation}%, ${lightness}%)`
+}
 
 export function getColorsForChart(length: number): string[] {
   // Use a more flexible array type instead of the strict SOFTWARE_COLOURS type
@@ -247,7 +257,7 @@ export function getColorsForChart(length: number): string[] {
   // If the number of data points exceeds the predefined colors, generate new ones
   if (length > SOFTWARE_COLOURS.length) {
     for (let i = SOFTWARE_COLOURS.length; i < length; i++) {
-      const newColor = generateUniqueColor(colors)
+      const newColor = generateDeterministicColor(i - SOFTWARE_COLOURS.length)
       colors.push(newColor)
     }
   }
