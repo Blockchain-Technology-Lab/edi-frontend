@@ -75,6 +75,13 @@ const COMMUNITY_ROLE_ITEMS: Array<{
 const SYSTEMS_STORAGE_KEY = 'governance_selectedSystems'
 const DEFAULT_GOVERNANCE_SYSTEMS = GOVERNANCE_LEDGERS.map((l) => l.ledger)
 
+// Maps pre-defined platform ledger names to their community discussion sources
+const PLATFORM_TO_DISCUSSION_SOURCES: Record<string, string[]> = {
+  bitcoin: ['bitcoin_forum', 'bitcoin_mailing_list'],
+  cardano: ['cardano_forum'],
+  ethereum: ['ethereum_magicians']
+}
+
 export function Governance() {
   const [selectedGranularity, setSelectedGranularity] =
     useState<GovernanceGranularity>('yearly')
@@ -140,6 +147,24 @@ export function Governance() {
     [githubData, selectedSystems]
   )
 
+  const allowedDiscussionSources = useMemo(() => {
+    const sources = new Set<string>()
+    for (const platform of selectedSystems) {
+      for (const source of PLATFORM_TO_DISCUSSION_SOURCES[platform] ?? []) {
+        sources.add(source)
+      }
+    }
+    return sources
+  }, [selectedSystems])
+
+  const filteredCommunityDiscussionData = useMemo(
+    () =>
+      communityDiscussionData.filter(
+        (entry) => !entry.ledger || allowedDiscussionSources.has(entry.ledger)
+      ),
+    [communityDiscussionData, allowedDiscussionSources]
+  )
+
   return (
     <div className="flex flex-col gap-6">
       <LayerTopCard
@@ -198,7 +223,7 @@ export function Governance() {
             <MetricsCard
               key={`community-${metric.metric}`}
               metric={metric}
-              data={communityDiscussionData}
+              data={filteredCommunityDiscussionData}
               loading={communityDiscussionLoading}
               type="governance"
               timeUnit="month"
