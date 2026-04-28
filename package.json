@@ -26,7 +26,7 @@
     "daisyui": "^5.0.43",
     "date-fns": "^4.1.0",
     "fs-extra": "^11.3.0",
-    "lucide-react": "^0.525.0",
+    "lucide-react": "^0.577.0",
     "papaparse": "^5.5.3",
     "react": "^19.1.0",
     "react-chartjs-2": "^5.3.1",
@@ -49,12 +49,12 @@
     "autoprefixer": "^10.4.21",
     "eslint": "^9.29.0",
     "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20",
+    "eslint-plugin-react-refresh": "^0.5.0",
     "globals": "^16.2.0",
     "postcss": "^8.5.6",
     "prettier": "^3.8.1",
     "tailwindcss": "^4.1.11",
-    "typescript": "~5.8.3",
+    "typescript": "~5.9.0",
     "typescript-eslint": "^8.34.1",
     "vite": "^7.0.0"
   }
