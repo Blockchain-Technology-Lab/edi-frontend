@@ -323,6 +323,7 @@ export function Governance() {
       )}
       {/* Ends - Proposal Decentralisation Merics*/}
       {/* Start - Contributor Activity Concentration */}
+      {/*}
       <MetricsTopCard
         title={'Top 3 Contributor Activity Concentration'}
         description={
@@ -336,7 +337,7 @@ export function Governance() {
         }
         layout="default"
         imageSrc={ORG_DISTRIBUTOR}
-      />
+      /> */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
         {!error &&
           GOVERNANCE_METRICS.map((metric) => (
