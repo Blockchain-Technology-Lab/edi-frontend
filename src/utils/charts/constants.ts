@@ -276,22 +276,22 @@ export const GOVERNANCE_DISCUSSION_SOURCE_LEDGERS = [
   {
     ledger: 'bitcoin_forum',
     displayName: 'Bitcoin Forum',
-    color: 'rgba(245, 158, 11, 1)'
+    color: BASE_LEDGERS.bitcoin.color
   },
   {
     ledger: 'bitcoin_mailing_list',
     displayName: 'Bitcoin Mailing List',
-    color: 'rgba(59, 130, 246, 1)'
+    color: 'rgba(255, 186, 92, 1)'
   },
   {
     ledger: 'cardano_forum',
     displayName: 'Cardano Forum',
-    color: 'rgba(239, 68, 68, 1)'
+    color: BASE_LEDGERS.cardano.color
   },
   {
     ledger: 'ethereum_magicians',
     displayName: 'Ethereum Magicians',
-    color: 'rgba(16, 185, 129, 1)'
+    color: BASE_LEDGERS.ethereum.color
   }
 ] as const
 
