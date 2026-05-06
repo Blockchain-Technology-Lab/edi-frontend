@@ -179,6 +179,8 @@ export function Governance() {
         methodologyPath={methodologyGovernanceTo}
         imageSrc={GOVERNANCE_CARD}
         githubUrl="https://github.com/Blockchain-Technology-Lab/governance-decentralization"
+        beta="beta"
+        betaTooltip="Please see methodology page"
       />
       <SystemSelector
         systems={governanceSystems}
