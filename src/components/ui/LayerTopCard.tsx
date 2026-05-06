@@ -7,6 +7,8 @@ type LayerTopCardProps = {
   imageSrc: string
   methodologyPath?: string
   githubUrl: string
+  beta?: string
+  betaTooltip?: string
 }
 
 export function LayerTopCard({
@@ -14,7 +16,9 @@ export function LayerTopCard({
   description,
   imageSrc,
   methodologyPath,
-  githubUrl
+  githubUrl,
+  beta,
+  betaTooltip
 }: LayerTopCardProps) {
   const navigate = useNavigate()
   return (
@@ -26,20 +30,35 @@ export function LayerTopCard({
           className="block w-full h-full object-cover"
         />
       </figure>
+      <div className="divider divider-horizontal"></div>
       <div className="card-body flex flex-col justify-between">
         <div>
-          <h2 className="card-title text-2xl">{title}</h2>
+          <h2 className="card-title text-2xl">
+            {title}
+            {beta && (
+              <span
+                className={`badge bg-base-300${betaTooltip ? ' tooltip tooltip-bottom cursor-default' : ''}`}
+                data-tip={betaTooltip}
+              >
+                <div className="inline-grid *:[grid-area:1/1]">
+                  <div className="status status-warning animate-ping"></div>
+                  <div className="status status-accent animate-bounce"></div>
+                </div>{' '}
+                {beta}
+              </span>
+            )}
+          </h2>
           <p>{description}</p>
         </div>
-        <div className="card-actions justify-end gap-2">
+        <div className=" card-actions justify-end gap-2">
           <button
-            className="btn btn-outline"
+            className="btn btn-outline bg-base-100"
             onClick={() => navigate({ to: methodologyPath })}
           >
             Methodology
           </button>
           <GitHubButton
-            className="btn btn-outline"
+            className="btn btn-outline bg-base-100"
             label="Source Code"
             url={githubUrl}
           />
