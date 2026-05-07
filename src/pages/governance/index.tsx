@@ -290,7 +290,7 @@ export function Governance() {
       /* Start - Proposal
       Decentralisation Merics*/}
       <MetricsTopCard
-        title={'Proposal AuthorshipDecentralisation'}
+        title={'Proposal Authorship Decentralisation'}
         description={
           <>
             These graphs display four decentralisation metrics (Gini

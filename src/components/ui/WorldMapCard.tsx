@@ -55,7 +55,7 @@ export function WorldMapCard({
 
   return (
     <div className="card-body m-1" key={title} title={title}>
-      <div className="flex justify-between items-center shadow-lg card-title bg-base-300 alert w-full mb-2 gap-1">
+      <div className="flex justify-between items-center shadow-lg card-title bg-base-300 alert w-full mb-4 gap-3">
         <span className="min-w-0 flex-1 text-sm sm:text-base lg:text-lg leading-snug break-words line-clamp-1">
           {title}
         </span>

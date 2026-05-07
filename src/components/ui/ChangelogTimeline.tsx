@@ -9,7 +9,7 @@ import {
   faNetworkWired,
   faGlobe,
   faCircleQuestion,
-  faCrown
+  faGavel
 } from '@fortawesome/free-solid-svg-icons'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 
@@ -24,7 +24,7 @@ const iconMap: Record<string, IconDefinition> = {
   Globe: faGlobe,
   Hive: faGlobe,
   CircleHelp: faCircleQuestion,
-  Crown: faCrown
+  Gavel: faGavel
 }
 
 /**
