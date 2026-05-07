@@ -1,4 +1,5 @@
-import { ImageDown } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDownload } from '@fortawesome/free-solid-svg-icons'
 import { useExportChart, useWorldMapChart, useWorldMapData } from '@/hooks'
 import { DEFAULT_MAP_COLOR_SCHEME } from '@/utils/mapColors'
 import { formatBreakdownTooltip } from '@/utils/mapTooltips'
@@ -66,7 +67,7 @@ export function WorldMapCardTotal({
               aria-label="Download as PNG"
               title="Download as PNG"
             >
-              <ImageDown />
+              <FontAwesomeIcon icon={faDownload} size="xl" />
             </button>
           </div>
         </div>

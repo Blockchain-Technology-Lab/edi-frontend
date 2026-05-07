@@ -1,7 +1,9 @@
-import { DoughnutChartRenderer, GitHubButton } from '@/components'
+import { DoughnutChartRenderer } from '@/components'
 import type { LayerType } from '@/utils'
 import Tippy from '@tippyjs/react'
-import { Info } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faInfo } from '@fortawesome/free-solid-svg-icons'
+import { faGithub } from '@fortawesome/free-brands-svg-icons'
 
 interface DoughnutCardProps {
   type: LayerType
@@ -39,13 +41,24 @@ export function DoughnutCard({
                 className="btn btn-circle btn-ghost btn-sm text-base-content hover:text-accent"
                 aria-label={`Info about "${title}"`}
               >
-                <Info size={16} />
+                <FontAwesomeIcon icon={faInfo} size="lg" />
               </button>
             </Tippy>
           )}
 
           {/* GitHub button if URL provided */}
-          {githubUrl && <GitHubButton url={githubUrl} />}
+          {githubUrl && (
+            <Tippy content="View on GitHub" placement="bottom">
+              <button
+                type="button"
+                tabIndex={0}
+                className="btn btn-circle btn-ghost text-base-content hover:text-accent"
+                aria-label={`View ${title} on GitHub`}
+              >
+                <FontAwesomeIcon icon={faGithub} size="xl" />
+              </button>
+            </Tippy>
+          )}
         </div>
       </div>
 

@@ -18,9 +18,38 @@ import {
   Tooltip,
   Legend
 } from 'chart.js'
-import { Scale, Coins, Network, Code, Globe } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faScaleBalanced,
+  faCoins,
+  faNetworkWired,
+  faCode,
+  faGlobe,
+  faDownload
+} from '@fortawesome/free-solid-svg-icons'
+import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 
-import { ImageDown } from 'lucide-react'
+// Wraps an FA IconDefinition as a ComponentType compatible with AccordionGroup
+function faIcon(icon: IconDefinition) {
+  return function FAIcon({
+    className,
+    style
+  }: {
+    size?: number
+    className?: string
+    style?: React.CSSProperties
+  }) {
+    return (
+      <FontAwesomeIcon
+        icon={icon}
+        className={className}
+        style={
+          style as React.CSSProperties & Record<`--fa-font-${string}`, string>
+        }
+      />
+    )
+  }
+}
 import { ThemeContext } from '@/contexts'
 import { useExportChart } from '@/hooks'
 import type { RadarDataPoint } from '@/hooks/useRadarCsv'
@@ -228,7 +257,7 @@ export function RadarChart({
         'Block production diversity'
       ],
       color: '#3B82F6',
-      icon: Scale
+      icon: faIcon(faScaleBalanced)
     },
     {
       name: 'Tokenomics',
@@ -254,7 +283,7 @@ export function RadarChart({
         'Staking participation'
       ],
       color: '#10B981',
-      icon: Coins
+      icon: faIcon(faCoins)
     },
     {
       name: 'Software',
@@ -280,7 +309,7 @@ export function RadarChart({
         'Development governance'
       ],
       color: '#F59E0B',
-      icon: Code
+      icon: faIcon(faCode)
     },
     {
       name: 'Network',
@@ -308,7 +337,7 @@ export function RadarChart({
         'Operational independence'
       ],
       color: '#EF4444',
-      icon: Network
+      icon: faIcon(faNetworkWired)
     },
     {
       name: 'Geography',
@@ -335,7 +364,7 @@ export function RadarChart({
         'Physical infrastructure distribution'
       ],
       color: '#8B5CF6',
-      icon: Globe
+      icon: faIcon(faGlobe)
     }
   ]
 
@@ -356,7 +385,7 @@ export function RadarChart({
                   aria-label="Download chart as PNG"
                   title="Download as PNG"
                 >
-                  <ImageDown size={14} className="sm:w-4 sm:h-4" />
+                  <FontAwesomeIcon icon={faDownload} size="xl" />
                 </button>
               )}
             </div>

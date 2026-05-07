@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { ArrowUp } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons'
 
 export function BackToTop() {
   const [isVisible, setIsVisible] = useState(false)
@@ -90,7 +91,7 @@ export function BackToTop() {
       aria-label="Back to top"
       title="Back to top (Ctrl + Home)"
     >
-      <ArrowUp size={20} />
+      <FontAwesomeIcon icon={faArrowUp} size="lg" />
     </button>
   )
 }

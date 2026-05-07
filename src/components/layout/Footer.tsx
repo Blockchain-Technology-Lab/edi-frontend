@@ -1,8 +1,10 @@
 import { accessibilityRoute, changelogRoute, infographicsRoute } from '@/router'
 import { Link } from '@tanstack/react-router'
-import { Github, ExternalLink, ArrowUp } from 'lucide-react'
+import { faArrowUpRightFromSquare, faArrowUp } from '@fortawesome/free-solid-svg-icons'
+import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { ShortcutsHelp } from '@/components'
 import { INFORMATICS_LOGO } from '@/utils/paths'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export function Footer() {
   const scrollToTop = (event: React.MouseEvent) => {
@@ -43,7 +45,7 @@ export function Footer() {
           aria-label="Back to top"
           title="Back to top (Ctrl + Home)"
         >
-          <ArrowUp size={16} />
+          <FontAwesomeIcon icon={faArrowUp} className="w-4 h-4" />
         </button>
       </div>
 
@@ -82,9 +84,9 @@ export function Footer() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Github size={14} />
+          <FontAwesomeIcon icon={faGithub} size="lg" />
           GitHub
-          <ExternalLink size={10} />
+          <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="w-2.5 h-2.5" />
         </a>
         <div className="text-[10px] opacity-60">Last updated: {buildDate}</div>
       </nav>
@@ -98,7 +100,7 @@ export function Footer() {
           rel="noopener noreferrer"
         >
           About us
-          <ExternalLink size={10} />
+          <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="w-2.5 h-2.5" />
         </a>
         <a className="link link-hover" href="mailto:edi@ed.ac.uk">
           Contact
@@ -117,7 +119,7 @@ export function Footer() {
           rel="noopener noreferrer"
         >
           Privacy
-          <ExternalLink size={10} />
+          <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="w-2.5 h-2.5" />
         </a>
         <Link to={accessibilityRoute.to} className="link link-hover">
           Accessibility

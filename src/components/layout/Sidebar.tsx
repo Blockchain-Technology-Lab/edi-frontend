@@ -11,7 +11,16 @@ import {
   governanceTo
 } from '@/routes/routePaths'
 
-import { Scale, Coins, Network, Code, Globe, Gavel, House } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faScaleBalanced,
+  faCoins,
+  faNetworkWired,
+  faCode,
+  faGlobe,
+  faGavel,
+  faHouse
+} from '@fortawesome/free-solid-svg-icons'
 
 const layerItems = [
   {
@@ -19,7 +28,7 @@ const layerItems = [
     path: homeTo,
     bg: 'bg-base-200',
     text: 'text-base-content',
-    icon: <House size={36} />,
+    icon: <FontAwesomeIcon icon={faHouse} size="lg" />,
     shortcut: '0'
   },
   {
@@ -27,7 +36,7 @@ const layerItems = [
     path: consensusTo,
     bg: 'bg-base-200',
     text: 'text-base-content',
-    icon: <Scale size={36} />,
+    icon: <FontAwesomeIcon icon={faScaleBalanced} size="lg" />,
     shortcut: '1'
   },
   {
@@ -35,7 +44,7 @@ const layerItems = [
     path: tokenomicsTo,
     bg: 'bg-base-200',
     text: 'text-base-content',
-    icon: <Coins size={36} />,
+    icon: <FontAwesomeIcon icon={faCoins} size="lg" />,
     shortcut: '2'
   },
   {
@@ -43,7 +52,7 @@ const layerItems = [
     path: networkTo,
     bg: 'bg-base-200',
     text: 'text-base-content',
-    icon: <Network size={36} />,
+    icon: <FontAwesomeIcon icon={faNetworkWired} size="lg" />,
     shortcut: '3'
   },
   {
@@ -51,7 +60,7 @@ const layerItems = [
     path: softwareTo,
     bg: 'bg-base-200',
     text: 'text-base-content',
-    icon: <Code size={36} />,
+    icon: <FontAwesomeIcon icon={faCode} size="lg" />,
     shortcut: '4'
   },
   {
@@ -59,7 +68,7 @@ const layerItems = [
     path: geographyTo,
     bg: 'bg-base-200',
     text: 'text-base-content',
-    icon: <Globe size={36} />,
+    icon: <FontAwesomeIcon icon={faGlobe} size="lg" />,
     shortcut: '5'
   },
   {
@@ -67,7 +76,7 @@ const layerItems = [
     path: governanceTo,
     bg: 'bg-base-200',
     text: 'text-base-content',
-    icon: <Gavel size={36} />,
+    icon: <FontAwesomeIcon icon={faGavel} size="lg" />,
     disabled: false,
     shortcut: '6'
   }

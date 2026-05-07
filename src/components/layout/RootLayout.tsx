@@ -9,7 +9,8 @@ import {
   LoadingBar
 } from '@/components'
 import { useKeyboardShortcuts } from '@/hooks'
-import { Menu, X } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 export function RootLayout() {
   useKeyboardShortcuts()
@@ -51,7 +52,7 @@ export function RootLayout() {
           onClick={() => setIsMobileSidebarOpen(true)}
           aria-label="Open sidebar"
         >
-          <Menu size={16} />
+          <FontAwesomeIcon icon={faBars} size="lg" />
           <span className="text-xs font-semibold tracking-wide">Layers</span>
         </button>
       </div>
@@ -109,7 +110,7 @@ export function RootLayout() {
             onClick={() => setIsMobileSidebarOpen(false)}
             aria-label="Close sidebar"
           >
-            <X size={14} />
+            <FontAwesomeIcon icon={faXmark} size="lg" />
           </button>
         </div>
         <div className="h-[calc(100%-41px)] overflow-y-auto">

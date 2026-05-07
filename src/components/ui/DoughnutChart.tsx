@@ -14,7 +14,8 @@ import { useExportChart } from '@/hooks'
 import { useRef, useMemo, useEffect, useContext } from 'react'
 import { createWatermarkPlugin } from '@/utils'
 import { ThemeContext } from '@/contexts'
-import { ImageDown } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDownload } from '@fortawesome/free-solid-svg-icons'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -64,7 +65,7 @@ export function DoughnutChart({ data, fileName }: DoughnutProps) {
           aria-label="Download as PNG"
           title="Download as PNG"
         >
-          <ImageDown />
+          <FontAwesomeIcon icon={faDownload} size="xl" />
         </button>
       </div>
     </div>

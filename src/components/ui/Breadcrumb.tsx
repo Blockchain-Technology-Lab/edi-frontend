@@ -1,5 +1,6 @@
 import { Link, useRouterState } from '@tanstack/react-router'
-import { Home } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHouse } from '@fortawesome/free-solid-svg-icons'
 import { router } from '@/router'
 import { basePath } from '@/utils/paths'
 
@@ -126,7 +127,7 @@ export function Breadcrumb() {
       <ul>
         <li>
           <Link to="/" className="flex items-center gap-1 hover:opacity-100">
-            <Home size={14} />
+            <FontAwesomeIcon icon={faHouse} size="sm" />
             Home
           </Link>
         </li>

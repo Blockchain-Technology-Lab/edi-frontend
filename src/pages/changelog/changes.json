@@ -31,7 +31,7 @@
       "Projects: Bitcoin, Bitcoin Cash, Cardano, Go-Ethereum (Ethereum), Nethermind (Ethereum), Litecoin, Tezos, Zcash.",
       "Doughnut charts added for the contributor distributions of the 8 projects."
     ],
-    "icon": "Github"
+    "icon": "GitHub"
   },
   {
     "date": "2024-09-14",
@@ -109,5 +109,16 @@
       "Added Cardano results to network and geography graphs and to radar chart."
     ],
     "icon": "Network"
+  },
+  {
+    "date": "2026-05-11",
+    "title": "Governance layer released",
+    "description": [
+      "Initial release of the governance layer.",
+      "Graphs added for 3 projects.",
+      "Metrics: Herfindahl-Hirschman index (HHI), Nakamoto Coefficient, 3-concentration Ratio",
+      "Projects: Bitcoin, Ethereum, Cardano."
+    ],
+    "icon": "Crown"
   }
 ]

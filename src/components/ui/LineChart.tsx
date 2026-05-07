@@ -19,7 +19,8 @@ import { ThemeContext } from '@/contexts'
 import type { DataEntry } from '@/utils/types'
 
 import 'chartjs-adapter-date-fns'
-import { ImageDown } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDownload } from '@fortawesome/free-solid-svg-icons'
 
 // Add multi-axis configuration
 interface MultiAxisConfig {
@@ -269,7 +270,7 @@ export function LineChart({
           aria-label="Download as PNG"
           title="Download as PNG"
         >
-          <ImageDown />
+          <FontAwesomeIcon icon={faDownload} size="xl" />
         </button>
       </div>
     </div>

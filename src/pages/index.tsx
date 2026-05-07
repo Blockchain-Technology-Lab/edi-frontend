@@ -20,13 +20,21 @@ import {
 } from '@/utils/paths'
 import { useNavigate } from '@tanstack/react-router'
 
-import { Scale, Coins, Network, Code, Globe, Gavel } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faScaleBalanced,
+  faCoins,
+  faNetworkWired,
+  faCode,
+  faGlobe,
+  faGavel
+} from '@fortawesome/free-solid-svg-icons'
 
 const layers = [
   {
     title: 'Consensus',
     desc: 'This layer describes the decentralisation of block production over time.',
-    icon: <Scale />,
+    icon: <FontAwesomeIcon icon={faScaleBalanced} size="lg" />,
     background: CONSENSUS_CARD,
     path: consensusTo,
     github:
@@ -36,7 +44,7 @@ const layers = [
   {
     title: 'Tokenomics',
     desc: 'This layer describes the decentralisation of token ownership over time.',
-    icon: <Coins />,
+    icon: <FontAwesomeIcon icon={faCoins} size="lg" />,
     background: TOKENOMICS_CARD,
     path: tokenomicsTo,
     github:
@@ -46,7 +54,7 @@ const layers = [
   {
     title: 'Software',
     desc: 'This layer describes the decentralisation of the development of full node software projects over time.',
-    icon: <Code />,
+    icon: <FontAwesomeIcon icon={faCode} size="lg" />,
     background: SOFTWARE_CARD,
     path: softwareTo,
     github:
@@ -56,7 +64,7 @@ const layers = [
   {
     title: 'Network',
     desc: 'This layer describes the decentralisation of nodes over time, in terms of the service providers (organisations) they use.',
-    icon: <Network />,
+    icon: <FontAwesomeIcon icon={faNetworkWired} size="lg" />,
     background: NETWORK_CARD,
     path: networkTo,
     github:
@@ -66,7 +74,7 @@ const layers = [
   {
     title: 'Geography',
     desc: 'This layer describes the geographic decentralisation of nodes over time.',
-    icon: <Globe />,
+    icon: <FontAwesomeIcon icon={faGlobe} size="lg" />,
     background: GEOGRAPHY_CARD,
     path: geographyTo,
     disabled: false,
@@ -77,7 +85,7 @@ const layers = [
   {
     title: 'Governance',
     desc: 'This layer describes the governance structures and processes in place within blockchain networks. We plan to publish this layer soon.',
-    icon: <Gavel />,
+    icon: <FontAwesomeIcon icon={faGavel} size="lg" />,
     background: GOVERNANCE_CARD,
     path: governanceTo,
     disabled: false,
