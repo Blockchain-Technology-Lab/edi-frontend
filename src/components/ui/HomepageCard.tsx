@@ -1,5 +1,8 @@
 import type { ReactNode } from 'react'
-import { Github, FileText } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFileLines } from '@fortawesome/free-solid-svg-icons'
+import { faGithub } from '@fortawesome/free-brands-svg-icons'
+
 import { Link } from '@tanstack/react-router'
 
 type HomepageCardProps = {
@@ -41,7 +44,7 @@ export function HomepageCard({
         <h2 className="card-title text-xl font-bold font-sans">{title}</h2>
 
         {/* Icon as background */}
-        <div className="absolute top-2 right-2 text-[64px] opacity-10 text-base-content pointer-events-none">
+        <div className="absolute top-2 right-2 opacity-10 text-base-content pointer-events-none">
           {icon}
         </div>
 
@@ -57,7 +60,7 @@ export function HomepageCard({
             className="btn-xs text-base-content hover:text-accent transition-colors"
             onClick={(e) => e.stopPropagation()} // prevent card click
           >
-            <FileText size={24} />
+            <FontAwesomeIcon icon={faFileLines} size="sm" />
           </Link>
         )}
         {github && (
@@ -70,7 +73,7 @@ export function HomepageCard({
             aria-label="GitHub"
             onClick={(e) => e.stopPropagation()} // prevent card click
           >
-            <Github size={24} />
+            <FontAwesomeIcon icon={faGithub} size="lg" />
           </a>
         )}
       </div>

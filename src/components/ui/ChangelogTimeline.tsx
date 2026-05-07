@@ -1,28 +1,30 @@
 import timelineData from '@/pages/changelog/changes.json'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import {
-  Scale,
-  Coins,
-  Github,
-  Image,
-  House,
-  Network,
-  Globe,
-  Hexagon,
-  CircleHelp
-} from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
+  faScaleBalanced,
+  faCoins,
+  faImage,
+  faHouse,
+  faNetworkWired,
+  faGlobe,
+  faCircleQuestion,
+  faCrown
+} from '@fortawesome/free-solid-svg-icons'
+import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 
 // Icon mapping for the changelog entries
-const iconMap: Record<string, LucideIcon> = {
-  Scale,
-  Coins,
-  Github,
-  Image,
-  House,
-  Network,
-  Globe,
-  Hive: Hexagon,
-  CircleHelp
+const iconMap: Record<string, IconDefinition> = {
+  Scale: faScaleBalanced,
+  Coins: faCoins,
+  GitHub: faGithub,
+  Image: faImage,
+  House: faHouse,
+  Network: faNetworkWired,
+  Globe: faGlobe,
+  Hive: faGlobe,
+  CircleHelp: faCircleQuestion,
+  Crown: faCrown
 }
 
 /**
@@ -47,14 +49,14 @@ export function ChangelogTimeline() {
           index
         ) => {
           // Get the icon component from our icon map
-          const Icon = iconMap[entry.icon] || CircleHelp
+          const Icon = iconMap[entry.icon] || faCircleQuestion
 
           return (
             <li key={`${entry.date}-${index}`}>
               {index !== 0 && <hr />}
 
               <div className="timeline-middle">
-                <Icon className="h-5 w-5" />
+                <FontAwesomeIcon icon={Icon} className="h-5 w-5" />
               </div>
 
               <div className="timeline-end timeline-box mb-4">

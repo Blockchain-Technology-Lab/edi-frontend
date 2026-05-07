@@ -13,7 +13,8 @@ import { ThemeContext } from '@/contexts'
 import { LINECHART_WATERMARK_WHITE, LINECHART_WATERMARK_BLACK } from '@/utils'
 import { type NetworkBarEntry, prepareBarChartData } from '@/utils'
 import Tippy from '@tippyjs/react'
-import { Info } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faInfo } from '@fortawesome/free-solid-svg-icons'
 
 Chart.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend)
 
@@ -140,7 +141,7 @@ export function BarChart({ data, loading, title, description }: BarChartProps) {
               className="btn btn-circle btn-ghost text-base-content hover:text-accent"
               aria-label={`Info about ${title}`}
             >
-              <Info />
+              <FontAwesomeIcon icon={faInfo} size="lg" />
             </button>
           </Tippy>
         </div>

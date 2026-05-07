@@ -1,5 +1,6 @@
 import { LineChart } from '@/components'
-import { Info } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faInfo } from '@fortawesome/free-solid-svg-icons'
 import Tippy from '@tippyjs/react'
 import 'tippy.js/dist/tippy.css'
 import type { ReactNode } from 'react'
@@ -87,7 +88,7 @@ export function MetricsCard({
               className="btn btn-circle btn-ghost text-base-content hover:text-accent"
               aria-label={`Info about ${metric.title}`}
             >
-              <Info />
+              <FontAwesomeIcon icon={faInfo} size="lg" />
             </button>
           </Tippy>
         </div>
