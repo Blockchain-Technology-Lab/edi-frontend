@@ -62,3 +62,7 @@ export const INFOGRAPHICS = basePath + '/infographics/'
 export const RADAR_CSV = basePath + '/output/radar_chart.csv'
 
 export const WORLD_MAP_JSON = basePath + '/data/world-atlas-110m.json'
+
+export const GOVERNANCE_METHODOLOGY_DIAGRAM = getImageUrl(
+  '/images/governance/stages.png '
+)
