@@ -1,4 +1,5 @@
 import { methodologyTo } from '@/routes/routePaths'
+import { Link } from '@tanstack/react-router'
 
 type HomeTopCardProps = {
   title: string
@@ -34,14 +35,13 @@ export function HomeTopCard({
         <h2 className="card-title text-2xl">{title}</h2>
         <p className="tracking-wide text-lg">{description}</p>
         <div className="card-actions justify-end gap-2">
-          <a
-            href={methodologyTo}
-            rel="noopener noreferrer"
+          <Link
+            to={methodologyTo as never}
             className={`btn btn-outline btn-dash btn-ghost text-base-content`}
             title={btnMethodDesc}
           >
             {btnMethod}
-          </a>
+          </Link>
           <a
             href={webUrl}
             target="_blank"
