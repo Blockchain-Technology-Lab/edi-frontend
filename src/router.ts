@@ -246,6 +246,18 @@ export const methodologySoftwareRoute = createRoute({
   component: Methodology
 })
 
+export const methodologyGeographyRoute = createRoute({
+  path: 'geography',
+  getParentRoute: () => methodologyRoute,
+  component: Methodology
+})
+
+export const methodologyGovernanceRoute = createRoute({
+  path: 'governance',
+  getParentRoute: () => methodologyRoute,
+  component: Methodology
+})
+
 // Route tree
 export const routeTree = rootRoute.addChildren([
   indexRoute,
@@ -253,7 +265,9 @@ export const routeTree = rootRoute.addChildren([
     methodologyConsensusRoute,
     methodologyTokenomicsRoute,
     methodologyNetworkRoute,
-    methodologySoftwareRoute
+    methodologySoftwareRoute,
+    methodologyGeographyRoute,
+    methodologyGovernanceRoute
   ]),
   consensusRoute,
   consensusMethodologyRoute,
