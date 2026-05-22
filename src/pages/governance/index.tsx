@@ -196,11 +196,12 @@ export function Governance() {
             These graphs display four decentralisation metrics (Gini
             coefficient, Nakamoto coefficient, normalised Shannon entropy, and
             HHI) computed annually over the distribution of community discussion
-            activity for each blockchain, corresponding to the informal
-            deliberation phase of Stage 1 (Deliberation). Activity refers to the
-            number of posts or replies contributed by each participant. Users
-            can toggle between participant roles (poster, replier, or
-            participant, where participant includes both posters and repliers).
+            activity for each blockchain, corresponding to the Community
+            Deliberation phase, which runs concurrently with Stages 1–3 of the
+            governance lifecycle. Activity refers to the number of posts or
+            replies contributed by each participant. Users can toggle between
+            participant roles (poster, replier, or participant, where
+            participant includes both posters and repliers).
           </>
         }
         layout="default"
@@ -246,12 +247,12 @@ export function Governance() {
             These graphs display four decentralisation metrics (Gini
             coefficient, Nakamoto coefficient, normalised Shannon entropy, and
             HHI) computed annually over the distribution of GitHub activity on
-            the improvement proposal repositories, corresponding to the formal
-            review phase of Stage 1 (Deliberation). Activity refers to the
-            number of pull requests, reviews, or comments contributed by each
-            participant. Users can toggle between participant roles (author,
-            reviewer, commenter, or participant, where participant includes all
-            three roles).
+            the improvement proposal repositories, corresponding to Stage 1:
+            Ideation (Formal Review) of the governance lifecycle. Activity
+            refers to the number of pull requests, reviews, or comments
+            contributed by each participant. Users can toggle between
+            participant roles (author, reviewer, commenter, or participant,
+            where participant includes all three roles).
           </>
         }
         layout="default"
