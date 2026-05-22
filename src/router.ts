@@ -24,60 +24,24 @@ const Consensus = lazy(() =>
   import('@/pages/consensus').then((mod) => ({ default: mod.Consensus }))
 )
 
-const ConsensusMethodology = lazy(() =>
-  import('@/pages/consensus/methodology').then((mod) => ({
-    default: mod.ConsensusMethodology
-  }))
-)
-
 const Tokenomics = lazy(() =>
   import('@/pages/tokenomics').then((mod) => ({ default: mod.Tokenomics }))
-)
-
-const TokenomicsMethodology = lazy(() =>
-  import('@/pages/tokenomics/methodology').then((mod) => ({
-    default: mod.TokenomicsMethodology
-  }))
 )
 
 const Network = lazy(() =>
   import('@/pages/network').then((mod) => ({ default: mod.Network }))
 )
 
-const NetworkMethodology = lazy(() =>
-  import('@/pages/network/methodology').then((mod) => ({
-    default: mod.NetworkMethodology
-  }))
-)
-
 const Software = lazy(() =>
   import('@/pages/software').then((mod) => ({ default: mod.Software }))
-)
-
-const SoftwareMethodology = lazy(() =>
-  import('@/pages/software/methodology').then((mod) => ({
-    default: mod.SoftwareMethodology
-  }))
 )
 
 const Geography = lazy(() =>
   import('@/pages/geography').then((mod) => ({ default: mod.Geography }))
 )
 
-const GeographyMethodology = lazy(() =>
-  import('@/pages/geography/methodology').then((mod) => ({
-    default: mod.GeographyMethodology
-  }))
-)
-
 const Governance = lazy(() =>
   import('@/pages/governance').then((mod) => ({ default: mod.Governance }))
-)
-
-const GovernanceMethodology = lazy(() =>
-  import('@/pages/governance/methodology').then((mod) => ({
-    default: mod.GovernanceMethodology
-  }))
 )
 
 const Accessiblity = lazy(() =>
@@ -121,9 +85,9 @@ export const consensusRoute = createRoute({
 })
 
 export const consensusMethodologyRoute = createRoute({
-  path: withBase('/consensus/methodology'),
-  getParentRoute: () => rootRoute,
-  component: ConsensusMethodology
+  path: `consensus`,
+  getParentRoute: () => methodologyRoute,
+  component: Methodology
 })
 
 export const tokenomicsRoute = createRoute({
@@ -133,9 +97,9 @@ export const tokenomicsRoute = createRoute({
 })
 
 export const tokenomicsMethodologyRoute = createRoute({
-  path: withBase('/tokenomics/methodology'),
-  getParentRoute: () => rootRoute,
-  component: TokenomicsMethodology
+  path: `tokenomics`,
+  getParentRoute: () => methodologyRoute,
+  component: Methodology
 })
 
 export const networkRoute = createRoute({
@@ -145,9 +109,9 @@ export const networkRoute = createRoute({
 })
 
 export const networkMethodologyRoute = createRoute({
-  path: withBase('/network/methodology'),
-  getParentRoute: () => rootRoute,
-  component: NetworkMethodology
+  path: `network`,
+  getParentRoute: () => methodologyRoute,
+  component: Methodology
 })
 
 export const networkContributorRoute = createRoute({
@@ -163,9 +127,9 @@ export const softwareRoute = createRoute({
 })
 
 export const softwareMethodologyRoute = createRoute({
-  path: withBase('/software/methodology'),
-  getParentRoute: () => rootRoute,
-  component: SoftwareMethodology
+  path: `software`,
+  getParentRoute: () => methodologyRoute,
+  component: Methodology
 })
 
 export const softwareContributorRoute = createRoute({
@@ -181,9 +145,9 @@ export const geographyRoute = createRoute({
 })
 
 export const geographyMethodologyRoute = createRoute({
-  path: withBase('/geography/methodology'),
-  getParentRoute: () => rootRoute,
-  component: GeographyMethodology
+  path: `geography`,
+  getParentRoute: () => methodologyRoute,
+  component: Methodology
 })
 
 export const geographyContributorRoute = createRoute({
@@ -199,9 +163,9 @@ export const governanceRoute = createRoute({
 })
 
 export const governanceMethodologyRoute = createRoute({
-  path: withBase('/governance/methodology'),
-  getParentRoute: () => rootRoute,
-  component: GovernanceMethodology
+  path: `governance`,
+  getParentRoute: () => methodologyRoute,
+  component: Methodology
 })
 
 export const accessibilityRoute = createRoute({
@@ -222,68 +186,26 @@ export const infographicsRoute = createRoute({
   component: Infographics
 })
 
-export const methodologyConsensusRoute = createRoute({
-  path: 'consensus',
-  getParentRoute: () => methodologyRoute,
-  component: Methodology
-})
-
-export const methodologyTokenomicsRoute = createRoute({
-  path: 'tokenomics',
-  getParentRoute: () => methodologyRoute,
-  component: Methodology
-})
-
-export const methodologyNetworkRoute = createRoute({
-  path: 'network',
-  getParentRoute: () => methodologyRoute,
-  component: Methodology
-})
-
-export const methodologySoftwareRoute = createRoute({
-  path: 'software',
-  getParentRoute: () => methodologyRoute,
-  component: Methodology
-})
-
-export const methodologyGeographyRoute = createRoute({
-  path: 'geography',
-  getParentRoute: () => methodologyRoute,
-  component: Methodology
-})
-
-export const methodologyGovernanceRoute = createRoute({
-  path: 'governance',
-  getParentRoute: () => methodologyRoute,
-  component: Methodology
-})
-
 // Route tree
 export const routeTree = rootRoute.addChildren([
   indexRoute,
-  methodologyRoute.addChildren([
-    methodologyConsensusRoute,
-    methodologyTokenomicsRoute,
-    methodologyNetworkRoute,
-    methodologySoftwareRoute,
-    methodologyGeographyRoute,
-    methodologyGovernanceRoute
-  ]),
   consensusRoute,
-  consensusMethodologyRoute,
   tokenomicsRoute,
-  tokenomicsMethodologyRoute,
   networkRoute.addChildren([networkContributorRoute]),
-  networkMethodologyRoute,
   softwareRoute.addChildren([softwareContributorRoute]),
-  softwareMethodologyRoute,
   geographyRoute.addChildren([geographyContributorRoute]),
-  geographyMethodologyRoute,
   governanceRoute,
-  governanceMethodologyRoute,
   accessibilityRoute,
   changelogRoute,
-  infographicsRoute
+  infographicsRoute,
+  methodologyRoute.addChildren([
+    consensusMethodologyRoute,
+    tokenomicsMethodologyRoute,
+    networkMethodologyRoute,
+    softwareMethodologyRoute,
+    geographyMethodologyRoute,
+    governanceMethodologyRoute
+  ])
 ])
 
 export const router = createRouter({
