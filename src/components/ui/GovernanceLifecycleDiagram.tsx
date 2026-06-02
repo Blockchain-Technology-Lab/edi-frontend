@@ -7,6 +7,7 @@ import {
   faCubesStacked,
   faComments,
   faChevronRight,
+  faChevronDown,
   faCircle,
   faArrowUpRightFromSquare
 } from '@fortawesome/free-solid-svg-icons'
@@ -76,33 +77,13 @@ function StageCard({ stage }: { stage: Stage }) {
   return (
     <div
       className={`
-        flex flex-col items-center text-center gap-2 rounded-xl border p-3 sm:p-4 flex-1 min-w-0 transition-colors
-        ${
-          covered
-            ? 'bg-primary/5 border-primary/20'
-            : 'bg-base-200/40 border-base-300 opacity-60'
-        }
+        flex flex-row sm:flex-col items-start sm:items-center text-left sm:text-center
+        gap-3 sm:gap-2 rounded-xl border p-3 sm:p-4
+        w-full sm:flex-1 sm:min-w-0 transition-colors
+        ${covered ? 'bg-primary/5 border-primary/20' : 'bg-base-200/40 border-base-300 opacity-60'}
       `}
     >
-      {/* Stage number + status badge */}
-      <div className="flex items-center gap-1.5">
-        <span
-          className={`text-[10px] font-mono font-bold uppercase tracking-widest px-1.5 py-0.5 rounded border ${
-            covered
-              ? 'text-primary border-primary/30 bg-primary/8'
-              : 'text-base-content/40 border-base-300 bg-base-200'
-          }`}
-        >
-          {stage.number}
-        </span>
-        {!covered && (
-          <span className="text-[9px] font-mono font-semibold uppercase tracking-widest text-base-content/35 border border-base-300 rounded px-1 py-0.5 bg-base-200">
-            planned
-          </span>
-        )}
-      </div>
-
-      {/* Icon */}
+      {/* Icon — left on mobile, centred on desktop */}
       <div
         className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
           covered
@@ -113,44 +94,72 @@ function StageCard({ stage }: { stage: Stage }) {
         <FontAwesomeIcon icon={stage.icon} className="h-4 w-4" />
       </div>
 
-      {/* Title */}
-      <div>
+      {/* Text block */}
+      <div className="flex flex-col gap-1 sm:items-center min-w-0 flex-1">
+        {/* Stage number + status badge */}
+        <div className="flex items-center gap-1.5">
+          <span
+            className={`text-[10px] font-mono font-bold uppercase tracking-widest px-1.5 py-0.5 rounded border ${
+              covered
+                ? 'text-primary border-primary/30 bg-primary/8'
+                : 'text-base-content/40 border-base-300 bg-base-200'
+            }`}
+          >
+            {stage.number}
+          </span>
+          {!covered && (
+            <span className="text-[9px] font-mono font-semibold uppercase tracking-widest text-base-content/35 border border-base-300 rounded px-1 py-0.5 bg-base-200">
+              planned
+            </span>
+          )}
+        </div>
+
+        {/* Title */}
+        <div>
+          <p
+            className={`text-xs font-semibold leading-tight ${
+              covered ? 'text-base-content/85' : 'text-base-content/40'
+            }`}
+          >
+            {stage.title}
+          </p>
+          {stage.subtitle && (
+            <p
+              className={`text-[10px] mt-0.5 ${covered ? 'text-base-content/50' : 'text-base-content/30'}`}
+            >
+              {stage.subtitle}
+            </p>
+          )}
+        </div>
+
+        {/* Description — always visible */}
         <p
-          className={`text-xs font-semibold leading-tight ${
-            covered ? 'text-base-content/85' : 'text-base-content/40'
+          className={`text-[11px] leading-relaxed ${
+            covered ? 'text-base-content/55' : 'text-base-content/30'
           }`}
         >
-          {stage.title}
+          {stage.description}
         </p>
-        {stage.subtitle && (
-          <p
-            className={`text-[10px] mt-0.5 ${covered ? 'text-base-content/50' : 'text-base-content/30'}`}
-          >
-            {stage.subtitle}
-          </p>
-        )}
       </div>
-
-      {/* Description */}
-      <p
-        className={`text-[11px] leading-relaxed hidden sm:block ${
-          covered ? 'text-base-content/55' : 'text-base-content/30'
-        }`}
-      >
-        {stage.description}
-      </p>
     </div>
   )
 }
 
 function Arrow({ covered }: { covered: boolean }) {
+  const color = covered ? 'text-primary/40' : 'text-base-content/20'
   return (
-    <div className="flex items-center flex-shrink-0 px-1 self-center">
-      <FontAwesomeIcon
-        icon={faChevronRight}
-        className={`h-3 w-3 ${covered ? 'text-primary/40' : 'text-base-content/20'}`}
-      />
-    </div>
+    <>
+      {/* Mobile: down arrow between vertically stacked cards */}
+      <div className={`sm:hidden flex justify-center py-1 ${color}`}>
+        <FontAwesomeIcon icon={faChevronDown} className="h-3 w-3" />
+      </div>
+      {/* Desktop: right arrow between horizontally laid out cards */}
+      <div
+        className={`hidden sm:flex items-center flex-shrink-0 px-1 self-center ${color}`}
+      >
+        <FontAwesomeIcon icon={faChevronRight} className="h-3 w-3" />
+      </div>
+    </>
   )
 }
 
@@ -158,7 +167,7 @@ export function GovernanceLifecycleDiagram() {
   return (
     <div className="rounded-xl border border-base-300 overflow-hidden bg-base-100 shadow-sm not-prose">
       {/* Header */}
-      <div className="flex items-center justify-between gap-2 px-4 py-2.5 bg-base-200/50 border-b border-base-300">
+      <div className="flex flex-wrap items-start sm:items-center justify-between gap-x-4 gap-y-2 px-4 py-2.5 bg-base-200/50 border-b border-base-300">
         <div>
           <p className="text-[10px] font-mono font-semibold text-base-content/40 uppercase tracking-[0.14em]">
             Governance
@@ -192,12 +201,12 @@ export function GovernanceLifecycleDiagram() {
       </div>
 
       <div className="p-3 sm:p-4 space-y-3">
-        {/* Stage cards row */}
-        <div className="flex items-stretch gap-0">
+        {/* Stage cards: vertical stack on mobile, horizontal row on sm+ */}
+        <div className="flex flex-col sm:flex-row sm:items-stretch gap-0">
           {stages.map((stage, i) => (
             <div
               key={stage.number}
-              className="flex items-stretch flex-1 min-w-0"
+              className="flex flex-col sm:flex-row sm:items-stretch sm:flex-1 sm:min-w-0"
             >
               {i > 0 && (
                 <Arrow covered={stages[i - 1].covered && stage.covered} />
@@ -209,7 +218,7 @@ export function GovernanceLifecycleDiagram() {
 
         {/* Community Deliberation banner */}
         <div className="rounded-lg border border-base-300 bg-base-200/40 overflow-hidden">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 px-3 py-2.5">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 px-3 py-2.5">
             <div className="flex items-center gap-2 text-base-content/60">
               <div className="w-6 h-6 rounded-lg bg-base-300/60 flex items-center justify-center flex-shrink-0">
                 <FontAwesomeIcon
