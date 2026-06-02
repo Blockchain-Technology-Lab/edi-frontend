@@ -13,8 +13,25 @@ export function AboveFooter() {
           className="h-4 w-4 text-base-content/35 mt-0.5 flex-shrink-0"
         />
         <p className="text-[10px] leading-relaxed text-base-content/70">
-          The Edinburgh Decentralisation Index (EDI) is a research project run
-          by the University of Edinburgh's Blockchain Technology Laboratory (BTL
+          The{' '}
+          <a
+            href="https://informatics.ed.ac.uk/blockchain/edi"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline underline-offset-2 hover:text-base-content/70 transition-colors"
+          >
+            Edinburgh Decentralisation Index (EDI)
+          </a>{' '}
+          is a research project run by the University of Edinburgh's Blockchain
+          Technology Laboratory (
+          <a
+            href="https://informatics.ed.ac.uk/blockchain"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline underline-offset-2 hover:text-base-content/70 transition-colors"
+          >
+            BTL
+          </a>{' '}
           —{' '}
           <a
             href="https://informatics.ed.ac.uk/blockchain"
