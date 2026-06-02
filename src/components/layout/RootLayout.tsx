@@ -1,5 +1,13 @@
 import { Outlet } from '@tanstack/react-router'
-import { Header, TopNav, Footer, GoogleAnalytics, Breadcrumb, LoadingBar } from '@/components'
+import {
+  Header,
+  TopNav,
+  Footer,
+  GoogleAnalytics,
+  Breadcrumb,
+  LoadingBar,
+  AboveFooter
+} from '@/components'
 import { useKeyboardShortcuts } from '@/hooks'
 
 export function RootLayout() {
@@ -26,7 +34,7 @@ export function RootLayout() {
           <Outlet />
         </div>
       </main>
-
+      <AboveFooter />
       {/* Footer */}
       <div className="bg-base-100 border-t border-base-300">
         <Footer />
