@@ -22,42 +22,42 @@ export const BASE_LEDGERS = {
   bitcoin_cash: {
     ledger: 'bitcoin_cash',
     displayName: 'Bitcoin Cash',
-    ...c(0, 172, 90)       // BCH green
+    ...c(0, 204, 102)
   },
   cardano: {
     ledger: 'cardano',
     displayName: 'Cardano',
-    ...c(0, 51, 173)       // Cardano navy #0033AD
+    ...c(255, 99, 132)
   },
   dogecoin: {
     ledger: 'dogecoin',
     displayName: 'Dogecoin',
-    ...c(185, 153, 60)     // DOGE gold (consistent hue)
+    ...c(255, 235, 50)
   },
   ethereum: {
     ledger: 'ethereum',
     displayName: 'Ethereum',
-    ...c(98, 126, 234)     // ETH-inspired blue-purple
+    ...c(153, 102, 255)
   },
   litecoin: {
     ledger: 'litecoin',
     displayName: 'Litecoin',
-    ...c(134, 136, 138)    // LTC silver-grey
+    ...c(135, 206, 250)
   },
   tezos: {
     ledger: 'tezos',
     displayName: 'Tezos',
-    ...c(44, 125, 247)     // Tezos brand blue #2C7DF7
+    ...c(157, 102, 89)
   },
   xrpl: {
     ledger: 'xrpl',
     displayName: 'XRPL',
-    ...c(0, 188, 212)      // XRP teal (distinct from blues)
+    ...c(0, 204, 204)
   },
   zcash: {
     ledger: 'zcash',
     displayName: 'ZCash',
-    ...c(244, 183, 40)     // ZCash gold #F4B728
+    ...c(54, 162, 235)
   },
   go_ethereum: {
     ledger: 'go-ethereum',
@@ -67,32 +67,32 @@ export const BASE_LEDGERS = {
   bitcoin_cash_node: {
     ledger: 'bitcoin-cash-node',
     displayName: 'Bitcoin Cash',
-    ...c(0, 172, 90)
+    ...c(0, 204, 102)
   },
   cardano_node: {
     ledger: 'cardano-node',
     displayName: 'Cardano',
-    ...c(0, 51, 173)
+    ...c(255, 99, 132)
   },
   nethermind: {
     ledger: 'nethermind',
     displayName: 'Nethermind (Ethereum)',
-    ...c(186, 135, 255)    // Lighter purple variant of geth
+    ...c(207, 159, 255)
   },
   polkadot_sdk: {
     ledger: 'polkadot-sdk',
     displayName: 'Polkadot SDK',
-    ...c(230, 0, 122)      // Polkadot brand pink #E6007A
+    ...c(0, 153, 76)
   },
   solana: {
     ledger: 'solana',
     displayName: 'Solana',
-    ...c(153, 69, 255)     // Solana brand purple #9945FF
+    ...c(255, 165, 0)
   },
   tezos_mirror: {
     ledger: 'tezos-mirror',
     displayName: 'Tezos',
-    ...c(44, 125, 247)
+    ...c(157, 102, 89)
   },
   ethereum_consensus: {
     ledger: 'consensus',
@@ -102,7 +102,7 @@ export const BASE_LEDGERS = {
   ethereum_execution: {
     ledger: 'execution',
     displayName: 'Ethereum (Execution)',
-    ...c(186, 135, 255)
+    ...c(207, 159, 255)
   }
 } as const
 
