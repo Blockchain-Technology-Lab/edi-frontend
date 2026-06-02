@@ -1,14 +1,39 @@
 import { AppLink } from '@/components'
 
-On the software layer, decentralisation is evaluated by looking at the open source repositories that are associated with different blockchain clients, and specifically looking at their commit history. The projects that are currently supported are: <AppLink href="https://github.com/bitcoin/bitcoin">Bitcoin Core</AppLink> (Bitcoin), <AppLink href="https://github.com/bitcoin-cash-node/bitcoin-cash-node">Bitcoin Cash Node</AppLink> (Bitcoin Cash), <AppLink href="https://github.com/IntersectMBO/cardano-node">Cardano Node</AppLink> (Cardano), <AppLink href="https://github.com/ethereum/go-ethereum">Go Ethereum</AppLink> (Ethereum), <AppLink href="https://github.com/NethermindEth/nethermind">Nethermind</AppLink> (Ethereum), <AppLink href="https://github.com/litecoin-project/litecoin">Litecoin Core</AppLink> (Litecoin), <AppLink href="https://github.com/tezos/tezos">Tezos</AppLink> (Tezos) and <AppLink href="https://github.com/zcash/zcash">Zcash</AppLink> (Zcash). Specifically, the following metrics are presented in the dashboard: Shannon entropy, Herfindahl-Hirschman index (HHI), 1-concentration ratio, number of total entities.
+On the software layer, decentralisation is evaluated by looking at the open source repositories associated with different blockchain clients, and specifically looking at their commit history. The projects that are currently supported are: <AppLink href="https://github.com/bitcoin/bitcoin">Bitcoin Core</AppLink> (Bitcoin), <AppLink href="https://github.com/bitcoin-cash-node/bitcoin-cash-node">Bitcoin Cash Node</AppLink> (Bitcoin Cash), <AppLink href="https://github.com/IntersectMBO/cardano-node">Cardano Node</AppLink> (Cardano), <AppLink href="https://github.com/ethereum/go-ethereum">Go Ethereum</AppLink> (Ethereum), <AppLink href="https://github.com/NethermindEth/nethermind">Nethermind</AppLink> (Ethereum), <AppLink href="https://github.com/litecoin-project/litecoin">Litecoin Core</AppLink> (Litecoin), <AppLink href="https://github.com/tezos/tezos">Tezos</AppLink> (Tezos) and <AppLink href="https://github.com/zcash/zcash">Zcash</AppLink> (Zcash). Specifically, the following metrics are presented in the dashboard: Shannon entropy, Herfindahl-Hirschman index (HHI), 1-concentration ratio, number of total entities.
 
-Users can choose which options will be taken into account when generating the graphs. These include:
+Users can choose which options will be taken into account when generating the graphs.
 
-- Contribution Type, i.e. what counts as a contribution. The options are:
-  - Commits: each commit is counted as a single contribution.
-  - Merge commits: only merge commits are counted as contributions.
-  - Lines changed: each line of code changed (added or removed) counts as a contribution. In this case, all commits are counted, but each is assigned a different contribution weight, based on the number of updated lines associated with it.
-- Contributor Type, i.e. who is seen as responsible for the contribution. The options are:
-  - Author: the person who wrote the code of the commit.
-  - Committer: the person who committed the code on behalf of the original author (can be the same or different from the author).
-- Commits per sample window, i.e. how many consecutive commits to group together before applying a metric. It can be one of: 100, 250, 500, 1000.
+<div className="rounded-xl border border-base-300 overflow-hidden bg-base-100 shadow-sm">
+  <div className="px-4 py-2.5 bg-base-200/50 border-b border-base-300">
+    <span className="text-xs font-semibold text-base-content/70 uppercase tracking-[0.12em]">Filter Options</span>
+  </div>
+  <div className="divide-y divide-base-200">
+    <div className="px-4 py-3 space-y-2">
+      <p className="text-sm font-semibold text-base-content">Contribution Type</p>
+      <p className="text-xs text-base-content/50">What counts as a contribution</p>
+      <ul className="list-disc pl-5 text-sm text-base-content/70 space-y-1 mt-1">
+        <li><span className="font-medium text-base-content/90">Commits</span> — each commit is counted as a single contribution.</li>
+        <li><span className="font-medium text-base-content/90">Merge commits</span> — only merge commits are counted as contributions.</li>
+        <li><span className="font-medium text-base-content/90">Lines changed</span> — each line of code changed (added or removed) counts as a contribution; all commits are counted but each is weighted by the number of updated lines.</li>
+      </ul>
+    </div>
+    <div className="px-4 py-3 space-y-2">
+      <p className="text-sm font-semibold text-base-content">Contributor Type</p>
+      <p className="text-xs text-base-content/50">Who is seen as responsible for the contribution</p>
+      <ul className="list-disc pl-5 text-sm text-base-content/70 space-y-1 mt-1">
+        <li><span className="font-medium text-base-content/90">Author</span> — the person who wrote the code of the commit.</li>
+        <li><span className="font-medium text-base-content/90">Committer</span> — the person who committed the code on behalf of the original author (can be the same or different).</li>
+      </ul>
+    </div>
+    <div className="px-4 py-3 space-y-2">
+      <p className="text-sm font-semibold text-base-content">Commits per Sample Window</p>
+      <p className="text-xs text-base-content/50">How many consecutive commits to group before applying a metric</p>
+      <div className="flex flex-wrap gap-2 pt-1">
+        {['100', '250', '500', '1000'].map((v) => (
+          <span key={v} className="px-2.5 py-1 rounded-lg bg-base-200 text-xs font-mono font-semibold text-base-content/60">{v}</span>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>

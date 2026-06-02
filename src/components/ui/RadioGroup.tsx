@@ -26,43 +26,50 @@ export function RadioGroup({
 }: RadioGroupProps) {
   const groupId = useId()
 
-  const containerClassName = fullHeight
-    ? 'card bg-base-300 shadow-lg border border-base-300 rounded-box p-2 h-full'
-    : 'card bg-base-300 shadow-lg border border-base-300 rounded-box p-2'
-
-  const innerClassName = fullHeight
-    ? 'flex flex-col gap-2 h-full'
-    : 'flex flex-col gap-2'
-
   const optionsClassName = stacked
-    ? 'flex flex-col gap-3'
+    ? 'flex flex-col gap-2.5'
     : twoColumnDesktop
-      ? 'grid grid-cols-1 lg:grid-cols-2 gap-3'
+      ? 'grid grid-cols-1 lg:grid-cols-2 gap-2.5'
       : 'flex flex-wrap gap-3'
 
-  const itemClassName = twoColumnDesktop
-    ? 'flex items-center gap-2 cursor-pointer w-full'
-    : 'flex items-center gap-2 cursor-pointer'
-
   return (
-    <div className={containerClassName}>
-      <div className={innerClassName}>
-        {label && <h3 className="text-lg font-semibold mb-4">{label}</h3>}
-        <div className={optionsClassName}>
-          {items.map((item) => (
-            <label key={item.value} className={itemClassName}>
+    <div className={fullHeight ? 'flex flex-col' : ''}>
+      {label && (
+        <p className="text-[11px] font-semibold text-base-content/50 uppercase tracking-[0.12em] mb-3">
+          {label}
+        </p>
+      )}
+      <div className={optionsClassName}>
+        {items.map((item) => {
+          const isSelected = selectedItem?.value === item.value
+          return (
+            <label
+              key={item.value}
+              className={`flex items-center gap-2.5 cursor-pointer group${twoColumnDesktop ? ' w-full' : ''}`}
+            >
               <input
                 type="radio"
                 name={groupId}
                 value={item.value}
-                checked={selectedItem?.value === item.value}
+                checked={isSelected}
                 onChange={() => onChange(item)}
-                className="radio radio-success"
+                className="sr-only peer"
               />
-              <span className="text-sm">{item.label}</span>
+              <span
+                className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 transition-all duration-150
+                  ${isSelected ? 'border-primary' : 'border-base-content/25 group-hover:border-base-content/40'}`}
+              >
+                {isSelected && <span className="w-2 h-2 rounded-full bg-primary" />}
+              </span>
+              <span
+                className={`text-sm transition-colors duration-150
+                  ${isSelected ? 'text-base-content font-medium' : 'text-base-content/60 group-hover:text-base-content/80'}`}
+              >
+                {item.label}
+              </span>
             </label>
-          ))}
-        </div>
+          )
+        })}
       </div>
     </div>
   )

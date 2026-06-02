@@ -33,39 +33,44 @@ export function SystemSelector({
         : 'flex flex-wrap gap-3'
 
   return (
-    <div className="card bg-base-200 shadow-lg border border-base-300 rounded-box p-2">
-      <h3 className="text-lg font-semibold mb-4">{label}</h3>
+    <div className="card border border-base-300 shadow-sm bg-base-100 overflow-hidden">
+      <div className="px-4 py-2.5 bg-base-200/50 border-b border-base-300">
+        <h3 className="text-sm font-semibold text-base-content">{label}</h3>
+      </div>
+      <div className="p-4">
+        <div className={containerClassName}>
+          {systems.map((system) => {
+            const ledger = findLedgerByName(system)
+            if (!ledger) return null
 
-      {/* Grid/Flex Wrap Container - Multi-row Layout */}
-      <div className={containerClassName}>
-        {systems.map((system) => {
-          const ledger = findLedgerByName(system)
-          if (!ledger) return null
+            const isSelected = selectedSystems.has(system)
+            const { color, displayName } = ledger
 
-          const isSelected = selectedSystems.has(system)
-          const { color, displayName } = ledger
-
-          return (
-            <label
-              key={system}
-              className="flex items-center gap-2 p-2 rounded-lg cursor-pointer"
-            >
-              <input
-                type="checkbox"
-                checked={isSelected}
-                onChange={() => handleToggle(system)}
-                className="sr-only peer"
-              />
-              <div
-                className={`w-11 h-6 rounded-full transition-all duration-300 peer-checked:after:translate-x-5 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all relative ${
-                  isSelected ? 'bg-opacity-700' : 'bg-base-300'
-                }`}
-                style={isSelected ? { backgroundColor: color } : {}}
-              />
-              <span className="text-sm font-medium">{displayName}</span>
-            </label>
-          )
-        })}
+            return (
+              <label
+                key={system}
+                className="flex items-center gap-2.5 cursor-pointer group"
+              >
+                <input
+                  type="checkbox"
+                  checked={isSelected}
+                  onChange={() => handleToggle(system)}
+                  className="sr-only peer"
+                />
+                <div
+                  className={`w-9 h-5 rounded-full transition-all duration-200 relative shrink-0
+                    peer-checked:after:translate-x-4 after:content-[''] after:absolute after:top-0.5 after:left-0.5
+                    after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all after:shadow-sm
+                    ${isSelected ? '' : 'bg-base-300'}`}
+                  style={isSelected ? { backgroundColor: color } : {}}
+                />
+                <span className="text-xs font-medium text-base-content/70 group-hover:text-base-content transition-colors">
+                  {displayName}
+                </span>
+              </label>
+            )
+          })}
+        </div>
       </div>
     </div>
   )

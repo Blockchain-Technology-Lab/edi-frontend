@@ -234,7 +234,7 @@ export function LineChart({
   const finalChartData = multiAxis ? enhancedChartData : chartData
 
   return (
-    <div className="card bg-base-300 shadow-lg p-4 space-y-4">
+    <div className="space-y-3">
       <div className="aspect-video">
         <Line
           key={`chart-${metric}-${resolvedTheme}-${
@@ -245,7 +245,6 @@ export function LineChart({
             datasets: finalChartData?.datasets || []
           }}
           options={options}
-          className=""
           ref={(ref) => {
             if (ref) {
               chartRef.current = ref.canvas
@@ -263,14 +262,15 @@ export function LineChart({
         />
       )}
 
-      <div className="text-end">
+      <div className="flex justify-end">
         <button
-          className="btn btn-sm bg-base-100"
+          className="inline-flex items-center gap-1.5 text-xs text-base-content/40 hover:text-base-content/70 transition-colors duration-150 px-2 py-1 rounded"
           onClick={() => exportChart(chartRef, `${type}-${metric}`)}
           aria-label="Download as PNG"
           title="Download as PNG"
         >
-          <FontAwesomeIcon icon={faDownload} size="xl" />
+          <FontAwesomeIcon icon={faDownload} className="w-3 h-3" />
+          <span>Export PNG</span>
         </button>
       </div>
     </div>
@@ -279,13 +279,11 @@ export function LineChart({
 
 function LineChartSkeleton() {
   return (
-    <div className="card bg-base-100 p-4">
-      <div
-        className="w-full h-106.25 bg-base-200 animate-pulse rounded"
-        aria-busy="true"
-        aria-label="Loading chart"
-      />
-    </div>
+    <div
+      className="aspect-video w-full bg-base-200 animate-pulse rounded-lg"
+      aria-busy="true"
+      aria-label="Loading chart"
+    />
   )
 }
 

@@ -33,7 +33,7 @@ export function LoadingBar() {
   if (!isLoading) return null
 
   return (
-    <div className="fixed top-16 left-0 right-0 z-50 h-1 bg-base-300">
+    <div className="fixed top-[128px] left-0 right-0 z-50 h-0.5 bg-base-300">
       <div
         className="h-full bg-primary transition-all duration-300 ease-out"
         style={{ width: `${progress}%` }}

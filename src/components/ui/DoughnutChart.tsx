@@ -45,12 +45,12 @@ export function DoughnutChart({ data, fileName }: DoughnutProps) {
   }, [resolvedTheme])
 
   return (
-    <div className="card bg-base-300 shadow-lg p-1 space-y-4 ">
-      <div className="aspect-[16/9] mt-2">
+    <div className="space-y-3">
+      <div className="aspect-[16/9]">
         <Doughnut
           data={data}
           options={options}
-          className="max-w-full "
+          className="max-w-full"
           ref={(ref) => {
             if (ref) {
               chartRef.current = ref.canvas
@@ -58,14 +58,15 @@ export function DoughnutChart({ data, fileName }: DoughnutProps) {
           }}
         />
       </div>
-      <div className="text-end">
+      <div className="flex justify-end">
         <button
-          className="btn btn-sm bg-base-100"
+          className="inline-flex items-center gap-1.5 text-xs text-base-content/40 hover:text-base-content/70 transition-colors duration-150 px-2 py-1 rounded"
           onClick={() => exportChart(chartRef, fileName + '-doughnut')}
           aria-label="Download as PNG"
           title="Download as PNG"
         >
-          <FontAwesomeIcon icon={faDownload} size="xl" />
+          <FontAwesomeIcon icon={faDownload} className="w-3 h-3" />
+          <span>Export PNG</span>
         </button>
       </div>
     </div>

@@ -173,36 +173,36 @@ export function Software() {
         label="Platforms"
       />
 
-      <div className="card lg:card-side bg-base-200 shadow-lg border border-base-300 rounded-box">
-        <div className="card-body">
-          <div className="flex flex-col lg:flex-row gap-4 h-full items-stretch">
-            <div className="flex-1 h-full">
+      <div className="card border border-base-300 shadow-sm bg-base-100 overflow-hidden">
+        <div className="px-4 py-2.5 bg-base-200/50 border-b border-base-300">
+          <h3 className="text-sm font-semibold text-base-content">Data settings</h3>
+        </div>
+        <div className="p-4 sm:p-5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-0">
+            <div className="pb-5 border-b border-base-300 sm:pb-0 sm:border-b-0 sm:pr-6 sm:border-r sm:border-base-300">
               <RadioGroup
                 label="Contribution Type"
                 items={WEIGHT_ITEMS}
                 selectedItem={selectedWeight}
                 onChange={setSelectedWeight}
-                fullHeight={true}
                 stacked={true}
               />
             </div>
-            <div className="flex-1 h-full">
+            <div className="pt-5 border-b border-base-300 sm:pt-0 sm:border-b-0 sm:px-6 sm:border-x sm:border-base-300">
               <RadioGroup
                 label="Contributor Type"
                 items={ENTITY_ITEMS}
                 selectedItem={selectedEntity}
                 onChange={setSelectedEntity}
-                fullHeight={true}
                 stacked={true}
               />
             </div>
-            <div className="flex-1 h-full">
+            <div className="pt-5 sm:pt-0 sm:pl-6">
               <RadioGroup
                 label="Commits per Sample Window"
                 items={COMMITS_ITEMS}
                 selectedItem={selectedCommits}
                 onChange={setSelectedCommits}
-                fullHeight={true}
                 stacked={true}
               />
             </div>
@@ -236,26 +236,27 @@ export function Software() {
         />
       </div>
 
-      <div className="card lg:card-side bg-base-200 shadow-lg border border-base-300 rounded-box">
-        <div className="card-body">
-          <div className="flex flex-col lg:flex-row gap-2 h-full">
-            <div className="flex-1 h-full">
+      <div className="card border border-base-300 shadow-sm bg-base-100 overflow-hidden">
+        <div className="px-4 py-2.5 bg-base-200/50 border-b border-base-300">
+          <h3 className="text-sm font-semibold text-base-content">Data settings</h3>
+        </div>
+        <div className="p-4 sm:p-5">
+          <div className="flex flex-col sm:flex-row gap-0">
+            <div className="pb-5 border-b border-base-300 sm:pb-0 sm:border-b-0 sm:pr-6 sm:border-r sm:border-base-300">
               <RadioGroup
                 label="Contribution Type"
                 items={DOUGHNUT_WEIGHT_ITEMS}
                 selectedItem={selectedDoughnutWeight}
                 onChange={setSelectedDoughnutWeight}
-                fullHeight={true}
                 stacked={true}
               />
             </div>
-            <div className="flex-1">
+            <div className="pt-5 sm:pt-0 sm:pl-6">
               <RadioGroup
                 label="Contributor Type"
                 items={DOUGHNUT_ENTITY_ITEMS}
                 selectedItem={selectedDoughnutEntity}
                 onChange={setSelectedDoughnutEntity}
-                fullHeight={true}
                 stacked={true}
               />
             </div>

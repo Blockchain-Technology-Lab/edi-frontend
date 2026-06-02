@@ -38,12 +38,11 @@ export function DoughnutChartRenderer({
 
 function DoughnutChartSkeleton() {
   return (
-    <div className="mt-8" aria-busy="true" aria-live="polite">
-      <div
-        className="w-full h-[480px] bg-slate-300 dark:bg-slate-200/20 animate-pulse rounded-lg"
-        aria-label="Loading chart"
-        role="img"
-      />
-    </div>
+    <div
+      className="aspect-[16/9] w-full bg-base-200 animate-pulse rounded-lg"
+      aria-busy="true"
+      aria-label="Loading chart"
+      role="img"
+    />
   )
 }

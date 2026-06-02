@@ -7,9 +7,9 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        heading: ['Poppins', 'sans-serif'],
-        mono: ['Menlo', 'Consolas', 'monospace']
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        serif: ['Libre Baskerville', 'Georgia', 'Times New Roman', 'serif'],
+        mono: ['Menlo', 'Consolas', 'Monaco', 'monospace']
       }
     }
   },

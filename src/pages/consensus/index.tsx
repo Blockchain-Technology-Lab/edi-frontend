@@ -80,7 +80,7 @@ export function Consensus() {
         label="Platforms"
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5 w-full">
         {!error &&
           displayMetrics.map((m) => (
             <MetricsCard

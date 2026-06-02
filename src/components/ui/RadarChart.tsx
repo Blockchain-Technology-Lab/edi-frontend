@@ -369,35 +369,29 @@ export function RadarChart({
   ]
 
   return (
-    <div className={`card bg-base-200 shadow-lg ${className}`}>
-      <div className="card-body p-3 sm:p-6">
-        {/* Header */}
-        <div className="mb-3 sm:mb-4">
-          <div className="flex items-center justify-between">
-            <h3 className="card-title text-lg sm:text-xl font-bold">{title}</h3>
-
-            <div className="flex items-center gap-2">
-              {/* Export Button */}
-              {showExport && (
-                <button
-                  className="btn btn-xs sm:btn-sm btn-ghost"
-                  onClick={handleExport}
-                  aria-label="Download chart as PNG"
-                  title="Download as PNG"
-                >
-                  <FontAwesomeIcon icon={faDownload} size="xl" />
-                </button>
-              )}
-            </div>
-          </div>
-
-          {/* Description directly under title */}
+    <div className={`card border border-base-300 shadow-sm bg-base-100 overflow-hidden ${className}`}>
+      {/* Card header */}
+      <div className="flex items-start justify-between gap-3 px-4 sm:px-6 py-3 sm:py-4 bg-base-200/50 border-b border-base-300">
+        <div className="min-w-0 flex-1">
+          <h3 className="text-base sm:text-lg font-serif font-bold text-base-content leading-tight">{title}</h3>
           {description && (
-            <p className="text-base-content/70 text-xs sm:text-sm mt-2">
-              {description}
-            </p>
+            <p className="text-xs sm:text-sm text-base-content/60 mt-1 leading-relaxed">{description}</p>
           )}
         </div>
+        {showExport && (
+          <button
+            className="inline-flex items-center gap-1.5 text-xs text-base-content/40 hover:text-base-content/70 transition-colors duration-150 px-2 py-1 rounded shrink-0 mt-0.5"
+            onClick={handleExport}
+            aria-label="Download chart as PNG"
+            title="Download as PNG"
+          >
+            <FontAwesomeIcon icon={faDownload} className="w-3 h-3" />
+            <span className="hidden sm:inline">Export PNG</span>
+          </button>
+        )}
+      </div>
+
+      <div className="p-3 sm:p-6">
 
         {/* System Selection Toggle - iPhone Style Toggle Switches */}
         <ProtocolToggleGroup
@@ -444,7 +438,7 @@ export function RadarChart({
           </div>
 
           {/* Right Side - Information Panel (1/3 width on desktop, full on mobile) */}
-          <div className="w-full lg:w-1/3 bg-base-200 rounded-lg p-3 sm:p-4">
+          <div className="w-full lg:w-1/3 bg-base-200/60 border border-base-300 rounded-xl p-3 sm:p-4">
             <AccordionGroup
               items={EDI_LAYERS.map((layer) => ({
                 id: layer.name,
@@ -480,11 +474,14 @@ export function RadarChart({
 
 function RadarChartSkeleton({ className = '' }: { className?: string }) {
   return (
-    <div className={`card bg-base-300 shadow-lg p-6 ${className}`}>
-      <div className="flex items-center justify-center h-64">
-        <div className="text-center">
-          <div className="loading loading-spinner loading-lg mb-4"></div>
-          <p className="text-base-content/60">Loading radar chart data...</p>
+    <div className={`card border border-base-300 shadow-sm bg-base-100 overflow-hidden ${className}`}>
+      <div className="px-4 sm:px-6 py-3 sm:py-4 bg-base-200/50 border-b border-base-300">
+        <div className="h-5 w-48 bg-base-200 animate-pulse rounded" />
+      </div>
+      <div className="p-6 flex items-center justify-center h-64">
+        <div className="text-center space-y-3">
+          <div className="loading loading-spinner loading-md text-primary" />
+          <p className="text-xs text-base-content/50">Loading comparison data…</p>
         </div>
       </div>
     </div>
