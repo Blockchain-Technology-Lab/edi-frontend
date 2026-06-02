@@ -46,7 +46,7 @@ const stages: Stage[] = [
     title: 'Ratification',
     subtitle: null,
     icon: faScaleBalanced,
-    covered: false,
+    covered: true,
     description:
       'Editors and community formally accept or reject the proposal through consensus.'
   },
@@ -77,9 +77,10 @@ function StageCard({ stage }: { stage: Stage }) {
     <div
       className={`
         flex flex-col items-center text-center gap-2 rounded-xl border p-3 sm:p-4 flex-1 min-w-0 transition-colors
-        ${covered
-          ? 'bg-primary/5 border-primary/20'
-          : 'bg-base-200/40 border-base-300 opacity-60'
+        ${
+          covered
+            ? 'bg-primary/5 border-primary/20'
+            : 'bg-base-200/40 border-base-300 opacity-60'
         }
       `}
     >
@@ -104,7 +105,9 @@ function StageCard({ stage }: { stage: Stage }) {
       {/* Icon */}
       <div
         className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
-          covered ? 'bg-primary/10 text-primary' : 'bg-base-300/50 text-base-content/30'
+          covered
+            ? 'bg-primary/10 text-primary'
+            : 'bg-base-300/50 text-base-content/30'
         }`}
       >
         <FontAwesomeIcon icon={stage.icon} className="h-4 w-4" />
@@ -120,7 +123,9 @@ function StageCard({ stage }: { stage: Stage }) {
           {stage.title}
         </p>
         {stage.subtitle && (
-          <p className={`text-[10px] mt-0.5 ${covered ? 'text-base-content/50' : 'text-base-content/30'}`}>
+          <p
+            className={`text-[10px] mt-0.5 ${covered ? 'text-base-content/50' : 'text-base-content/30'}`}
+          >
             {stage.subtitle}
           </p>
         )}
@@ -169,7 +174,10 @@ export function GovernanceLifecycleDiagram() {
             rel="noopener noreferrer"
             className="flex items-center gap-1 text-[10px] font-mono text-base-content/40 hover:text-base-content/70 transition-colors"
           >
-            <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
+            <FontAwesomeIcon
+              icon={faArrowUpRightFromSquare}
+              className="h-2.5 w-2.5"
+            />
             View diagram
           </a>
           <span className="flex items-center gap-1 text-[10px] font-mono text-primary/70">
@@ -187,8 +195,13 @@ export function GovernanceLifecycleDiagram() {
         {/* Stage cards row */}
         <div className="flex items-stretch gap-0">
           {stages.map((stage, i) => (
-            <div key={stage.number} className="flex items-stretch flex-1 min-w-0">
-              {i > 0 && <Arrow covered={stages[i - 1].covered && stage.covered} />}
+            <div
+              key={stage.number}
+              className="flex items-stretch flex-1 min-w-0"
+            >
+              {i > 0 && (
+                <Arrow covered={stages[i - 1].covered && stage.covered} />
+              )}
               <StageCard stage={stage} />
             </div>
           ))}
@@ -199,16 +212,19 @@ export function GovernanceLifecycleDiagram() {
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 px-3 py-2.5">
             <div className="flex items-center gap-2 text-base-content/60">
               <div className="w-6 h-6 rounded-lg bg-base-300/60 flex items-center justify-center flex-shrink-0">
-                <FontAwesomeIcon icon={faComments} className="h-3 w-3 text-base-content/40" />
+                <FontAwesomeIcon
+                  icon={faComments}
+                  className="h-3 w-3 text-base-content/40"
+                />
               </div>
               <span className="text-xs font-semibold text-base-content/65">
                 Community Deliberation
               </span>
             </div>
             <p className="text-[11px] text-base-content/45 leading-relaxed">
-              Informal discussion on mailing lists, forums, and social media — running
-              concurrently with stages 1–3 (bitcoin-dev, BitcoinTalk, Ethereum Magicians,
-              Cardano Forum).
+              Informal discussion on mailing lists, forums, and social media —
+              running concurrently with stages 1–3 (bitcoin-dev, BitcoinTalk,
+              Ethereum Magicians, Cardano Forum).
             </p>
             <span className="ml-auto text-[10px] font-mono text-base-content/35 border border-base-300 rounded px-1.5 py-0.5 bg-base-100 whitespace-nowrap shrink-0">
               concurrent · stages 1–3
