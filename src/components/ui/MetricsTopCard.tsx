@@ -34,7 +34,7 @@ export function MetricsTopCard({
   if (control) {
     return (
       <div className="card border border-base-300 shadow-sm overflow-hidden bg-base-100">
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-[auto_1fr_auto] lg:items-center p-5 sm:p-6 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr_auto] lg:items-center p-5 sm:p-6 gap-4 sm:gap-6">
           <figure className="w-full lg:w-36 xl:w-44 h-32 lg:h-28 overflow-hidden rounded-lg bg-base-200 shrink-0">
             <img src={imageSrc} alt={title} className="object-cover w-full h-full" />
           </figure>

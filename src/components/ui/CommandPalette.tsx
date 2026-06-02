@@ -94,7 +94,7 @@ export function CommandPalette() {
     <Dialog open={isOpen} onClose={close} className="relative z-[100]">
       <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" aria-hidden="true" />
 
-      <div className="fixed inset-0 flex items-start justify-center pt-[14vh] px-4">
+      <div className="fixed inset-0 flex items-start justify-center pt-[8vh] sm:pt-[14vh] px-4">
         <Dialog.Panel className="w-full max-w-lg rounded-2xl bg-base-100 border border-base-300 shadow-2xl overflow-hidden">
 
           {/* Search input */}

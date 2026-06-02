@@ -11,7 +11,7 @@ export function Infographics() {
           </span>
         </div>
         <div className="p-5 sm:p-6 space-y-3">
-          <h1 className="text-3xl font-serif font-bold text-base-content leading-tight">
+          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-base-content leading-tight">
             Infographics
           </h1>
           <p className="text-sm text-base-content/70 leading-relaxed">
