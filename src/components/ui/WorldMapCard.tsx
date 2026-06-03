@@ -1,7 +1,8 @@
-import { useMemo } from 'react'
+import { useMemo, useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDownload } from '@fortawesome/free-solid-svg-icons'
 import { useExportChart, useWorldMapChart } from '@/hooks'
+import { ThemeContext } from '@/contexts'
 import {
   DEFAULT_MAP_COLOR_SCHEME,
   createColorSchemeFromLedgerColor
@@ -23,6 +24,7 @@ export function WorldMapCard({
   ledger
 }: WorldMapCardProps) {
   const exportChart = useExportChart()
+  const { theme } = useContext(ThemeContext)
 
   // Generate color scheme from ledger color if available
   const colorScheme = useMemo(() => {
@@ -40,14 +42,15 @@ export function WorldMapCard({
     isLoading: loading,
     colorScheme,
     onTooltipLabel: formatTotalTooltip,
-    useLogScale: true
+    useLogScale: true,
+    theme
   })
 
   if (loading) {
     return (
       <div className="card border border-base-300 shadow-sm overflow-hidden bg-base-100">
-        <div className="px-4 py-2.5 bg-base-200/50 border-b border-base-300">
-          <span className="text-sm font-semibold text-base-content truncate">{title}</span>
+        <div className="flex items-center justify-between gap-3 px-4 py-2.5 bg-base-200/50 border-b border-base-300">
+          <span className="text-sm font-semibold text-base-content truncate min-w-0 flex-1">{title}</span>
         </div>
         <div className="p-4">
           <div className="aspect-[16/9] bg-base-200 animate-pulse rounded-lg" aria-busy="true" />
@@ -58,34 +61,28 @@ export function WorldMapCard({
 
   return (
     <div className="card border border-base-300 shadow-sm overflow-hidden bg-base-100" key={title}>
-      <div className="flex items-center gap-3 px-4 py-2.5 bg-base-200/50 border-b border-base-300">
-        <span className="text-sm font-semibold text-base-content leading-snug truncate">
+      <div className="flex items-center justify-between gap-3 px-4 py-2.5 bg-base-200/50 border-b border-base-300">
+        <span className="text-sm font-semibold text-base-content leading-snug truncate min-w-0 flex-1">
           {title}
         </span>
+        <button
+          className="inline-flex items-center gap-1.5 text-xs text-base-content/40 hover:text-base-content/70 transition-colors duration-150 px-2 py-1 rounded shrink-0"
+          onClick={() => exportChart(chartRef, title.replace(/\s+/g, '-').toLowerCase() + '-map')}
+          aria-label="Download as PNG"
+          title="Download as PNG"
+        >
+          <FontAwesomeIcon icon={faDownload} className="w-3 h-3" />
+          <span>Export PNG</span>
+        </button>
       </div>
 
-      <div className="p-4 space-y-3">
+      <div className="p-4">
         {error ? (
           <div className="alert alert-error"><span>{error}</span></div>
         ) : (
-          <>
-            <div className="aspect-[16/9]">
-              <canvas ref={chartRef} className="w-full h-full" />
-            </div>
-            <div className="flex justify-end">
-              <button
-                className="inline-flex items-center gap-1.5 text-xs text-base-content/40 hover:text-base-content/70 transition-colors duration-150 px-2 py-1 rounded"
-                onClick={() =>
-                  exportChart(chartRef, title.replace(/\s+/g, '-').toLowerCase() + '-map')
-                }
-                aria-label="Download as PNG"
-                title="Download as PNG"
-              >
-                <FontAwesomeIcon icon={faDownload} className="w-3 h-3" />
-                <span>Export PNG</span>
-              </button>
-            </div>
-          </>
+          <div className="aspect-[16/9]">
+            <canvas ref={chartRef} className="w-full h-full" />
+          </div>
         )}
       </div>
     </div>

@@ -23,6 +23,20 @@ type LedgerDatasets = {
   [key: string]: LedgerDataset
 }
 
+export const CHART_FONT = 'Inter, ui-sans-serif, system-ui, sans-serif'
+
+export function getChartThemeTokens(theme: string) {
+  const isDim = theme === 'dim'
+  return {
+    tickColor:     isDim ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.55)',
+    gridColor:     isDim ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)',
+    tooltipBg:     isDim ? 'rgba(15,23,42,0.92)'    : 'rgba(255,255,255,0.96)',
+    tooltipTitle:  isDim ? 'rgba(255,255,255,0.9)'  : 'rgba(17,24,39,0.9)',
+    tooltipBody:   isDim ? 'rgba(255,255,255,0.7)'  : 'rgba(55,65,81,0.85)',
+    tooltipBorder: isDim ? 'rgba(255,255,255,0.1)'  : 'rgba(0,0,0,0.08)',
+  }
+}
+
 export const LAYER_TYPES = [
   'tokenomics',
   'consensus',

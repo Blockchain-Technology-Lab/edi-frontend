@@ -12,6 +12,7 @@ import type { Topology, GeometryCollection } from 'topojson-specification'
 import type { Feature, FeatureCollection } from 'geojson'
 import { WORLD_MAP_JSON } from '@/utils/paths'
 import { interpolateColor, DEFAULT_MAP_COLOR_SCHEME } from '@/utils/mapColors'
+import { getChartThemeTokens, CHART_FONT } from '@/utils'
 
 Chart.register(
   ChoroplethController,
@@ -47,6 +48,7 @@ interface UseWorldMapChartProps {
     breakdown?: Record<string, number>
   ) => string | string[]
   useLogScale?: boolean
+  theme?: string
 }
 
 /**
@@ -59,7 +61,8 @@ export function useWorldMapChart({
   isLoading,
   colorScheme = DEFAULT_MAP_COLOR_SCHEME,
   onTooltipLabel,
-  useLogScale = true
+  useLogScale = true,
+  theme = 'silk'
 }: UseWorldMapChartProps) {
   const chartRef = useRef<HTMLCanvasElement>(null)
   const chartInstance = useRef<Chart | null>(null)
@@ -121,6 +124,8 @@ export function useWorldMapChart({
 
         if (!chartRef.current) return
 
+        const { tooltipBg, tooltipTitle, tooltipBody, tooltipBorder } = getChartThemeTokens(theme)
+
         chartInstance.current = new Chart(chartRef.current, {
           type: 'choropleth',
           data: {
@@ -160,6 +165,15 @@ export function useWorldMapChart({
               tooltip: {
                 enabled: true,
                 displayColors: false,
+                backgroundColor: tooltipBg,
+                titleColor: tooltipTitle,
+                bodyColor: tooltipBody,
+                borderColor: tooltipBorder,
+                borderWidth: 1,
+                cornerRadius: 8,
+                padding: 10,
+                titleFont: { family: CHART_FONT, size: 12, weight: 'bold' },
+                bodyFont: { family: CHART_FONT, size: 11 },
                 callbacks: {
                   title: (tooltipItems) => {
                     if (!tooltipItems || tooltipItems.length === 0) return ''
@@ -258,7 +272,8 @@ export function useWorldMapChart({
     isLoading,
     colorScheme,
     onTooltipLabel,
-    useLogScale
+    useLogScale,
+    theme
   ])
 
   return { chartRef, error }

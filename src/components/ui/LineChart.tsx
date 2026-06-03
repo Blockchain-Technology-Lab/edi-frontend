@@ -14,7 +14,7 @@ import {
 } from 'chart.js'
 import { useChartData, useExportChart } from '@/hooks'
 import { RangeSlider } from '@/components'
-import { createWatermarkPlugin, type LayerType } from '@/utils'
+import { createWatermarkPlugin, type LayerType, CHART_FONT, getChartThemeTokens } from '@/utils'
 import { ThemeContext } from '@/contexts'
 import type { DataEntry } from '@/utils/types'
 
@@ -299,7 +299,7 @@ function getChartOptions(
   onSystemToggle?: (system: string) => void,
   selectedSystems?: Set<string>
 ): ChartOptions<'line'> {
-  const mainColor = theme === 'dim' ? 'white' : 'black'
+  const t = getChartThemeTokens(theme)
 
   const baseOptions: ChartOptions<'line'> = {
     responsive: true,
@@ -313,9 +313,15 @@ function getChartOptions(
       tooltip: {
         mode: 'x',
         intersect: false,
-        backgroundColor: 'rgba(0, 0, 0, 0.4)',
-        bodyColor: 'white',
-        titleColor: 'white',
+        backgroundColor: t.tooltipBg,
+        titleColor: t.tooltipTitle,
+        bodyColor: t.tooltipBody,
+        borderColor: t.tooltipBorder,
+        borderWidth: 1,
+        cornerRadius: 8,
+        padding: 10,
+        titleFont: { family: CHART_FONT, size: 12, weight: 'bold' },
+        bodyFont: { family: CHART_FONT, size: 11 },
         filter(item, _, items) {
           return items[0].label === item.label
         },
@@ -351,9 +357,10 @@ function getChartOptions(
         display: true,
         position: 'top' as const,
         labels: {
-          color: mainColor,
+          color: t.tickColor,
           usePointStyle: true,
-          pointStyle: multiAxis ? 'line' : 'circle'
+          pointStyle: multiAxis ? 'line' : 'circle',
+          font: { family: CHART_FONT, size: 12 }
         },
         onClick: (_event, legendItem, legend) => {
           if (
@@ -385,27 +392,24 @@ function getChartOptions(
             day: 'dd MMM yyyy'
           }
         },
-        // PRESERVE ORIGINAL GRID STYLING
-        ticks: { color: mainColor },
-        grid: {
-          display: true
-          //color: theme === "dim" ? "#374151" : "#E5E7EB", // Original grid colors
+        ticks: {
+          color: t.tickColor,
+          font: { family: CHART_FONT, size: 11 }
         },
-        border: {
-          display: false
-        }
+        grid: { color: t.gridColor },
+        border: { display: false }
       },
       y: {
         display: true,
         position: multiAxis ? 'left' : undefined,
         title: {
           display: true,
-          text: multiAxis ? multiAxis.leftAxisLabel : metric
-          //color: multiAxis ? multiAxis.leftAxisColor : mainColor,
+          text: multiAxis ? multiAxis.leftAxisLabel : metric,
+          font: { family: CHART_FONT, size: 11 }
         },
-        // PRESERVE ORIGINAL GRID STYLING
         ticks: {
-          color: multiAxis ? multiAxis.leftAxisColor : mainColor,
+          color: multiAxis ? multiAxis.leftAxisColor : t.tickColor,
+          font: { family: CHART_FONT, size: 11 },
           callback: function (value) {
             if (typeof yAxisDecimals === 'number') {
               return Number(value).toLocaleString(undefined, {
@@ -413,32 +417,19 @@ function getChartOptions(
                 maximumFractionDigits: yAxisDecimals
               })
             }
-
             return Math.round(Number(value)).toString()
           }
         },
-        grid: {
-          display: true
-          //color: theme === "dim" ? "#374151" : "#E5E7EB", // Original grid colors - DON'T CHANGE
-        },
-        border: {
-          display: false
-        },
-        // Data-dependent y-axis: auto-scales to actual data range
+        grid: { color: t.gridColor },
+        border: { display: false },
         ...(padYAxis
           ? {
-              // When padding enabled, add margins around data
               afterDataLimits(scale) {
                 const values = scale.chart.data.datasets.flatMap((ds) =>
                   ds.data.map((p) => {
-                    if (typeof p === 'number') {
-                      return p
-                    }
-
-                    if (typeof p === 'object' && p !== null && 'y' in p) {
+                    if (typeof p === 'number') return p
+                    if (typeof p === 'object' && p !== null && 'y' in p)
                       return Number((p as { y: number }).y)
-                    }
-
                     return 0
                   })
                 )
@@ -449,15 +440,11 @@ function getChartOptions(
                 scale.max = Math.ceil(max + pad)
               }
             }
-          : {
-              // No padding: let Chart.js auto-scale based purely on data
-              // This ensures the y-axis tightly fits the actual data range
-            })
+          : {})
       }
     }
   }
 
-  // Add right axis for multi-axis charts ONLY - don't change main grid
   if (multiAxis) {
     baseOptions.scales!.y1 = {
       type: 'linear',
@@ -466,10 +453,12 @@ function getChartOptions(
       title: {
         display: true,
         text: multiAxis.rightAxisLabel,
-        color: multiAxis.rightAxisColor
+        color: multiAxis.rightAxisColor,
+        font: { family: CHART_FONT, size: 11 }
       },
       ticks: {
         color: multiAxis.rightAxisColor,
+        font: { family: CHART_FONT, size: 11 },
         callback: function (value) {
           if (typeof yAxisDecimals === 'number') {
             return Number(value).toLocaleString(undefined, {
@@ -477,17 +466,11 @@ function getChartOptions(
               maximumFractionDigits: yAxisDecimals
             })
           }
-
-          // Show rounded integer values on the right axis (no decimals)
           return Math.round(Number(value)).toString()
         }
       },
-      grid: {
-        drawOnChartArea: false // Don't draw right axis grid over the main grid
-      },
-      border: {
-        display: true
-      }
+      grid: { drawOnChartArea: false },
+      border: { display: true }
     }
   }
 

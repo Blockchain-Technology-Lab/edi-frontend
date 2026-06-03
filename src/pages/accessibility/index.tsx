@@ -1,4 +1,5 @@
 import { CONSENSUS_METHOD_CARD } from '@/utils'
+import { AppLink } from '@/components'
 
 const features = [
   {
@@ -31,12 +32,9 @@ const sections = [
         We welcome feedback on the accessibility of our website. If you encounter
         any accessibility barriers or have suggestions for improvement, please
         contact us at{' '}
-        <a
-          href="mailto:edi@ed.ac.uk"
-          className="text-primary underline underline-offset-2 hover:text-primary/80 transition-colors"
-        >
+        <AppLink href="mailto:edi@ed.ac.uk" target="_self">
           edi@ed.ac.uk
-        </a>
+        </AppLink>
         . We are committed to addressing and resolving accessibility issues
         promptly.
       </>
@@ -56,12 +54,9 @@ const sections = [
       <>
         If you have any questions or concerns about the accessibility of our
         website, please contact us at{' '}
-        <a
-          href="mailto:edi@ed.ac.uk"
-          className="text-primary underline underline-offset-2 hover:text-primary/80 transition-colors"
-        >
+        <AppLink href="mailto:edi@ed.ac.uk" target="_self">
           edi@ed.ac.uk
-        </a>
+        </AppLink>
         .
       </>
     )

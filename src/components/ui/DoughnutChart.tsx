@@ -12,7 +12,7 @@ import {
 import { useExportChart } from '@/hooks'
 
 import { useRef, useMemo, useEffect, useContext } from 'react'
-import { createWatermarkPlugin } from '@/utils'
+import { createWatermarkPlugin, CHART_FONT, getChartThemeTokens } from '@/utils'
 import { ThemeContext } from '@/contexts'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDownload } from '@fortawesome/free-solid-svg-icons'
@@ -46,7 +46,7 @@ export function DoughnutChart({ data, fileName }: DoughnutProps) {
 
   return (
     <div className="space-y-3">
-      <div className="aspect-[16/9]">
+      <div className="aspect-[4/3]">
         <Doughnut
           data={data}
           options={options}
@@ -74,55 +74,53 @@ export function DoughnutChart({ data, fileName }: DoughnutProps) {
 }
 
 function getDoughnutChartOptions(theme: string): ChartOptions<'doughnut'> {
-  const mainColor = theme === 'dim' ? 'white' : 'black'
+  const { tickColor, tooltipBg, tooltipTitle, tooltipBody, tooltipBorder } = getChartThemeTokens(theme)
+
   return {
     responsive: true,
     maintainAspectRatio: false,
     animation: {
       duration: 1000,
       easing: 'easeInOutQuad',
-      delay: (context) => {
-        // Check if dataIndex is defined to avoid issues
-        return context.dataIndex !== undefined ? context.dataIndex * 10 : 0
-      }
+      delay: (context) => context.dataIndex !== undefined ? context.dataIndex * 10 : 0
     },
     plugins: {
       tooltip: {
-        mode: 'nearest', // Adjusted for doughnut chart
+        mode: 'nearest',
         intersect: false,
-        backgroundColor: 'rgba(0, 0, 0, 0.4)',
-        bodyColor: 'white',
+        backgroundColor: tooltipBg,
+        titleColor: tooltipTitle,
+        bodyColor: tooltipBody,
+        borderColor: tooltipBorder,
+        borderWidth: 1,
+        cornerRadius: 8,
+        padding: 10,
+        titleFont: { family: CHART_FONT, size: 12, weight: 'bold' },
+        bodyFont: { family: CHART_FONT, size: 11 },
         callbacks: {
           label: (tooltipItem) => {
-            /*  Format the number of commits with commas */
-            // Assert the type of tooltipItem.raw to number
             const commits = tooltipItem.raw as number
-            // Format the number of commits with commas
-            const formattedCommits = commits.toLocaleString()
-            return `${tooltipItem.label}: ${formattedCommits}`
+            return `${tooltipItem.label}: ${commits.toLocaleString()}`
           }
         }
       },
       legend: {
         labels: {
-          color: mainColor,
+          color: tickColor,
+          font: { family: CHART_FONT, size: 12 },
+          padding: 16,
+          usePointStyle: true,
+          pointStyle: 'circle',
           filter: (legendItem: LegendItem, data) => {
             const sortable: Array<[string, number]> = []
-
-            // Sum up the data values for each label in the first dataset
             if (data && data.datasets.length > 0) {
               data.labels?.forEach((label, index) => {
                 const sumOfData = (data.datasets[0].data[index] as number) || 0
                 sortable.push([label as string, sumOfData])
               })
             }
-            // Sort labels based on their data values in descending order
             sortable.sort((a, b) => b[1] - a[1])
-            // Return true only for the top 10 items
-            const numberOfLabels = 10
-            const top10Labels = sortable
-              .slice(0, numberOfLabels)
-              .map((item) => item[0])
+            const top10Labels = sortable.slice(0, 10).map((item) => item[0])
             return top10Labels.includes(legendItem.text)
           }
         }

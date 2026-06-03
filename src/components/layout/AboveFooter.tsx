@@ -3,6 +3,7 @@ import {
   faArrowUpRightFromSquare,
   faCircleInfo
 } from '@fortawesome/free-solid-svg-icons'
+import { AppLink } from '@/components'
 
 export function AboveFooter() {
   return (
@@ -14,49 +15,32 @@ export function AboveFooter() {
         />
         <p className="text-[10px] leading-relaxed text-base-content/70">
           The{' '}
-          <a
-            href="https://informatics.ed.ac.uk/blockchain/edi"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline underline-offset-2 hover:text-base-content/70 transition-colors"
-          >
+          <AppLink href="https://informatics.ed.ac.uk/blockchain/edi">
             Edinburgh Decentralisation Index (EDI)
-          </a>{' '}
+          </AppLink>{' '}
           is a research project run by the University of Edinburgh's Blockchain
           Technology Laboratory (
-          <a
-            href="https://informatics.ed.ac.uk/blockchain"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline underline-offset-2 hover:text-base-content/70 transition-colors"
-          >
+          <AppLink href="https://informatics.ed.ac.uk/blockchain">
             BTL
-          </a>{' '}
+          </AppLink>{' '}
           —{' '}
-          <a
-            href="https://informatics.ed.ac.uk/blockchain"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline underline-offset-2 hover:text-base-content/70 transition-colors"
-          >
+          <AppLink href="https://informatics.ed.ac.uk/blockchain">
             blockchain.ed.ac.uk
-          </a>
+          </AppLink>
           ). The index adheres to the university's highest academic standards
           and relies on novel and peer-reviewed research on measuring
           decentralisation published at top-tier cryptography and cyber security
           conferences (
-          <a
+          <AppLink
             href="https://informatics.ed.ac.uk/blockchain/edi/publications"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-0.5 underline underline-offset-2 hover:text-base-content/70 transition-colors"
+            className="inline-flex items-center gap-0.5"
           >
             publications
             <FontAwesomeIcon
               icon={faArrowUpRightFromSquare}
               className="h-2 w-2"
             />
-          </a>
+          </AppLink>
           ). The funding for the project came from Input Output Group (IOG) as
           well as internal university grants. We gratefully acknowledge these
           funding sources while emphasising that the direction of the research
