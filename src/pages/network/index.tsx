@@ -20,13 +20,12 @@ import {
 import { getNetworkDoughnutCsvFileName, NETWORK_METRICS } from '@/utils/network'
 import {
   DOUGHNUT_CARD,
-  NETWORK_CARD,
   NETWORK_DOUGHNUT_LEDGERS,
   NETWORK_LEDGERS,
   ORG_DISTRIBUTOR,
   getOrderedSystemsForLayer
 } from '@/utils'
-import { methodologyNetworkTo } from '@/routes/routePaths'
+import { LAYER_CONFIG } from '@/config/layers'
 
 const SYSTEMS_STORAGE_KEY = 'network_selectedSystems'
 const DEFAULT_NETWORK_SYSTEMS = NETWORK_LEDGERS.map((l) => l.ledger)
@@ -78,9 +77,9 @@ export function Network() {
                 extensive historical data.
               </>
             }
-            imageSrc={NETWORK_CARD}
-            methodologyPath={methodologyNetworkTo}
-            githubUrl="https://github.com/Blockchain-Technology-Lab/network-decentralization"
+            imageSrc={LAYER_CONFIG.network.cardImage}
+            methodologyPath={LAYER_CONFIG.network.methodologyPath}
+            githubUrl={LAYER_CONFIG.network.github}
           />
         </div>
 
@@ -138,7 +137,7 @@ export function Network() {
             "These charts represent the distribution of nodes across organisations, based on the latest snapshot for each system. An organisation corresponds to the entity that is responsible for the network of the node's IP address."
           }
           imageSrc={DOUGHNUT_CARD}
-          methodologyPath={methodologyNetworkTo}
+          methodologyPath={LAYER_CONFIG.network.methodologyPath}
         />
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">

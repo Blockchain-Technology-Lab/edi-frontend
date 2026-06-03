@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react'
 import {
   type ClusteringOption,
   getTokenomicsCsvFileName,
-  TOKENOMICS_CARD,
   TOKENOMICS_CSV,
   TOKENOMICS_METRICS,
   TOKENOMICS_LEDGERS,
@@ -17,7 +16,7 @@ import {
   RadioGroup
 } from '@/components'
 import { usePersistedSystemSelection, useTokenomicsCsv } from '@/hooks'
-import { methodologyTokenomicsTo } from '@/routes/routePaths'
+import { LAYER_CONFIG } from '@/config/layers'
 
 const THRESHOLDING_ITEMS = [
   { label: '100', value: '100' },
@@ -95,9 +94,9 @@ export function Tokenomics() {
             that held them in each time period.
           </>
         }
-        imageSrc={TOKENOMICS_CARD}
-        methodologyPath={methodologyTokenomicsTo}
-        githubUrl="https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization"
+        imageSrc={LAYER_CONFIG.tokenomics.cardImage}
+        methodologyPath={LAYER_CONFIG.tokenomics.methodologyPath}
+        githubUrl={LAYER_CONFIG.tokenomics.github}
       />
       <SystemSelector
         systems={tokenomicsSystems}

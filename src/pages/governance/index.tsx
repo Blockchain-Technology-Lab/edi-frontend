@@ -17,7 +17,6 @@ import {
 import {
   GOVERNANCE_AUTHORSHIP_DOUGHNUTS,
   GOVERNANCE_COMMUNITY_DISCUSSION_METRICS,
-  GOVERNANCE_CARD,
   ORG_DISTRIBUTOR,
   GOVERNANCE_GITHUB_METRICS,
   GOVERNANCE_METRICS,
@@ -29,7 +28,7 @@ import {
   type GovernanceGranularity,
   type GovernanceGithubRole
 } from '@/utils'
-import { methodologyGovernanceTo } from '@/routes/routePaths'
+import { LAYER_CONFIG } from '@/config/layers'
 
 interface GranularityToggleProps {
   granularity: GovernanceGranularity
@@ -176,9 +175,9 @@ export function Governance() {
             Ethereum.
           </>
         }
-        methodologyPath={methodologyGovernanceTo}
-        imageSrc={GOVERNANCE_CARD}
-        githubUrl="https://github.com/Blockchain-Technology-Lab/governance-decentralization"
+        methodologyPath={LAYER_CONFIG.governance.methodologyPath}
+        imageSrc={LAYER_CONFIG.governance.cardImage}
+        githubUrl={LAYER_CONFIG.governance.github}
         beta="beta"
         betaTooltip="Please see methodology page"
       />
@@ -389,7 +388,7 @@ export function Governance() {
             title={item.title}
             path={getGovernanceAuthorshipCsvPath(item.ledger)}
             fileName={`authorship_${item.ledger}`}
-            githubUrl="https://github.com/Blockchain-Technology-Lab/governance-decentralization"
+            githubUrl={LAYER_CONFIG.governance.github}
             description="Distribution of weighted contribution by author."
             showInfo={true}
           />

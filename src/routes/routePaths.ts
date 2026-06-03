@@ -15,9 +15,3 @@ export const methodologyTo = `${basePath}/methodology`
 export const accessibilityTo = `${basePath}/accessibility`
 export const changelogTo = `${basePath}/changelog`
 
-export const methodologyConsensusTo = `${methodologyTo}/consensus`
-export const methodologyTokenomicsTo = `${methodologyTo}/tokenomics`
-export const methodologyNetworkTo = `${methodologyTo}/network`
-export const methodologyGeographyTo = `${methodologyTo}/geography`
-export const methodologyGovernanceTo = `${methodologyTo}/governance`
-export const methodologySoftwareTo = `${methodologyTo}/software`

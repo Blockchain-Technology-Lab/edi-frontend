@@ -17,7 +17,6 @@ import {
   generateDoughnutPaths,
   getSoftwareCsvFileName,
   getSoftwareDoughnutCsvFileNames,
-  SOFTWARE_CARD,
   SOFTWARE_CSV,
   SOFTWARE_DOUGHNUT_LEDGER_NAMES,
   SOFTWARE_METRICS,
@@ -27,7 +26,7 @@ import {
 import { useMemo, useState } from 'react'
 import { useNavigate, useLocation } from '@tanstack/react-router'
 import { softwareContributorRoute } from '@/router'
-import { methodologySoftwareTo } from '@/routes/routePaths'
+import { LAYER_CONFIG } from '@/config/layers'
 
 // Constants
 const WEIGHT_ITEMS = [
@@ -152,9 +151,9 @@ export function Software() {
                 across contributors over a sample of commits.
               </>
             }
-            imageSrc={SOFTWARE_CARD}
-            methodologyPath={methodologySoftwareTo}
-            githubUrl="https://github.com/Blockchain-Technology-Lab/software-decentralization"
+            imageSrc={LAYER_CONFIG.software.cardImage}
+            methodologyPath={LAYER_CONFIG.software.methodologyPath}
+            githubUrl={LAYER_CONFIG.software.github}
           />
         </div>
 
@@ -232,7 +231,7 @@ export function Software() {
             'These graphs represent the all-time distribution of contributors for various blockchain implementations.'
           }
           imageSrc={DOUGHNUT_CARD}
-          methodologyPath={methodologySoftwareTo}
+          methodologyPath={LAYER_CONFIG.software.methodologyPath}
         />
       </div>
 
