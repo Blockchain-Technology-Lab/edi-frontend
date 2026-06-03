@@ -4,6 +4,7 @@ interface AccordionItem {
   id: string | number
   title: React.ReactNode
   content: React.ReactNode
+  iconColor?: string
   icon?: React.ComponentType<{
     size?: number
     className?: string
@@ -86,7 +87,7 @@ export function AccordionGroup({
                   {Icon && (
                     <Icon
                       size={iconSize}
-                      style={{ color: iconColor }}
+                      style={{ color: item.iconColor ?? iconColor }}
                       className="flex-shrink-0 sm:w-4 sm:h-4"
                     />
                   )}

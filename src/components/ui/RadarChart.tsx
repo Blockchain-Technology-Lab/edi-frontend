@@ -61,7 +61,7 @@ import {
 } from '@/utils'
 import { ProtocolToggleGroup } from './ProtocolToggleGroup'
 import { AccordionGroup } from './AccordionGroup'
-import { useNavigate } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
 
 import {
   consensusRoute,
@@ -100,7 +100,6 @@ export function RadarChart({
   showExport = true,
   className = ''
 }: RadarChartProps) {
-  const navigate = useNavigate()
   const { theme: resolvedTheme } = useContext(ThemeContext)
   const chartRef = useRef<HTMLCanvasElement | null>(null)
   const exportChart = useExportChart()
@@ -232,6 +231,10 @@ export function RadarChart({
 
   if (!options) return null
 
+  const linkClass = `font-medium underline underline-offset-2 decoration-primary/40 hover:decoration-primary transition-colors duration-150 ${
+    resolvedTheme === 'dim' ? 'text-primary' : 'text-base-content/80'
+  }`
+
   const EDI_LAYERS = [
     {
       name: 'Consensus',
@@ -241,12 +244,9 @@ export function RadarChart({
           producers). The metric used in the Decentralisation Compass is the
           Herfindahl-Hirschman Index (HHI), inverted and scaled. For broader
           comparisons across systems, metrics, and timeframes, see{' '}
-          <span
-            className="text-blue-500 underline cursor-pointer"
-            onClick={() => navigate({ to: consensusRoute.to })}
-          >
+          <Link to={consensusRoute.to} className={linkClass}>
             Consensus
-          </span>
+          </Link>
           .
         </>
       ),
@@ -267,12 +267,9 @@ export function RadarChart({
           metric used in the Decentralisation Compass is the 3-concentration
           ratio, inverted and scaled. For broader comparisons across systems,
           metrics, and timeframes, see{' '}
-          <span
-            className="text-blue-500 underline cursor-pointer"
-            onClick={() => navigate({ to: tokenomicsRoute.to })}
-          >
+          <Link to={tokenomicsRoute.to} className={linkClass}>
             Tokenomics
-          </span>
+          </Link>
           .
         </>
       ),
@@ -293,12 +290,9 @@ export function RadarChart({
           implementations. The metric used in the Decentralisation Compass is
           the Herfindahl-Hirschman Index (HHI), inverted and scaled. For broader
           comparisons across systems, metrics, and timeframes, see{' '}
-          <span
-            className="text-blue-500 underline cursor-pointer"
-            onClick={() => navigate({ to: softwareRoute.to })}
-          >
+          <Link to={softwareRoute.to} className={linkClass}>
             Software
-          </span>
+          </Link>
           .
         </>
       ),
@@ -321,12 +315,9 @@ export function RadarChart({
           Decentralisation Compass is the Herfindahl-Hirschman Index (HHI),
           inverted and scaled. For broader comparisons across systems, metrics,
           and timeframes, see{' '}
-          <span
-            className="text-blue-500 underline cursor-pointer"
-            onClick={() => navigate({ to: networkRoute.to })}
-          >
+          <Link to={networkRoute.to} className={linkClass}>
             Network
-          </span>
+          </Link>
           .
         </>
       ),
@@ -348,12 +339,9 @@ export function RadarChart({
           to Execution Layer nodes. The metric shown in the Decentralisation
           Compass is the Herfindahl-Hirschman Index (HHI), inverted and scaled.
           For broader comparisons across systems, metrics, and timeframes, see{' '}
-          <span
-            className="text-blue-500 underline cursor-pointer"
-            onClick={() => navigate({ to: geographyRoute.to })}
-          >
+          <Link to={geographyRoute.to} className={linkClass}>
             Geography
-          </span>
+          </Link>
           .
         </>
       ),
@@ -444,27 +432,27 @@ export function RadarChart({
                 id: layer.name,
                 title: layer.name,
                 content: layer.description,
-                icon: layer.icon
+                icon: layer.icon,
+                iconColor: layer.color
               }))}
-              label="Description per layer"
             />
           </div>
         </div>
 
-        {/* Tooltip Toggle - Always Visible */}
+        {/* Tooltip Toggle */}
         <div className="flex items-center gap-2 mt-3 sm:mt-4">
           <input
             type="checkbox"
             checked={tooltipEnabled}
             onChange={() => setTooltipEnabled((v) => !v)}
             id="toggle-tooltip"
-            className="checkbox checkbox-xs sm:checkbox-sm"
+            className="toggle toggle-xs sm:toggle-sm toggle-primary"
           />
           <label
             htmlFor="toggle-tooltip"
-            className="text-xs sm:text-sm cursor-pointer"
+            className="text-xs sm:text-sm cursor-pointer text-base-content/70 select-none"
           >
-            Show Tooltip
+            Show tooltip
           </label>
         </div>
       </div>
