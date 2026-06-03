@@ -1,7 +1,8 @@
 import {
   createRootRoute,
   createRoute,
-  createRouter
+  createRouter,
+  redirect
 } from '@tanstack/react-router'
 import { basePath } from '@/utils/paths'
 
@@ -9,11 +10,23 @@ import { lazy } from 'react'
 
 import { RootLayout } from '@/components'
 import HomePage from './pages'
+import { LAYER_CONFIG, type LayerKey } from '@/config/layers'
 
 //const basePath = "/blockchainlab/demo";
 
 export function withBase(path: string) {
   return `${basePath}${path}`
+}
+
+// Throws a redirect to home when the layer is disabled.
+function guardLayer(key: LayerKey) {
+  return {
+    beforeLoad: () => {
+      if (!LAYER_CONFIG[key].enabled) {
+        throw redirect({ to: withBase('/') })
+      }
+    }
+  }
 }
 
 const Methodology = lazy(() =>
@@ -79,36 +92,42 @@ export const methodologyRoute = createRoute({
 })
 
 export const consensusRoute = createRoute({
+  ...guardLayer('consensus'),
   path: withBase('/consensus'),
   getParentRoute: () => rootRoute,
   component: Consensus
 })
 
 export const consensusMethodologyRoute = createRoute({
+  ...guardLayer('consensus'),
   path: `consensus`,
   getParentRoute: () => methodologyRoute,
   component: Methodology
 })
 
 export const tokenomicsRoute = createRoute({
+  ...guardLayer('tokenomics'),
   path: withBase('/tokenomics'),
   getParentRoute: () => rootRoute,
   component: Tokenomics
 })
 
 export const tokenomicsMethodologyRoute = createRoute({
+  ...guardLayer('tokenomics'),
   path: `tokenomics`,
   getParentRoute: () => methodologyRoute,
   component: Methodology
 })
 
 export const networkRoute = createRoute({
+  ...guardLayer('network'),
   path: withBase('/network'),
   getParentRoute: () => rootRoute,
   component: Network
 })
 
 export const networkMethodologyRoute = createRoute({
+  ...guardLayer('network'),
   path: `network`,
   getParentRoute: () => methodologyRoute,
   component: Methodology
@@ -121,12 +140,14 @@ export const networkContributorRoute = createRoute({
 })
 
 export const softwareRoute = createRoute({
+  ...guardLayer('software'),
   path: withBase('/software'),
   getParentRoute: () => rootRoute,
   component: Software
 })
 
 export const softwareMethodologyRoute = createRoute({
+  ...guardLayer('software'),
   path: `software`,
   getParentRoute: () => methodologyRoute,
   component: Methodology
@@ -139,12 +160,14 @@ export const softwareContributorRoute = createRoute({
 })
 
 export const geographyRoute = createRoute({
+  ...guardLayer('geography'),
   path: withBase('/geography'),
   getParentRoute: () => rootRoute,
   component: Geography
 })
 
 export const geographyMethodologyRoute = createRoute({
+  ...guardLayer('geography'),
   path: `geography`,
   getParentRoute: () => methodologyRoute,
   component: Methodology
@@ -157,12 +180,14 @@ export const geographyContributorRoute = createRoute({
 })
 
 export const governanceRoute = createRoute({
+  ...guardLayer('governance'),
   path: withBase('/governance'),
   getParentRoute: () => rootRoute,
   component: Governance
 })
 
 export const governanceMethodologyRoute = createRoute({
+  ...guardLayer('governance'),
   path: `governance`,
   getParentRoute: () => methodologyRoute,
   component: Methodology
