@@ -1,32 +1,18 @@
 import { Link, useRouterState } from '@tanstack/react-router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faScaleBalanced,
-  faCoins,
-  faNetworkWired,
-  faCode,
-  faGlobe,
-  faGavel,
-  faHouse
-} from '@fortawesome/free-solid-svg-icons'
-import {
-  homeTo,
-  consensusTo,
-  tokenomicsTo,
-  networkTo,
-  softwareTo,
-  geographyTo,
-  governanceTo
-} from '@/routes/routePaths'
+import { faHouse } from '@fortawesome/free-solid-svg-icons'
+import { homeTo } from '@/routes/routePaths'
+import { LAYER_CONFIG, LAYER_KEYS } from '@/config/layers'
 
 const navItems = [
   { label: 'Home', path: homeTo, icon: faHouse },
-  { label: 'Consensus', path: consensusTo, icon: faScaleBalanced },
-  { label: 'Tokenomics', path: tokenomicsTo, icon: faCoins },
-  { label: 'Network', path: networkTo, icon: faNetworkWired },
-  { label: 'Software', path: softwareTo, icon: faCode },
-  { label: 'Geography', path: geographyTo, icon: faGlobe },
-  { label: 'Governance', path: governanceTo, icon: faGavel }
+  ...LAYER_KEYS
+    .filter(key => LAYER_CONFIG[key].enabled)
+    .map(key => ({
+      label: LAYER_CONFIG[key].label,
+      path:  LAYER_CONFIG[key].path,
+      icon:  LAYER_CONFIG[key].icon,
+    })),
 ]
 
 export function TopNav() {
@@ -37,10 +23,13 @@ export function TopNav() {
   return (
     <nav className="bg-base-100 border-b border-base-300 shadow-sm">
       {/*
-        Mobile:  7-column grid — icon only, full-width equal cells, 44px tap targets
+        Mobile:  equal-width grid columns — icon only, 44px tap targets
         Desktop: flex row — icon + label, scrollable if needed
       */}
-      <div className="grid grid-cols-7 sm:flex sm:items-stretch sm:overflow-x-auto sm:[scrollbar-width:none] sm:[&::-webkit-scrollbar]:hidden sm:px-3">
+      <div
+        className="grid sm:flex sm:items-stretch sm:overflow-x-auto sm:[scrollbar-width:none] sm:[&::-webkit-scrollbar]:hidden sm:px-3"
+        style={{ gridTemplateColumns: `repeat(${navItems.length}, minmax(0, 1fr))` }}
+      >
         {navItems.map((item) => {
           const active = isActive(item.path)
           return (

@@ -1,23 +1,8 @@
 import { AppLink, MethodologyCard } from '@/components'
-import {
-  basePath,
-  CONSENSUS_METHOD_CARD,
-  GEOGRAPHY_CARD,
-  GOVERNANCE_CARD,
-  NETWORK_CARD,
-  SOFTWARE_CARD,
-  TOKENOMICS_METHOD_CARD
-} from '@/utils'
-import {
-  ConsensusContent,
-  TokenomicsContent,
-  NetworkContent,
-  SoftwareContent,
-  GeographyContent,
-  GovernanceContent
-} from '@/content'
+import { basePath } from '@/utils'
 import { useLocation } from '@tanstack/react-router'
 import { useEffect } from 'react'
+import { LAYER_CONFIG, LAYER_KEYS } from '@/config/layers'
 
 export function Methodology() {
   const location = useLocation()
@@ -31,45 +16,6 @@ export function Methodology() {
         ?.scrollIntoView({ behavior: 'smooth' })
     }
   }, [location.pathname])
-
-  const layerSections = [
-    {
-      title: 'Consensus',
-      sectionId: 'consensus',
-      image: CONSENSUS_METHOD_CARD,
-      content: ConsensusContent
-    },
-    {
-      title: 'Tokenomics',
-      sectionId: 'tokenomics',
-      image: TOKENOMICS_METHOD_CARD,
-      content: TokenomicsContent
-    },
-    {
-      title: 'Network',
-      sectionId: 'network',
-      image: NETWORK_CARD,
-      content: NetworkContent
-    },
-    {
-      title: 'Software',
-      sectionId: 'software',
-      image: SOFTWARE_CARD,
-      content: SoftwareContent
-    },
-    {
-      title: 'Geography',
-      sectionId: 'geography',
-      image: GEOGRAPHY_CARD,
-      content: GeographyContent
-    },
-    {
-      title: 'Governance',
-      sectionId: 'governance',
-      image: GOVERNANCE_CARD,
-      content: GovernanceContent
-    }
-  ]
 
   const METRICS = [
     {
@@ -202,11 +148,11 @@ export function Methodology() {
           </h2>
         </div>
         <div className="space-y-4">
-          {layerSections.map((section) => (
-            <div id={`methodology-${section.sectionId}`} key={section.title}>
+          {LAYER_KEYS.filter(key => LAYER_CONFIG[key].enabled).map(key => (
+            <div id={`methodology-${key}`} key={key}>
               <MethodologyCard
-                title={section.title}
-                content={section.content}
+                title={LAYER_CONFIG[key].label}
+                content={LAYER_CONFIG[key].content}
               />
             </div>
           ))}

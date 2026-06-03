@@ -1,85 +1,25 @@
 import { LayerMenuItem } from '@/components'
 import { Link, useRouterState } from '@tanstack/react-router'
-
-import {
-  homeTo,
-  consensusTo,
-  tokenomicsTo,
-  networkTo,
-  softwareTo,
-  geographyTo,
-  governanceTo
-} from '@/routes/routePaths'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faScaleBalanced,
-  faCoins,
-  faNetworkWired,
-  faCode,
-  faGlobe,
-  faGavel,
-  faHouse
-} from '@fortawesome/free-solid-svg-icons'
+import { faHouse } from '@fortawesome/free-solid-svg-icons'
+import { homeTo } from '@/routes/routePaths'
+import { LAYER_CONFIG, LAYER_KEYS } from '@/config/layers'
 
 const layerItems = [
   {
     label: 'Home',
     path: homeTo,
-    bg: 'bg-base-200',
-    text: 'text-base-content',
     icon: <FontAwesomeIcon icon={faHouse} size="lg" />,
-    shortcut: '0'
+    shortcut: '0',
   },
-  {
-    label: 'Consensus',
-    path: consensusTo,
-    bg: 'bg-base-200',
-    text: 'text-base-content',
-    icon: <FontAwesomeIcon icon={faScaleBalanced} size="lg" />,
-    shortcut: '1'
-  },
-  {
-    label: 'Tokenomics',
-    path: tokenomicsTo,
-    bg: 'bg-base-200',
-    text: 'text-base-content',
-    icon: <FontAwesomeIcon icon={faCoins} size="lg" />,
-    shortcut: '2'
-  },
-  {
-    label: 'Network',
-    path: networkTo,
-    bg: 'bg-base-200',
-    text: 'text-base-content',
-    icon: <FontAwesomeIcon icon={faNetworkWired} size="lg" />,
-    shortcut: '3'
-  },
-  {
-    label: 'Software',
-    path: softwareTo,
-    bg: 'bg-base-200',
-    text: 'text-base-content',
-    icon: <FontAwesomeIcon icon={faCode} size="lg" />,
-    shortcut: '4'
-  },
-  {
-    label: 'Geography',
-    path: geographyTo,
-    bg: 'bg-base-200',
-    text: 'text-base-content',
-    icon: <FontAwesomeIcon icon={faGlobe} size="lg" />,
-    shortcut: '5'
-  },
-  {
-    label: 'Governance',
-    path: governanceTo,
-    bg: 'bg-base-200',
-    text: 'text-base-content',
-    icon: <FontAwesomeIcon icon={faGavel} size="lg" />,
-    disabled: false,
-    shortcut: '6'
-  }
+  ...LAYER_KEYS
+    .filter(key => LAYER_CONFIG[key].enabled)
+    .map((key, i) => ({
+      label:    LAYER_CONFIG[key].label,
+      path:     LAYER_CONFIG[key].path,
+      icon:     <FontAwesomeIcon icon={LAYER_CONFIG[key].icon} size="lg" />,
+      shortcut: String(i + 1),
+    })),
 ]
 
 export function Sidebar() {
@@ -93,17 +33,15 @@ export function Sidebar() {
         <Link
           key={item.label}
           to={item.path}
-          {...(item.disabled && { onClick: (e) => e.preventDefault() })}
           className="mb-2 sm:mb-4"
         >
           <LayerMenuItem
             label={item.label}
             icon={item.icon}
             //shortcut={item.shortcut}
-            bgColor={item.bg}
-            textColor={item.text}
+            bgColor="bg-base-200"
+            textColor="text-base-content"
             active={isActive(item.path)}
-            disabled={item.disabled}
           />
         </Link>
       ))}
