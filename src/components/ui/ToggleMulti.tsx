@@ -18,7 +18,7 @@ export function ToggleMulti({
   onChange,
   label,
   stacked = false,
-  bgClass: _bgClass = 'bg-primary'
+  bgClass = 'bg-primary'
 }: ToggleMultiProps) {
   const handleToggle = (item: Item) => {
     const isSelected = selectedItems.some(
@@ -58,7 +58,7 @@ export function ToggleMulti({
                 className={`w-9 h-5 rounded-full relative shrink-0 transition-all duration-200
                   peer-checked:after:translate-x-4 after:content-[''] after:absolute after:top-0.5 after:left-0.5
                   after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all after:shadow-sm
-                  ${isSelected ? 'bg-primary' : 'bg-base-300 group-hover:bg-base-content/20'}`}
+                  ${isSelected ? bgClass : 'bg-base-300 group-hover:bg-base-content/20'}`}
               />
               <span
                 className={`text-sm transition-colors duration-150
