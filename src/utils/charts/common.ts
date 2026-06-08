@@ -23,14 +23,27 @@ type LedgerDatasets = {
   [key: string]: LedgerDataset
 }
 
+export const CHART_FONT = 'Inter, ui-sans-serif, system-ui, sans-serif'
+
+export function getChartThemeTokens(theme: string) {
+  const isDim = theme === 'dim'
+  return {
+    tickColor:     isDim ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.55)',
+    gridColor:     isDim ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)',
+    tooltipBg:     isDim ? 'rgba(15,23,42,0.92)'    : 'rgba(255,255,255,0.96)',
+    tooltipTitle:  isDim ? 'rgba(255,255,255,0.9)'  : 'rgba(17,24,39,0.9)',
+    tooltipBody:   isDim ? 'rgba(255,255,255,0.7)'  : 'rgba(55,65,81,0.85)',
+    tooltipBorder: isDim ? 'rgba(255,255,255,0.1)'  : 'rgba(0,0,0,0.08)',
+  }
+}
+
 export const LAYER_TYPES = [
   'tokenomics',
   'consensus',
   'software',
   'network',
   'geography',
-  'governance',
-  'governance-posts'
+  'governance'
 ] as const
 //export type LayerType = (typeof LAYER_TYPES)[number]
 
@@ -40,8 +53,7 @@ export const LAYER_NAMES = {
   SOFTWARE: 'software',
   NETWORK: 'network',
   GEOGRAPHY: 'geography',
-  GOVERNANCE: 'governance',
-  GOVERNANCE_POSTS: 'governance-posts'
+  GOVERNANCE: 'governance'
 } as const
 export type LayerType = (typeof LAYER_NAMES)[keyof typeof LAYER_NAMES]
 
@@ -227,7 +239,7 @@ function drawWatermark(
   ctx.fillText(date, x_date, y_date)
   ctx.restore() // Restore the canvas state
 }
-
+/*
 // Function to generate additional unique colors if needed
 function generateUniqueColor(existingColors: string[]): string {
   // Simple function to generate random RGB color
@@ -241,6 +253,16 @@ function generateUniqueColor(existingColors: string[]): string {
   } while (existingColors.includes(newColor)) // Ensure no duplicates
   return newColor
 }
+*/
+
+// Function to generate additional deterministic colors if needed
+function generateDeterministicColor(index: number): string {
+  // Golden-angle palette generation keeps colours well distributed and stable
+  const hue = (index * 137.508) % 360
+  const saturation = 72
+  const lightness = 56
+  return `hsl(${hue}, ${saturation}%, ${lightness}%)`
+}
 
 export function getColorsForChart(length: number): string[] {
   // Use a more flexible array type instead of the strict SOFTWARE_COLOURS type
@@ -249,7 +271,7 @@ export function getColorsForChart(length: number): string[] {
   // If the number of data points exceeds the predefined colors, generate new ones
   if (length > SOFTWARE_COLOURS.length) {
     for (let i = SOFTWARE_COLOURS.length; i < length; i++) {
-      const newColor = generateUniqueColor(colors)
+      const newColor = generateDeterministicColor(i - SOFTWARE_COLOURS.length)
       colors.push(newColor)
     }
   }

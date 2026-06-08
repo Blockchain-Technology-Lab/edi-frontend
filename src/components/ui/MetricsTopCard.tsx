@@ -4,6 +4,7 @@ type MetricsTopCardProps = {
   imageSrc: string
   layout?: 'default' | 'split-50-50'
   imagePosition?: 'left' | 'right'
+  control?: React.ReactNode
 }
 
 export function MetricsTopCard({
@@ -11,54 +12,50 @@ export function MetricsTopCard({
   description,
   imageSrc,
   layout = 'default',
-  imagePosition = 'right'
+  imagePosition = 'right',
+  control
 }: MetricsTopCardProps) {
   if (layout === 'split-50-50') {
     return (
-      <div className="card bg-base-200 shadow-lg border border-base-300 rounded-box">
-        <div className="card-body p-6">
-          <div
-            className={`flex flex-col lg:flex-row items-start gap-6 ${
-              imagePosition === 'left' ? 'lg:flex-row' : 'lg:flex-row-reverse'
-            }`}
-          >
-            {/* Text Content */}
-            <div className="w-full lg:w-1/2 space-y-4">
-              <h2 className="card-title text-2xl font-bold">{title}</h2>
-              <p className="text-base-content/80 leading-relaxed">
-                {description}
-              </p>
-            </div>
-
-            {/* Image */}
-            <div className="w-full lg:w-1/2">
-              <figure className="w-full overflow-hidden rounded-lg">
-                <img
-                  src={imageSrc}
-                  alt={title}
-                  className="w-full h-auto object-contain shadow-md"
-                />
-              </figure>
-            </div>
+      <div className="card border border-base-300 shadow-sm overflow-hidden bg-base-100">
+        <div className={`flex flex-col lg:flex-row items-stretch gap-0 ${imagePosition === 'left' ? '' : 'lg:flex-row-reverse'}`}>
+          <figure className="w-full lg:w-1/2 h-48 lg:h-auto overflow-hidden bg-base-200 shrink-0">
+            <img src={imageSrc} alt={title} className="w-full h-full object-cover" />
+          </figure>
+          <div className="flex flex-col justify-center gap-3 p-5 sm:p-6 flex-1">
+            <h2 className="text-lg font-serif font-bold text-base-content leading-tight">{title}</h2>
+            <p className="text-sm text-base-content/70 leading-relaxed">{description}</p>
           </div>
         </div>
       </div>
     )
   }
 
-  // Fallback to default layout
+  if (control) {
+    return (
+      <div className="card border border-base-300 shadow-sm overflow-hidden bg-base-100">
+        <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr_auto] lg:items-center p-5 sm:p-6 gap-4 sm:gap-6">
+          <figure className="w-full lg:w-36 xl:w-44 h-32 lg:h-28 overflow-hidden rounded-lg bg-base-200 shrink-0">
+            <img src={imageSrc} alt={title} className="object-cover w-full h-full" />
+          </figure>
+          <div className="min-w-0">
+            <h2 className="text-lg font-semibold text-base-content leading-tight mb-2">{title}</h2>
+            <p className="text-sm text-base-content/70 leading-relaxed">{description}</p>
+          </div>
+          <div className="flex flex-wrap gap-2 lg:justify-end">{control}</div>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className="card lg:card-side bg-base-200 shadow-lg border border-base-300 rounded-box">
-      <figure className="w-full lg:w-1/2 max-h-48 overflow-hidden">
-        <img
-          src={imageSrc}
-          alt={title}
-          className="object-cover w-full h-full"
-        />
+    <div className="card lg:card-side border border-base-300 shadow-sm overflow-hidden bg-base-100">
+      <figure className="w-full lg:w-64 xl:w-72 lg:shrink-0 h-40 sm:h-48 lg:h-auto overflow-hidden bg-base-200">
+        <img src={imageSrc} alt={title} className="object-cover w-full h-full" />
       </figure>
-      <div className="card-body">
-        <h2 className="card-title text-2xl">{title}</h2>
-        <p>{description}</p>
+      <div className="flex flex-col justify-center gap-3 p-5 sm:p-6 flex-1">
+        <h2 className="text-lg font-serif font-bold text-base-content leading-tight">{title}</h2>
+        <p className="text-sm text-base-content/70 leading-relaxed">{description}</p>
       </div>
     </div>
   )

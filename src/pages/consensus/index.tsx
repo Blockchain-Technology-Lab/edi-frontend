@@ -3,7 +3,6 @@ import { LayerTopCard, MetricsCard, SystemSelector } from '@/components'
 import {
   getConsensusCsvFileName,
   CONSENSUS_METRICS,
-  CONSENSUS_CARD,
   CONSENSUS_LEDGERS,
   DEFAULT_TAU_VARIANT,
   type TauVariant,
@@ -11,7 +10,7 @@ import {
   filterMetricsByTauVariant
 } from '@/utils'
 import { useConsensusCsvAll, usePersistedSystemSelection } from '@/hooks'
-import { methodologyConsensusTo } from '@/routes/routePaths'
+import { LAYER_CONFIG } from '@/config/layers'
 
 const CONSENSUS_SYSTEMS = CONSENSUS_LEDGERS.map((l) => l.ledger)
 const CONSENSUS_FILE_NAME = getConsensusCsvFileName(['clustered'])
@@ -68,9 +67,9 @@ export function Consensus() {
             of blocks across producing entities.
           </>
         }
-        imageSrc={CONSENSUS_CARD}
-        methodologyPath={methodologyConsensusTo}
-        githubUrl="https://github.com/Blockchain-Technology-Lab/consensus-decentralization"
+        imageSrc={LAYER_CONFIG.consensus.cardImage}
+        methodologyPath={LAYER_CONFIG.consensus.methodologyPath}
+        githubUrl={LAYER_CONFIG.consensus.github}
       />
 
       <SystemSelector
@@ -80,7 +79,7 @@ export function Consensus() {
         label="Platforms"
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5 w-full">
         {!error &&
           displayMetrics.map((m) => (
             <MetricsCard

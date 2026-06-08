@@ -1,6 +1,8 @@
-import { useMemo } from 'react'
-import { ImageDown } from 'lucide-react'
+import { useMemo, useContext } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDownload } from '@fortawesome/free-solid-svg-icons'
 import { useExportChart, useWorldMapChart } from '@/hooks'
+import { ThemeContext } from '@/contexts'
 import {
   DEFAULT_MAP_COLOR_SCHEME,
   createColorSchemeFromLedgerColor
@@ -22,6 +24,7 @@ export function WorldMapCard({
   ledger
 }: WorldMapCardProps) {
   const exportChart = useExportChart()
+  const { theme } = useContext(ThemeContext)
 
   // Generate color scheme from ledger color if available
   const colorScheme = useMemo(() => {
@@ -39,53 +42,49 @@ export function WorldMapCard({
     isLoading: loading,
     colorScheme,
     onTooltipLabel: formatTotalTooltip,
-    useLogScale: true
+    useLogScale: true,
+    theme
   })
 
   if (loading) {
     return (
-      <div className="card-body m-1">
-        <div className="flex justify-center items-center h-96">
-          <span className="loading loading-spinner loading-lg"></span>
+      <div className="card border border-base-300 shadow-sm overflow-hidden bg-base-100">
+        <div className="flex items-center justify-between gap-3 px-4 py-2.5 bg-base-200/50 border-b border-base-300">
+          <span className="text-sm font-semibold text-base-content truncate min-w-0 flex-1">{title}</span>
+        </div>
+        <div className="p-4">
+          <div className="aspect-[16/9] bg-base-200 animate-pulse rounded-lg" aria-busy="true" />
         </div>
       </div>
     )
   }
 
   return (
-    <div className="card-body m-1" key={title} title={title}>
-      <div className="flex justify-between items-center shadow-lg card-title bg-base-300 alert w-full mb-2 gap-1">
-        <span className="min-w-0 flex-1 text-sm sm:text-base lg:text-lg leading-snug break-words line-clamp-1">
+    <div className="card border border-base-300 shadow-sm overflow-hidden bg-base-100" key={title}>
+      <div className="flex items-center justify-between gap-3 px-4 py-2.5 bg-base-200/50 border-b border-base-300">
+        <span className="text-sm font-semibold text-base-content leading-snug truncate min-w-0 flex-1">
           {title}
         </span>
+        <button
+          className="inline-flex items-center gap-1.5 text-xs text-base-content/40 hover:text-base-content/70 transition-colors duration-150 px-2 py-1 rounded shrink-0"
+          onClick={() => exportChart(chartRef, title.replace(/\s+/g, '-').toLowerCase() + '-map')}
+          aria-label="Download as PNG"
+          title="Download as PNG"
+        >
+          <FontAwesomeIcon icon={faDownload} className="w-3 h-3" />
+          <span>Export PNG</span>
+        </button>
       </div>
 
-      {error ? (
-        <div className="alert alert-error">
-          <span>{error}</span>
-        </div>
-      ) : (
-        <div className="card bg-base-300 shadow-lg p-1 space-y-4">
-          <div className="aspect-[16/9] mt-2">
+      <div className="p-4">
+        {error ? (
+          <div className="alert alert-error"><span>{error}</span></div>
+        ) : (
+          <div className="aspect-[16/9]">
             <canvas ref={chartRef} className="w-full h-full" />
           </div>
-          <div className="text-end">
-            <button
-              className="btn btn-sm bg-base-100"
-              onClick={() =>
-                exportChart(
-                  chartRef,
-                  title.replace(/\s+/g, '-').toLowerCase() + '-map'
-                )
-              }
-              aria-label="Download as PNG"
-              title="Download as PNG"
-            >
-              <ImageDown />
-            </button>
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   )
 }

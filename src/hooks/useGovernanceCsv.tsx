@@ -1,50 +1,126 @@
-// src/hooks/useGovernanceCsv.tsx
-import { useEffect, useState } from 'react'
-import type { GovernanceDataEntry } from '@/utils/types'
+import { useCallback, useEffect, useState } from 'react'
+import type { DataEntry } from '@/utils/types'
 import {
-  loadGiniActivenessData,
-  loadYearlyPostCommentsData,
-  loadCommunityModularityData
+  type GovernanceGranularity,
+  type GovernanceCommunityDiscussionRole,
+  type GovernanceGithubRole,
+  getGovernanceTop3ContributionRatioCsvFileName,
+  loadGovernanceCsvData,
+  getGovernanceProposalMetricsCsvPath,
+  loadGovernanceProposalMetricsCsvData,
+  getGovernanceGithubMetricsCsvPath,
+  loadGovernanceGithubMetricsCsvData,
+  getGovernanceCommunityDiscussionMetricsCsvPath,
+  loadGovernanceCommunityDiscussionMetricsCsvData
 } from '@/utils'
 
-export function useGovernanceCsv() {
-  const [giniData, setGiniData] = useState<GovernanceDataEntry[]>([])
-  const [postsCommentsData, setPostsCommentsData] = useState<
-    GovernanceDataEntry[]
-  >([])
-  const [communityModularityData, setCommunityModularityData] = useState<
-    GovernanceDataEntry[]
-  >([])
-  const [loading, setLoading] = useState(true)
+function useGovernanceDataLoader(loadData: () => Promise<DataEntry[]>): {
+  data: DataEntry[]
+  loading: boolean
+  error: Error | null
+} {
+  const [data, setData] = useState<DataEntry[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<Error | null>(null)
 
   useEffect(() => {
-    async function fetchAll() {
-      setLoading(true)
-      try {
-        const giniResults = await loadGiniActivenessData('bitcoin')
-        const postsCommentsResults = await loadYearlyPostCommentsData('bitcoin')
-        const communityModularityResults =
-          await loadCommunityModularityData('bitcoin')
+    let cancelled = false
 
-        setGiniData(giniResults)
-        setPostsCommentsData(postsCommentsResults)
-        setCommunityModularityData(communityModularityResults)
+    async function run() {
+      setLoading(true)
+      setError(null)
+
+      try {
+        const nextData = await loadData()
+        if (!cancelled) {
+          setData(nextData)
+        }
       } catch (err) {
-        setError(err instanceof Error ? err : new Error('Unknown error'))
+        if (!cancelled) {
+          setError(err instanceof Error ? err : new Error('Unknown error'))
+        }
       } finally {
-        setLoading(false)
+        if (!cancelled) {
+          setLoading(false)
+        }
       }
     }
 
-    fetchAll()
+    run()
+
+    return () => {
+      cancelled = true
+    }
+  }, [loadData])
+
+  return { data, loading, error }
+}
+
+export function useGovernanceCsv(granularity: GovernanceGranularity): {
+  data: DataEntry[]
+  loading: boolean
+  error: Error | null
+} {
+  const csvPath = getGovernanceTop3ContributionRatioCsvFileName(granularity)
+  const loadData = useCallback(
+    async () => await loadGovernanceCsvData(csvPath),
+    [csvPath]
+  )
+
+  return useGovernanceDataLoader(loadData)
+}
+
+export function useGovernanceProposalMetricsCsv(): {
+  data: DataEntry[]
+  loading: boolean
+  error: Error | null
+} {
+  const loadData = useCallback(async () => {
+    const proposals = ['BIP', 'CIP', 'EIP'] as const
+    const results = await Promise.all(
+      proposals.map(async (proposal) => {
+        const csvPath = getGovernanceProposalMetricsCsvPath(proposal)
+        // Map BIP -> bitcoin, CIP -> cardano, EIP -> ethereum for ledger name
+        const ledgerMap = { BIP: 'bitcoin', CIP: 'cardano', EIP: 'ethereum' }
+        return await loadGovernanceProposalMetricsCsvData(
+          csvPath,
+          ledgerMap[proposal]
+        )
+      })
+    )
+
+    return results.flat()
   }, [])
 
-  return {
-    giniData,
-    postsCommentsData,
-    communityModularityData,
-    loading,
-    error
-  }
+  return useGovernanceDataLoader(loadData)
+}
+
+export function useGovernanceGithubMetricsCsv(role: GovernanceGithubRole): {
+  data: DataEntry[]
+  loading: boolean
+  error: Error | null
+} {
+  const csvPath = getGovernanceGithubMetricsCsvPath(role)
+  const loadData = useCallback(
+    async () => await loadGovernanceGithubMetricsCsvData(csvPath),
+    [csvPath]
+  )
+
+  return useGovernanceDataLoader(loadData)
+}
+
+export function useGovernanceCommunityDiscussionMetricsCsv(
+  role: GovernanceCommunityDiscussionRole
+): {
+  data: DataEntry[]
+  loading: boolean
+  error: Error | null
+} {
+  const csvPath = getGovernanceCommunityDiscussionMetricsCsvPath(role)
+  const loadData = useCallback(
+    async () => await loadGovernanceCommunityDiscussionMetricsCsvData(csvPath),
+    [csvPath]
+  )
+
+  return useGovernanceDataLoader(loadData)
 }

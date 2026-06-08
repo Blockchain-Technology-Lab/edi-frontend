@@ -13,7 +13,8 @@ import { ThemeContext } from '@/contexts'
 import { LINECHART_WATERMARK_WHITE, LINECHART_WATERMARK_BLACK } from '@/utils'
 import { type NetworkBarEntry, prepareBarChartData } from '@/utils'
 import Tippy from '@tippyjs/react'
-import { Info } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faInfo } from '@fortawesome/free-solid-svg-icons'
 
 Chart.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend)
 
@@ -97,12 +98,37 @@ export function BarChart({ data, loading, title, description }: BarChartProps) {
     }
   }, [resolvedTheme])
 
-  if (loading) return <div className="text-center py-8">Loading...</div>
-  if (!data || data.length === 0)
-    return <div className="text-center py-8">No data</div>
+  if (loading) {
+    return (
+      <div className="card border border-base-300 shadow-sm overflow-hidden bg-base-100">
+        <div className="px-4 py-2.5 bg-base-200/50 border-b border-base-300">
+          <span className="text-sm font-semibold text-base-content">{title}</span>
+        </div>
+        <div className="p-4">
+          <div className="aspect-video w-full bg-base-200 animate-pulse rounded-lg" aria-busy="true" />
+        </div>
+      </div>
+    )
+  }
 
-  // Use the utility function to prepare chart data
+  if (!data || data.length === 0) {
+    return (
+      <div className="card border border-base-300 shadow-sm overflow-hidden bg-base-100">
+        <div className="px-4 py-2.5 bg-base-200/50 border-b border-base-300">
+          <span className="text-sm font-semibold text-base-content">{title}</span>
+        </div>
+        <div className="p-4 flex items-center justify-center h-40 text-sm text-base-content/40">
+          No data available
+        </div>
+      </div>
+    )
+  }
+
   const { labels, nodes, backgroundColors } = prepareBarChartData(data)
+
+  const isDim = resolvedTheme === 'dim'
+  const tickColor = isDim ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.45)'
+  const gridColor = isDim ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'
 
   const chartData = {
     labels,
@@ -110,46 +136,84 @@ export function BarChart({ data, loading, title, description }: BarChartProps) {
       {
         label: 'Nodes',
         data: nodes,
-        backgroundColor: backgroundColors
+        backgroundColor: backgroundColors,
+        hoverBackgroundColor: backgroundColors.map((c) =>
+          c.replace(/[\d.]+\)$/, '1)')
+        ),
+        borderRadius: 5,
+        borderSkipped: false as const,
+        maxBarThickness: 52
       }
     ]
   }
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
+    animation: { duration: 500, easing: 'easeInOutQuart' as const },
     plugins: {
       legend: { display: false },
-      title: title ? { display: true, text: title } : undefined,
-      // Disable the global watermark plugin for this chart
-      customCanvasBackgroundImage: false
+      title: { display: false },
+      customCanvasBackgroundImage: false,
+      tooltip: {
+        backgroundColor: isDim ? 'rgba(20,20,30,0.92)' : 'rgba(10,10,20,0.85)',
+        titleColor: 'rgba(255,255,255,0.55)',
+        bodyColor: '#ffffff',
+        padding: 10,
+        cornerRadius: 6,
+        displayColors: true,
+        callbacks: {
+          label: (ctx: { parsed: { y: number } }) =>
+            `  ${ctx.parsed.y.toLocaleString()} nodes`
+        }
+      }
     },
     scales: {
-      y: { beginAtZero: true }
+      x: {
+        ticks: {
+          color: tickColor,
+          font: { size: 11 as const },
+          maxRotation: 45,
+          minRotation: 0
+        },
+        grid: { display: false },
+        border: { display: false }
+      },
+      y: {
+        beginAtZero: true,
+        ticks: {
+          color: tickColor,
+          font: { size: 11 as const },
+          callback: (v: string | number) => Number(v).toLocaleString()
+        },
+        grid: { color: gridColor },
+        border: { display: false }
+      }
     }
   }
 
   return (
-    <>
-      <div className="card-body">
-        <div className="flex justify-between items-center shadow-lg text-2xl card-title bg-base-300 alert w-full mb-1">
-          {title}
+    <div className="card border border-base-300 shadow-sm overflow-hidden bg-base-100">
+      <div className="flex items-center justify-between gap-3 px-4 py-2.5 bg-base-200/50 border-b border-base-300">
+        <span className="text-sm font-semibold text-base-content leading-snug truncate">{title}</span>
+        {description && (
           <Tippy content={description} placement="bottom">
             <button
               type="button"
               tabIndex={0}
-              className="btn btn-circle btn-ghost text-base-content hover:text-accent"
+              className="btn btn-ghost btn-xs btn-circle text-base-content/40 hover:text-base-content/70 shrink-0"
               aria-label={`Info about ${title}`}
             >
-              <Info />
+              <FontAwesomeIcon icon={faInfo} className="w-3 h-3" />
             </button>
           </Tippy>
-        </div>
-        <div className="card bg-base-300 shadow-lg p-4 space-y-4">
-          <div className="">
-            <Bar data={chartData} options={options} />
-          </div>
+        )}
+      </div>
+      <div className="p-4">
+        <div className="aspect-video">
+          <Bar data={chartData} options={options} />
         </div>
       </div>
-    </>
+    </div>
   )
 }

@@ -1,4 +1,5 @@
-import { Github } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGithub } from '@fortawesome/free-brands-svg-icons'
 
 type GitHubButtonProps = {
   url: string
@@ -19,7 +20,7 @@ export function GitHubButton({
       className={`text-base-content hover:text-accent transition-colors gap-2 ${className}`}
       title="View on GitHub"
     >
-      <Github className="w-5 h-5" />
+      <FontAwesomeIcon icon={faGithub} size="lg" />
       {label}
     </a>
   )

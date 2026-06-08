@@ -4,6 +4,7 @@ interface AccordionItem {
   id: string | number
   title: React.ReactNode
   content: React.ReactNode
+  iconColor?: string
   icon?: React.ComponentType<{
     size?: number
     className?: string
@@ -27,8 +28,8 @@ export function AccordionGroup({
   items,
   label,
   className = '',
-  itemClassName = 'collapse collapse-arrow bg-base-300 border border-base-300',
-  titleClassName = 'collapse-title text-sm sm:text-base font-semibold cursor-pointer py-2 sm:py-3',
+  itemClassName = 'collapse collapse-arrow bg-base-100 border border-base-300 rounded-lg',
+  titleClassName = 'collapse-title text-sm font-semibold cursor-pointer py-2.5 min-h-0',
   contentClassName = 'collapse-content text-xs sm:text-sm',
   iconSize = 14,
   iconColor = 'rgba(128, 128, 128, 1)',
@@ -86,7 +87,7 @@ export function AccordionGroup({
                   {Icon && (
                     <Icon
                       size={iconSize}
-                      style={{ color: iconColor }}
+                      style={{ color: item.iconColor ?? iconColor }}
                       className="flex-shrink-0 sm:w-4 sm:h-4"
                     />
                   )}

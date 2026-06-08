@@ -1,5 +1,6 @@
 import { LineChart } from '@/components'
-import { Info } from 'lucide-react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faInfo } from '@fortawesome/free-solid-svg-icons'
 import Tippy from '@tippyjs/react'
 import 'tippy.js/dist/tippy.css'
 import type { ReactNode } from 'react'
@@ -73,38 +74,44 @@ export function MetricsCard({
   headerControl
 }: MetricsCardProps) {
   return (
-    <div className="card-body" key={metric.metric} title={metric.title}>
-      <div className="flex justify-between items-center shadow-lg card-title bg-base-300 alert w-full mb-1 gap-3">
-        <span className="min-w-0 flex-1 text-sm sm:text-base lg:text-lg leading-snug break-words line-clamp-1">
+    <div className="card border border-base-300 shadow-sm overflow-hidden bg-base-100" key={metric.metric}>
+      {/* Card header */}
+      <div className="flex items-center justify-between gap-3 px-4 py-2.5 bg-base-200/50 border-b border-base-300">
+        <span className="text-sm font-semibold text-base-content leading-snug truncate min-w-0 flex-1">
           {metric.title}
         </span>
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-1 shrink-0">
           {headerControl}
-          <Tippy content={metric.description} placement="bottom">
-            <button
-              type="button"
-              tabIndex={0}
-              className="btn btn-circle btn-ghost text-base-content hover:text-accent"
-              aria-label={`Info about ${metric.title}`}
-            >
-              <Info />
-            </button>
-          </Tippy>
+          {metric.description && (
+            <Tippy content={metric.description} placement="bottom">
+              <button
+                type="button"
+                tabIndex={0}
+                className="btn btn-ghost btn-xs btn-circle text-base-content/40 hover:text-base-content/70"
+                aria-label={`Info about ${metric.title}`}
+              >
+                <FontAwesomeIcon icon={faInfo} className="w-3 h-3" />
+              </button>
+            </Tippy>
+          )}
         </div>
       </div>
-      <LineChart
-        type={type}
-        metric={metric.metric}
-        csvData={data}
-        isLoadingCsvData={loading}
-        timeUnit={timeUnit}
-        padYAxis={padYAxis}
-        tooltipDecimals={metric.decimals}
-        yAxisDecimals={metric.decimals ?? metric.yAxisDecimals ?? null}
-        multiAxis={metric.multiAxis}
-        selectedSystems={selectedSystems}
-        onSystemToggle={onSystemToggle}
-      />
+      {/* Chart */}
+      <div className="p-4">
+        <LineChart
+          type={type}
+          metric={metric.metric}
+          csvData={data}
+          isLoadingCsvData={loading}
+          timeUnit={timeUnit}
+          padYAxis={padYAxis}
+          tooltipDecimals={metric.decimals}
+          yAxisDecimals={metric.decimals ?? metric.yAxisDecimals ?? null}
+          multiAxis={metric.multiAxis}
+          selectedSystems={selectedSystems}
+          onSystemToggle={onSystemToggle}
+        />
+      </div>
     </div>
   )
 }

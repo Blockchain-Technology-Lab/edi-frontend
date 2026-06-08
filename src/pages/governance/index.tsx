@@ -1,174 +1,400 @@
+import { useMemo, useState } from 'react'
 import {
   LayerTopCard,
-  MetricsCard,
   MetricsTopCard,
+  MetricsCard,
+  SystemSelector,
+  RadioGroup,
   DoughnutCard
 } from '@/components'
-import { useGovernanceCsv } from '@/hooks/useGovernanceCsv'
-//import { governanceMethodologyTo } from '@/routes/routePaths'
 import {
-  BIP_NETWORK_CARD,
-  GOVERNANCE_CARD,
-  GOVERNANCE_CSV,
+  useGovernanceCsv,
+  useGovernanceCommunityDiscussionMetricsCsv,
+  useGovernanceGithubMetricsCsv,
+  useGovernanceProposalMetricsCsv,
+  usePersistedSystemSelection
+} from '@/hooks'
+import {
+  GOVERNANCE_AUTHORSHIP_DOUGHNUTS,
+  GOVERNANCE_COMMUNITY_DISCUSSION_METRICS,
   ORG_DISTRIBUTOR,
-  adaptGovernanceToDataEntry,
-  transformCommunityDataForMultiAxis,
-  transformPostsCommentsForMultiAxis
+  GOVERNANCE_GITHUB_METRICS,
+  GOVERNANCE_METRICS,
+  GOVERNANCE_PROPOSAL_METRICS,
+  getGovernanceAuthorshipCsvPath,
+  getOrderedSystemsForLayer,
+  GOVERNANCE_LEDGERS,
+  type GovernanceCommunityDiscussionRole,
+  type GovernanceGranularity,
+  type GovernanceGithubRole
 } from '@/utils'
-import { useMemo } from 'react'
+import { LAYER_CONFIG } from '@/config/layers'
+
+interface GranularityToggleProps {
+  granularity: GovernanceGranularity
+  onChange: (g: GovernanceGranularity) => void
+}
+
+function GranularityToggle({ granularity, onChange }: GranularityToggleProps) {
+  return (
+    <label className="flex items-center gap-2 px-2 py-1 rounded-lg cursor-pointer border border-base-300 bg-base-300/70">
+      <span className="text-xs font-medium text-base-content/80">Yearly</span>
+      <input
+        type="checkbox"
+        checked={granularity === 'half_yearly'}
+        onChange={(e) => onChange(e.target.checked ? 'half_yearly' : 'yearly')}
+        className="sr-only peer"
+        aria-label="Toggle granularity"
+      />
+      <div className="w-10 h-5 rounded-full transition-all duration-300 peer-checked:after:translate-x-5 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-base-300 after:rounded-full after:h-4 after:w-4 after:transition-all relative bg-base-100 peer-checked:bg-base-100 [html[data-theme=dim]_&]:bg-white/40 [html[data-theme=dim]_&]:peer-checked:bg-white/70 [html[data-theme=dim]_&]:after:bg-white" />
+      <span className="text-xs font-medium text-base-content/80">
+        Half-yearly
+      </span>
+    </label>
+  )
+}
+
+const GITHUB_ROLE_ITEMS: Array<{ label: string; value: GovernanceGithubRole }> =
+  [
+    { label: 'Commenter', value: 'commenter' },
+    { label: 'Participant', value: 'participant' },
+    { label: 'Author', value: 'pr_author' },
+    { label: 'Reviewer', value: 'reviewer' }
+  ]
+
+const COMMUNITY_ROLE_ITEMS: Array<{
+  label: string
+  value: GovernanceCommunityDiscussionRole
+}> = [
+  { label: 'Commenter', value: 'commenter' },
+  { label: 'Poster', value: 'poster' },
+  { label: 'Participant', value: 'participant' }
+]
+
+const SYSTEMS_STORAGE_KEY = 'governance_selectedSystems'
+const DEFAULT_GOVERNANCE_SYSTEMS = GOVERNANCE_LEDGERS.map((l) => l.ledger)
+
+// Maps pre-defined platform ledger names to their community discussion sources
+const PLATFORM_TO_DISCUSSION_SOURCES: Record<string, string[]> = {
+  bitcoin: ['bitcoin_forum', 'bitcoin_mailing_list'],
+  cardano: ['cardano_forum'],
+  ethereum: ['ethereum_magicians']
+}
 
 export function Governance() {
+  const [selectedGranularity, setSelectedGranularity] =
+    useState<GovernanceGranularity>('yearly')
+  const [selectedGithubRole, setSelectedGithubRole] = useState<
+    (typeof GITHUB_ROLE_ITEMS)[number]
+  >(GITHUB_ROLE_ITEMS[0])
+  const [selectedCommunityRole, setSelectedCommunityRole] = useState<
+    (typeof COMMUNITY_ROLE_ITEMS)[number]
+  >(COMMUNITY_ROLE_ITEMS[0])
+
+  const { data, loading, error } = useGovernanceCsv(selectedGranularity)
   const {
-    giniData,
-    postsCommentsData,
-    communityModularityData,
-    loading,
-    error
-  } = useGovernanceCsv()
+    data: proposalData,
+    loading: proposalLoading,
+    error: proposalError
+  } = useGovernanceProposalMetricsCsv()
+  const {
+    data: githubData,
+    loading: githubLoading,
+    error: githubError
+  } = useGovernanceGithubMetricsCsv(selectedGithubRole.value)
+  const {
+    data: communityDiscussionData,
+    loading: communityDiscussionLoading,
+    error: communityDiscussionError
+  } = useGovernanceCommunityDiscussionMetricsCsv(selectedCommunityRole.value)
 
-  // Transform community modularity data for multi-axis LineChart
-  const transformedCommunityData = useMemo(
-    () => transformCommunityDataForMultiAxis(communityModularityData),
-    [communityModularityData]
-  )
-
-  // Prepared posts/comments/users as separate metric series for multi-axis
-  const transformedPostsCommentsForMultiAxis = useMemo(
-    () => transformPostsCommentsForMultiAxis(postsCommentsData),
-    [postsCommentsData]
-  )
-
-  const govDoughnutFile = `${GOVERNANCE_CSV}/bitcoin/pie_chart_top_10_authors.csv`
-
-  if (error) {
-    return (
-      <div className="text-error p-4">
-        Failed to load governance data: {error.message}
-      </div>
+  const governanceSystems = useMemo((): string[] => {
+    const orderedSystems = getOrderedSystemsForLayer(
+      'governance',
+      data.map((d) => d.ledger)
     )
-  }
+
+    return orderedSystems.length > 0
+      ? orderedSystems
+      : DEFAULT_GOVERNANCE_SYSTEMS
+  }, [data])
+
+  const { selectedSystems, handleSelectionChange, handleSystemToggle } =
+    usePersistedSystemSelection(SYSTEMS_STORAGE_KEY, DEFAULT_GOVERNANCE_SYSTEMS)
+
+  const filteredData = useMemo(
+    () =>
+      data.filter(
+        (entry) => !entry.ledger || selectedSystems.has(entry.ledger)
+      ),
+    [data, selectedSystems]
+  )
+
+  const filteredProposalData = useMemo(
+    () =>
+      proposalData.filter(
+        (entry) => !entry.ledger || selectedSystems.has(entry.ledger)
+      ),
+    [proposalData, selectedSystems]
+  )
+
+  const filteredGithubData = useMemo(
+    () =>
+      githubData.filter(
+        (entry) => !entry.ledger || selectedSystems.has(entry.ledger)
+      ),
+    [githubData, selectedSystems]
+  )
+
+  const allowedDiscussionSources = useMemo(() => {
+    const sources = new Set<string>()
+    for (const platform of selectedSystems) {
+      for (const source of PLATFORM_TO_DISCUSSION_SOURCES[platform] ?? []) {
+        sources.add(source)
+      }
+    }
+    return sources
+  }, [selectedSystems])
+
+  const filteredCommunityDiscussionData = useMemo(
+    () =>
+      communityDiscussionData.filter(
+        (entry) => !entry.ledger || allowedDiscussionSources.has(entry.ledger)
+      ),
+    [communityDiscussionData, allowedDiscussionSources]
+  )
 
   return (
     <div className="flex flex-col gap-6">
       <LayerTopCard
         title="Governance Layer"
-        description={<>We plan to publish this layer soon.</>}
-        imageSrc={GOVERNANCE_CARD}
-        //methodologyPath={governanceMethodologyTo}
-        githubUrl="https://github.com/Blockchain-Technology-Lab/governance-decentralization"
-      />
-
-      <MetricsTopCard
-        title={'BIP Network'}
         description={
           <>
-            This network visualization represents user interactions within
-            Bitcoin Improvement Proposal (BIP) discussions on the forum. Each
-            node represents a forum user who has published BIP-related posts,
-            with node size proportional to the user's degree centrality,
-            indicating the number of interactions (comments) they have received
-            or made. Edges represent direct interactions between users through
-            comments on BIP-related discussions. The top 3 most active users by
-            degree are sipredrica (1,180), achow101 (862), and theymos (518).
-            Remarkably, the top 10 users account for 25% of all comments in the
-            BIP discussion network, where a small core of highly engaged
-            participants drives most of the discussion activity. This reflects
-            the concentrated nature of engagement in Bitcoin off-chain
-            governance discussions.
+            These graphs represent the governance decentralisation. The results
+            are based only on data we have collected about Bitcoin, Cardano and
+            Ethereum.
           </>
         }
-        imageSrc={BIP_NETWORK_CARD}
-        layout="split-50-50"
-        imagePosition="left"
+        methodologyPath={LAYER_CONFIG.governance.methodologyPath}
+        imageSrc={LAYER_CONFIG.governance.cardImage}
+        githubUrl={LAYER_CONFIG.governance.github}
+        beta="beta"
+        betaTooltip="Please see methodology page"
       />
-
+      <SystemSelector
+        systems={governanceSystems}
+        selectedSystems={selectedSystems}
+        onSelectionChange={handleSelectionChange}
+        label="Platforms"
+      />
+      {/* Start - Community Discussion Decentralisation Merics*/}
       <MetricsTopCard
-        title={'BIP Metrics'}
+        title={'Community Discussion Decentralisation'}
         description={
           <>
-            The following graphs represent different metrics concerning the
-            distribution of BIP comments and governance participation over time.
+            These graphs display four decentralisation metrics (Gini
+            coefficient, Nakamoto coefficient, normalised Shannon entropy, and
+            HHI) computed annually over the distribution of community discussion
+            activity for each blockchain, corresponding to the Community
+            Deliberation phase, which runs concurrently with Stages 1–3 of the
+            governance lifecycle. Activity refers to the number of posts or
+            replies contributed by each participant. Users can toggle between
+            participant roles (poster, replier, or participant, where
+            participant includes both posters and repliers).
+          </>
+        }
+        layout="default"
+        imageSrc={ORG_DISTRIBUTOR}
+        control={
+          <RadioGroup
+            label="Discussion source role"
+            items={COMMUNITY_ROLE_ITEMS}
+            selectedItem={selectedCommunityRole}
+            twoColumnDesktop={true}
+            onChange={(item) =>
+              setSelectedCommunityRole(
+                item as (typeof COMMUNITY_ROLE_ITEMS)[number]
+              )
+            }
+          />
+        }
+      />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+        {!communityDiscussionError &&
+          GOVERNANCE_COMMUNITY_DISCUSSION_METRICS.map((metric) => (
+            <MetricsCard
+              key={`community-${metric.metric}`}
+              metric={metric}
+              data={filteredCommunityDiscussionData}
+              loading={communityDiscussionLoading}
+              type="governance"
+              timeUnit="month"
+            />
+          ))}
+      </div>
+      {communityDiscussionError && (
+        <div className="text-error mt-2">
+          {communityDiscussionError.message}
+        </div>
+      )}
+      {/* Ends - Community Discussion Decentralisation Merics*/}
+      {/* Start - GitHub Decentralisation Merics*/}
+      <MetricsTopCard
+        title={'GitHub Activity Decentralisation'}
+        description={
+          <>
+            These graphs display four decentralisation metrics (Gini
+            coefficient, Nakamoto coefficient, normalised Shannon entropy, and
+            HHI) computed annually over the distribution of GitHub activity on
+            the improvement proposal repositories, corresponding to Stage 1:
+            Ideation (Formal Review) of the governance lifecycle. Activity
+            refers to the number of pull requests, reviews, or comments
+            contributed by each participant. Users can toggle between
+            participant roles (author, reviewer, commenter, or participant,
+            where participant includes all three roles).
+          </>
+        }
+        layout="default"
+        imageSrc={ORG_DISTRIBUTOR}
+        control={
+          <RadioGroup
+            label="GitHub role"
+            items={GITHUB_ROLE_ITEMS}
+            selectedItem={selectedGithubRole}
+            twoColumnDesktop={true}
+            onChange={(item) =>
+              setSelectedGithubRole(item as (typeof GITHUB_ROLE_ITEMS)[number])
+            }
+          />
+        }
+      />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+        {!githubError &&
+          GOVERNANCE_GITHUB_METRICS.map((metric) => (
+            <MetricsCard
+              key={`github-${metric.metric}`}
+              metric={metric}
+              data={filteredGithubData}
+              loading={githubLoading}
+              type="governance"
+              timeUnit="month"
+              selectedSystems={selectedSystems}
+              onSystemToggle={handleSystemToggle}
+            />
+          ))}
+      </div>
+      {githubError && (
+        <div className="text-error mt-2">{githubError.message}</div>
+      )}
+      {/* Ends - GitHub Decentralisation Merics */
+      /* Start - Proposal
+      Decentralisation Merics*/}
+      <MetricsTopCard
+        title={'Proposal Authorship Decentralisation'}
+        description={
+          <>
+            These graphs display four decentralisation metrics (Gini
+            coefficient, Nakamoto coefficient, normalised Shannon entropy, and
+            HHI) computed annually over the distribution of weighted proposal
+            authorship. A higher Nakamoto coefficient and Shannon entropy
+            indicate a more distributed author base, while a higher Gini
+            coefficient and HHI indicate greater concentration. Users can toggle
+            between chains.
           </>
         }
         layout="default"
         imageSrc={ORG_DISTRIBUTOR}
       />
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
-        {/* Gini Coefficient Chart */}
-        <MetricsCard
-          metric={{
-            metric: 'gini_coefficient',
-            title: 'Gini coefficient of activities per user',
-            description:
-              'Measures inequality in authorship concentration among contributors.',
-            decimals: 2
-          }}
-          data={adaptGovernanceToDataEntry(giniData)}
-          loading={loading}
-          type="governance"
-          timeUnit="year"
-        />
-
-        {/* Multi-line chart showing Posts, Comments, and Users (multi-axis) */}
-        <MetricsCard
-          metric={{
-            metric: 'unified_metric',
-            title: 'Posts, Comments, and Users',
-            description:
-              'Total number of posts, comments, and active users per year.',
-            decimals: 0,
-            multiAxis: {
-              // Put Posts on the left, Comments and Users on the right
-              leftAxisMetric: 'Posts',
-              leftAxisLabel: 'Posts',
-              leftAxisColor: '#ef4444',
-
-              rightAxisMetrics: ['Comments', 'Users'],
-              rightAxisColors: ['#3b82f6', '#10b981'],
-              rightAxisLabel: 'Comments / Users'
-            }
-          }}
-          data={transformedPostsCommentsForMultiAxis}
-          loading={loading}
-          type="governance-posts"
-          timeUnit="year"
-        />
-
-        <MetricsCard
-          metric={{
-            metric: 'multi-axis',
-            title: 'Community Structure Analysis',
-            description:
-              "Number of communities, modularity score and nodes over time, showing the evolution of Bitcoin's governance network structure.",
-            decimals: 2,
-            multiAxis: {
-              // left: communities, right: modularity + nodes
-              leftAxisMetric: 'Number of Communities',
-              leftAxisLabel: 'Number of Communities',
-              leftAxisColor: '#ef4444',
-
-              rightAxisMetrics: ['Modularity Score'],
-              rightAxisColors: ['#3b82f6', '#10b981'],
-              rightAxisLabel: 'Modularity'
-            }
-          }}
-          data={transformedCommunityData}
-          loading={loading}
-          type="governance"
-          timeUnit="year"
-        />
+        {!proposalError &&
+          GOVERNANCE_PROPOSAL_METRICS.map((metric) => (
+            <MetricsCard
+              key={metric.metric}
+              metric={metric}
+              data={filteredProposalData}
+              loading={proposalLoading}
+              type="governance"
+              timeUnit="month"
+              selectedSystems={selectedSystems}
+              onSystemToggle={handleSystemToggle}
+            />
+          ))}
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-1 gap-4 w-full">
-        <DoughnutCard
-          type={'governance'}
-          title="Top 10 Authors by Comments"
-          path={govDoughnutFile}
-          description="Distribution of comments among the most active authors in Bitcoin governance discussions."
-          showInfo={true}
-          fileName={govDoughnutFile}
-        />
+      {proposalError && (
+        <div className="text-error mt-2">{proposalError.message}</div>
+      )}
+      {/* Ends - Proposal Decentralisation Merics*/}
+      {/* Start - Contributor Activity Concentration */}
+      {/*}
+      <MetricsTopCard
+        title={'Top 3 Contributor Activity Concentration'}
+        description={
+          <>
+            These graphs track the combined weighted contribution of the top 3
+            most prolific authors as a share of total proposal authorship in
+            each time period. A higher value indicates that proposal authorship
+            is concentrated among fewer contributors. Users can toggle between
+            yearly and half-yearly granularity.
+          </>
+        }
+        layout="default"
+        imageSrc={ORG_DISTRIBUTOR}
+      /> */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+        {!error &&
+          GOVERNANCE_METRICS.map((metric) => (
+            <MetricsCard
+              key={metric.metric}
+              metric={metric}
+              data={filteredData}
+              loading={loading}
+              type="governance"
+              timeUnit="month"
+              selectedSystems={selectedSystems}
+              onSystemToggle={handleSystemToggle}
+              headerControl={
+                <GranularityToggle
+                  granularity={selectedGranularity}
+                  onChange={setSelectedGranularity}
+                />
+              }
+            />
+          ))}
       </div>
+      {error && <div className="text-error mt-2">{error.message}</div>}
+      {/* Ends - Contributor Activity Concentration */}
+      {/* Start - Authorship Distribution */}
+      <MetricsTopCard
+        title={'Authorship Distribution'}
+        description={
+          <>
+            These graphs show the weighted contribution of improvement proposal
+            authors for each blockchain, corresponding to Stage 2 (Proposal) of
+            the governance lifecycle. Each slice represents an author's share of
+            total weighted proposals, where one proposal with n co-authors
+            contributes 1/n to each author's total. The most prolific authors
+            are shown individually, with all remaining authors grouped as
+            "Others. "
+          </>
+        }
+        layout="default"
+        imageSrc={ORG_DISTRIBUTOR}
+      />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+        {GOVERNANCE_AUTHORSHIP_DOUGHNUTS.map((item) => (
+          <DoughnutCard
+            key={`authorship-${item.ledger}`}
+            type={'governance'}
+            title={item.title}
+            path={getGovernanceAuthorshipCsvPath(item.ledger)}
+            fileName={`authorship_${item.ledger}`}
+            githubUrl={LAYER_CONFIG.governance.github}
+            description="Distribution of weighted contribution by author."
+            showInfo={true}
+          />
+        ))}
+      </div>
+      {/* Ends - Authorship Distribution */}
     </div>
   )
 }

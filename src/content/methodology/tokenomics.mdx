@@ -4,13 +4,32 @@ On the tokenomics layer, decentralisation is evaluated based on the distribution
 
 The blockchain data that is needed to determine these distributions are collected from <AppLink href="https://console.cloud.google.com/bigquery">BigQuery</AppLink> and self-hosted full nodes. The dashboard offers various options to the users for customising the results.
 
-First, users can choose which off-chain sources to use to attribute blockchain data to real world entities. This enables the clustering of seemingly independent objects under the same identity. On the tokenomics layer, clustering enables the attribution of multiple independent addresses to the same wallet. The clustering options are: "Explorers", "Staking keys", "Multi-input Transactions" and "Crystal Intelligence". Users can select any combination of these options. By default, all options are applied:
+Users can choose which off-chain sources to use to attribute blockchain data to real-world entities, enabling the clustering of seemingly independent addresses under the same identity. Users can select any combination of the options below; by default, all options are applied.
 
-- "Explorers" refers to attribution and deanonymisation data collected from blockchain explorers, namely <AppLink href="https://bitinfocharts.com/">BitInfoCharts</AppLink>, <AppLink href="https://etherscan.io/">Etherscan</AppLink>, <AppLink href="https://www.walletexplorer.com/">Wallet Explorer</AppLink>, <AppLink href="https://whale-alert.io/">Dogecoin Whale Alert</AppLink>, <AppLink href="https://tzkt.io/">TzKT</AppLink>.
-- "Staking keys" refers to the data collected from stake pools and validators that are used to attribute staking addresses to the same entity.
-- "Multi-input Transactions" allows attributing addresses to the same entity when they are used as inputs in the same transaction, a well-established heuristic for clustering addresses in UTXO-based ledgers.
-- "Crystal Intelligence" leverages advanced clustering algorithms from <AppLink href="https://crystalintelligence.com/">Crystal Intelligence & Crypto Compliance</AppLink> to more accurately group public addresses belonging to the same real-world entity. Unlike the other clustering methods, which are developed in-house, "Crystal Intelligence" is an external integration.
+<div className="rounded-xl border border-base-300 overflow-hidden bg-base-100 shadow-sm">
+  <div className="px-4 py-2.5 bg-base-200/50 border-b border-base-300">
+    <span className="text-xs font-semibold text-base-content/70 uppercase tracking-[0.12em]">Clustering Options</span>
+  </div>
+  <ul className="divide-y divide-base-200">
+    <li className="px-4 py-3 space-y-1">
+      <p className="text-sm font-semibold text-base-content">"Explorers"</p>
+      <p className="text-sm text-base-content/70">Attribution and deanonymisation data collected from blockchain explorers: <AppLink href="https://bitinfocharts.com/">BitInfoCharts</AppLink>, <AppLink href="https://etherscan.io/">Etherscan</AppLink>, <AppLink href="https://www.walletexplorer.com/">Wallet Explorer</AppLink>, <AppLink href="https://whale-alert.io/">Dogecoin Whale Alert</AppLink>, <AppLink href="https://tzkt.io/">TzKT</AppLink>.</p>
+    </li>
+    <li className="px-4 py-3 space-y-1">
+      <p className="text-sm font-semibold text-base-content">"Staking Keys"</p>
+      <p className="text-sm text-base-content/70">Data collected from stake pools and validators that are used to attribute staking addresses to the same entity. Applied only for Cardano.</p>
+    </li>
+    <li className="px-4 py-3 space-y-1">
+      <p className="text-sm font-semibold text-base-content">"Multi-input Transactions"</p>
+      <p className="text-sm text-base-content/70">Attributes addresses to the same entity when they are used as inputs in the same transaction — a well-established heuristic for clustering addresses in UTXO-based ledgers.</p>
+    </li>
+    <li className="px-4 py-3 space-y-1">
+      <p className="text-sm font-semibold text-base-content">"Crystal Intelligence"</p>
+      <p className="text-sm text-base-content/70">Leverages advanced clustering algorithms from <AppLink href="https://crystalintelligence.com/">Crystal Intelligence & Crypto Compliance</AppLink> to more accurately group addresses belonging to the same real-world entity. Unlike the other methods, which are developed in-house, this is an external integration.</p>
+    </li>
+  </ul>
+</div>
 
 Explorer data is used for all ledgers except Cardano, whereas staking keys are used only for Cardano.
 
-Users can also apply the decentralisation metrics on all or part of the data by choosing the relevant inclusion threshold on each layer. For example, if the option "100" is chosen, then the metrics will apply on the top 100 richest entities in the system, while ignoring the rest. Similarly, if the option "Above $0.01" is chosen, the metrics will apply on entities that control tokens that were worth, at the given point in time, at least $0.01. Threshold options are: “100”, “1000”, “50%”, “Above $0.01” and “None”. By default, no inclusion threshold is applied.
+Users can also apply the decentralisation metrics on all or part of the data by choosing a relevant inclusion threshold. For example, if the option "100" is chosen, the metrics will apply on the top 100 richest entities in the system, while ignoring the rest. Similarly, if "Above $0.01" is chosen, the metrics will apply on entities that controlled tokens worth at least $0.01 at the given point in time. Threshold options are: "100", "1000", "50%", "Above $0.01" and "None". By default, no inclusion threshold is applied.

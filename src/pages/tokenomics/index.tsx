@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react'
 import {
   type ClusteringOption,
   getTokenomicsCsvFileName,
-  TOKENOMICS_CARD,
   TOKENOMICS_CSV,
   TOKENOMICS_METRICS,
   TOKENOMICS_LEDGERS,
@@ -17,7 +16,7 @@ import {
   RadioGroup
 } from '@/components'
 import { usePersistedSystemSelection, useTokenomicsCsv } from '@/hooks'
-import { methodologyTokenomicsTo } from '@/routes/routePaths'
+import { LAYER_CONFIG } from '@/config/layers'
 
 const THRESHOLDING_ITEMS = [
   { label: '100', value: '100' },
@@ -95,9 +94,9 @@ export function Tokenomics() {
             that held them in each time period.
           </>
         }
-        imageSrc={TOKENOMICS_CARD}
-        methodologyPath={methodologyTokenomicsTo}
-        githubUrl="https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization"
+        imageSrc={LAYER_CONFIG.tokenomics.cardImage}
+        methodologyPath={LAYER_CONFIG.tokenomics.methodologyPath}
+        githubUrl={LAYER_CONFIG.tokenomics.github}
       />
       <SystemSelector
         systems={tokenomicsSystems}
@@ -106,10 +105,13 @@ export function Tokenomics() {
         label="Platforms"
       />
 
-      <div className="card lg:card-side bg-base-200 shadow-lg border border-base-300 rounded-box">
-        <div className="card-body">
-          <div className="flex flex-col lg:flex-row max-h-150">
-            <div className="flex-2 h-full m-2">
+      <div className="card border border-base-300 shadow-sm bg-base-100 overflow-hidden">
+        <div className="px-4 py-2.5 bg-base-200/50 border-b border-base-300">
+          <h3 className="text-sm font-semibold text-base-content">Data settings</h3>
+        </div>
+        <div className="p-4 sm:p-5">
+          <div className="flex flex-col sm:flex-row gap-0">
+            <div className="sm:w-48 shrink-0 pb-5 border-b border-base-300 sm:pb-0 sm:border-b-0 sm:pr-6 sm:border-r sm:border-base-300">
               <RadioGroup
                 label="Inclusion threshold"
                 items={THRESHOLDING_ITEMS}
@@ -118,14 +120,13 @@ export function Tokenomics() {
                 stacked={true}
               />
             </div>
-            <div className="flex-2 h-full m-2">
+            <div className="flex-1 pt-5 sm:pt-0 sm:pl-6">
               <ToggleMulti
                 label="Clustering"
                 items={CLUSTERING_ITEMS}
                 selectedItems={selectedClusters}
                 onChange={setSelectedClusters}
                 stacked={true}
-                bgClass="bg-success"
               />
             </div>
           </div>

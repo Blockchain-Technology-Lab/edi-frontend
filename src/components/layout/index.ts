@@ -1,5 +1,7 @@
 export * from './Footer'
+export * from './AboveFooter'
 export * from './Header'
 export * from './Sidebar'
+export * from './TopNav'
 export * from './RootLayout'
 export * from './GoogleAnalytics'

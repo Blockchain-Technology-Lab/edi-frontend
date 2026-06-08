@@ -4,8 +4,10 @@ import { basePath } from '@/utils/paths'
 import { BASE_LEDGERS, CONSENSUS_LEDGERS } from '@/utils/charts/constants'
 import { findLedgerByName } from '@/utils/charts/constants'
 import {
+  fetchCsvText,
   forEachCsvDataRow,
   parseCsvDate,
+  sortByLedgerAndDate,
   splitCsvContent
 } from './csvParsing'
 import DevLogger from './devLogger'
@@ -207,13 +209,6 @@ export function parseConsensusCsv(csv: string): DataEntry[] {
   return data.sort(sortByLedgerAndDate)
 }
 
-function sortByLedgerAndDate(a: DataEntry, b: DataEntry): number {
-  const ledgerCompare = (a.ledger || '').localeCompare(b.ledger || '')
-  return ledgerCompare !== 0
-    ? ledgerCompare
-    : a.date.getTime() - b.date.getTime()
-}
-
 // --------------------------- Data Loading Logic ----------------------------
 
 export async function loadConsensusCsvData(
@@ -221,13 +216,10 @@ export async function loadConsensusCsvData(
   fileName: string
 ): Promise<DataEntry[]> {
   const path = `${CONSENSUS_CSV}${ledger}/${fileName}`
-  const response = await fetch(path)
-
-  if (!response.ok) {
-    throw new Error(`Error loading consensus data: ${ledger}/${fileName}`)
-  }
-
-  const text = await response.text()
+  const text = await fetchCsvText(
+    path,
+    `Error loading consensus data: ${ledger}/${fileName}`
+  )
   return parseConsensusCsv(text).map((entry) => ({
     ...entry,
     ledger

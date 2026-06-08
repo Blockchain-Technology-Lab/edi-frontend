@@ -1,6 +1,12 @@
 import { getColorsForChart, SOFTWARE_DOUGHNUT_CSV } from '@/utils'
 import DevLogger from './devLogger'
-import { forEachCsvDataRow, parseCsvDate, splitCsvContent } from './csvParsing'
+import {
+  fetchCsvText,
+  forEachCsvDataRow,
+  parseCsvDate,
+  sortByLedgerAndDate,
+  splitCsvContent
+} from './csvParsing'
 
 import type { CsvParseEntry, DataEntry, DoughnutDataEntry } from '@/utils/types'
 
@@ -112,36 +118,36 @@ export function parseSoftwareCsv(csv: string): DataEntry[] {
     },
     onRow: (i, values) => {
       totalProcessed++
-    const entry: CsvParseEntry = {}
-    let ledger: string | undefined
+      const entry: CsvParseEntry = {}
+      let ledger: string | undefined
 
-    for (let j = 0; j < headers.length; j++) {
-      const header = headers[j]
-      const value = values[j].trim()
+      for (let j = 0; j < headers.length; j++) {
+        const header = headers[j]
+        const value = values[j].trim()
 
-      if (header === 'date') {
-        const date = parseCsvDate(value)
-        if (!date) {
-          invalidDateCount++
-          DevLogger.warnOnce(
-            `invalid-date-${i}`,
-            `Invalid date: "${value}" at row ${i}`
-          )
-          continue
+        if (header === 'date') {
+          const date = parseCsvDate(value)
+          if (!date) {
+            invalidDateCount++
+            DevLogger.warnOnce(
+              `invalid-date-${i}`,
+              `Invalid date: "${value}" at row ${i}`
+            )
+            continue
+          }
+          entry.date = date
+        } else if (header === 'ledger') {
+          entry.ledger = value
+          ledger = value
+        } else if (SOFTWARE_COLUMNS.includes(header)) {
+          const parsed = parseFloat(value)
+          entry[header] = isNaN(parsed) ? null : parsed
         }
-        entry.date = date
-      } else if (header === 'ledger') {
-        entry.ledger = value
-        ledger = value
-      } else if (SOFTWARE_COLUMNS.includes(header)) {
-        const parsed = parseFloat(value)
-        entry[header] = isNaN(parsed) ? null : parsed
       }
-    }
 
-    if (entry.date && ledger && SOFTWARE_ALLOWED_LEDGERS.includes(ledger)) {
-      data.push(entry as DataEntry)
-    }
+      if (entry.date && ledger && SOFTWARE_ALLOWED_LEDGERS.includes(ledger)) {
+        data.push(entry as DataEntry)
+      }
     }
   })
 
@@ -157,31 +163,17 @@ export function parseSoftwareCsv(csv: string): DataEntry[] {
   return data.sort(sortByLedgerAndDate)
 }
 
-function sortByLedgerAndDate(a: DataEntry, b: DataEntry): number {
-  const ledgerCompare = (a.ledger || '').localeCompare(b.ledger || '')
-  return ledgerCompare !== 0
-    ? ledgerCompare
-    : a.date.getTime() - b.date.getTime()
-}
-
 /**
  * Loads and parses the software CSV file from a given path.
  */
 export async function loadSoftwareCsvData(
   fileName: string
 ): Promise<DataEntry[]> {
-  try {
-    const response = await fetch(fileName)
-
-    if (!response.ok) {
-      throw new Error(`Error loading software data from ${fileName}`)
-    }
-
-    const csvText = await response.text()
-    return parseSoftwareCsv(csvText)
-  } catch (error) {
-    throw error instanceof Error ? error : new Error('Unknown error occurred')
-  }
+  const csvText = await fetchCsvText(
+    fileName,
+    `Error loading software data from ${fileName}`
+  )
+  return parseSoftwareCsv(csvText)
 }
 
 export function getSoftwareCsvFileName(
@@ -267,22 +259,43 @@ export function parseDoughnutCsv(csv: string): DoughnutDataEntry[] {
   let skippedLines = 0
   const isProduction = process.env.NODE_ENV === 'production'
 
+  // Support two formats:
+  // 1) legacy: "author,commits" per line, no header
+  // 2) tabular with header columns that include author + weighted_contribution
+  const firstParts = (lines[0] || '')
+    .split(CSV_DELIMITER)
+    .map((part) => part.trim().toLowerCase())
+  const authorIndex = firstParts.indexOf('author')
+  const weightedContributionIndex = firstParts.indexOf('weighted_contribution')
+  const commitsIndex = firstParts.indexOf('commits')
+  const hasHeader =
+    authorIndex >= 0 && (weightedContributionIndex >= 0 || commitsIndex >= 0)
+  const valueIndex =
+    weightedContributionIndex >= 0 ? weightedContributionIndex : commitsIndex
+
   // Create a unique identifier for this CSV file based on content hash
   const csvHash = csv.slice(0, 100).replace(/\W/g, '').substring(0, 20)
   const csvId = `doughnut-csv-${lines.length}-${csvHash}`
 
-  lines.forEach((line) => {
+  lines.forEach((line, index) => {
     if (!line.trim()) return // Skip empty lines
+
+    if (hasHeader && index === 0) return // Skip header row
 
     const parts = line.split(CSV_DELIMITER)
 
-    // Ensure we have exactly 2 parts (author and commits)
-    if (parts.length !== 2) {
+    const author = hasHeader ? parts[authorIndex] : parts[0]
+    const commits = hasHeader ? parts[valueIndex] : parts[1]
+
+    if (!hasHeader && parts.length !== 2) {
       skippedLines++
       return
     }
 
-    const [author, commits] = parts
+    if (hasHeader && (authorIndex < 0 || valueIndex < 0)) {
+      skippedLines++
+      return
+    }
 
     // Check if author is empty or just whitespace
     if (!author || !author.trim()) {

@@ -10,11 +10,9 @@ import {
 } from '@/components'
 import { useContributorSectionNavigation, useGeographyCsv } from '@/hooks'
 import { geographyContributorRoute } from '@/router'
-import { methodologyGeographyTo } from '@/routes/routePaths'
 import {
   COUNTRIES_METRICS,
   DOUGHNUT_CARD,
-  GEOGRAPHY_CARD,
   GEOGRAPHY_CSV,
   GEOGRAPHY_METRICS,
   GEOGRAPHY_DOUGHNUT_LEDGERS,
@@ -25,6 +23,7 @@ import {
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { useMemo } from 'react'
 import { usePersistedSystemSelection } from '@/hooks'
+import { LAYER_CONFIG } from '@/config/layers'
 
 const SYSTEMS_STORAGE_KEY = 'geography_selectedSystems'
 const DEFAULT_GEOGRAPHY_SYSTEMS = GEOGRAPHY_LEDGERS.map((l) => l.ledger)
@@ -80,9 +79,9 @@ export function Geography() {
                 include extensive historical data.
               </>
             }
-            imageSrc={GEOGRAPHY_CARD}
-            methodologyPath={methodologyGeographyTo}
-            githubUrl="https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin"
+            imageSrc={LAYER_CONFIG.geography.cardImage}
+            methodologyPath={LAYER_CONFIG.geography.methodologyPath}
+            githubUrl={LAYER_CONFIG.geography.github}
           />
         </div>
 
@@ -135,7 +134,7 @@ export function Geography() {
             'These charts represent the distribution of nodes across countries, based on the latest snapshot for each system.'
           }
           imageSrc={DOUGHNUT_CARD}
-          methodologyPath={methodologyGeographyTo}
+          methodologyPath={LAYER_CONFIG.geography.methodologyPath}
         />
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
