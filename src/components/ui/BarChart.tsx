@@ -2,6 +2,7 @@ import { Bar } from 'react-chartjs-2'
 import {
   Chart,
   type Chart as ChartInstance,
+  type TooltipItem,
   CategoryScale,
   LinearScale,
   BarElement,
@@ -102,10 +103,15 @@ export function BarChart({ data, loading, title, description }: BarChartProps) {
     return (
       <div className="card border border-base-300 shadow-sm overflow-hidden bg-base-100">
         <div className="px-4 py-2.5 bg-base-200/50 border-b border-base-300">
-          <span className="text-sm font-semibold text-base-content">{title}</span>
+          <span className="text-sm font-semibold text-base-content">
+            {title}
+          </span>
         </div>
         <div className="p-4">
-          <div className="aspect-video w-full bg-base-200 animate-pulse rounded-lg" aria-busy="true" />
+          <div
+            className="aspect-video w-full bg-base-200 animate-pulse rounded-lg"
+            aria-busy="true"
+          />
         </div>
       </div>
     )
@@ -115,7 +121,9 @@ export function BarChart({ data, loading, title, description }: BarChartProps) {
     return (
       <div className="card border border-base-300 shadow-sm overflow-hidden bg-base-100">
         <div className="px-4 py-2.5 bg-base-200/50 border-b border-base-300">
-          <span className="text-sm font-semibold text-base-content">{title}</span>
+          <span className="text-sm font-semibold text-base-content">
+            {title}
+          </span>
         </div>
         <div className="p-4 flex items-center justify-center h-40 text-sm text-base-content/40">
           No data available
@@ -163,8 +171,8 @@ export function BarChart({ data, loading, title, description }: BarChartProps) {
         cornerRadius: 6,
         displayColors: true,
         callbacks: {
-          label: (ctx: { parsed: { y: number } }) =>
-            `  ${ctx.parsed.y.toLocaleString()} nodes`
+          label: (ctx: TooltipItem<'bar'>) =>
+            `  ${(ctx.parsed.y ?? 0).toLocaleString()} nodes`
         }
       }
     },
@@ -195,7 +203,9 @@ export function BarChart({ data, loading, title, description }: BarChartProps) {
   return (
     <div className="card border border-base-300 shadow-sm overflow-hidden bg-base-100">
       <div className="flex items-center justify-between gap-3 px-4 py-2.5 bg-base-200/50 border-b border-base-300">
-        <span className="text-sm font-semibold text-base-content leading-snug truncate">{title}</span>
+        <span className="text-sm font-semibold text-base-content leading-snug truncate">
+          {title}
+        </span>
         {description && (
           <Tippy content={description} placement="bottom">
             <button
