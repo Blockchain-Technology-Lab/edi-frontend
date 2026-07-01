@@ -235,7 +235,6 @@ export const routeTree = rootRoute.addChildren([
 
 export const router = createRouter({
   routeTree,
-  basepath: basePath,
   defaultPreload: 'intent',
   defaultViewTransition: true,
   context: { auth: undefined! }

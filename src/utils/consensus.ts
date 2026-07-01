@@ -24,7 +24,8 @@ const CONSENSUS_COLUMNS = [
   'theil_index',
   'concentration_ratio=1',
   'tau_index=0.33',
-  'tau_index=0.66'
+  'tau_index=0.66',
+  'total_entities'
 ] as const
 
 // Use standardized ledgers from constants
@@ -95,6 +96,13 @@ export const CONSENSUS_METRICS = [
     description:
       'The Gini coefficient represents the degree of inequality in a distribution. Values close to 0 indicate high equality (in our case, all entities in the system produce the same number of blocks) and values close to 1 indicate high inequality (one entity produces most or all blocks).',
     icon: `${basePath}/images/cards/gini.png`
+  },
+  {
+    metric: 'total_entities',
+    title: 'Total entities',
+    decimals: 0,
+    description: 'The total number of entities in the system.',
+    icon: `${basePath}/images/cards/entities.png`
   }
 ] as const
 
@@ -141,53 +149,53 @@ export function parseConsensusCsv(csv: string): DataEntry[] {
       }
     },
     onRow: (i, values) => {
-    const entry: CsvParseEntry = {}
-    let ledger: string | undefined
-    let hasValidData = false
+      const entry: CsvParseEntry = {}
+      let ledger: string | undefined
+      let hasValidData = false
 
-    for (let j = 0; j < headers.length; j++) {
-      const header = headers[j]
-      const value = values[j].trim()
+      for (let j = 0; j < headers.length; j++) {
+        const header = headers[j]
+        const value = values[j].trim()
 
-      if (header === 'date') {
-        const date = parseCsvDate(value)
-        if (!date) {
-          DevLogger.warnOnce(
-            `${csvId}-invalid-date-${i}`,
-            `Invalid date: "${value}" at row ${i}`
-          )
-          continue
-        }
-        entry.date = date
-        hasValidData = true
-      } else if (header === 'ledger') {
-        entry.ledger = value
-        ledger = value
-        hasValidData = true
-      } else if (CONSENSUS_COLUMNS.includes(header as ConsensusColumn)) {
-        const parsed = parseFloat(value)
-        entry[header] = isNaN(parsed) ? null : parsed
-        if (!isNaN(parsed)) {
+        if (header === 'date') {
+          const date = parseCsvDate(value)
+          if (!date) {
+            DevLogger.warnOnce(
+              `${csvId}-invalid-date-${i}`,
+              `Invalid date: "${value}" at row ${i}`
+            )
+            continue
+          }
+          entry.date = date
           hasValidData = true
+        } else if (header === 'ledger') {
+          entry.ledger = value
+          ledger = value
+          hasValidData = true
+        } else if (CONSENSUS_COLUMNS.includes(header as ConsensusColumn)) {
+          const parsed = parseFloat(value)
+          entry[header] = isNaN(parsed) ? null : parsed
+          if (!isNaN(parsed)) {
+            hasValidData = true
+          }
         }
       }
-    }
 
-    if (
-      entry.date &&
-      ledger &&
-      CONSENSUS_ALLOWED_LEDGERS.includes(ledger as ConsensusLedger)
-    ) {
-      data.push(entry as DataEntry)
-    } else {
-      skippedLines++
-      if (!hasValidData) {
-        DevLogger.warnOnce(
-          `${csvId}-invalid-entry-${i}`,
-          `Row ${i}: Missing required data (date, ledger, or valid metrics)`
-        )
+      if (
+        entry.date &&
+        ledger &&
+        CONSENSUS_ALLOWED_LEDGERS.includes(ledger as ConsensusLedger)
+      ) {
+        data.push(entry as DataEntry)
+      } else {
+        skippedLines++
+        if (!hasValidData) {
+          DevLogger.warnOnce(
+            `${csvId}-invalid-entry-${i}`,
+            `Row ${i}: Missing required data (date, ledger, or valid metrics)`
+          )
+        }
       }
-    }
     }
   })
 
