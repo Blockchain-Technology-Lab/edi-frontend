@@ -14,7 +14,8 @@ const TOKENOMICS_COLUMNS = [
   'tau=0.5',
   'tau=0.66',
   'mpr',
-  'theil'
+  'theil',
+  'total_entities'
 ]
 
 const TOKENOMICS_ALLOWED_LEDGERS = [
@@ -70,6 +71,13 @@ export const TOKENOMICS_METRICS = [
     decimals: 0,
     description:
       'The τ-decentralisation index is a generalization of the Nakamoto coefficient. It is defined as the minimum number of entities that collectively control more than a fraction τ of the total resources (in this case more than 66% of the total tokens in circulation).'
+  },
+  {
+    metric: 'total_entities',
+    title: 'Total entities',
+    decimals: 0,
+    description:
+      'The total number of entities that hold tokens in the system at a given point in time.'
   }
 ]
 
@@ -84,33 +92,33 @@ export function parseTokenomicsCsv(csv: string): DataEntry[] {
 
   forEachCsvDataRow(lines, headers, {
     onRow: (i, values) => {
-    const entry: CsvParseEntry = {}
-    let ledger: string | undefined
+      const entry: CsvParseEntry = {}
+      let ledger: string | undefined
 
-    for (let j = 0; j < headers.length; j++) {
-      const header = headers[j]
-      const value = values[j].trim()
+      for (let j = 0; j < headers.length; j++) {
+        const header = headers[j]
+        const value = values[j].trim()
 
-      if (header === 'date') {
-        const date = parseCsvDate(value)
-        if (!date) {
-          console.warn(`Invalid date: "${value}" at row ${i}`)
-          continue
+        if (header === 'date') {
+          const date = parseCsvDate(value)
+          if (!date) {
+            console.warn(`Invalid date: "${value}" at row ${i}`)
+            continue
+          }
+          entry.date = date
+        } else if (header === 'ledger') {
+          ledger = value
+          entry.ledger = value
+        } else if (TOKENOMICS_COLUMNS.includes(header)) {
+          const parsed = parseFloat(value)
+          entry[header] = isNaN(parsed) ? null : parsed
         }
-        entry.date = date
-      } else if (header === 'ledger') {
-        ledger = value
-        entry.ledger = value
-      } else if (TOKENOMICS_COLUMNS.includes(header)) {
-        const parsed = parseFloat(value)
-        entry[header] = isNaN(parsed) ? null : parsed
       }
-    }
 
-    // Only include entries with valid date and allowed ledger
-    if (entry.date && ledger && TOKENOMICS_ALLOWED_LEDGERS.includes(ledger)) {
-      data.push(entry as DataEntry)
-    }
+      // Only include entries with valid date and allowed ledger
+      if (entry.date && ledger && TOKENOMICS_ALLOWED_LEDGERS.includes(ledger)) {
+        data.push(entry as DataEntry)
+      }
     }
   })
 
@@ -191,4 +199,3 @@ export function getTokenomicsCsvFileName(
 
   return `${directory}/${fileName}`
 }
-
