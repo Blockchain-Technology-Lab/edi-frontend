@@ -1,4 +1,5 @@
 export * from './AppLink'
+export * from './BinaryToggle'
 export * from './LayerMenuItem'
 export * from './ThemeToggle'
 export * from './HomepageCard'

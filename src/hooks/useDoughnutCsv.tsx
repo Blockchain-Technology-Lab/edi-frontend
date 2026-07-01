@@ -1,59 +1,33 @@
+import { useQuery } from '@tanstack/react-query'
 import type { DoughnutDataEntry } from '@/utils/types'
 import { loadDoughnutCsvData } from '@/utils'
-import { useCallback, useEffect, useState } from 'react'
-
-export function useDoughnutCsvLoader(csvPath: string) {
-  const [doughnutData, setDoughnutData] = useState<DoughnutDataEntry[]>([])
-  const [doughnutLoading, setDoughnutLoading] = useState<boolean>(true)
-  const [doughnutError, setDoughnutError] = useState<Error | null>(null)
-
-  const load = useCallback(async () => {
-    setDoughnutLoading(true)
-    setDoughnutError(null)
-    try {
-      const csvDoughnutData = await loadDoughnutCsvData(csvPath)
-
-      const topDoughnutData = getTopNAuthorsWithOthers(csvDoughnutData, 20)
-
-      setDoughnutData(topDoughnutData)
-    } catch (error) {
-      setDoughnutError(
-        error instanceof Error ? error : new Error('Unknown error occurred')
-      )
-    } finally {
-      setDoughnutLoading(false)
-    }
-  }, [csvPath])
-
-  useEffect(() => {
-    load()
-  }, [load])
-  return { doughnutData, doughnutLoading, doughnutError }
-}
 
 function getTopNAuthorsWithOthers(
   data: DoughnutDataEntry[],
   topN: number
 ): DoughnutDataEntry[] {
-  // Sort data by commits in descending order
-  const sortedData = data.sort((a, b) => b.commits - a.commits)
+  const sorted = [...data].sort((a, b) => b.commits - a.commits)
+  const top = sorted.slice(0, topN)
+  const remaining = sorted.slice(topN)
+  const othersCommits = remaining.reduce((sum, e) => sum + e.commits, 0)
+  if (othersCommits > 0) {
+    top.push({ author: 'Others', commits: othersCommits })
+  }
+  return top
+}
 
-  // Get top N entries
-  const topNData = sortedData.slice(0, topN)
+export function useDoughnutCsvLoader(csvPath: string) {
+  const { data, isPending: doughnutLoading, error } = useQuery({
+    queryKey: ['csv', 'doughnut', csvPath],
+    queryFn: async () => {
+      const raw = await loadDoughnutCsvData(csvPath)
+      return getTopNAuthorsWithOthers(raw, 20)
+    },
+  })
 
-  // Calculate the total commits of remaining authors
-  const remainingData = sortedData.slice(topN)
-  const totalRemainingCommits = remainingData.reduce(
-    (sum, entry) => sum + entry.commits,
-    0
-  )
-
-  // Create "Others" entry if there are remaining authors
-  const othersEntry =
-    totalRemainingCommits > 0
-      ? { author: 'Others', commits: totalRemainingCommits }
-      : null
-
-  // Combine top N data with "Others" entry
-  return othersEntry ? [...topNData, othersEntry] : topNData
+  return {
+    doughnutData: data ?? [],
+    doughnutLoading,
+    doughnutError: error as Error | null,
+  }
 }

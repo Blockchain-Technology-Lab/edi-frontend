@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { LayerTopCard, MetricsCard, SystemSelector } from '@/components'
+import { LayerTopCard, MetricsCard, SystemSelector, BinaryToggle } from '@/components'
 import {
   getConsensusCsvFileName,
   CONSENSUS_METRICS,
@@ -16,27 +16,6 @@ const CONSENSUS_SYSTEMS = CONSENSUS_LEDGERS.map((l) => l.ledger)
 const CONSENSUS_FILE_NAME = getConsensusCsvFileName(['clustered'])
 const SYSTEMS_STORAGE_KEY = 'consensus_selectedSystems'
 
-interface TauToggleProps {
-  variant: TauVariant
-  onChange: (v: TauVariant) => void
-}
-
-function TauToggle({ variant, onChange }: TauToggleProps) {
-  return (
-    <label className="flex items-center gap-2 px-2 py-1 rounded-lg cursor-pointer border border-base-300 bg-base-300/70">
-      <span className="text-xs font-medium text-base-content/80">τ=0.33</span>
-      <input
-        type="checkbox"
-        checked={variant === '0.66'}
-        onChange={(e) => onChange(e.target.checked ? '0.66' : '0.33')}
-        className="sr-only peer"
-        aria-label="Toggle tau variant"
-      />
-      <div className="w-10 h-5 rounded-full transition-all duration-300 peer-checked:after:translate-x-5 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-base-300 after:rounded-full after:h-4 after:w-4 after:transition-all relative bg-base-100 peer-checked:bg-base-100 [html[data-theme=dim]_&]:bg-white/40 [html[data-theme=dim]_&]:peer-checked:bg-white/70 [html[data-theme=dim]_&]:after:bg-white" />
-      <span className="text-xs font-medium text-base-content/80">τ=0.66</span>
-    </label>
-  )
-}
 
 export function Consensus() {
   const { selectedSystems, handleSelectionChange, handleSystemToggle } =
@@ -93,7 +72,15 @@ export function Consensus() {
               onSystemToggle={handleSystemToggle}
               headerControl={
                 isTauMetric(m.metric) ? (
-                  <TauToggle variant={tauVariant} onChange={setTauVariant} />
+                  <BinaryToggle
+                    labelA="τ=0.33"
+                    labelB="τ=0.66"
+                    value={tauVariant}
+                    valueA="0.33"
+                    valueB="0.66"
+                    onChange={setTauVariant}
+                    ariaLabel="Toggle tau variant"
+                  />
                 ) : undefined
               }
             />
