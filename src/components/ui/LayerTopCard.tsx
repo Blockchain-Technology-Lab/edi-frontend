@@ -1,5 +1,5 @@
 import { GitHubButton } from '@/components'
-import { useNavigate } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
 
 type LayerTopCardProps = {
   title: string
@@ -20,7 +20,6 @@ export function LayerTopCard({
   beta,
   betaTooltip
 }: LayerTopCardProps) {
-  const navigate = useNavigate()
   return (
     <div className="card lg:card-side border border-base-300 shadow-sm overflow-hidden bg-base-100">
       <figure className="w-full lg:w-64 xl:w-72 lg:shrink-0 h-40 sm:h-48 lg:h-auto overflow-hidden bg-base-200">
@@ -53,12 +52,12 @@ export function LayerTopCard({
 
         <div className="flex flex-wrap items-center gap-2 pt-1">
           {methodologyPath && (
-            <button
+            <Link
+              to={methodologyPath}
               className="btn btn-sm btn-outline border-base-300 text-base-content/70 hover:text-base-content hover:border-base-content/40 font-medium"
-              onClick={() => navigate({ to: methodologyPath })}
             >
               Methodology
-            </button>
+            </Link>
           )}
           <GitHubButton
             className="btn btn-sm btn-outline border-base-300 text-base-content/70 hover:text-base-content hover:border-base-content/40 font-medium"
