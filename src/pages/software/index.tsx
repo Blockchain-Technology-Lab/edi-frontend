@@ -24,9 +24,9 @@ import {
   SOFTWARE_LEDGERS,
   getOrderedSystemsForLayer
 } from '@/utils'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useNavigate, useLocation } from '@tanstack/react-router'
-import { softwareContributorRoute } from '@/router'
+import { softwareClientRoute, softwareContributorRoute } from '@/router'
 import { LAYER_CONFIG } from '@/config/layers'
 
 // Constants
@@ -92,10 +92,12 @@ export function Software() {
       navigateToContributor: () => navigate({ to: softwareContributorRoute.to })
     })
 
-  const clientRef = useRef<HTMLDivElement | null>(null)
-  const handleClientScrollClick = useCallback(() => {
-    clientRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }, [])
+  const { contributorRef: clientRef, handleContributorScrollClick: handleClientScrollClick } =
+    useContributorSectionNavigation({
+      currentPath: location.pathname,
+      contributorPath: softwareClientRoute.to,
+      navigateToContributor: () => navigate({ to: softwareClientRoute.to })
+    })
 
   const filename = useMemo(
     () =>

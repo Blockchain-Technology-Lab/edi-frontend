@@ -159,6 +159,12 @@ export const softwareContributorRoute = createRoute({
   component: Software
 })
 
+export const softwareClientRoute = createRoute({
+  path: `client`,
+  getParentRoute: () => softwareRoute,
+  component: Software
+})
+
 export const geographyRoute = createRoute({
   ...guardLayer('geography'),
   path: withBase('/geography'),
@@ -217,7 +223,7 @@ export const routeTree = rootRoute.addChildren([
   consensusRoute,
   tokenomicsRoute,
   networkRoute.addChildren([networkContributorRoute]),
-  softwareRoute.addChildren([softwareContributorRoute]),
+  softwareRoute.addChildren([softwareContributorRoute, softwareClientRoute]),
   geographyRoute.addChildren([geographyContributorRoute]),
   governanceRoute,
   accessibilityRoute,
