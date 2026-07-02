@@ -10,7 +10,7 @@
  *   1 – one or more files have hard errors
  */
 
-import { readFileSync, writeFileSync, statSync, readdirSync } from 'fs'
+import { readFileSync, statSync, readdirSync } from 'fs'
 import { resolve, relative, join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import Papa from 'papaparse'
@@ -20,7 +20,6 @@ import chalk from 'chalk'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const OUTPUT_DIR = join(ROOT, 'public', 'output')
-const REPORT = join(ROOT, 'csv-validation-report.txt')
 
 // Column-count variance above this fraction of total rows becomes an error.
 // e.g. 0.05 = up to 5 % of rows may differ → warning only; above → error.
@@ -69,13 +68,35 @@ function validateFile(filePath) {
 
   // 3. No null bytes (binary corruption / wrong file type)
   if (content.includes('\0')) {
-    errors.push(
-      'File contains null bytes — possible binary corruption or wrong file type.'
-    )
+    errors.push('File contains null bytes — possible binary corruption or wrong file type.')
     return { errors, warnings }
   }
 
-  // 4. Parseable CSV
+  // 4. Blank lines (empty or whitespace-only), ignoring the standard trailing newline
+  const rawLines = content.split('\n')
+  const blankLines = rawLines
+    .map((line, i) => ({ line, num: i + 1 }))
+    .filter(({ line, num }) => {
+      if (num === rawLines.length && line === '') return false // trailing newline — fine
+      return line.trim() === ''
+    })
+  if (blankLines.length > 0) {
+    errors.push(
+      `Blank/whitespace-only line(s) found at: ${blankLines.map((l) => `line ${l.num}`).join(', ')}.`
+    )
+  }
+
+  // 5. Trailing whitespace on any line
+  const trailingWsLines = rawLines
+    .map((line, i) => ({ line: line.replace(/\r$/, ''), num: i + 1 }))
+    .filter(({ line }) => /[ \t]+$/.test(line))
+  if (trailingWsLines.length > 0) {
+    errors.push(
+      `Trailing whitespace found on: ${trailingWsLines.map((l) => `line ${l.num}`).join(', ')}.`
+    )
+  }
+
+  // 6. Parseable CSV
   const parsed = Papa.parse(content, { skipEmptyLines: true, header: false })
 
   const criticalParseErrors = parsed.errors.filter(
@@ -90,25 +111,40 @@ function validateFile(filePath) {
 
   const rows = parsed.data
 
-  // 5. At least a header row + one data row
+  // 7. At least a header row + one data row
   if (rows.length === 0) {
     errors.push('No rows found after parsing.')
     return { errors, warnings }
   }
   if (rows.length === 1) {
-    warnings.push(
-      'Only one row found — expected a header row plus at least one data row.'
-    )
+    warnings.push('Only one row found — expected a header row plus at least one data row.')
   }
 
-  // 6. Header must have at least one column
+  // 8. Header must have at least one non-empty column
   const headerCols = rows[0].length
   if (headerCols === 0) {
     errors.push('Header row has no columns.')
     return { errors, warnings }
   }
 
-  // 7. Column-count consistency across data rows
+  // 9. Leading/trailing whitespace in any cell value
+  const paddedCells = []
+  for (const [rowIdx, row] of rows.entries()) {
+    for (const [colIdx, cell] of row.entries()) {
+      if (typeof cell === 'string' && cell.length > 0 && cell !== cell.trim()) {
+        paddedCells.push(`row ${rowIdx + 1} col ${colIdx + 1}: "${cell}"`)
+      }
+    }
+  }
+  if (paddedCells.length > 0) {
+    errors.push(
+      `Cell(s) with leading/trailing whitespace:\n` +
+      paddedCells.slice(0, 10).map((c) => `     ${c}`).join('\n') +
+      (paddedCells.length > 10 ? `\n     … and ${paddedCells.length - 10} more` : '')
+    )
+  }
+
+  // 10. Column-count consistency across data rows
   if (rows.length > 1) {
     const dataRows = rows.slice(1)
     const inconsistent = dataRows.filter((r) => r.length !== headerCols)
@@ -128,6 +164,19 @@ function validateFile(filePath) {
     }
   }
 
+  // 11. Duplicate header column names (skip intentionally empty first cell)
+  const headerRow = rows[0].map((h) => h.trim())
+  const nonEmptyHeaders = headerRow.filter((h) => h !== '')
+  const seen = new Set()
+  const dupes = []
+  for (const h of nonEmptyHeaders) {
+    if (seen.has(h)) dupes.push(h)
+    else seen.add(h)
+  }
+  if (dupes.length > 0) {
+    errors.push(`Duplicate header column name(s): ${dupes.map((d) => `"${d}"`).join(', ')}.`)
+  }
+
   return { errors, warnings }
 }
 
@@ -137,40 +186,23 @@ const files = collectCsvFiles(OUTPUT_DIR)
 
 let totalErrors = 0
 let totalWarnings = 0
-const reportLines = []
 
 const banner = `CSV Validation — public/output/  (${files.length} files)\n${'─'.repeat(60)}`
 console.log(chalk.bold('\n' + banner + '\n'))
-reportLines.push(banner, '')
 
 for (const file of files) {
   const rel = relative(ROOT, file)
   const { errors, warnings } = validateFile(file)
 
   if (errors.length > 0) {
-    const line = `✗  ${rel}`
-    console.log(chalk.red(line))
-    reportLines.push(line)
-
-    for (const e of errors) {
-      const detail = `   ERROR: ${e}`
-      console.log(chalk.red(detail))
-      reportLines.push(detail)
-    }
+    console.log(chalk.red(`✗  ${rel}`))
+    for (const e of errors) console.log(chalk.red(`   ERROR: ${e}`))
     totalErrors += errors.length
   }
 
   if (warnings.length > 0) {
-    if (errors.length === 0) {
-      const line = `⚠  ${rel}`
-      console.log(chalk.yellow(line))
-      reportLines.push(line)
-    }
-    for (const w of warnings) {
-      const detail = `   WARN:  ${w}`
-      console.log(chalk.yellow(detail))
-      reportLines.push(detail)
-    }
+    if (errors.length === 0) console.log(chalk.yellow(`⚠  ${rel}`))
+    for (const w of warnings) console.log(chalk.yellow(`   WARN:  ${w}`))
     totalWarnings += warnings.length
   }
 
@@ -181,27 +213,18 @@ for (const file of files) {
 
 // ── Summary ──────────────────────────────────────────────────────────────────
 
-const separator = '─'.repeat(60)
-console.log('\n' + separator)
-reportLines.push('', separator)
+console.log('\n' + '─'.repeat(60))
 
 if (totalErrors > 0) {
-  const summary =
-    `✗  Validation FAILED — ${totalErrors} error(s) found` +
-    (totalWarnings > 0 ? `, ${totalWarnings} warning(s)` : '') +
-    '.'
-  console.log(chalk.red.bold('\n' + summary))
-  reportLines.push(summary)
+  console.log(chalk.red.bold(
+    `\n✗  Validation FAILED — ${totalErrors} error(s) found` +
+    (totalWarnings > 0 ? `, ${totalWarnings} warning(s)` : '') + '.'
+  ))
 } else {
-  const summary =
-    `✓  All ${files.length} CSV files passed` +
-    (totalWarnings > 0 ? ` (${totalWarnings} warning(s))` : '') +
-    '.'
-  console.log(chalk.green.bold('\n' + summary))
-  reportLines.push(summary)
+  console.log(chalk.green.bold(
+    `\n✓  All ${files.length} CSV files passed` +
+    (totalWarnings > 0 ? ` (${totalWarnings} warning(s))` : '') + '.'
+  ))
 }
-
-// Write artifact report (CI uploads this on failure)
-//writeFileSync(REPORT, reportLines.join('\n') + '\n', 'utf8')
 
 process.exit(totalErrors > 0 ? 1 : 0)
