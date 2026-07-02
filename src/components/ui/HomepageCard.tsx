@@ -29,7 +29,7 @@ export function HomepageCard({
   return (
     <div
       onClick={!disabled ? onPress : undefined}
-      className={`card border border-base-300 bg-base-100 overflow-hidden transition-all duration-200
+      className={`group card border border-base-300 bg-base-100 overflow-hidden transition-all duration-200
         ${disabled
           ? 'opacity-60 cursor-not-allowed'
           : 'cursor-pointer hover:shadow-lg hover:border-primary/30 hover:-translate-y-0.5'

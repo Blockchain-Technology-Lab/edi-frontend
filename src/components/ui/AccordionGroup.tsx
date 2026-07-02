@@ -22,6 +22,7 @@ interface AccordionGroupProps {
   iconSize?: number
   iconColor?: string
   allowMultiple?: boolean
+  initialOpenId?: string | number
 }
 
 export function AccordionGroup({
@@ -33,10 +34,11 @@ export function AccordionGroup({
   contentClassName = 'collapse-content text-xs sm:text-sm',
   iconSize = 14,
   iconColor = 'rgba(128, 128, 128, 1)',
-  allowMultiple = false
+  allowMultiple = false,
+  initialOpenId
 }: AccordionGroupProps) {
   const [openIndices, setOpenIndices] = useState<Set<string | number>>(
-    new Set()
+    () => new Set(initialOpenId !== undefined ? [initialOpenId] : [])
   )
 
   const handleToggle = (id: string | number) => {

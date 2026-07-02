@@ -87,8 +87,6 @@ interface RadarChartProps {
   description?: string
   height?: number
   showExport?: boolean
-  showLegendToggle?: boolean
-  showTooltip?: boolean
   className?: string
 }
 
@@ -435,6 +433,7 @@ export function RadarChart({
                 icon: layer.icon,
                 iconColor: layer.color
               }))}
+              initialOpenId={EDI_LAYERS[0].name}
             />
           </div>
         </div>
