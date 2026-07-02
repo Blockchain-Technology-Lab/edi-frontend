@@ -7,7 +7,7 @@ export function RangeSlider(props: RadixSlider.SliderProps) {
       className="relative flex items-center w-full h-4 select-none touch-none"
       {...props}
     >
-      <RadixSlider.Track className="relative bg-base-300 dark:bg-white/20 flex-grow h-1 rounded">
+      <RadixSlider.Track className="relative bg-base-200 flex-grow h-1 rounded">
         <RadixSlider.Range className="absolute bg-accent h-full rounded" />
       </RadixSlider.Track>
       <Thumb />

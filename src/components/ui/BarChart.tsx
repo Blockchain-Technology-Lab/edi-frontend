@@ -11,7 +11,7 @@ import {
 } from 'chart.js'
 import { useContext, useEffect } from 'react'
 import { ThemeContext } from '@/contexts'
-import { LINECHART_WATERMARK_WHITE, LINECHART_WATERMARK_BLACK } from '@/utils'
+import { LINECHART_WATERMARK_WHITE, LINECHART_WATERMARK_BLACK, getChartThemeTokens } from '@/utils'
 import { type NetworkBarEntry, prepareBarChartData } from '@/utils'
 import Tippy from '@tippyjs/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -134,9 +134,7 @@ export function BarChart({ data, loading, title, description }: BarChartProps) {
 
   const { labels, nodes, backgroundColors } = prepareBarChartData(data)
 
-  const isDim = resolvedTheme === 'dim'
-  const tickColor = isDim ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.45)'
-  const gridColor = isDim ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'
+  const { tickColor, gridColor, tooltipBg, tooltipTitle, tooltipBody, tooltipBorder } = getChartThemeTokens(resolvedTheme ?? 'silk')
 
   const chartData = {
     labels,
@@ -164,9 +162,11 @@ export function BarChart({ data, loading, title, description }: BarChartProps) {
       title: { display: false },
       customCanvasBackgroundImage: false,
       tooltip: {
-        backgroundColor: isDim ? 'rgba(20,20,30,0.92)' : 'rgba(10,10,20,0.85)',
-        titleColor: 'rgba(255,255,255,0.55)',
-        bodyColor: '#ffffff',
+        backgroundColor: tooltipBg,
+        titleColor: tooltipTitle,
+        bodyColor: tooltipBody,
+        borderColor: tooltipBorder,
+        borderWidth: 1,
         padding: 10,
         cornerRadius: 6,
         displayColors: true,
