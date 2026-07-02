@@ -1,4 +1,5 @@
 import { findLedgerByName } from '@/utils'
+import { TogglePill } from './TogglePill'
 
 interface SystemSelectorProps {
   systems: string[] // e.g., ["bitcoin", "bitcoin-cash-node", "go-ethereum", ...]
@@ -57,13 +58,7 @@ export function SystemSelector({
                   onChange={() => handleToggle(system)}
                   className="sr-only peer"
                 />
-                <div
-                  className={`w-9 h-5 rounded-full transition-all duration-200 relative shrink-0
-                    peer-checked:after:translate-x-4 after:content-[''] after:absolute after:top-0.5 after:left-0.5
-                    after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all after:shadow-sm
-                    ${isSelected ? '' : 'bg-base-300'}`}
-                  style={isSelected ? { backgroundColor: color } : {}}
-                />
+                <TogglePill checked={isSelected} color={color} />
                 <span className="text-xs font-medium text-base-content/70 group-hover:text-base-content transition-colors">
                   {displayName}
                 </span>

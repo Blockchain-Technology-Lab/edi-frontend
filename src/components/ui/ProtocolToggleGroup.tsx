@@ -1,4 +1,5 @@
 import { BASE_LEDGERS } from '@/utils'
+import { TogglePill } from './TogglePill'
 
 interface ProtocolToggleGroupProps {
   items: Array<{ protocol: string }>
@@ -66,7 +67,6 @@ export function ProtocolToggleGroup({
                 </span>
               </div>
 
-              {/* iOS-Style Toggle Switch */}
               <label className="relative inline-flex cursor-pointer">
                 <input
                   type="checkbox"
@@ -74,12 +74,7 @@ export function ProtocolToggleGroup({
                   onChange={() => onChange(index)}
                   className="sr-only peer"
                 />
-                <div
-                  className={`w-9 h-5 sm:w-11 sm:h-6 rounded-full transition-all duration-300 peer-checked:after:translate-x-4 sm:peer-checked:after:translate-x-5 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 sm:after:h-5 sm:after:w-5 after:transition-all ${
-                    isChecked ? 'bg-opacity-100' : 'bg-base-200'
-                  }`}
-                  style={isChecked ? { backgroundColor: color } : {}}
-                ></div>
+                <TogglePill checked={isChecked} color={color} size="rsp" uncheckedClass="bg-base-200" />
               </label>
             </div>
           )
