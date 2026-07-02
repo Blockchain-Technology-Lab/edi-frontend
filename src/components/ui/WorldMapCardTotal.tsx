@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDownload } from '@fortawesome/free-solid-svg-icons'
 import { useExportChart, useWorldMapChart, useWorldMapData } from '@/hooks'
 import { ThemeContext } from '@/contexts'
-import { DEFAULT_MAP_COLOR_SCHEME } from '@/utils/mapColors'
+import { getMapColorScheme } from '@/utils/mapColors'
 import { formatBreakdownTooltip } from '@/utils/mapTooltips'
 
 interface WorldMapCardTotalProps {
@@ -31,7 +31,7 @@ export function WorldMapCardTotal({
     mapData: mapData || {},
     mapDataBreakdown,
     isLoading: loading,
-    colorScheme: DEFAULT_MAP_COLOR_SCHEME,
+    colorScheme: getMapColorScheme(theme),
     onTooltipLabel: formatBreakdownTooltip,
     useLogScale,
     theme

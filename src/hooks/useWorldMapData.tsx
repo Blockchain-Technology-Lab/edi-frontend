@@ -27,14 +27,19 @@ const COUNTRY_NAME_MAP: Record<string, string> = {
 }
 
 function parseCountryData(csvText: string): WorldMapData {
-  const result = Papa.parse<{ country: string; count: string }>(csvText, {
+  const result = Papa.parse<Record<string, string>>(csvText, {
     header: true,
     skipEmptyLines: true,
   })
   const data: WorldMapData = {}
+  const headers = result.meta.fields ?? []
+  if (headers.length < 2) return data
+  // CSV format: first col = country name ("Countries"), second col = date/count value
+  const countryCol = headers[0]
+  const countCol = headers[1]
   for (const row of result.data) {
-    const country = row.country?.trim()
-    const count = parseInt(row.count, 10)
+    const country = row[countryCol]?.trim()
+    const count = parseInt(row[countCol], 10)
     if (!country || isNaN(count) || country.toLowerCase() === 'tor') continue
     const normalized = COUNTRY_NAME_MAP[country] ?? country
     data[normalized] = count

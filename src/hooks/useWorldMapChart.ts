@@ -11,8 +11,8 @@ import * as topojson from 'topojson-client'
 import type { Topology, GeometryCollection } from 'topojson-specification'
 import type { Feature, FeatureCollection } from 'geojson'
 import { WORLD_MAP_JSON } from '@/utils/paths'
-import { interpolateColor, DEFAULT_MAP_COLOR_SCHEME } from '@/utils/mapColors'
-import { getChartThemeTokens, CHART_FONT } from '@/utils'
+import { interpolateColor, DEFAULT_MAP_COLOR_SCHEME, type MapColorScheme } from '@/utils/mapColors'
+import { getChartThemeTokens, CHART_FONT, LINECHART_WATERMARK_WHITE, LINECHART_WATERMARK_BLACK } from '@/utils'
 
 Chart.register(
   ChoroplethController,
@@ -42,7 +42,7 @@ interface UseWorldMapChartProps {
   mapData: Record<string, number>
   mapDataBreakdown?: Record<string, Record<string, number>>
   isLoading: boolean
-  colorScheme?: typeof DEFAULT_MAP_COLOR_SCHEME
+  colorScheme?: MapColorScheme
   onTooltipLabel?: (
     countryName: string,
     breakdown?: Record<string, number>
@@ -126,6 +126,10 @@ export function useWorldMapChart({
 
         const { tooltipBg, tooltipTitle, tooltipBody, tooltipBorder } = getChartThemeTokens(theme)
 
+        const watermarkSrc = theme === 'dim' ? LINECHART_WATERMARK_WHITE : LINECHART_WATERMARK_BLACK
+        const watermarkImg = new Image()
+        watermarkImg.src = watermarkSrc
+
         chartInstance.current = new Chart(chartRef.current, {
           type: 'choropleth',
           data: {
@@ -145,10 +149,35 @@ export function useWorldMapChart({
                     colorScheme.maxColor,
                     ratio
                   )
-                }
+                },
+                borderColor: colorScheme.borderColor,
+                borderWidth: 1,
+                hoverBorderColor: theme === 'dim' ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.5)',
+                hoverBorderWidth: 2
               }
             ]
           },
+          plugins: [
+            {
+              id: 'mapWatermark',
+              afterDraw: (chart) => {
+                const { ctx, chartArea } = chart
+                if (!ctx || !chartArea) return
+                const size = Math.min(chartArea.width, chartArea.height) * 0.12
+                const draw = (img: HTMLImageElement) => {
+                  ctx.save()
+                  ctx.globalAlpha = 0.1
+                  ctx.drawImage(img, chartArea.left + 8, chartArea.top + 8, size, size)
+                  ctx.restore()
+                }
+                if (watermarkImg.complete) {
+                  draw(watermarkImg)
+                } else {
+                  watermarkImg.onload = () => { draw(watermarkImg); chart.draw() }
+                }
+              }
+            }
+          ],
           options: {
             responsive: true,
             maintainAspectRatio: false,
