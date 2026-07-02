@@ -3,7 +3,6 @@ import {
   useState,
   useContext,
   useMemo,
-  useEffect,
   useCallback
 } from 'react'
 import { Radar } from 'react-chartjs-2'
@@ -176,6 +175,7 @@ export function RadarChart({
     },
     [visibleDatasets]
   )
+
 
   const options = useMemo(() => {
     if (resolvedTheme) {
@@ -370,8 +370,9 @@ export function RadarChart({
               checked={tooltipEnabled}
               onChange={() => setTooltipEnabled((v) => !v)}
               className="toggle toggle-xs toggle-primary"
+              aria-label="Toggle hover tooltip"
             />
-            <span>Tooltip</span>
+            <span className="hidden sm:inline">Tooltip</span>
           </label>
           {showExport && (
             <button
@@ -395,6 +396,7 @@ export function RadarChart({
           selectedIndices={visibleDatasets}
           onChange={handleDatasetToggle}
           recentlyClickedIndex={recentlyClickedDataset}
+          hoveredIndex={hoveredDatasetIndex}
           onHoverChange={setHoveredDatasetIndex}
         />
 
