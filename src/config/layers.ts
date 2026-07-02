@@ -4,7 +4,7 @@
 import type { ComponentType } from 'react'
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 import {
-  faScaleBalanced,
+  faCubes,
   faCoins,
   faNetworkWired,
   faCode,
@@ -63,7 +63,7 @@ export const LAYER_CONFIG: Record<LayerKey, LayerConfig> = {
     label: 'Consensus',
     path: consensusTo,
     methodologyPath: `${methodologyTo}/consensus`,
-    icon: faScaleBalanced,
+    icon: faCubes,
     desc: 'This layer describes the decentralisation of block production over time.',
     cardImage: CONSENSUS_CARD,
     github: 'https://github.com/Blockchain-Technology-Lab/consensus-decentralization',
