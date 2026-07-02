@@ -312,6 +312,20 @@ export const SOFTWARE_DOUGHNUT_LEDGER_NAMES = [
   { repo: 'zcash', url: 'https://github.com/zcash/zcash', name: 'ZCash' }
 ]
 
+const SOFTWARE_CLIENT_DOUGHNUT_KEYS = [
+  'bitcoin',
+  'bitcoin_cash',
+  'dogecoin',
+  'litecoin',
+  'zcash',
+  'ethereum_consensus',
+  'ethereum_execution'
+] as const
+
+export const SOFTWARE_CLIENT_DOUGHNUT_LEDGERS = SOFTWARE_CLIENT_DOUGHNUT_KEYS.map(
+  (key) => BASE_LEDGERS[key]
+).sort((a, b) => a.displayName.localeCompare(b.displayName))
+
 /**
  * Centralized Layer Mapping
  */

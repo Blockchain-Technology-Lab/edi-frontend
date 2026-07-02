@@ -224,6 +224,14 @@ const SOFTWARE_REPO_CONFIG: SoftwareRepoConfig[] = [
   { fileName: 'zcash_commits_per_entity.csv', displayName: 'ZCash' }
 ] as const
 
+// Client distribution CSVs are keyed by ledger name directly, e.g.
+// "clients_bitcoin.csv", "clients_consensus.csv" (Ethereum consensus clients).
+const SOFTWARE_CLIENT_DISTRIBUTION_PREFIX = 'clients'
+
+export function getSoftwareClientDoughnutCsvFileName(ledger: string): string {
+  return `${SOFTWARE_DOUGHNUT_CSV}${SOFTWARE_CLIENT_DISTRIBUTION_PREFIX}_${ledger}.csv`
+}
+
 export function getSoftwareDoughnutCsvFileNames(
   weight: string,
   entity: string
