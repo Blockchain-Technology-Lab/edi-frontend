@@ -77,9 +77,11 @@ export function MetricsCard({
     <div className="card border border-base-300 shadow-sm overflow-hidden bg-base-100" key={metric.metric}>
       {/* Card header */}
       <div className="flex items-center justify-between gap-3 px-4 py-2.5 bg-base-200/50 border-b border-base-300">
-        <span className="text-sm font-semibold text-base-content leading-snug truncate min-w-0 flex-1">
-          {metric.title}
-        </span>
+        <Tippy content={metric.title} placement="bottom-start" delay={[400, 0]}>
+          <span className="text-sm font-semibold text-base-content leading-snug truncate min-w-0 flex-1 cursor-default">
+            {metric.title}
+          </span>
+        </Tippy>
         <div className="flex items-center gap-1 shrink-0">
           {headerControl}
           {metric.description && (
