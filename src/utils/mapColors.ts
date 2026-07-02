@@ -33,13 +33,31 @@ export function interpolateColor(
   return `rgb(${r}, ${g}, ${b})`
 }
 
+export type MapColorScheme = {
+  minColor: string
+  maxColor: string
+  noDataColor: string
+  borderColor: string
+}
+
 /**
- * Default color scheme for world maps
+ * Default color scheme for world maps — theme aware
  */
-export const DEFAULT_MAP_COLOR_SCHEME = {
+export const DEFAULT_MAP_COLOR_SCHEME: MapColorScheme = {
   minColor: '#f3e8ff',
   maxColor: '#7c3aed',
-  noDataColor: '#e5e7eb'
+  noDataColor: '#e2e8f0',
+  borderColor: 'rgba(0,0,0,0.25)'
+}
+
+export function getMapColorScheme(theme?: string): MapColorScheme {
+  const isDark = theme === 'dim'
+  return {
+    minColor: '#f3e8ff',
+    maxColor: '#7c3aed',
+    noDataColor: isDark ? '#1e293b' : '#e2e8f0',
+    borderColor: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.25)'
+  }
 }
 
 /**
@@ -61,26 +79,25 @@ function rgbaToHex(rgba: string): string {
  * Generates a light version for min and uses the brand color for max
  */
 export function createColorSchemeFromLedgerColor(
-  ledgerColor: string
-): typeof DEFAULT_MAP_COLOR_SCHEME {
+  ledgerColor: string,
+  theme?: string
+): MapColorScheme {
+  const isDark = theme === 'dim'
   const maxColor = rgbaToHex(ledgerColor)
 
-  // Extract RGB values from the max color
   const hex = maxColor.replace('#', '')
   const r = parseInt(hex.substring(0, 2), 16)
   const g = parseInt(hex.substring(2, 4), 16)
   const b = parseInt(hex.substring(4, 6), 16)
 
-  // Create a lighter version by mixing with white (increase RGB values)
-  const lightR = Math.round(r + (255 - r) * 0.85)
-  const lightG = Math.round(g + (255 - g) * 0.85)
-  const lightB = Math.round(b + (255 - b) * 0.85)
-
-  const minColor = `#${lightR.toString(16).padStart(2, '0')}${lightG.toString(16).padStart(2, '0')}${lightB.toString(16).padStart(2, '0')}`
+  const minColor = isDark
+    ? `#${Math.round(r * 0.25).toString(16).padStart(2, '0')}${Math.round(g * 0.25).toString(16).padStart(2, '0')}${Math.round(b * 0.25).toString(16).padStart(2, '0')}`
+    : `#${Math.round(r + (255 - r) * 0.85).toString(16).padStart(2, '0')}${Math.round(g + (255 - g) * 0.85).toString(16).padStart(2, '0')}${Math.round(b + (255 - b) * 0.85).toString(16).padStart(2, '0')}`
 
   return {
     minColor,
     maxColor,
-    noDataColor: '#e5e7eb'
+    noDataColor: isDark ? '#1e293b' : '#e2e8f0',
+    borderColor: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.7)'
   }
 }

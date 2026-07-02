@@ -22,6 +22,7 @@ interface AccordionGroupProps {
   iconSize?: number
   iconColor?: string
   allowMultiple?: boolean
+  initialOpenId?: string | number
 }
 
 export function AccordionGroup({
@@ -33,10 +34,11 @@ export function AccordionGroup({
   contentClassName = 'collapse-content text-xs sm:text-sm',
   iconSize = 14,
   iconColor = 'rgba(128, 128, 128, 1)',
-  allowMultiple = false
+  allowMultiple = false,
+  initialOpenId
 }: AccordionGroupProps) {
   const [openIndices, setOpenIndices] = useState<Set<string | number>>(
-    new Set()
+    () => new Set(initialOpenId !== undefined ? [initialOpenId] : [])
   )
 
   const handleToggle = (id: string | number) => {
@@ -94,19 +96,21 @@ export function AccordionGroup({
                   <span>{item.title}</span>
                 </div>
               </div>
-              <div
-                className={`${contentClassName} ${
-                  isOpen ? 'max-h-screen' : 'max-h-0 overflow-hidden'
-                }`}
-              >
-                <div className="pt-1 sm:pt-2">
-                  {typeof item.content === 'string' ? (
-                    <p className="text-base-content/80 leading-relaxed">
-                      {item.content}
-                    </p>
-                  ) : (
-                    item.content
-                  )}
+              <div className={contentClassName}>
+                <div
+                  className={`overflow-hidden transition-[max-height] duration-300 ease-in-out ${
+                    isOpen ? 'max-h-96' : 'max-h-0'
+                  }`}
+                >
+                  <div className="pt-1 sm:pt-2">
+                    {typeof item.content === 'string' ? (
+                      <p className="text-base-content/80 leading-relaxed">
+                        {item.content}
+                      </p>
+                    ) : (
+                      item.content
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

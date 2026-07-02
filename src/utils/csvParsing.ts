@@ -1,9 +1,9 @@
+import Papa from 'papaparse'
 import type { DataEntry } from '@/utils/types'
 
-export function splitCsvContent(csv: string, delimiter = ',') {
-  const lines = csv.trim().split('\n')
-  const headers = lines[0].split(delimiter).map((h) => h.trim())
-  return { lines, headers }
+export type ParsedCsv = {
+  rows: string[][]
+  headers: string[]
 }
 
 type CsvRowHandlers = {
@@ -16,23 +16,29 @@ type CsvRowHandlers = {
   delimiter?: string
 }
 
+export function splitCsvContent(csv: string, delimiter = ','): ParsedCsv {
+  const result = Papa.parse<string[]>(csv, {
+    delimiter,
+    skipEmptyLines: true,
+  })
+  const [headerRow = [], ...dataRows] = result.data
+  return { rows: dataRows, headers: headerRow.map((h) => h.trim()) }
+}
+
 export function forEachCsvDataRow(
-  lines: string[],
+  rows: string[][],
   headers: string[],
   handlers: CsvRowHandlers
 ) {
-  const { onRow, onMalformedRow, delimiter = ',' } = handlers
+  const { onRow, onMalformedRow } = handlers
 
-  for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(delimiter)
-
+  rows.forEach((values, i) => {
     if (values.length !== headers.length) {
-      onMalformedRow?.(i, values.length, headers.length)
-      continue
+      onMalformedRow?.(i + 1, values.length, headers.length)
+      return
     }
-
-    onRow(i, values)
-  }
+    onRow(i + 1, values)
+  })
 }
 
 export function parseCsvDate(value: string): Date | null {

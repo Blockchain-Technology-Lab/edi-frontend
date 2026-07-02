@@ -19,6 +19,7 @@ import { ThemeContext } from '@/contexts'
 import type { DataEntry } from '@/utils/types'
 
 import 'chartjs-adapter-date-fns'
+import { format } from 'date-fns'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDownload } from '@fortawesome/free-solid-svg-icons'
 
@@ -254,12 +255,65 @@ export function LineChart({
       </div>
 
       {sliderRange && (
-        <RangeSlider
-          min={sliderRange.min}
-          max={sliderRange.max}
-          value={sliderValue}
-          onValueChange={setSliderValue}
-        />
+        <div className="space-y-2 pt-1">
+          <div className="flex items-center justify-between gap-2">
+            {/* Selected range readout */}
+            {Number.isFinite(sliderValue[0]) && Number.isFinite(sliderValue[1]) && sliderValue[0] > 0 ? (
+              <span className="text-xs text-base-content/40 tabular-nums">
+                {format(new Date(sliderValue[0]), 'MMM yyyy')}
+                {' – '}
+                {format(new Date(sliderValue[1]), 'MMM yyyy')}
+              </span>
+            ) : (
+              <span className="text-xs text-base-content/20 tabular-nums">—</span>
+            )}
+
+            {/* Segmented preset control */}
+            <div className="flex items-center rounded-lg border border-base-300 divide-x divide-base-300 overflow-hidden shrink-0">
+              {([1, 3, 5] as const).map((years) => {
+                const cutoff = sliderRange.max - years * 365.25 * 24 * 60 * 60 * 1000
+                const isActive =
+                  Math.abs(sliderValue[0] - Math.max(cutoff, sliderRange.min)) < 24 * 60 * 60 * 1000 &&
+                  Math.abs(sliderValue[1] - sliderRange.max) < 24 * 60 * 60 * 1000
+                return (
+                  <button
+                    key={years}
+                    type="button"
+                    onClick={() =>
+                      setSliderValue([Math.max(cutoff, sliderRange.min), sliderRange.max])
+                    }
+                    className={`text-xs font-medium px-3 py-1 transition-colors duration-150 ${
+                      isActive
+                        ? 'bg-accent text-accent-content'
+                        : 'bg-transparent text-base-content/45 hover:bg-base-200 hover:text-base-content'
+                    }`}
+                  >
+                    {years}Y
+                  </button>
+                )
+              })}
+              <button
+                type="button"
+                onClick={() => setSliderValue([sliderRange.min, sliderRange.max])}
+                className={`text-xs font-medium px-3 py-1 transition-colors duration-150 ${
+                  Math.abs(sliderValue[0] - sliderRange.min) < 24 * 60 * 60 * 1000 &&
+                  Math.abs(sliderValue[1] - sliderRange.max) < 24 * 60 * 60 * 1000
+                    ? 'bg-accent text-accent-content'
+                    : 'bg-transparent text-base-content/45 hover:bg-base-200 hover:text-base-content'
+                }`}
+              >
+                All
+              </button>
+            </div>
+          </div>
+
+          <RangeSlider
+            min={sliderRange.min}
+            max={sliderRange.max}
+            value={sliderValue}
+            onValueChange={setSliderValue}
+          />
+        </div>
       )}
 
       <div className="flex justify-end">

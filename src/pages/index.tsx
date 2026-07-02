@@ -48,7 +48,6 @@ export default function HomePage() {
           title="Decentralisation Compass"
           description="Navigating the layers of blockchain decentralisation"
           showExport={true}
-          showLegendToggle={true}
           className="w-full"
         />
       )}

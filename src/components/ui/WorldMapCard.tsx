@@ -4,7 +4,7 @@ import { faDownload } from '@fortawesome/free-solid-svg-icons'
 import { useExportChart, useWorldMapChart } from '@/hooks'
 import { ThemeContext } from '@/contexts'
 import {
-  DEFAULT_MAP_COLOR_SCHEME,
+  getMapColorScheme,
   createColorSchemeFromLedgerColor
 } from '@/utils/mapColors'
 import { formatTotalTooltip } from '@/utils/mapTooltips'
@@ -31,11 +31,11 @@ export function WorldMapCard({
     if (ledger) {
       const baseLedger = BASE_LEDGERS[ledger as keyof typeof BASE_LEDGERS]
       if (baseLedger?.color) {
-        return createColorSchemeFromLedgerColor(baseLedger.color)
+        return createColorSchemeFromLedgerColor(baseLedger.color, theme)
       }
     }
-    return DEFAULT_MAP_COLOR_SCHEME
-  }, [ledger])
+    return getMapColorScheme(theme)
+  }, [ledger, theme])
 
   const { chartRef, error } = useWorldMapChart({
     mapData: data,

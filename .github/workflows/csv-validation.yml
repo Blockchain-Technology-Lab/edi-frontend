@@ -30,10 +30,3 @@ jobs:
         id: csv_check
         run: node scripts/validate-csvs.mjs
 
-      - name: Upload validation report on failure
-        if: failure() && steps.csv_check.outcome == 'failure'
-        uses: actions/upload-artifact@v7
-        with:
-          name: csv-validation-report
-          path: csv-validation-report.txt
-          retention-days: 14

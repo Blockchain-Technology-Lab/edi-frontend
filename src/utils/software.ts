@@ -100,14 +100,14 @@ export const SOFTWARE_METRICS = [
  * Parses software layer CSV content into DataEntry[]
  */
 export function parseSoftwareCsv(csv: string): DataEntry[] {
-  const { lines, headers } = splitCsvContent(csv)
+  const { rows, headers } = splitCsvContent(csv)
   const data: DataEntry[] = []
 
   let malformedCount = 0
   let invalidDateCount = 0
   let totalProcessed = 0
 
-  forEachCsvDataRow(lines, headers, {
+  forEachCsvDataRow(rows, headers, {
     onMalformedRow: (i, actualColumns, expectedColumns) => {
       malformedCount++
       DevLogger.warnOnce(

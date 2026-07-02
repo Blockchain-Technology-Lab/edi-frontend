@@ -3,7 +3,6 @@ import {
   useState,
   useContext,
   useMemo,
-  useEffect,
   useCallback
 } from 'react'
 import { Radar } from 'react-chartjs-2'
@@ -20,7 +19,7 @@ import {
 } from 'chart.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  faScaleBalanced,
+  faCubes,
   faCoins,
   faNetworkWired,
   faCode,
@@ -87,8 +86,6 @@ interface RadarChartProps {
   description?: string
   height?: number
   showExport?: boolean
-  showLegendToggle?: boolean
-  showTooltip?: boolean
   className?: string
 }
 
@@ -106,7 +103,7 @@ export function RadarChart({
   const [visibleDatasets, setVisibleDatasets] = useState<Set<number>>(
     new Set(Array.from({ length: data.length }, (_, i) => i))
   )
-  const [tooltipEnabled, setTooltipEnabled] = useState(false)
+  const [tooltipEnabled, setTooltipEnabled] = useState(true)
   const [recentlyClickedDataset, setRecentlyClickedDataset] = useState<
     number | null
   >(null)
@@ -118,10 +115,6 @@ export function RadarChart({
   // radarMissingSpokes plugin to draw dashed centre→axis spokes.
   const chartData = transformRadarDataWithSegments(data)
 
-  useEffect(() => {
-    const isMobile = window.matchMedia('(max-width: 768px)').matches
-    setTooltipEnabled(!isMobile) // enable tooltips by default if not mobile
-  }, [])
 
   // Filter datasets based on visibility
   const filteredChartData = {
@@ -182,6 +175,7 @@ export function RadarChart({
     },
     [visibleDatasets]
   )
+
 
   const options = useMemo(() => {
     if (resolvedTheme) {
@@ -257,7 +251,7 @@ export function RadarChart({
         'Block production diversity'
       ],
       color: '#3B82F6',
-      icon: faIcon(faScaleBalanced)
+      icon: faIcon(faCubes)
     },
     {
       name: 'Tokenomics',
@@ -366,17 +360,32 @@ export function RadarChart({
             <p className="text-xs sm:text-sm text-base-content/60 mt-1 leading-relaxed">{description}</p>
           )}
         </div>
-        {showExport && (
-          <button
-            className="inline-flex items-center gap-1.5 text-xs text-base-content/40 hover:text-base-content/70 transition-colors duration-150 px-2 py-1 rounded shrink-0 mt-0.5"
-            onClick={handleExport}
-            aria-label="Download chart as PNG"
-            title="Download as PNG"
+        <div className="flex items-center gap-2 shrink-0 mt-0.5">
+          <label
+            className="inline-flex items-center gap-1.5 text-xs text-base-content/40 hover:text-base-content/70 transition-colors duration-150 px-2 py-1 rounded cursor-pointer select-none"
+            title="Toggle hover tooltip"
           >
-            <FontAwesomeIcon icon={faDownload} className="w-3 h-3" />
-            <span className="hidden sm:inline">Export PNG</span>
-          </button>
-        )}
+            <input
+              type="checkbox"
+              checked={tooltipEnabled}
+              onChange={() => setTooltipEnabled((v) => !v)}
+              className="toggle toggle-xs toggle-primary"
+              aria-label="Toggle hover tooltip"
+            />
+            <span className="hidden sm:inline">Tooltip</span>
+          </label>
+          {showExport && (
+            <button
+              className="inline-flex items-center gap-1.5 text-xs text-base-content/40 hover:text-base-content/70 transition-colors duration-150 px-2 py-1 rounded"
+              onClick={handleExport}
+              aria-label="Download chart as PNG"
+              title="Download as PNG"
+            >
+              <FontAwesomeIcon icon={faDownload} className="w-3 h-3" />
+              <span className="hidden sm:inline">Export PNG</span>
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="p-3 sm:p-6">
@@ -387,6 +396,7 @@ export function RadarChart({
           selectedIndices={visibleDatasets}
           onChange={handleDatasetToggle}
           recentlyClickedIndex={recentlyClickedDataset}
+          hoveredIndex={hoveredDatasetIndex}
           onHoverChange={setHoveredDatasetIndex}
         />
 
@@ -435,26 +445,11 @@ export function RadarChart({
                 icon: layer.icon,
                 iconColor: layer.color
               }))}
+              initialOpenId={EDI_LAYERS[0].name}
             />
           </div>
         </div>
 
-        {/* Tooltip Toggle */}
-        <div className="flex items-center gap-2 mt-3 sm:mt-4">
-          <input
-            type="checkbox"
-            checked={tooltipEnabled}
-            onChange={() => setTooltipEnabled((v) => !v)}
-            id="toggle-tooltip"
-            className="toggle toggle-xs sm:toggle-sm toggle-primary"
-          />
-          <label
-            htmlFor="toggle-tooltip"
-            className="text-xs sm:text-sm cursor-pointer text-base-content/70 select-none"
-          >
-            Show tooltip
-          </label>
-        </div>
       </div>
     </div>
   )

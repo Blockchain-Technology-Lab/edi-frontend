@@ -29,18 +29,23 @@ export function HomepageCard({
   return (
     <div
       onClick={!disabled ? onPress : undefined}
-      className={`card border border-base-300 bg-base-100 overflow-hidden transition-all duration-200
+      className={`group card border border-base-300 bg-base-100 overflow-hidden transition-all duration-200
         ${disabled
           ? 'opacity-60 cursor-not-allowed'
           : 'cursor-pointer hover:shadow-lg hover:border-primary/30 hover:-translate-y-0.5'
         }`}
     >
-      <figure className="w-full h-36 sm:h-44 overflow-hidden bg-base-200">
+      <figure className="relative w-full h-36 sm:h-44 overflow-hidden bg-base-200">
         <img
           src={background}
           alt={title}
           className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
         />
+        {disabled && (
+          <span className="absolute top-2.5 right-2.5 text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-base-100/80 backdrop-blur-sm text-base-content/60 border border-base-300">
+            Coming Soon
+          </span>
+        )}
       </figure>
 
       <div className="p-4 flex flex-col gap-2 flex-1 relative">

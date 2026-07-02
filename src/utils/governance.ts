@@ -233,10 +233,10 @@ export async function loadGovernanceCommunityDiscussionMetricsCsvData(
 }
 
 export function parseGovernanceCsv(csvData: string): DataEntry[] {
-  const { lines, headers } = splitCsvContent(csvData)
+  const { rows, headers } = splitCsvContent(csvData)
   const data: DataEntry[] = []
 
-  forEachCsvDataRow(lines, headers, {
+  forEachCsvDataRow(rows, headers, {
     onRow: (_i, values) => {
       const entry: CsvParseEntry = {}
 
@@ -274,10 +274,10 @@ export function parseGovernanceProposalMetricsCsv(
   csvData: string,
   ledgerName: string
 ): DataEntry[] {
-  const { lines, headers } = splitCsvContent(csvData)
+  const { rows, headers } = splitCsvContent(csvData)
   const data: DataEntry[] = []
 
-  forEachCsvDataRow(lines, headers, {
+  forEachCsvDataRow(rows, headers, {
     onRow: (_i, values) => {
       const entry: CsvParseEntry = {}
       entry.ledger = ledgerName
@@ -311,10 +311,10 @@ export function parseGovernanceProposalMetricsCsv(
 }
 
 export function parseGovernanceGithubMetricsCsv(csvData: string): DataEntry[] {
-  const { lines, headers } = splitCsvContent(csvData)
+  const { rows, headers } = splitCsvContent(csvData)
   const data: DataEntry[] = []
 
-  forEachCsvDataRow(lines, headers, {
+  forEachCsvDataRow(rows, headers, {
     onRow: (_i, values) => {
       const entry: CsvParseEntry = {}
 
@@ -351,10 +351,10 @@ export function parseGovernanceGithubMetricsCsv(csvData: string): DataEntry[] {
 export function parseGovernanceCommunityDiscussionMetricsCsv(
   csvData: string
 ): DataEntry[] {
-  const { lines, headers } = splitCsvContent(csvData)
+  const { rows, headers } = splitCsvContent(csvData)
   const data: DataEntry[] = []
 
-  forEachCsvDataRow(lines, headers, {
+  forEachCsvDataRow(rows, headers, {
     onRow: (_i, values) => {
       const entry: CsvParseEntry = {}
 

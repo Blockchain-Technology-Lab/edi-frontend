@@ -1,7 +1,8 @@
 import { useCallback, useEffect } from 'react'
 import { useNavigate } from '@tanstack/react-router'
+import { LAYER_CONFIG, LAYER_KEYS } from '@/config/layers'
+import { homeTo } from '@/routes/routePaths'
 
-// Helper function to scroll to top
 const scrollToTop = () => {
   const mainElement =
     document.querySelector('main[class*="overflow-y-auto"]') ||
@@ -13,23 +14,24 @@ const scrollToTop = () => {
   }
 }
 
-// Helper function to show shortcut feedback
 const showShortcutFeedback = (message: string) => {
-  const event = new CustomEvent('shortcut-used', {
-    detail: { message }
-  })
-  document.dispatchEvent(event)
+  document.dispatchEvent(new CustomEvent('shortcut-used', { detail: { message } }))
 }
 
+// Derived at module load time from LAYER_CONFIG so they stay in sync automatically.
 const NAV_SHORTCUTS: Record<string, { to: string; message: string }> = {
-  '1': { to: '/consensus', message: 'Navigated to Consensus Layer' },
-  '2': { to: '/tokenomics', message: 'Navigated to Tokenomics Layer' },
-  '3': { to: '/network', message: 'Navigated to Network Layer' },
-  '4': { to: '/software', message: 'Navigated to Software Layer' },
-  '5': { to: '/geography', message: 'Navigated to Geography Layer' },
-  '6': { to: '/governance', message: 'Navigated to Governance Layer' },
-  h: { to: '/', message: 'Navigated to Home' }
+  h: { to: homeTo, message: 'Navigated to Home' },
+  '0': { to: homeTo, message: 'Navigated to Home' },
 }
+
+LAYER_KEYS
+  .filter(key => LAYER_CONFIG[key].enabled)
+  .forEach((key, i) => {
+    NAV_SHORTCUTS[String(i + 1)] = {
+      to: LAYER_CONFIG[key].path,
+      message: `Navigated to ${LAYER_CONFIG[key].label} Layer`,
+    }
+  })
 
 export function useKeyboardShortcuts() {
   const navigate = useNavigate()
@@ -40,7 +42,6 @@ export function useKeyboardShortcuts() {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      // Only trigger if not typing in an input or textarea
       const target = event.target as HTMLElement
       if (
         target instanceof HTMLInputElement ||
@@ -51,13 +52,7 @@ export function useKeyboardShortcuts() {
         return
       }
 
-      // Simple number and letter shortcuts (no modifiers needed)
-      if (
-        !event.altKey &&
-        !event.ctrlKey &&
-        !event.shiftKey &&
-        !event.metaKey
-      ) {
+      if (!event.altKey && !event.ctrlKey && !event.shiftKey && !event.metaKey) {
         const shortcut = NAV_SHORTCUTS[event.key.toLowerCase()]
         if (shortcut) {
           event.preventDefault()
@@ -66,68 +61,54 @@ export function useKeyboardShortcuts() {
         }
       }
 
-      // Keyboard shortcuts with modifiers
       if (event.ctrlKey || event.metaKey) {
         switch (event.key) {
           case 'Home':
-            // Ctrl/Cmd + Home = Back to top
             event.preventDefault()
             scrollToTop()
             showShortcutFeedback('Scrolled to top')
             break
-          case '/':
-            {
-              // Focus search if it exists
-              event.preventDefault()
-              const searchInput = document.querySelector(
-                'input[type="search"], input[placeholder*="search" i]'
-              ) as HTMLInputElement
-              if (searchInput) {
-                searchInput.focus()
-                showShortcutFeedback('Focused search')
-              }
+          case '/': {
+            event.preventDefault()
+            const searchInput = document.querySelector(
+              'input[type="search"], input[placeholder*="search" i]'
+            ) as HTMLInputElement
+            if (searchInput) {
+              searchInput.focus()
+              showShortcutFeedback('Focused search')
             }
             break
+          }
         }
       }
 
-      // Other shortcuts
       if (event.key === 'Escape') {
-        const drawerToggle = document.getElementById(
-          'sidebar-toggle'
-        ) as HTMLInputElement
+        const drawerToggle = document.getElementById('sidebar-toggle') as HTMLInputElement
         if (drawerToggle?.checked) {
           drawerToggle.checked = false
           showShortcutFeedback('Closed sidebar')
         }
-
-        const modals = document.querySelectorAll('.modal-open')
-        if (modals.length > 0) {
-          modals.forEach((modal) => {
-            modal.classList.remove('modal-open')
-          })
-          showShortcutFeedback('Closed modals')
-        }
+        document.querySelectorAll('.modal-open').forEach(modal => {
+          modal.classList.remove('modal-open')
+        })
       }
     }
 
     document.addEventListener('keydown', handleKeyDown, { passive: false })
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-    }
+    return () => document.removeEventListener('keydown', handleKeyDown)
   }, [navigateToPath])
+
+  const layerShortcuts = Object.fromEntries(
+    LAYER_KEYS
+      .filter(key => LAYER_CONFIG[key].enabled)
+      .map((key, i) => [String(i + 1), `${LAYER_CONFIG[key].label} Layer`])
+  )
 
   return {
     shortcuts: {
-      '1': 'Consensus Layer',
-      '2': 'Tokenomics Layer',
-      '3': 'Network Layer',
-      '4': 'Software Layer',
-      '5': 'Geography Layer',
-      '6': 'Governance Layer',
+      ...layerShortcuts,
       H: 'Home',
-      'Ctrl/Cmd + Home': 'Back to top'
+      'Ctrl/Cmd + Home': 'Back to top',
     }
   }
 }

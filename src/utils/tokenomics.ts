@@ -87,10 +87,10 @@ export type ClusteringOption = 'explorers' | 'staking' | 'multi' | 'crystal'
  * Parses the tokenomics CSV content into DataEntry[]
  */
 export function parseTokenomicsCsv(csv: string): DataEntry[] {
-  const { lines, headers } = splitCsvContent(csv)
+  const { rows, headers } = splitCsvContent(csv)
   const data: DataEntry[] = []
 
-  forEachCsvDataRow(lines, headers, {
+  forEachCsvDataRow(rows, headers, {
     onRow: (i, values) => {
       const entry: CsvParseEntry = {}
       let ledger: string | undefined

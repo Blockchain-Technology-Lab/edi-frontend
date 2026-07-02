@@ -128,16 +128,16 @@ export function filterMetricsByTauVariant(
 // --------------------------- CSV Parsing Logic ----------------------------
 
 export function parseConsensusCsv(csv: string): DataEntry[] {
-  const { lines, headers } = splitCsvContent(csv, CSV_DELIMITER)
+  const { rows, headers } = splitCsvContent(csv, CSV_DELIMITER)
   const data: DataEntry[] = []
   let skippedLines = 0
   const isProduction = process.env.NODE_ENV === 'production'
 
   // Create a unique identifier for this CSV file based on content hash
   const csvHash = csv.slice(0, 100).replace(/\W/g, '').substring(0, 20)
-  const csvId = `consensus-csv-${lines.length}-${csvHash}`
+  const csvId = `consensus-csv-${rows.length}-${csvHash}`
 
-  forEachCsvDataRow(lines, headers, {
+  forEachCsvDataRow(rows, headers, {
     delimiter: CSV_DELIMITER,
     onMalformedRow: (i, actualColumns, expectedColumns) => {
       skippedLines++

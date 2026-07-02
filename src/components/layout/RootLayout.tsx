@@ -6,7 +6,8 @@ import {
   GoogleAnalytics,
   Breadcrumb,
   LoadingBar,
-  AboveFooter
+  AboveFooter,
+  CommandPalette
 } from '@/components'
 import { useKeyboardShortcuts } from '@/hooks'
 
@@ -17,6 +18,7 @@ export function RootLayout() {
     <div className="min-h-screen flex flex-col bg-base-100">
       <GoogleAnalytics />
       <LoadingBar />
+      <CommandPalette />
 
       {/* Fixed header + nav bar */}
       <div className="fixed top-0 left-0 right-0 z-50">

@@ -5,7 +5,8 @@ import {
   MetricsCard,
   SystemSelector,
   RadioGroup,
-  DoughnutCard
+  DoughnutCard,
+  BinaryToggle
 } from '@/components'
 import {
   useGovernanceCsv,
@@ -30,29 +31,6 @@ import {
 } from '@/utils'
 import { LAYER_CONFIG } from '@/config/layers'
 
-interface GranularityToggleProps {
-  granularity: GovernanceGranularity
-  onChange: (g: GovernanceGranularity) => void
-}
-
-function GranularityToggle({ granularity, onChange }: GranularityToggleProps) {
-  return (
-    <label className="flex items-center gap-2 px-2 py-1 rounded-lg cursor-pointer border border-base-300 bg-base-300/70">
-      <span className="text-xs font-medium text-base-content/80">Yearly</span>
-      <input
-        type="checkbox"
-        checked={granularity === 'half_yearly'}
-        onChange={(e) => onChange(e.target.checked ? 'half_yearly' : 'yearly')}
-        className="sr-only peer"
-        aria-label="Toggle granularity"
-      />
-      <div className="w-10 h-5 rounded-full transition-all duration-300 peer-checked:after:translate-x-5 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-base-300 after:rounded-full after:h-4 after:w-4 after:transition-all relative bg-base-100 peer-checked:bg-base-100 [html[data-theme=dim]_&]:bg-white/40 [html[data-theme=dim]_&]:peer-checked:bg-white/70 [html[data-theme=dim]_&]:after:bg-white" />
-      <span className="text-xs font-medium text-base-content/80">
-        Half-yearly
-      </span>
-    </label>
-  )
-}
 
 const GITHUB_ROLE_ITEMS: Array<{ label: string; value: GovernanceGithubRole }> =
   [
@@ -353,9 +331,14 @@ export function Governance() {
               selectedSystems={selectedSystems}
               onSystemToggle={handleSystemToggle}
               headerControl={
-                <GranularityToggle
-                  granularity={selectedGranularity}
+                <BinaryToggle
+                  labelA="Yearly"
+                  labelB="Half-yearly"
+                  value={selectedGranularity}
+                  valueA="yearly"
+                  valueB="half_yearly"
                   onChange={setSelectedGranularity}
+                  ariaLabel="Toggle granularity"
                 />
               }
             />
