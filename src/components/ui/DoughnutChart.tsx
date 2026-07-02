@@ -44,6 +44,8 @@ export function DoughnutChart({ data, fileName }: DoughnutProps) {
     }
   }, [resolvedTheme])
 
+  const hiddenCount = Math.max(0, (data.labels?.length ?? 0) - 10)
+
   return (
     <div className="space-y-3">
       <div className="aspect-[4/3]">
@@ -58,6 +60,11 @@ export function DoughnutChart({ data, fileName }: DoughnutProps) {
           }}
         />
       </div>
+      {hiddenCount > 0 && (
+        <p className="text-xs text-center text-base-content/40">
+          +{hiddenCount} more not shown in legend
+        </p>
+      )}
       <div className="flex justify-end">
         <button
           className="inline-flex items-center gap-1.5 text-xs text-base-content/40 hover:text-base-content/70 transition-colors duration-150 px-2 py-1 rounded"

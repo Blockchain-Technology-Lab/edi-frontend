@@ -40,8 +40,8 @@ export function LayerTopCard({
                 data-tip={betaTooltip}
               >
                 <div className="inline-grid *:[grid-area:1/1] mr-1">
-                  <div className="status status-warning animate-ping" />
-                  <div className="status status-accent animate-bounce" />
+                  <div className="status status-warning animate-ping opacity-75" />
+                  <div className="status status-warning" />
                 </div>
                 {beta}
               </span>

@@ -40,18 +40,25 @@ export function BarChart({ data, loading, title, description }: BarChartProps) {
   }, [resolvedTheme])
 
   if (loading) {
+    const skeletonHeights = [65, 40, 80, 55, 70, 45, 90, 60, 35, 75]
     return (
       <div className="card border border-base-300 shadow-sm overflow-hidden bg-base-100">
         <div className="px-4 py-2.5 bg-base-200/50 border-b border-base-300">
-          <span className="text-sm font-semibold text-base-content">
-            {title}
-          </span>
+          <span className="text-sm font-semibold text-base-content">{title}</span>
         </div>
-        <div className="p-4">
-          <div
-            className="aspect-video w-full bg-base-200 animate-pulse rounded-lg"
-            aria-busy="true"
-          />
+        <div className="p-4" aria-busy="true">
+          <div className="aspect-video w-full flex items-end gap-1.5 px-2 pb-2">
+            {skeletonHeights.map((h, i) => (
+              <div
+                key={i}
+                className="flex-1 rounded-t-sm bg-base-300 animate-pulse"
+                style={{
+                  height: `${h}%`,
+                  animationDelay: `${i * 80}ms`
+                }}
+              />
+            ))}
+          </div>
         </div>
       </div>
     )
