@@ -1,7 +1,6 @@
 import { Bar } from 'react-chartjs-2'
 import {
   Chart,
-  type Chart as ChartInstance,
   type TooltipItem,
   CategoryScale,
   LinearScale,
@@ -9,13 +8,14 @@ import {
   Tooltip,
   Legend
 } from 'chart.js'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useRef } from 'react'
 import { ThemeContext } from '@/contexts'
-import { LINECHART_WATERMARK_WHITE, LINECHART_WATERMARK_BLACK, getChartThemeTokens } from '@/utils'
+import { createWatermarkPlugin, getChartThemeTokens } from '@/utils'
 import { type NetworkBarEntry, prepareBarChartData } from '@/utils'
+import { useExportChart } from '@/hooks'
 import Tippy from '@tippyjs/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faInfo } from '@fortawesome/free-solid-svg-icons'
+import { faInfo, faDownload } from '@fortawesome/free-solid-svg-icons'
 
 Chart.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend)
 
@@ -28,74 +28,14 @@ interface BarChartProps {
 
 export function BarChart({ data, loading, title, description }: BarChartProps) {
   const { theme: resolvedTheme } = useContext(ThemeContext)
+  const chartRef = useRef<HTMLCanvasElement | null>(null)
+  const exportChart = useExportChart()
 
-  // a chart-specific watermark plugin that positions on the right
   useEffect(() => {
-    const rightWatermarkPlugin = {
-      id: 'barChartRightWatermark',
-      beforeDraw: (chart: ChartInstance<'bar'>) => {
-        const ctx = chart.ctx
-        const canvas = chart.canvas
-
-        // Create and load the watermark image
-        const img = new Image()
-        img.src =
-          resolvedTheme === 'dim'
-            ? LINECHART_WATERMARK_WHITE
-            : LINECHART_WATERMARK_BLACK
-
-        // Use cached image if already loaded, otherwise load it
-        if (img.complete) {
-          drawRightWatermark(ctx, canvas, img)
-        } else {
-          img.onload = () => {
-            chart.draw() // Redraw chart when image loads
-          }
-        }
-      }
-    }
-
-    const drawRightWatermark = (
-      ctx: CanvasRenderingContext2D,
-      canvas: HTMLCanvasElement,
-      img: HTMLImageElement
-    ) => {
-      //  Add null check for canvas
-      if (!canvas) {
-        console.warn('Canvas is null, skipping watermark draw')
-        return
-      }
-
-      //  Add additional checks
-      if (!ctx || !canvas.width || !canvas.height) {
-        console.warn('Canvas or context not ready, skipping watermark draw')
-        return
-      }
-
-      // safely access canvas.width and canvas.height
-      const maxWidth = 100
-      const maxHeight = 100
-
-      // scale to maintain aspect ratio
-      const scale = Math.min(maxWidth / img.width, maxHeight / img.height)
-      const scaledWidth = img.width * scale
-      const scaledHeight = img.height * scale
-
-      // Position on the right side
-      const x = canvas.width - scaledWidth - 20 // 20px margin from right
-      const y = 10 // Position at top with 20px margin
-
-      ctx.save()
-      ctx.globalAlpha = 0.1 // Low opacity
-      ctx.drawImage(img, x, y, scaledWidth, scaledHeight)
-      ctx.restore()
-    }
-
-    // Register the plugin with higher priority to override existing watermark
-    Chart.register(rightWatermarkPlugin)
-
+    const watermarkPlugin = createWatermarkPlugin(resolvedTheme)
+    Chart.register(watermarkPlugin)
     return () => {
-      Chart.unregister(rightWatermarkPlugin)
+      Chart.unregister(watermarkPlugin)
     }
   }, [resolvedTheme])
 
@@ -160,7 +100,6 @@ export function BarChart({ data, loading, title, description }: BarChartProps) {
     plugins: {
       legend: { display: false },
       title: { display: false },
-      customCanvasBackgroundImage: false,
       tooltip: {
         backgroundColor: tooltipBg,
         titleColor: tooltipTitle,
@@ -219,9 +158,25 @@ export function BarChart({ data, loading, title, description }: BarChartProps) {
           </Tippy>
         )}
       </div>
-      <div className="p-4">
+      <div className="p-4 space-y-3">
         <div className="aspect-video">
-          <Bar data={chartData} options={options} />
+          <Bar
+            data={chartData}
+            options={options}
+            ref={(ref) => { if (ref) chartRef.current = ref.canvas }}
+          />
+        </div>
+        <div className="flex justify-end">
+          <button
+            type="button"
+            className="inline-flex items-center gap-1.5 text-xs text-base-content/40 hover:text-base-content/70 transition-colors duration-150 px-2 py-1 rounded"
+            onClick={() => exportChart(chartRef, title.toLowerCase().replace(/\s+/g, '-'))}
+            aria-label="Download chart as PNG"
+            title="Download as PNG"
+          >
+            <FontAwesomeIcon icon={faDownload} className="w-3 h-3" />
+            <span>Export PNG</span>
+          </button>
         </div>
       </div>
     </div>

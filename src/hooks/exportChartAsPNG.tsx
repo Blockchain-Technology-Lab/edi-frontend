@@ -4,6 +4,8 @@ interface ExportOptions {
   watermarkSrc?: string
   watermarkSize?: number
   watermarkOpacity?: number
+  backgroundColor?: string
+  transparent?: boolean
 }
 
 export function useExportChart() {
@@ -55,6 +57,14 @@ export function useExportChart() {
           const hdCtx = hdCanvas.getContext('2d')
 
           if (hdCtx) {
+            if (!options?.transparent) {
+              const cssBase = getComputedStyle(document.documentElement)
+                .getPropertyValue('--color-base-100')
+                .trim()
+              hdCtx.fillStyle = options?.backgroundColor ?? (cssBase || '#ffffff')
+              hdCtx.fillRect(0, 0, finalWidth, finalHeight)
+            }
+
             // Scale proportionally to avoid distortion
             hdCtx.scale(scale, scale)
 
