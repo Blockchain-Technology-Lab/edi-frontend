@@ -17,7 +17,7 @@ export const BASE_LEDGERS = {
   bitcoin: {
     ledger: 'bitcoin',
     displayName: 'Bitcoin',
-    ...c(247, 147, 26)     // Bitcoin orange
+    ...c(247, 147, 26) // Bitcoin orange
   },
   bitcoin_cash: {
     ledger: 'bitcoin_cash',
@@ -62,7 +62,7 @@ export const BASE_LEDGERS = {
   go_ethereum: {
     ledger: 'go-ethereum',
     displayName: 'Go Ethereum',
-    ...c(138, 43, 226)     // Geth purple
+    ...c(138, 43, 226) // Geth purple
   },
   bitcoin_cash_node: {
     ledger: 'bitcoin-cash-node',
@@ -315,16 +315,16 @@ export const SOFTWARE_DOUGHNUT_LEDGER_NAMES = [
 const SOFTWARE_CLIENT_DOUGHNUT_KEYS = [
   'bitcoin',
   'bitcoin_cash',
-  'dogecoin',
   'litecoin',
   'zcash',
   'ethereum_consensus',
   'ethereum_execution'
 ] as const
 
-export const SOFTWARE_CLIENT_DOUGHNUT_LEDGERS = SOFTWARE_CLIENT_DOUGHNUT_KEYS.map(
-  (key) => BASE_LEDGERS[key]
-).sort((a, b) => a.displayName.localeCompare(b.displayName))
+export const SOFTWARE_CLIENT_DOUGHNUT_LEDGERS =
+  SOFTWARE_CLIENT_DOUGHNUT_KEYS.map((key) => BASE_LEDGERS[key]).sort((a, b) =>
+    a.displayName.localeCompare(b.displayName)
+  )
 
 /**
  * Centralized Layer Mapping
