@@ -4,7 +4,7 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { IpfsOverviewContent } from '@/content'
 import { IPFS_STEPS, IPFS_TILE_TONE_CLASSES } from '@/config/ipfsTutorial'
 import { ipfsStepRoute } from '@/router'
-import { IpfsProse, IpfsTileLabel } from '@/components'
+import { IpfsExplainerVideo, IpfsProse, IpfsTileLabel } from '@/components'
 
 export function IpfsTutorial() {
   return (
@@ -25,39 +25,36 @@ export function IpfsTutorial() {
         </div>
       </div>
 
-      <video
-        controls
-        preload="metadata"
-        poster="/videos/ipfs-terminal-poster.png"
-        className="w-1/2 rounded-xl border border-base-300"
-      >
-        <source src="/videos/ipfs-terminal-explainer.mp4" type="video/mp4" />
-      </video>
+      <div className="flex flex-col sm:flex-row gap-6">
+        <div className="sm:w-1/2">
+          <IpfsExplainerVideo />
+        </div>
 
-      <div>
-        <p className="text-[10px] font-mono font-semibold text-base-content/40 uppercase tracking-[0.18em] mb-3">
-          Steps
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {IPFS_STEPS.map((step) => (
-            <Link
-              key={step.key}
-              to={ipfsStepRoute.to}
-              params={{ step: step.key }}
-              className={`group flex items-center gap-2.5 rounded-xl border bg-base-300 transition-all hover:shadow-sm px-3.5 py-2.5 ${IPFS_TILE_TONE_CLASSES.neutral}`}
-            >
-              <IpfsTileLabel
-                kicker={step.label}
-                title={step.title}
-                kickerTone="primary"
-                className="flex-1"
-              />
-              <FontAwesomeIcon
-                icon={faChevronRight}
-                className="w-3 h-3 text-base-content/30 shrink-0"
-              />
-            </Link>
-          ))}
+        <div className="sm:w-1/2">
+          <p className="text-[10px] font-mono font-semibold text-base-content/40 uppercase tracking-[0.18em] mb-3">
+            Steps
+          </p>
+          <div className="grid grid-cols-1 gap-3">
+            {IPFS_STEPS.map((step) => (
+              <Link
+                key={step.key}
+                to={ipfsStepRoute.to}
+                params={{ step: step.key }}
+                className={`group flex items-center gap-2.5 rounded-xl border bg-base-300 transition-all hover:shadow-sm px-3.5 py-2.5 ${IPFS_TILE_TONE_CLASSES.neutral}`}
+              >
+                <IpfsTileLabel
+                  kicker={step.label}
+                  title={step.title}
+                  kickerTone="primary"
+                  className="flex-1"
+                />
+                <FontAwesomeIcon
+                  icon={faChevronRight}
+                  className="w-3 h-3 text-base-content/30 shrink-0"
+                />
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </div>

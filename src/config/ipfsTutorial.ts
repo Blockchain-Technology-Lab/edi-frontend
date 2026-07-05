@@ -70,3 +70,13 @@ export const IPFS_OPTION_TILE_BASE_CLASSES =
 
 export const IPFS_SKIP_CALLOUT_CLASSES =
   'flex items-center gap-2.5 rounded-lg border border-primary/30 bg-primary/10 px-3.5 py-2.5 text-sm text-primary w-1/2'
+
+// Explainer video: self-hosted by default. If/when this gets uploaded to
+// YouTube, paste the video ID here (the part after "watch?v=") and the
+// page will switch to embedding it instead — no other code changes needed.
+export const IPFS_EXPLAINER_YOUTUBE_ID = ''
+
+export const IPFS_EXPLAINER_VIDEO_LOCAL = {
+  src: '/videos/ipfs-terminal-explainer.mp4',
+  poster: '/videos/ipfs-terminal-poster.png'
+}

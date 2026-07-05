@@ -1,3 +1,5 @@
+import { basePath } from '@/utils/paths'
+
 Before you start, gather everything you want to share into a single folder, for example:
 
 ```
@@ -12,7 +14,7 @@ That's it — any structure is fine, as long as it's all in one folder.
 
 We also recommend including a `metadata.json` file describing the dataset. You can start from our template:
 
-<a href="/downloads/ipfs/metadata.template.json" download className="link link-primary font-medium">
+<a href={basePath + "/downloads/ipfs/metadata.template.json"} download className="link link-primary font-medium">
   Download metadata.template.json
 </a>
 
