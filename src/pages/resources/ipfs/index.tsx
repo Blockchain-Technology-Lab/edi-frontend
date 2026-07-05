@@ -25,6 +25,15 @@ export function IpfsTutorial() {
         </div>
       </div>
 
+      <video
+        controls
+        preload="metadata"
+        poster="/videos/ipfs-terminal-poster.png"
+        className="w-1/2 rounded-xl border border-base-300"
+      >
+        <source src="/videos/ipfs-terminal-explainer.mp4" type="video/mp4" />
+      </video>
+
       <div>
         <p className="text-[10px] font-mono font-semibold text-base-content/40 uppercase tracking-[0.18em] mb-3">
           Steps
