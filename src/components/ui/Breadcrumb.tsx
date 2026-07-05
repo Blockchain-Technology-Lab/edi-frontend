@@ -74,6 +74,19 @@ export function Breadcrumb() {
       if (segment === 'infographics') {
         return 'Infographics'
       }
+      if (segment === 'resources') {
+        return 'Resources'
+      }
+      if (segment === 'ipfs') {
+        return 'IPFS'
+      }
+      if (segment === 'faq') {
+        return 'FAQ'
+      }
+      const stepMatch = segment.match(/^step-(\d+)$/)
+      if (stepMatch) {
+        return `Step ${stepMatch[1]}`
+      }
 
       // Layer detection - if it's a known layer, add "Layer"
       const knownLayers = [
@@ -107,7 +120,9 @@ export function Breadcrumb() {
       '/software',
       '/geography',
       '/governance',
-      '/infographics'
+      '/infographics',
+      '/resources',
+      '/resources/ipfs'
     ]
 
     // Check if it's a main layer page

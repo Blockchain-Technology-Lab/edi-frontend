@@ -69,6 +69,24 @@ const Changelog = lazy(() =>
   }))
 )
 
+const Resources = lazy(() =>
+  import('@/pages/resources').then((mod) => ({
+    default: mod.Resources
+  }))
+)
+
+const IpfsTutorial = lazy(() =>
+  import('@/pages/resources/ipfs').then((mod) => ({
+    default: mod.IpfsTutorial
+  }))
+)
+
+const IpfsTutorialStep = lazy(() =>
+  import('@/pages/resources/ipfs/step').then((mod) => ({
+    default: mod.IpfsTutorialStep
+  }))
+)
+
 const Infographics = lazy(() =>
   import('@/pages/infographics').then((mod) => ({
     default: mod.Infographics
@@ -211,6 +229,24 @@ export const changelogRoute = createRoute({
   component: Changelog
 })
 
+export const resourcesRoute = createRoute({
+  path: withBase('/resources'),
+  getParentRoute: () => rootRoute,
+  component: Resources
+})
+
+export const ipfsRoute = createRoute({
+  path: withBase('/resources/ipfs'),
+  getParentRoute: () => rootRoute,
+  component: IpfsTutorial
+})
+
+export const ipfsStepRoute = createRoute({
+  path: `${basePath}/resources/ipfs/$step`,
+  getParentRoute: () => rootRoute,
+  component: IpfsTutorialStep
+})
+
 export const infographicsRoute = createRoute({
   path: withBase('/infographics'),
   getParentRoute: () => rootRoute,
@@ -229,6 +265,9 @@ export const routeTree = rootRoute.addChildren([
   accessibilityRoute,
   changelogRoute,
   infographicsRoute,
+  resourcesRoute,
+  ipfsRoute,
+  ipfsStepRoute,
   methodologyRoute.addChildren([
     consensusMethodologyRoute,
     tokenomicsMethodologyRoute,

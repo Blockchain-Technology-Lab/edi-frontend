@@ -1,0 +1,21 @@
+Once uploaded, our team needs to be able to reach your computer over the network to retrieve the data. Since you're already running a full node, this should already be the case — just make sure your machine and IPFS stay running (don't close the terminal or the app) until we confirm we've successfully retrieved the dataset.
+
+You can verify your data is pinned at any time:
+
+```
+ipfs pin ls --type recursive
+```
+
+**Behind a firewall, VPN, or corporate/university network?**
+
+IPFS needs an open connection (by default, port `4001`) so other nodes — including ours — can reach yours directly. Home routers are usually fine, but office networks, VPNs, and hotel/campus wifi often block this.
+
+Run this to check whether your node has any publicly reachable addresses:
+
+```
+ipfs id
+```
+
+Look at the `"Addresses"` list in the output. If you only see local addresses (starting with `/ip4/127.0.0.1` or `/ip4/192.168.` / `/ip4/10.`), your node likely isn't reachable from outside your network.
+
+**If you're not sure, or think you might be blocked, don't worry about fixing it yourself** — just mention it when you email us (see the next step) and we'll work out an alternative with you, such as a pinning service or a direct upload.

@@ -46,7 +46,9 @@ export * from './RadioGroup'
 // shared bundle if even one of those modules stays barrel-reachable.
 // Geography imports them directly from their file paths instead.
 export * from './MethodologyCard'
-export * from './MethodologyHelpers'
-export * from './cardAccents'
+export * from './IpfsStepCard'
+export * from './IpfsTileLabel'
+export * from './IpfsProse'
+export * from './CodeBlock'
 export * from './GovernanceLifecycleDiagram'
 export * from './CommandPalette'

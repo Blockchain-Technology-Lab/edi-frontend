@@ -1,0 +1,160 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faForward } from '@fortawesome/free-solid-svg-icons'
+import { AppLink, IpfsTileLabel } from '@/components'
+import { IPFS_TILE_TONE_CLASSES, IPFS_OPTION_TILE_BASE_CLASSES, IPFS_SKIP_CALLOUT_CLASSES } from '@/config/ipfsTutorial'
+
+There are three ways to upload your dataset. Pick whichever fits you best — they all end with the same result: a CID to send us.
+
+<div className="space-y-2">
+  <p className="text-xs font-semibold text-base-content/70 uppercase tracking-[0.12em]">
+    Which option should I pick?
+  </p>
+  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+    <a
+      href="#option-a"
+      className={`${IPFS_OPTION_TILE_BASE_CLASSES} ${IPFS_TILE_TONE_CLASSES.neutral}`}
+    >
+      <IpfsTileLabel
+        kicker="Option A"
+        title="Run our setup script"
+        description="Fastest, macOS/Linux, don't want to type commands yourself"
+        kickerTone="primary"
+      />
+    </a>
+    <a
+      href="#option-b"
+      className={`${IPFS_OPTION_TILE_BASE_CLASSES} ${IPFS_TILE_TONE_CLASSES.neutral}`}
+    >
+      <IpfsTileLabel
+        kicker="Option B"
+        title="Do it manually"
+        description="Comfortable with a terminal, want full control over each step"
+        kickerTone="primary"
+      />
+    </a>
+    <a
+      href="#option-c"
+      className={`${IPFS_OPTION_TILE_BASE_CLASSES} ${IPFS_TILE_TONE_CLASSES.neutral}`}
+    >
+      <IpfsTileLabel
+        kicker="Option C"
+        title="IPFS Desktop (GUI)"
+        description="Windows, or you'd rather use a visual app than a terminal"
+        kickerTone="primary"
+      />
+    </a>
+  </div>
+</div>
+
+<h2 id="option-a" className="scroll-mt-32">
+  Option A: Run our setup script (recommended)
+</h2>
+
+If you're on **macOS or Linux**, download the script and run it in a terminal:
+
+<div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+  <a
+    href="/downloads/ipfs/setup.sh"
+    download
+    className="link link-primary font-medium"
+  >
+    Download setup.sh
+  </a>
+  <AppLink href="/downloads/ipfs/setup.sh" className="text-xs">
+    View source before running it
+  </AppLink>
+</div>
+
+```
+bash setup.sh
+```
+
+Follow the prompts. That's it — you don't need to read any further unless you're curious what it's doing. You can safely run the script again at any time — it won't redo steps that are already done.
+
+Prefer to verify the download hasn't been tampered with? Check its SHA256 checksum matches:
+
+```
+bf0bc8380076760c09e8643d08271018fec98ff99bf14eecb0ec78f86cbda85f
+```
+
+**What it does, step by step (optional reading):**
+
+1. Installs IPFS, if it isn't already on your machine (no admin password needed — it installs just for your user account).
+2. Runs `ipfs init` — sets up a local IPFS node/identity for your computer, if one doesn't already exist.
+3. Starts `ipfs daemon` in the background — this is the process that lets other computers (including ours) fetch data from you.
+4. Asks for the path to your dataset folder — e.g. `/Users/you/Documents/my-dataset`.
+5. Asks a few short questions about the dataset (project name, network, dataset version, etc.) and saves them into a `metadata.json` file inside your dataset folder, unless you already placed one there yourself.
+6. Runs `ipfs add -r` on your dataset folder. This is the command that actually uploads/hashes your data and produces the CID:
+   ```
+   $ ipfs add -r my-dataset/
+   added QmX1a2B3c4... my-dataset/README.md
+   added QmY5d6E7f8... my-dataset/blocks/block1.dat
+   added QmZ9g0H1i2... my-dataset/metadata.json
+   added bafybeigdyrctSD3... my-dataset
+   ```
+   The **last line** is your dataset's root CID — that's the one that identifies your whole folder.
+7. Measures the dataset size and, if you say yes, computes an optional SHA256 checksum.
+8. Prints a ready-to-send email for you to copy and paste, already filled in with your CID, size, and dataset details.
+
+<h2 id="option-b" className="scroll-mt-32">
+  Option B: Do it manually yourself
+</h2>
+
+If you'd rather type each command yourself instead of running the script, here's exactly what `setup.sh` does, so you can do the same thing by hand.
+
+<div className={IPFS_SKIP_CALLOUT_CLASSES}>
+  <FontAwesomeIcon icon={faForward} className="w-3.5 h-3.5 shrink-0" />
+  <span>Already have <code>ipfs</code> installed? Skip to step 2.</span>
+</div>
+
+1. **Install IPFS (Kubo).** Follow the <AppLink href="https://docs.ipfs.tech/install/">official install guide</AppLink>.
+2. **Set up your local node** (only needed once):
+   ```
+   ipfs init
+   ```
+3. **Start the daemon**, and leave this terminal window open/running:
+   ```
+   ipfs daemon
+   ```
+4. **In a new terminal window**, create a `metadata.json` file inside your dataset folder using the template from Step 1, filling in the six fields.
+5. **Upload your dataset:**
+   ```
+   ipfs add -r my-dataset/
+   ```
+   Copy the **last** CID printed (that's the one for the whole folder, not an individual file).
+6. **Confirm it's pinned** (it should be, by default):
+   ```
+   ipfs pin ls --type recursive
+   ```
+7. **Check the dataset size:**
+   ```
+   du -sh my-dataset/
+   ```
+8. **(Optional) Compute a SHA256 checksum** of the whole folder — not required, since the CID already verifies your data, but included here in case your organization wants one on file:
+
+   ```
+   # macOS
+   find my-dataset/ -type f -exec shasum -a 256 {} \; | sort -k 2 | shasum -a 256
+
+   # Linux
+   find my-dataset/ -type f -exec sha256sum {} \; | sort -k 2 | sha256sum
+   ```
+
+9. **Assemble the email** yourself using the format in Step 4, filling in the CID, size, and the fields from your `metadata.json`.
+
+<h2 id="option-c" className="scroll-mt-32">
+  Option C: IPFS Desktop (GUI)
+</h2>
+
+Best if you're on Windows, or would simply rather use a visual app:
+
+<div className={IPFS_SKIP_CALLOUT_CLASSES}>
+  <FontAwesomeIcon icon={faForward} className="w-3.5 h-3.5 shrink-0" />
+  <span>Already have IPFS Desktop installed? Skip to step 2.</span>
+</div>
+
+1. Install it from the <AppLink href="https://docs.ipfs.tech/install/ipfs-desktop/">official guide</AppLink>.
+2. Open the app.
+3. Drag your dataset folder into the IPFS Desktop window.
+4. Wait for the upload to finish.
+5. Copy the CID it gives you.

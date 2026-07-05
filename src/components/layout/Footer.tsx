@@ -1,6 +1,14 @@
-import { accessibilityRoute, changelogRoute, infographicsRoute } from '@/router'
+import {
+  accessibilityRoute,
+  changelogRoute,
+  infographicsRoute,
+  ipfsRoute
+} from '@/router'
 import { Link } from '@tanstack/react-router'
-import { faArrowUpRightFromSquare, faArrowUp } from '@fortawesome/free-solid-svg-icons'
+import {
+  faArrowUpRightFromSquare,
+  faArrowUp
+} from '@fortawesome/free-solid-svg-icons'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { ShortcutsHelp } from '@/components'
 import { INFORMATICS_LOGO } from '@/utils/paths'
@@ -23,7 +31,6 @@ export function Footer() {
 
   return (
     <footer className="footer sm:footer-horizontal bg-base-200 text-base-content px-4 pt-3 pb-4 sm:p-4 relative gap-y-5">
-
       {/* Action buttons — always pinned top-right so they never consume a row */}
       <div className="absolute right-4 top-3 flex items-center gap-2 z-10">
         <ShortcutsHelp />
@@ -59,6 +66,7 @@ export function Footer() {
             className="h-6 sm:h-7 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
           />
         </a>
+        <div className="text-[10px] opacity-60">{buildDate}</div>
       </aside>
 
       {/*
@@ -68,11 +76,13 @@ export function Footer() {
                footer children and DaisyUI's horizontal layout handles them
       */}
       <div className="grid grid-cols-3 gap-x-4 sm:contents">
-
         <nav className="text-sm flex flex-col gap-2">
           <h6 className="footer-title">Project</h6>
           <Link to={changelogRoute.to} className="link link-hover">
             Changelog
+          </Link>
+          <Link to={ipfsRoute.to} className="link link-hover">
+            Share Your Data
           </Link>
           <a
             className="link link-hover flex items-center gap-1"
@@ -82,9 +92,11 @@ export function Footer() {
           >
             <FontAwesomeIcon icon={faGithub} size="lg" />
             GitHub
-            <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="w-2.5 h-2.5" />
+            <FontAwesomeIcon
+              icon={faArrowUpRightFromSquare}
+              className="w-2.5 h-2.5"
+            />
           </a>
-          <div className="text-[10px] opacity-60">{buildDate}</div>
         </nav>
 
         <nav className="text-sm flex flex-col gap-2">
@@ -96,7 +108,10 @@ export function Footer() {
             rel="noopener noreferrer"
           >
             About us
-            <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="w-2.5 h-2.5" />
+            <FontAwesomeIcon
+              icon={faArrowUpRightFromSquare}
+              className="w-2.5 h-2.5"
+            />
           </a>
           <a className="link link-hover" href="mailto:edi@ed.ac.uk">
             Contact
@@ -115,13 +130,15 @@ export function Footer() {
             rel="noopener noreferrer"
           >
             Privacy
-            <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="w-2.5 h-2.5" />
+            <FontAwesomeIcon
+              icon={faArrowUpRightFromSquare}
+              className="w-2.5 h-2.5"
+            />
           </a>
           <Link to={accessibilityRoute.to} className="link link-hover">
             Accessibility
           </Link>
         </nav>
-
       </div>
     </footer>
   )
