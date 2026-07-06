@@ -69,10 +69,7 @@ export function Tokenomics() {
   }, [data])
 
   const { selectedSystems, handleSelectionChange, handleSystemToggle } =
-    usePersistedSystemSelection(
-      SYSTEMS_STORAGE_KEY,
-      DEFAULT_TOKENOMICS_SYSTEMS
-    )
+    usePersistedSystemSelection(SYSTEMS_STORAGE_KEY, DEFAULT_TOKENOMICS_SYSTEMS)
 
   const filteredData = useMemo(
     () =>
@@ -107,7 +104,7 @@ export function Tokenomics() {
 
       <div className="card border border-base-300 shadow-sm bg-base-100 overflow-hidden">
         <div className="px-4 py-2.5 bg-base-200/50 border-b border-base-300">
-          <h3 className="text-sm font-semibold text-base-content">Data settings</h3>
+          <h3 className="text-sm font-semibold text-base-content">Options</h3>
         </div>
         <div className="p-4 sm:p-5">
           <div className="flex flex-col sm:flex-row gap-0">

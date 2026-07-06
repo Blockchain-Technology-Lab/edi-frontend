@@ -45,7 +45,7 @@ export function DoughnutChart({ data, fileName }: DoughnutProps) {
 
   return (
     <div className="space-y-3">
-      <div className="aspect-[4/3]">
+      <div className="aspect-4/3">
         <Doughnut
           data={data}
           options={options}
@@ -73,7 +73,8 @@ export function DoughnutChart({ data, fileName }: DoughnutProps) {
 }
 
 function getDoughnutChartOptions(theme: string): ChartOptions<'doughnut'> {
-  const { tickColor, tooltipBg, tooltipTitle, tooltipBody, tooltipBorder } = getChartThemeTokens(theme)
+  const { tickColor, tooltipBg, tooltipTitle, tooltipBody, tooltipBorder } =
+    getChartThemeTokens(theme)
 
   return {
     responsive: true,
@@ -81,7 +82,8 @@ function getDoughnutChartOptions(theme: string): ChartOptions<'doughnut'> {
     animation: {
       duration: 1000,
       easing: 'easeInOutQuad',
-      delay: (context) => context.dataIndex !== undefined ? context.dataIndex * 10 : 0
+      delay: (context) =>
+        context.dataIndex !== undefined ? context.dataIndex * 10 : 0
     },
     plugins: {
       tooltip: {
@@ -98,8 +100,12 @@ function getDoughnutChartOptions(theme: string): ChartOptions<'doughnut'> {
         bodyFont: { family: CHART_FONT, size: 11 },
         callbacks: {
           label: (tooltipItem) => {
-            const commits = tooltipItem.raw as number
-            return `${tooltipItem.label}: ${commits.toLocaleString()}`
+            const value = tooltipItem.raw as number
+            const data = tooltipItem.dataset.data as number[]
+            const total = data.reduce((sum, v) => sum + v, 0)
+            const pct =
+              total > 0 ? ` (${((value / total) * 100).toFixed(1)}%)` : ''
+            return `${value.toLocaleString()}${pct}`
           }
         }
       },
