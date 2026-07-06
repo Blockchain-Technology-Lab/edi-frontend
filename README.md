@@ -53,6 +53,7 @@ Notes:
 
 - Vite dev server defaults to http://localhost:5173 unless configured otherwise.
 - This repository's default build output is configured in vite.config.ts (currently upload/demo).
+- `npm run lint` now also validates MDX JSX spacing patterns (e.g., disallowing `</Tag>{' '}`).
 
 ## Build and deployment helpers
 
