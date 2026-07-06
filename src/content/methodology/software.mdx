@@ -24,10 +24,16 @@ Users can choose which options will be taken into account when generating the gr
           each commit is counted as a single contribution.
         </li>
         <li>
-          <span className="font-medium text-base-content/90">Merge commits</span> — only merge commits are counted as contributions.
+          <span className="font-medium text-base-content/90">
+            Merge commits
+          </span>{' '}
+          — only merge commits are counted as contributions.
         </li>
         <li>
-          <span className="font-medium text-base-content/90">Lines changed</span> — each line of code changed (added or removed) counts as a
+          <span className="font-medium text-base-content/90">
+            Lines changed
+          </span>{' '}
+          — each line of code changed (added or removed) counts as a
           contribution; all commits are counted but each is weighted by the
           number of updated lines.
         </li>
@@ -73,7 +79,7 @@ Users can choose which options will be taken into account when generating the gr
   </div>
 </div>
 
-In the 'Client Distribution' part, decentralisation is also evaluated by looking at the distribution of the blockchain clients themselves. With the exception of Cardano, the blockchain data that is needed to determine these distributions are collected using crawlers running on each network. The results are based only on data we have collected and do not include extensive historical data.
+In the 'Client Distribution' part, decentralisation is also evaluated by looking at the distribution of the blockchain clients themselves. With the exception of Cardano, the blockchain data that is needed to determine these distributions are collected using crawlers running on each network.
 For the Bitcoin, Bitcoin Cash, Litecoin and Zcash networks, the crawler we use is based on the <AppLink href="https://github.com/ayeowch/bitnodes">Bitnodes</AppLink> project.
 In Ethereum's case, the network architecture consists of two distinct layers: execution and consensus. The dashboard reflects this architectural separation. The crawler used is <AppLink href="https://github.com/cskiraly/fast-ethereum-crawler">fast-ethereum-crawler</AppLink>.
 
