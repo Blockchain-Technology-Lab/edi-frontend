@@ -24,8 +24,18 @@ export function IpfsTileLabel({
   className = ''
 }: IpfsTileLabelProps) {
   const resolvedKickerTone = kickerTone ?? tone
-  const kickerColor = resolvedKickerTone === 'primary' ? 'text-primary/70' : 'text-base-content/40'
-  const titleTone = tone === 'primary' ? 'text-primary' : 'text-base-content'
+  const kickerColorByTone: Record<IpfsTileTone, string> = {
+    neutral: 'text-base-content/40',
+    primary: 'text-primary/70',
+    info: 'text-info'
+  }
+  const titleToneByTone: Record<IpfsTileTone, string> = {
+    neutral: 'text-base-content',
+    primary: 'text-primary',
+    info: 'text-info'
+  }
+  const kickerColor = kickerColorByTone[resolvedKickerTone]
+  const titleTone = titleToneByTone[tone]
 
   return (
     <span

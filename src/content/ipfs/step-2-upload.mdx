@@ -1,25 +1,32 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faForward } from '@fortawesome/free-solid-svg-icons'
 import { AppLink, IpfsTileLabel } from '@/components'
-import { IPFS_TILE_TONE_CLASSES, IPFS_OPTION_TILE_BASE_CLASSES, IPFS_SKIP_CALLOUT_CLASSES } from '@/config/ipfsTutorial'
+import {
+  IPFS_TILE_TONE_CLASSES,
+  IPFS_OPTION_TILE_BASE_CLASSES,
+  IPFS_SKIP_CALLOUT_CLASSES,
+  IPFS_HIGHLIGHT_CARD_CLASSES,
+  IPFS_HIGHLIGHT_HEADER_CLASSES,
+  IPFS_HIGHLIGHT_TEXT_CLASSES
+} from '@/config/ipfsTutorial'
 import { basePath } from '@/utils/paths'
 
-There are three ways to upload your dataset. Pick whichever fits you best — they all end with the same result: a CID to send us.
+There are four ways to upload your dataset. Pick whichever fits you best — they all end with the same result: a CID to send us.
 
 <div className="space-y-2">
-  <p className="text-xs font-semibold text-base-content/70 uppercase tracking-[0.12em]">
+  <span className="block text-xs font-semibold text-base-content/70 uppercase tracking-[0.12em]">
     Which option should I pick?
-  </p>
-  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+  </span>
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
     <a
       href="#option-a"
-      className={`${IPFS_OPTION_TILE_BASE_CLASSES} ${IPFS_TILE_TONE_CLASSES.neutral}`}
+      className={`${IPFS_OPTION_TILE_BASE_CLASSES} ${IPFS_TILE_TONE_CLASSES.info}`}
     >
       <IpfsTileLabel
-        kicker="Option A"
-        title="Run our setup script"
-        description="Fastest, macOS/Linux, don't want to type commands yourself"
-        kickerTone="primary"
+        kicker="Option A · Suggested"
+        title="Use a pinning service"
+        description="Don't want to keep your own computer running until we fetch the data"
+        tone="info"
       />
     </a>
     <a
@@ -28,8 +35,8 @@ There are three ways to upload your dataset. Pick whichever fits you best — th
     >
       <IpfsTileLabel
         kicker="Option B"
-        title="Do it manually"
-        description="Comfortable with a terminal, want full control over each step"
+        title="Run our setup script"
+        description="Fastest, macOS/Linux, don't want to type commands yourself"
         kickerTone="primary"
       />
     </a>
@@ -39,6 +46,17 @@ There are three ways to upload your dataset. Pick whichever fits you best — th
     >
       <IpfsTileLabel
         kicker="Option C"
+        title="Do it manually"
+        description="Comfortable with a terminal, want full control over each step"
+        kickerTone="primary"
+      />
+    </a>
+    <a
+      href="#option-d"
+      className={`${IPFS_OPTION_TILE_BASE_CLASSES} ${IPFS_TILE_TONE_CLASSES.neutral}`}
+    >
+      <IpfsTileLabel
+        kicker="Option D"
         title="IPFS Desktop (GUI)"
         description="Windows, or you'd rather use a visual app than a terminal"
         kickerTone="primary"
@@ -47,21 +65,62 @@ There are three ways to upload your dataset. Pick whichever fits you best — th
   </div>
 </div>
 
-<h2 id="option-a" className="scroll-mt-32">
-  Option A: Run our setup script (recommended)
-</h2>
+<div className="columns-1 lg:columns-2 gap-4">
+
+<div id="option-a" className={`card ${IPFS_HIGHLIGHT_CARD_CLASSES} overflow-hidden bg-base-100 scroll-mt-32 break-inside-avoid mb-4`}>
+  <div className={`px-5 py-4 ${IPFS_HIGHLIGHT_HEADER_CLASSES}`}>
+    <span className={`block text-[10px] font-mono font-semibold uppercase tracking-[0.18em] mb-1 ${IPFS_HIGHLIGHT_TEXT_CLASSES}`}>
+      Option A · Suggested
+    </span>
+    <h2 className={`text-lg sm:text-xl font-serif font-bold leading-tight m-0 ${IPFS_HIGHLIGHT_TEXT_CLASSES}`}>
+      Use a pinning service
+    </h2>
+  </div>
+  <div className="px-5 py-5 space-y-3">
+
+With Options B-D, **your own computer** is what our team connects to — that's why it needs to stay on until we confirm we've fetched the data. A pinning service uploads your dataset to a third-party host instead, so once the upload finishes, your computer can go back to normal use.
+
+Best if you're not able to keep your machine running for a while, or you're on a network that blocks incoming connections (see Step 3) and don't want to troubleshoot that.
+
+<div className={`${IPFS_SKIP_CALLOUT_CLASSES} w-full`}>
+  <FontAwesomeIcon icon={faForward} className="w-3.5 h-3.5 shrink-0" />
+  <span>
+    This uploads your data to a third party's servers rather than hosting it
+    yourself — fine for most datasets, but check your organization's
+    data-sharing policy first if the contents are sensitive.
+  </span>
+</div>
+
+1. Sign up for a free account with a pinning service, e.g. <AppLink href="https://www.pinata.cloud/">Pinata</AppLink> or <AppLink href="https://web3.storage/">web3.storage</AppLink>.
+2. Upload your dataset folder through their web dashboard (no command line needed).
+3. Once the upload finishes, copy the CID the service gives you — it works exactly the same as a CID from Options B–D.
+4. That's it — no need to keep anything running afterwards; the pinning service keeps your data available to us.
+
+  </div>
+</div>
+
+<div id="option-b" className="card border border-base-300 shadow-sm overflow-hidden bg-base-100 scroll-mt-32 break-inside-avoid mb-4">
+  <div className="px-5 py-4 border-b border-base-300 bg-base-200/50">
+    <span className="block text-[10px] font-mono font-semibold text-base-content/40 uppercase tracking-[0.18em] mb-1">
+      Option B · Recommended
+    </span>
+    <h2 className="text-lg sm:text-xl font-serif font-bold text-base-content leading-tight m-0">
+      Run our setup script
+    </h2>
+  </div>
+  <div className="px-5 py-5 space-y-3">
 
 If you're on **macOS or Linux**, download the script and run it in a terminal:
 
 <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
   <a
-    href={basePath + "/downloads/ipfs/setup.sh"}
+    href={basePath + '/downloads/ipfs/setup.sh'}
     download
     className="link link-primary font-medium"
   >
     Download setup.sh
   </a>
-  <AppLink href={basePath + "/downloads/ipfs/setup.sh"} className="text-xs">
+  <AppLink href={basePath + '/downloads/ipfs/setup.sh'} className="text-xs">
     View source before running it
   </AppLink>
 </div>
@@ -97,15 +156,27 @@ bf0bc8380076760c09e8643d08271018fec98ff99bf14eecb0ec78f86cbda85f
 7. Measures the dataset size and, if you say yes, computes an optional SHA256 checksum.
 8. Prints a ready-to-send email for you to copy and paste, already filled in with your CID, size, and dataset details.
 
-<h2 id="option-b" className="scroll-mt-32">
-  Option B: Do it manually yourself
-</h2>
+  </div>
+</div>
+
+<div id="option-c" className="card border border-base-300 shadow-sm overflow-hidden bg-base-100 scroll-mt-32 break-inside-avoid mb-4">
+  <div className="px-5 py-4 border-b border-base-300 bg-base-200/50">
+    <span className="block text-[10px] font-mono font-semibold text-base-content/40 uppercase tracking-[0.18em] mb-1">
+      Option C
+    </span>
+    <h2 className="text-lg sm:text-xl font-serif font-bold text-base-content leading-tight m-0">
+      Do it manually yourself
+    </h2>
+  </div>
+  <div className="px-5 py-5 space-y-3">
 
 If you'd rather type each command yourself instead of running the script, here's exactly what `setup.sh` does, so you can do the same thing by hand.
 
 <div className={IPFS_SKIP_CALLOUT_CLASSES}>
   <FontAwesomeIcon icon={faForward} className="w-3.5 h-3.5 shrink-0" />
-  <span>Already have <code>ipfs</code> installed? Skip to step 2.</span>
+  <span>
+    Already have <code>ipfs</code> installed? Skip to step 2.
+  </span>
 </div>
 
 1. **Install IPFS (Kubo).** Follow the <AppLink href="https://docs.ipfs.tech/install/">official install guide</AppLink>.
@@ -143,9 +214,19 @@ If you'd rather type each command yourself instead of running the script, here's
 
 9. **Assemble the email** yourself using the format in Step 4, filling in the CID, size, and the fields from your `metadata.json`.
 
-<h2 id="option-c" className="scroll-mt-32">
-  Option C: IPFS Desktop (GUI)
-</h2>
+  </div>
+</div>
+
+<div id="option-d" className="card border border-base-300 shadow-sm overflow-hidden bg-base-100 scroll-mt-32 break-inside-avoid mb-4">
+  <div className="px-5 py-4 border-b border-base-300 bg-base-200/50">
+    <span className="block text-[10px] font-mono font-semibold text-base-content/40 uppercase tracking-[0.18em] mb-1">
+      Option D
+    </span>
+    <h2 className="text-lg sm:text-xl font-serif font-bold text-base-content leading-tight m-0">
+      IPFS Desktop (GUI)
+    </h2>
+  </div>
+  <div className="px-5 py-5 space-y-3">
 
 Best if you're on Windows, or would simply rather use a visual app:
 
@@ -159,3 +240,8 @@ Best if you're on Windows, or would simply rather use a visual app:
 3. Drag your dataset folder into the IPFS Desktop window.
 4. Wait for the upload to finish.
 5. Copy the CID it gives you.
+
+  </div>
+</div>
+
+</div>
