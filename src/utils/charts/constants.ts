@@ -318,7 +318,8 @@ const SOFTWARE_CLIENT_DOUGHNUT_KEYS = [
   'litecoin',
   'zcash',
   'ethereum_consensus',
-  'ethereum_execution'
+  'ethereum_execution',
+  'cardano'
 ] as const
 
 export const SOFTWARE_CLIENT_DOUGHNUT_LEDGERS =
