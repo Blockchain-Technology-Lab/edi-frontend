@@ -95,12 +95,12 @@ export const BASE_LEDGERS = {
     ...c(157, 102, 89)
   },
   ethereum_consensus: {
-    ledger: 'ethereum_consensus',
+    ledger: 'consensus',
     displayName: 'Ethereum (Consensus)',
     ...c(138, 43, 226)
   },
   ethereum_execution: {
-    ledger: 'ethereum_execution',
+    ledger: 'execution',
     displayName: 'Ethereum (Execution)',
     ...c(207, 159, 255)
   }
