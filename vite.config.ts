@@ -26,10 +26,10 @@ export default defineConfig({
     outDir: 'upload/demo',
     rollupOptions: {
       output: {
-        manualChunks: {
-          react: ['react', 'react-dom'],
-          chartjs: ['chart.js'],
-          router: ['@tanstack/react-router']
+        manualChunks(id) {
+          if (id.includes('/node_modules/react/') || id.includes('/node_modules/react-dom/')) return 'react'
+          if (id.includes('/node_modules/chart.js/')) return 'chartjs'
+          if (id.includes('/node_modules/@tanstack/react-router/')) return 'router'
         }
       }
     }
