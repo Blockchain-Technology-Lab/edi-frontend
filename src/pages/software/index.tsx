@@ -345,6 +345,7 @@ export function Software() {
             key={ledger.ledger}
             path={getSoftwareClientDoughnutCsvFileName(ledger.ledger)}
             fileName={ledger.ledger}
+            othersThreshold={10}
           />
         ))}
       </div>
