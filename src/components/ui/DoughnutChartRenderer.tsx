@@ -10,15 +10,17 @@ type DoughnutChartRendererProps = {
   type: LayerType
   path: string
   fileName: string
+  othersThreshold?: number
 }
 
 export function DoughnutChartRenderer({
   type,
   path,
-  fileName
+  fileName,
+  othersThreshold
 }: DoughnutChartRendererProps) {
   // Always call both hooks (to follow React Hook rules)
-  const softwareResult = useDoughnutCsvLoader(path)
+  const softwareResult = useDoughnutCsvLoader(path, othersThreshold)
 
   const isGeography = type === LAYER_NAMES.GEOGRAPHY
 

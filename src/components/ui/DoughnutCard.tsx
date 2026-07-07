@@ -13,6 +13,7 @@ interface DoughnutCardProps {
   githubUrl?: string
   description?: string
   showInfo?: boolean
+  othersThreshold?: number
 }
 
 export function DoughnutCard({
@@ -22,7 +23,8 @@ export function DoughnutCard({
   fileName,
   githubUrl,
   description,
-  showInfo = false
+  showInfo = false,
+  othersThreshold
 }: DoughnutCardProps) {
   return (
     <div className="card border border-base-300 shadow-sm overflow-hidden bg-base-100" key={title}>
@@ -62,7 +64,13 @@ export function DoughnutCard({
       {/* Chart */}
       <div className="p-4">
         {path ? (
-          <DoughnutChartRenderer type={type} key={title} path={path} fileName={fileName} />
+          <DoughnutChartRenderer
+            type={type}
+            key={title}
+            path={path}
+            fileName={fileName}
+            othersThreshold={othersThreshold}
+          />
         ) : (
           <div className="alert alert-warning">
             <span>Chart data not available for {title}</span>

@@ -224,6 +224,18 @@ const SOFTWARE_REPO_CONFIG: SoftwareRepoConfig[] = [
   { fileName: 'zcash_commits_per_entity.csv', displayName: 'ZCash' }
 ] as const
 
+// 'consensus' and 'execution' are the ledger IDs used in network data, but the
+// client CSV files use the longer 'ethereum_*' names as advised.
+const CLIENT_FILE_NAME_OVERRIDES: Record<string, string> = {
+  consensus: 'ethereum_consensus',
+  execution: 'ethereum_execution',
+}
+
+export function getSoftwareClientDoughnutCsvFileName(ledger: string): string {
+  const fileName = CLIENT_FILE_NAME_OVERRIDES[ledger] ?? ledger
+  return `${SOFTWARE_DOUGHNUT_CSV}clients/${fileName}.csv`
+}
+
 export function getSoftwareDoughnutCsvFileNames(
   weight: string,
   entity: string

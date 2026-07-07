@@ -5,8 +5,7 @@ import {
   Tooltip,
   Legend,
   type ChartOptions,
-  type ChartData,
-  type LegendItem
+  type ChartData
 } from 'chart.js'
 
 import { useExportChart } from '@/hooks'
@@ -44,11 +43,9 @@ export function DoughnutChart({ data, fileName }: DoughnutProps) {
     }
   }, [resolvedTheme])
 
-  const hiddenCount = Math.max(0, (data.labels?.length ?? 0) - 10)
-
   return (
     <div className="space-y-3">
-      <div className="aspect-[4/3]">
+      <div className="aspect-4/3">
         <Doughnut
           data={data}
           options={options}
@@ -60,11 +57,6 @@ export function DoughnutChart({ data, fileName }: DoughnutProps) {
           }}
         />
       </div>
-      {hiddenCount > 0 && (
-        <p className="text-xs text-center text-base-content/40">
-          +{hiddenCount} more not shown in legend
-        </p>
-      )}
       <div className="flex justify-end">
         <button
           className="inline-flex items-center gap-1.5 text-xs text-base-content/40 hover:text-base-content/70 transition-colors duration-150 px-2 py-1 rounded"
@@ -81,7 +73,8 @@ export function DoughnutChart({ data, fileName }: DoughnutProps) {
 }
 
 function getDoughnutChartOptions(theme: string): ChartOptions<'doughnut'> {
-  const { tickColor, tooltipBg, tooltipTitle, tooltipBody, tooltipBorder } = getChartThemeTokens(theme)
+  const { tickColor, tooltipBg, tooltipTitle, tooltipBody, tooltipBorder } =
+    getChartThemeTokens(theme)
 
   return {
     responsive: true,
@@ -89,7 +82,8 @@ function getDoughnutChartOptions(theme: string): ChartOptions<'doughnut'> {
     animation: {
       duration: 1000,
       easing: 'easeInOutQuad',
-      delay: (context) => context.dataIndex !== undefined ? context.dataIndex * 10 : 0
+      delay: (context) =>
+        context.dataIndex !== undefined ? context.dataIndex * 10 : 0
     },
     plugins: {
       tooltip: {
@@ -106,8 +100,12 @@ function getDoughnutChartOptions(theme: string): ChartOptions<'doughnut'> {
         bodyFont: { family: CHART_FONT, size: 11 },
         callbacks: {
           label: (tooltipItem) => {
-            const commits = tooltipItem.raw as number
-            return `${tooltipItem.label}: ${commits.toLocaleString()}`
+            const value = tooltipItem.raw as number
+            const data = tooltipItem.dataset.data as number[]
+            const total = data.reduce((sum, v) => sum + v, 0)
+            const pct =
+              total > 0 ? ` (${((value / total) * 100).toFixed(1)}%)` : ''
+            return `${value.toLocaleString()}${pct}`
           }
         }
       },
@@ -117,19 +115,7 @@ function getDoughnutChartOptions(theme: string): ChartOptions<'doughnut'> {
           font: { family: CHART_FONT, size: 12 },
           padding: 16,
           usePointStyle: true,
-          pointStyle: 'circle',
-          filter: (legendItem: LegendItem, data) => {
-            const sortable: Array<[string, number]> = []
-            if (data && data.datasets.length > 0) {
-              data.labels?.forEach((label, index) => {
-                const sumOfData = (data.datasets[0].data[index] as number) || 0
-                sortable.push([label as string, sumOfData])
-              })
-            }
-            sortable.sort((a, b) => b[1] - a[1])
-            const top10Labels = sortable.slice(0, 10).map((item) => item[0])
-            return top10Labels.includes(legendItem.text)
-          }
+          pointStyle: 'circle'
         }
       }
     }
