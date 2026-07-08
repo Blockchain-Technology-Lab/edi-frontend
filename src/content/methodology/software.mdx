@@ -1,6 +1,119 @@
 import { AppLink } from '@/components'
 
-On the software layer, decentralisation is evaluated by looking at the open source repositories associated with different blockchain clients, and specifically looking at their commit history. The projects that are currently supported are: <AppLink href="https://github.com/bitcoin/bitcoin">Bitcoin Core</AppLink> (Bitcoin), <AppLink href="https://github.com/bitcoin-cash-node/bitcoin-cash-node">Bitcoin Cash Node</AppLink> (Bitcoin Cash), <AppLink href="https://github.com/IntersectMBO/cardano-node">Cardano Node</AppLink> (Cardano), <AppLink href="https://github.com/ethereum/go-ethereum">Go Ethereum</AppLink> (Ethereum), <AppLink href="https://github.com/NethermindEth/nethermind">Nethermind</AppLink> (Ethereum), <AppLink href="https://github.com/litecoin-project/litecoin">Litecoin Core</AppLink> (Litecoin), <AppLink href="https://github.com/tezos/tezos">Tezos</AppLink> (Tezos) and <AppLink href="https://github.com/zcash/zcash">Zcash</AppLink> (Zcash). Specifically, the following metrics are presented in the dashboard: Shannon entropy, Herfindahl-Hirschman index (HHI), 1-concentration ratio, number of total entities.
+On the software layer, decentralisation is evaluated by looking at the open source repositories associated with different blockchain clients, and specifically looking at their commit history. For blockchains that are implemented by more than one independent client, the commit histories of all of their client repositories are merged into a single, chronologically ordered history before any metrics are calculated, so that decentralisation is evaluated at the level of the blockchain as a whole rather than per individual client. Note that Ethereum's execution and consensus clients are treated as two separate systems for this purpose. The table below lists the projects that are currently supported. Specifically, the following metrics are presented in the dashboard: Shannon entropy, Herfindahl-Hirschman index (HHI), 1-concentration ratio, number of total entities.
+
+<div className="rounded-xl border border-base-300 overflow-hidden bg-base-100 shadow-sm">
+  <div className="px-4 py-2.5 bg-base-200/50 border-b border-base-300">
+    <span className="text-xs font-semibold text-base-content/70 uppercase tracking-[0.12em]">Supported Repositories</span>
+  </div>
+  <div className="overflow-x-auto">
+    <table className="w-full text-sm [&_th]:align-top [&_td]:align-top">
+      <thead>
+        <tr className="border-b border-base-300 bg-base-200/40">
+          <th className="px-4 py-3 text-left text-[10px] font-mono font-semibold text-base-content/50 uppercase tracking-wider">Blockchain</th>
+          <th className="px-4 py-3 text-left text-[10px] font-mono font-semibold text-base-content/50 uppercase tracking-wider">Client</th>
+          <th className="px-4 py-3 text-left text-[10px] font-mono font-semibold text-base-content/50 uppercase tracking-wider">Repository</th>
+        </tr>
+      </thead>
+      <tbody className="divide-y divide-base-200">
+        <tr className="hover:bg-base-200/30 transition-colors">
+          <td className="px-4 py-3 font-medium text-base-content/80">Bitcoin</td>
+          <td className="px-4 py-3 text-base-content/65">Bitcoin Core</td>
+          <td className="px-4 py-3"><AppLink href="https://github.com/bitcoin/bitcoin">bitcoin/bitcoin</AppLink></td>
+        </tr>
+        <tr className="hover:bg-base-200/30 transition-colors">
+          <td rowSpan={2} className="px-4 py-3 font-medium text-base-content/80">Bitcoin Cash</td>
+          <td className="px-4 py-3 text-base-content/65">Bitcoin Cash Node</td>
+          <td className="px-4 py-3"><AppLink href="https://github.com/bitcoin-cash-node/bitcoin-cash-node">bitcoin-cash-node/bitcoin-cash-node</AppLink></td>
+        </tr>
+        <tr className="hover:bg-base-200/30 transition-colors">
+          <td className="px-4 py-3 text-base-content/65">Bitcoin Unlimited</td>
+          <td className="px-4 py-3"><AppLink href="https://gitlab.com/bitcoinunlimited/BCHUnlimited">bitcoinunlimited/BCHUnlimited</AppLink></td>
+        </tr>
+        <tr className="hover:bg-base-200/30 transition-colors">
+          <td className="px-4 py-3 font-medium text-base-content/80">Cardano</td>
+          <td className="px-4 py-3 text-base-content/65">Cardano Node</td>
+          <td className="px-4 py-3"><AppLink href="https://github.com/IntersectMBO/cardano-node">IntersectMBO/cardano-node</AppLink></td>
+        </tr>
+        <tr className="hover:bg-base-200/30 transition-colors">
+          <td rowSpan={5} className="px-4 py-3 font-medium text-base-content/80">Ethereum (execution clients)</td>
+          <td className="px-4 py-3 text-base-content/65">Go Ethereum</td>
+          <td className="px-4 py-3"><AppLink href="https://github.com/ethereum/go-ethereum">ethereum/go-ethereum</AppLink></td>
+        </tr>
+        <tr className="hover:bg-base-200/30 transition-colors">
+          <td className="px-4 py-3 text-base-content/65">Nethermind</td>
+          <td className="px-4 py-3"><AppLink href="https://github.com/NethermindEth/nethermind">NethermindEth/nethermind</AppLink></td>
+        </tr>
+        <tr className="hover:bg-base-200/30 transition-colors">
+          <td className="px-4 py-3 text-base-content/65">Besu</td>
+          <td className="px-4 py-3"><AppLink href="https://github.com/hyperledger/besu">hyperledger/besu</AppLink></td>
+        </tr>
+        <tr className="hover:bg-base-200/30 transition-colors">
+          <td className="px-4 py-3 text-base-content/65">Erigon</td>
+          <td className="px-4 py-3"><AppLink href="https://github.com/ledgerwatch/erigon">ledgerwatch/erigon</AppLink></td>
+        </tr>
+        <tr className="hover:bg-base-200/30 transition-colors">
+          <td className="px-4 py-3 text-base-content/65">Reth</td>
+          <td className="px-4 py-3"><AppLink href="https://github.com/paradigmxyz/reth">paradigmxyz/reth</AppLink></td>
+        </tr>
+        <tr className="hover:bg-base-200/30 transition-colors">
+          <td rowSpan={6} className="px-4 py-3 font-medium text-base-content/80">Ethereum (consensus clients)</td>
+          <td className="px-4 py-3 text-base-content/65">Lighthouse</td>
+          <td className="px-4 py-3"><AppLink href="https://github.com/sigp/lighthouse">sigp/lighthouse</AppLink></td>
+        </tr>
+        <tr className="hover:bg-base-200/30 transition-colors">
+          <td className="px-4 py-3 text-base-content/65">Lodestar</td>
+          <td className="px-4 py-3"><AppLink href="https://github.com/ChainSafe/lodestar">ChainSafe/lodestar</AppLink></td>
+        </tr>
+        <tr className="hover:bg-base-200/30 transition-colors">
+          <td className="px-4 py-3 text-base-content/65">Nimbus</td>
+          <td className="px-4 py-3"><AppLink href="https://github.com/status-im/nimbus-eth2">status-im/nimbus-eth2</AppLink></td>
+        </tr>
+        <tr className="hover:bg-base-200/30 transition-colors">
+          <td className="px-4 py-3 text-base-content/65">Prysm</td>
+          <td className="px-4 py-3"><AppLink href="https://github.com/OffchainLabs/prysm">OffchainLabs/prysm</AppLink></td>
+        </tr>
+        <tr className="hover:bg-base-200/30 transition-colors">
+          <td className="px-4 py-3 text-base-content/65">Teku</td>
+          <td className="px-4 py-3"><AppLink href="https://github.com/Consensys/teku">Consensys/teku</AppLink></td>
+        </tr>
+        <tr className="hover:bg-base-200/30 transition-colors">
+          <td className="px-4 py-3 text-base-content/65">Grandine</td>
+          <td className="px-4 py-3"><AppLink href="https://github.com/grandinetech/grandine">grandinetech/grandine</AppLink></td>
+        </tr>
+        <tr className="hover:bg-base-200/30 transition-colors">
+          <td className="px-4 py-3 font-medium text-base-content/80">Litecoin</td>
+          <td className="px-4 py-3 text-base-content/65">Litecoin Core</td>
+          <td className="px-4 py-3"><AppLink href="https://github.com/litecoin-project/litecoin">litecoin-project/litecoin</AppLink></td>
+        </tr>
+        <tr className="hover:bg-base-200/30 transition-colors">
+          <td className="px-4 py-3 font-medium text-base-content/80">Polkadot</td>
+          <td className="px-4 py-3 text-base-content/65">Polkadot SDK</td>
+          <td className="px-4 py-3"><AppLink href="https://github.com/paritytech/polkadot-sdk">paritytech/polkadot-sdk</AppLink></td>
+        </tr>
+        <tr className="hover:bg-base-200/30 transition-colors">
+          <td className="px-4 py-3 font-medium text-base-content/80">Solana</td>
+          <td className="px-4 py-3 text-base-content/65">Solana</td>
+          <td className="px-4 py-3"><AppLink href="https://github.com/solana-labs/solana">solana-labs/solana</AppLink></td>
+        </tr>
+        <tr className="hover:bg-base-200/30 transition-colors">
+          <td className="px-4 py-3 font-medium text-base-content/80">Tezos</td>
+          <td className="px-4 py-3 text-base-content/65">Tezos</td>
+          <td className="px-4 py-3"><AppLink href="https://gitlab.com/tezos/tezos">tezos/tezos</AppLink></td>
+        </tr>
+        <tr className="hover:bg-base-200/30 transition-colors">
+          <td rowSpan={2} className="px-4 py-3 font-medium text-base-content/80">Zcash</td>
+          <td className="px-4 py-3 text-base-content/65">Zcash</td>
+          <td className="px-4 py-3"><AppLink href="https://github.com/zcash/zcash">zcash/zcash</AppLink></td>
+        </tr>
+        <tr className="hover:bg-base-200/30 transition-colors">
+          <td className="px-4 py-3 text-base-content/65">Zebra</td>
+          <td className="px-4 py-3"><AppLink href="https://github.com/ZcashFoundation/zebra">ZcashFoundation/zebra</AppLink></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
 Users can choose which options will be taken into account when generating the graphs.
 
@@ -62,5 +175,4 @@ Users can choose which options will be taken into account when generating the gr
 In the 'Client Distribution' part, decentralisation is also evaluated by looking at the distribution of the blockchain clients themselves. With the exception of Cardano, the blockchain data that is needed to determine these distributions are collected using crawlers running on each network. The results are based only on data we have collected and do not include extensive historical data.
 For the Bitcoin, Bitcoin Cash, Litecoin and Zcash networks, the crawler we use is based on the <AppLink href="https://bitnodes.io/">Bitnodes</AppLink> project.
 In Ethereum's case, the network architecture consists of two distinct layers: execution and consensus. The dashboard reflects this architectural separation. The crawler used is <AppLink href="https://github.com/cskiraly/fast-ethereum-crawler">fast-ethereum-crawler</AppLink>.
-
 Finally, for Cardano, the official documentation refers to only one client implementation, and the dashboard therefore displays it. Several other clients are in development, but not ready for production yet: <AppLink href="https://github.com/blinklabs-io/dingo">Dingo</AppLink>, <AppLink href="https://github.com/harmoniclabs/gerolamo">Gerolamo</AppLink>, <AppLink href="https://github.com/pragma-org/amaru">Amaru</AppLink>, <AppLink href="https://github.com/txpipe/dolos">Dolos</AppLink>.
