@@ -31,6 +31,12 @@ export const NETWORK_METRICS = [
       'The 1-concentration ratio represents the share of nodes that are owned owns the most nodes.',
     decimals: 2,
     source: 'orgs'
+  },{
+    metric: 'total_entities',
+    title: 'Total Organisations',
+    description:
+      'The total number of unique entities (organisations) that control nodes in the network.',
+    source: 'orgs'
   }
 ]
 
@@ -40,7 +46,7 @@ const NETWORK_NODES = {
 }
 
 const NETWORK_ORGANIZATIONS = {
-  COLUMNS: ['hhi', 'nakamoto_coefficient', 'max_power_ratio'],
+  COLUMNS: ['hhi', 'nakamoto_coefficient', 'max_power_ratio', 'total_entities'],
   PREFIX: 'output_organizations'
 }
 
