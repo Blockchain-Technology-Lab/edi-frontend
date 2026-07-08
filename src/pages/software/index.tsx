@@ -318,9 +318,9 @@ export function Software() {
           <DoughnutCard
             type={'software'}
             title={repoItem.name}
-            key={repoItem.name}
+            key={repoItem.repo}
             githubUrl={repoItem.url}
-            path={doughnutPaths[repoItem.name]}
+            path={doughnutPaths[repoItem.repo]}
             fileName={repoItem.repo}
             showInfo={true}
           />

@@ -24,14 +24,10 @@ const SOFTWARE_KEYS = [
   'polkadot',
   'solana',
   'tezos',
+  'xrpl',
   'zcash'
 ] as const
 
-// BASE_LEDGERS.ethereum_consensus/execution use the short 'consensus'/
-// 'execution' ledger ids (the network layer's convention), but every
-// software-layer CSV (line-chart metrics, contributor/client doughnuts)
-// identifies these ledgers by the long key itself - override just those two
-// so every lookup in this module matches the actual data.
 const SOFTWARE_LEDGER_ID_OVERRIDES = new Set<keyof typeof BASE_LEDGERS>([
   'ethereum_consensus',
   'ethereum_execution'
@@ -70,7 +66,8 @@ const SOFTWARE_DOUGHNUT_REPOS = [
   },
   { repo: 'litecoin', url: 'https://github.com/litecoin-project/litecoin' },
   { repo: 'tezos', url: 'https://github.com/tezos/tezos-mirror' },
-  { repo: 'zcash', url: 'https://github.com/zcash/zcash' }
+  { repo: 'xrpl', url: 'https://github.com/XRPLF/rippled' },
+  { repo: 'zcash', url: 'https://github.com/zcash/zcash' },
 ] as const
 
 export const SOFTWARE_DOUGHNUT_LEDGER_NAMES = SOFTWARE_DOUGHNUT_REPOS.map(
@@ -96,11 +93,6 @@ export const SOFTWARE_CLIENT_DOUGHNUT_LEDGERS = SOFTWARE_CLIENT_DOUGHNUT_KEYS.ma
 ).sort((a, b) => a.displayName.localeCompare(b.displayName))
 
 // Types
-type SoftwareRepoConfig = {
-  fileName: string
-  displayName: string
-}
-
 type DoughnutDataset = {
   labels: string[]
   datasets: {
@@ -111,15 +103,6 @@ type DoughnutDataset = {
     dataVisibility: boolean[]
   }[]
 }
-// Constants
-const SOFTWARE_COLUMNS = [
-  'entropy',
-  'hhi',
-  'max_power_ratio',
-  'total_entities',
-  'theil_index'
-]
-
 // Chart configuration constants
 const CHART_BORDER_WIDTH = 0.1
 const CSV_DELIMITER = ','
@@ -159,6 +142,9 @@ export const SOFTWARE_METRICS = [
     icon: 'images/cards/tau.png'
   }
 ]
+
+// CSV columns to parse - single source of truth is SOFTWARE_METRICS above.
+const SOFTWARE_COLUMNS = SOFTWARE_METRICS.map((m) => m.metric)
 
 /**
  * Parses software layer CSV content into DataEntry[]
@@ -267,27 +253,6 @@ export function getSoftwareCsvFileName(
 
 // --------------------------- Doughnut CSV Logic ----------------------------
 
-// Repository configuration combining file info and display names
-const SOFTWARE_REPO_CONFIG: SoftwareRepoConfig[] = [
-  { fileName: 'bitcoin.csv', displayName: 'Bitcoin' },
-  {
-    fileName: 'bitcoin_cash.csv',
-    displayName: 'Bitcoin Cash'
-  },
-  { fileName: 'cardano.csv', displayName: 'Cardano' },
-  {
-    fileName: 'ethereum_consensus.csv',
-    displayName: 'Ethereum (Consensus)'
-  },
-  {
-    fileName: 'ethereum_execution.csv',
-    displayName: 'Ethereum (Execution)'
-  },
-  { fileName: 'litecoin.csv', displayName: 'Litecoin' },
-  { fileName: 'tezos.csv', displayName: 'Tezos' },
-  { fileName: 'zcash.csv', displayName: 'ZCash' }
-] as const
-
 export function getSoftwareClientDoughnutCsvFileName(ledger: string): string {
   return `${SOFTWARE_DOUGHNUT_CSV}clients/${ledger}.csv`
 }
@@ -316,8 +281,8 @@ export function getSoftwareDoughnutCsvFileNames(
   const folderKey: FolderKey = `${weight}_${entity}` as FolderKey
   const folder = folderMap[folderKey]
 
-  return SOFTWARE_REPO_CONFIG.map(
-    (repo) => `${SOFTWARE_DOUGHNUT_CSV}${folder}/${repo.fileName}`
+  return SOFTWARE_DOUGHNUT_REPOS.map(
+    ({ repo }) => `${SOFTWARE_DOUGHNUT_CSV}${folder}/${repo}.csv`
   )
 }
 
@@ -453,17 +418,18 @@ export function generateDoughnutPaths(
     // Extract the filename from the full path
     const fileName = filePath.split(PATH_SEPARATOR).pop() || ''
 
-    // Find the corresponding repo config for this file
-    const repoConfig = SOFTWARE_REPO_CONFIG.find(
-      (config) => config.fileName === fileName
+    // Find the corresponding repo for this file, keyed by repo id (not
+    // display name) so this can't drift out of sync with BASE_LEDGERS.
+    const repoEntry = SOFTWARE_DOUGHNUT_REPOS.find(
+      ({ repo }) => `${repo}.csv` === fileName
     )
 
-    if (repoConfig) {
-      pathsRecord[repoConfig.displayName] = filePath
+    if (repoEntry) {
+      pathsRecord[repoEntry.repo] = filePath
     } else {
       DevLogger.warnOnce(
-        `missing-display-name-${fileName}`,
-        `No display name found for file: ${fileName}`
+        `missing-repo-config-${fileName}`,
+        `No repo config found for file: ${fileName}`
       )
     }
   })
