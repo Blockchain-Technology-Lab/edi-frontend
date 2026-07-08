@@ -7,7 +7,7 @@ export const GEOGRAPHY_COUNTRIES_COLUMNS = [
   'entropy=1',
   'hhi',
   'nakamoto_coefficient',
-  'max_power_ratio'
+  'max_power_ratio', 'total_entities'
 ]
 
 export const GEOGRAPHY_METRICS = [
@@ -42,6 +42,14 @@ export const GEOGRAPHY_METRICS = [
       'Shannon entropy represents the expected amount of information in a distribution. Higher values indicate more decentralisation (lower predictability).',
     decimals: 2,
     padYAxis: false
+  }, 
+  { 
+    metric: 'total_entities', 
+    title: 'Total Countries', 
+    description: 'The total number of unique countries that host nodes in the network.',
+    decimals: 0,
+    padYAxis: false
+
   }
 ]
 
