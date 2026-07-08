@@ -1,453 +1,486 @@
-sirius-m,26
-s_nakamoto,245
-Gavin Andresen,1101
-Satoshi Nakamoto,34
-laszloh,1
-gavinandresen,19
-Witchspace,2
-David FRANCOIS,2
-Marius Hanne,2
-Chris,4
-Chris Moore,28
-Luke Dashjr,301
-ojab,1
-tcatm,19
-devrandom,8
-Daniel Folkinshteyn,3
-sandos,1
-Matt Giuca,6
-Matt Corallo,500
-Jeff Garzik,533
-Santiago M. Mola,1
-Pieter Wuille,1469
-Sven Slootweg,1
-Eric Swanson,1
-gjs278,1
-Dan Loewenherz,1
-Carlo Alberto Ferraris,2
-Dan Helfman,1
-Ricardo M. Correia,10
-Jaromil,1
-Khalahan,1
-John Maguire,4
-Amir Yalon,1
-Chris Howie,2
-Wladimir J. van der Laan,4740
-Forrest Voight,8
-Daniel Holbert,1
-Danube,4
-Jordan Lewis,8
-Carlos Pizarro,1
-Anonymous,1
-Federico Faggiano,1
-dabaopku,1
-ariel,1
-HostFat,1
-Jakob Kramer,1
-Michal Zima,2
-Doug Huff,6
-Nils Schneider,29
-Dean Lee,2
-Han Lin Yap,10
-Shane Wegner,1
-mark,1
-Dylan Noblesmith,2
-James Burkle,1
-Giel van Schijndel,34
-Vegard Nossum,6
-Stéphane Gimenez,2
-Dawid Spiechowicz,2
-Joerie de Gram,1
-Eric Hosmer,4
-Jay Weisskopf,4
-Patrick Varilly,1
-Celil,7
-Michael Bemmerl,4
-Abraham Jewowich,1
-JoelKatz,2
-Jeroenz0r,1
-Johannes Henninger,1
-David Joel Schwartz,4
-Venkatesh Srinivas,4
-Fabian H jr.,1
-ovdeathiam,1
-Misbakh-Soloviev Vadim A,1
-flower,1
-Janne Pulkkinen,6
-Alex Waters,2
-Alex B,4
-cjdelisle,3
-p2k,6
-David Perry,2
-Victor Leschuk,1
-globalcitizen,4
-kwaaak,1
-Nick Bosma,1
-Clark Gaebel,2
-Ang Iong Chun,1
-sje397,7
-Michael Hendricks,5
-Rune K. Svendsen,7
-coderrr,2
-Lars Rasmusson,1
-Gregory Maxwell,259
-fanquake,220
-nomnombtc,11
-Joel Kaartinen,1
-Philip Kaufmann,639
-Alistair Buxton,1
-Pierre Pronchery,2
-graingert,1
-cardpuncher,2
-Dwayne C. Litzenberger,2
-R E Broadley,35
-Timothy Redaelli,3
-freewil,7
-Peter Todd,100
-Christian von Roques,9
-grimd34th,4
-xanatos,14
-Mike Hearn,11
-justmoon,1
-Stephane Glondu,1
-osmosis,1
-kjj2,4
-Mark Friedenbach,14
-Virgil Dupras,1
-Alex,2
-tucenaber,1
-Arnav Singh,1
-Alexander Kjeldaas,5
-Robert Backhaus,5
-default,1
-burger2,1
-redshark1802,1
-Mike Cassano,1
-Andrey,3
-Richard Schwab,2
-Colin Dean,2
-Sanjay Ghemawat,1
-Eric Lombrozo,32
-David Grogan,1
-Ruben Dario Ponticelli,5
-Petter Reinholdtsen,1
-Andrew Poelstra,5
-mb300sd,2
-David Griffith,1
-Larry Gilbert,1
-Roman Mindalev,5
-gladoscc,2
+sirius-m,52
+s_nakamoto,490
+Gavin Andresen,2204
+Satoshi Nakamoto,68
+laszloh,2
+gavinandresen,38
+Witchspace,4
+David FRANCOIS,4
+Marius Hanne,4
+Chris,9
+Chris Moore,49
+Luke Dashjr,536
+ojab,2
+tcatm,38
+devrandom,16
+Daniel Folkinshteyn,6
+sandos,2
+Matt Giuca,12
+Matt Corallo,809
+Jeff Garzik,1066
+Santiago M. Mola,2
+Pieter Wuille,3085
+Sven Slootweg,2
+Eric Swanson,2
+gjs278,2
+Dan Loewenherz,2
+Carlo Alberto Ferraris,4
+Dan Helfman,2
+Ricardo M. Correia,20
+Jaromil,2
+Khalahan,2
+John Maguire,8
+Amir Yalon,2
+Chris Howie,4
+Wladimir J. van der Laan,8224
+Forrest Voight,16
+Daniel Holbert,2
+Danube,8
+Jordan Lewis,16
+Carlos Pizarro,2
+Anonymous,2
+Federico Faggiano,2
+dabaopku,2
+ariel,2
+HostFat,2
+Jakob Kramer,2
+Michal Zima,4
+Doug Huff,12
+Nils Schneider,58
+Dean Lee,4
+Han Lin Yap,20
+Shane Wegner,2
+mark,2
+Dylan Noblesmith,4
+James Burkle,2
+Giel van Schijndel,68
+Vegard Nossum,12
+Stéphane Gimenez,4
+Dawid Spiechowicz,4
+Joerie de Gram,2
+Eric Hosmer,8
+Jay Weisskopf,8
+Patrick Varilly,2
+Celil,14
+Michael Bemmerl,8
+Abraham Jewowich,2
+JoelKatz,4
+Jeroenz0r,2
+Johannes Henninger,2
+David Joel Schwartz,8
+Venkatesh Srinivas,8
+Fabian H jr.,2
+ovdeathiam,2
+Misbakh-Soloviev Vadim A,2
+flower,2
+Janne Pulkkinen,12
+Alex Waters,4
+Alex B,8
+cjdelisle,6
+p2k,12
+David Perry,4
+Victor Leschuk,2
+globalcitizen,8
+kwaaak,2
+Nick Bosma,2
+Clark Gaebel,4
+Ang Iong Chun,2
+sje397,14
+Michael Hendricks,10
+Rune K. Svendsen,14
+coderrr,4
+Lars Rasmusson,2
+Gregory Maxwell,544
+fanquake,363
+nomnombtc,15
+Joel Kaartinen,2
+Philip Kaufmann,1277
+Alistair Buxton,2
+Pierre Pronchery,4
+graingert,2
+cardpuncher,4
+Dwayne C. Litzenberger,4
+R E Broadley,64
+Timothy Redaelli,6
+freewil,14
+Peter Todd,202
+Christian von Roques,17
+grimd34th,8
+xanatos,28
+Mike Hearn,22
+justmoon,2
+Stephane Glondu,2
+osmosis,2
+kjj2,8
+Mark Friedenbach,30
+Virgil Dupras,2
+Alex,4
+tucenaber,2
+Arnav Singh,2
+Alexander Kjeldaas,10
+Robert Backhaus,10
+default,2
+burger2,2
+redshark1802,2
+Mike Cassano,2
+Andrey,6
+Richard Schwab,4
+Colin Dean,4
+Sanjay Ghemawat,2
+Eric Lombrozo,70
+David Grogan,2
+Ruben Dario Ponticelli,10
+Petter Reinholdtsen,2
+Andrew Poelstra,44
+mb300sd,5
+David Griffith,2
+Larry Gilbert,2
+Roman Mindalev,10
+CodeShark,1
+gladoscc,3
+Diederik Huys,7
 Jon Lund Steffensen,3
-Jonas Schnelli,461
-Tariq Bashir,1
-Brandon Dahler,4
-Patrick Brown,1
-Calvin Owens,1
-APerson241,1
-Scott Howard,2
-David Serrano,1
-Vinnie Falco,5
-fcicq,5
-Chuck LeDuc Díaz,1
-William Yager,1
-coblee,1
-Daniel Larimer,2
-super3,16
-vhf / victor felder,1
-Warren Togami,19
-Micha,21
-Cory Fields,548
-Timon Rapp,1
-Cozz Lovan,70
-Tamas Blummer,2
-Vaclav Vobornik,1
-theuni,4
-phelixbtc,2
-constantined,2
-Josh Lehan,3
-Patrick Strateman,77
-Rav3nPL,1
-Johnathan Corgan,9
-Timothy Stranex,1
-Chuck,1
-David Hill,3
-Olivier Langlois,1
-phantomcircuit,2
-sje,1
-Josh Triplett,8
-Sergey Kazenyuk,1
-Guillermo Céspedes Tabárez,6
-Dmitry Smirnov,1
-Florin,1
-Julian Langschaedel,1
-Michael Bauer,1
-Ryan Niebur,1
-Sined,1
-Michagogo,4
-HaltingState,1
-regergregregerrge,1
-Lake Denman,3
-Kangmo,2
-Thomas Holenstein,3
-Christian Decker,3
-MarcoFalke,730
-harry,2
-Christopher Latham,2
-Scott Willeke,1
-Noel Tiernan,1
-Ashley Holman,6
-gubatron,4
-Calvin Tam,1
-Midnight Magic,2
-Subo1978,1
-b6393ce9-d324-4fe1-996b-acf82dbc3d53,1
-Daniel Newton,3
-Bryan Bishop,2
-Wil Bown,1
-Drak,7
-Ian Kelling,1
-Haakon Nilsen,2
-daniel,4
-Pavel Janík,98
-jtimon,70
-Torstein Husebø,1
-Alon Muroch,2
-Andreas Schildbach,6
-ditto-b,2
-philsong,1
-Thomas Zander,4
-Addy Yeow,2
-Meeh,1
-Mikael Wikman,1
-peryaudo,1
-Isidoro Ghezzi,1
-Chris Beams,2
-Andrea D'Amore,1
-Yoichi Hirai,2
-Manuel Araoz,5
-JaSK,16
-Bardi Harborow,1
-duanemoody,1
-Telepatheic,1
-olalonde,1
-rxl,1
-langerhans,1
-Hector Jusforgues,1
-Eric S. Bullington,1
-Altoidnerd,2
-Simon de la Rouviere,1
-Ian Carroll,1
-David A. Harding,2
-richierichrawr,1
-Fabian Raetz,2
-Kamil Domanski,15
-Mathy Vanvoorden,1
-Matt Bogosian,3
-Roy Badami,5
-shshshsh,2
-Federico Bond,5
-Stuart Cardall,1
-Kosta Zertsekel,3
-Huang Le,4
-Tawanda Kembo,1
-LongShao007,2
-tm314159,1
-Ross Nicoll,9
-Giuseppe Mazzotta,2
-Marius Kjærstad,12
-kevin,2
-dllud,1
-Pavel Vasin,10
-Whit J,5
-Tom Harding,18
-Kaz Wesley,20
-Trevin Hofmann,2
-Julian Haight,1
-Daniel Kraft,33
-Clinton Christian,1
-Zak Wilcox,6
-Otto Allmendinger,6
-elkingtowa,1
-Aitor Pazos,1
-Alex Morcos,135
-Doug,1
-Adam Weiss,8
-pryds,1
-ntrgn,3
-Ben Holden-Crowther,2
-Derek701,1
-randy-waterhouse,13
-Teran McKinney,1
-Elichai Turkel,5
-Rose Toomey,1
-Dominyk Tiller,4
-ENikS,13
-himynameismartin,1
-SergioDemianLerner,3
-Benedict Chan,2
-Suhas Daftuar,174
-Murch,4
-Janusz Lenar,1
-imharrywu,3
-Andy Alness,1
-Alexander Jeng,1
-Eric Shaw,4
-Saivann,1
-sinetek,7
-JL2035,1
-Luke,1
-21E14,11
-dexX7,21
-Francis GASCHET,1
-mruddy,13
-kiwigb,1
-Jorge Timón,68
-Flavien Charlon,2
-mrbandrews,17
-Glenn Willen,5
-Heath,1
-Ryan X. Charles,1
-Blake Jakopovic,1
-Ivan Pustogarov,1
-BtcDrak,31
-sandakersmann,2
-azeteki,1
-Jameson Lopp,3
-Eric R. Schulz,3
-Everett Forth,1
-Julian Yap,1
-Vitalii Demianets,1
-fsb4000,6
-UdjinM6,5
-Earlz,1
-Daira Hopwood,1
-bikinibabe,1
-Shaul Kfir,3
-Luca Venturini,2
-charlescharles,1
-Jonathan Brown,1
-Ciemon,1
-Nicolas Benoit,2
-Rob Van Mieghem,2
-joshr,1
-Jason Lewicki,1
-CohibAA,1
-Ruben de Vries,1
-zathras-crypto,1
-Chris Arnesen,1
-BitcoinPRReadingGroup,1
-Dave Collins,3
-Corinne Dashjr,1
-svost,1
-João Barbosa,66
-lpescher,3
-Erik Mossberg,1
-Andriy Voskoboinyk,1
-Paul Rabahy,3
-Stephen,1
-Alex van der Peet,1
-Jacob Welsh,2
-rion,1
-Esteban Ordano,1
-Florian Schmaus,1
-Paul Georgiou,1
-Braydon Fuller,3
-tailsjoin,1
-฿tcDrak,1
-centaur1,1
-Simon Males,2
-Casey Rodarmor,15
-Pavol Rusnak,2
-Matt Quinn,1
-unsystemizer,4
-Veres Lajos,1
-antonio-fr,1
-ptschip,5
-Kevin Cooper,2
-Ian T,1
-James O'Beirne,20
-Ryan Havar,1
-Irving Ruan,1
-Diego Viola,1
-EthanHeilman,5
-Arne Brutschy,1
-Chris Kleeschulte,1
-Michael Ford,6
-Mitchell Cash,3
-djb,1
-Daniel Cousens,10
-Thomas Kerin,3
-Bob McElrath,2
-Jonathan Cross,2
-Peter Josling,1
-Gregory Sanders,42
-Nick,1
-tulip,1
+Jonas Schnelli,738
+Tariq Bashir,2
+Brandon Dahler,8
+Patrick Brown,2
+Calvin Owens,2
+APerson241,2
+Scott Howard,4
+David Serrano,2
+Vinnie Falco,11
+fcicq,10
+Chuck LeDuc Díaz,2
+William Yager,2
+coblee,2
+Daniel Larimer,4
+super3,32
+vhf / victor felder,2
+Warren Togami,35
+Micha,44
+Cory Fields,987
+Timon Rapp,2
+Cozz Lovan,140
+Tamas Blummer,4
+Vaclav Vobornik,2
+theuni,8
+phelixbtc,4
+constantined,4
+Josh Lehan,6
+Patrick Strateman,121
+Rav3nPL,2
+Johnathan Corgan,20
+Timothy Stranex,2
+Chuck,2
+David Hill,6
+Olivier Langlois,2
+phantomcircuit,4
+sje,2
+Josh Triplett,16
+HaltingState,3
+Sergey Kazenyuk,2
+Guillermo Céspedes Tabárez,12
+Dmitry Smirnov,2
+Florin,2
+Julian Langschaedel,2
+Michael Bauer,2
+Ryan Niebur,2
+Sined,2
+Michagogo,7
+regergregregerrge,2
+Lake Denman,6
+Kangmo,4
+Thomas Holenstein,6
+Christian Decker,5
+MarcoFalke,893
+harry,4
+Christopher Latham,4
+Scott Willeke,2
+Noel Tiernan,2
+Ashley Holman,12
+Peter Dettman,32
+gubatron,16
+Calvin Tam,2
+Midnight Magic,4
+Subo1978,2
+b6393ce9-d324-4fe1-996b-acf82dbc3d53,2
+Daniel Newton,4
+Bryan Bishop,4
+Wil Bown,2
+Drak,14
+Ian Kelling,2
+Haakon Nilsen,4
+daniel,8
+Pavel Janík,156
+jtimon,140
+Torstein Husebø,2
+Alon Muroch,4
+Andreas Schildbach,12
+ditto-b,4
+philsong,2
+Thomas Zander,8
+Addy Yeow,4
+Meeh,2
+Mikael Wikman,2
+peryaudo,2
+Isidoro Ghezzi,2
+Chris Beams,4
+Andrea D'Amore,2
+Yoichi Hirai,4
+Manuel Araoz,10
+JaSK,32
+Bardi Harborow,2
+duanemoody,2
+Telepatheic,2
+olalonde,2
+rxl,2
+langerhans,2
+Hector Jusforgues,2
+Eric S. Bullington,2
+Altoidnerd,4
+Simon de la Rouviere,2
+William Swanson,1
+Ian Carroll,2
+David A. Harding,8
+richierichrawr,2
+Fabian Raetz,4
+Kamil Domanski,30
+Amir Taaki,1
+evoskuil,2
+Mathy Vanvoorden,2
+Matt Bogosian,6
+Roy Badami,10
+shshshsh,4
+Federico Bond,10
+Stuart Cardall,2
+Kosta Zertsekel,5
+Huang Le,8
+Tawanda Kembo,2
+LongShao007,4
+John Driscoll,1
+tm314159,2
+Ross Nicoll,20
+Giuseppe Mazzotta,4
+Marius Kjærstad,26
+kevin,3
+dllud,2
+Pavel Vasin,18
+Whit J,10
+Tom Harding,45
+Kaz Wesley,25
+Trevin Hofmann,4
+Julian Haight,2
+Lucas Betschart,1
+Daniel Kraft,60
+Clinton Christian,2
+Zak Wilcox,15
+Otto Allmendinger,12
+elkingtowa,2
+Aitor Pazos,2
+Alex Morcos,206
+Doug,2
+Adam Weiss,19
+pryds,2
+ntrgn,6
+Ben Holden-Crowther,4
+Derek701,2
+caktux,1
+randy-waterhouse,25
+Teran McKinney,2
+Elichai Turkel,9
+Rose Toomey,2
+Dominyk Tiller,8
+ENikS,26
+himynameismartin,2
+SergioDemianLerner,6
+Benedict Chan,4
+Suhas Daftuar,272
+Murch,5
+Janusz Lenar,2
+imharrywu,6
+Andy Alness,2
+Alexander Jeng,2
+Eric Shaw,7
+Saivann,2
+sinetek,14
+JL2035,2
+Luke,2
+21E14,18
+dexX7,41
+Francis GASCHET,2
+mruddy,17
+kiwigb,5
+Jorge Timón,110
+Iang,1
+Flavien Charlon,4
+Phillip Mienk,3
+mrbandrews,25
+Glenn Willen,6
+Heath,2
+Ryan X. Charles,2
+Blake Jakopovic,2
+Ivan Pustogarov,2
+BtcDrak,51
+sandakersmann,4
+GreenAddress,3
+azeteki,2
+Jameson Lopp,5
+Eric R. Schulz,6
+Everett Forth,2
+Julian Yap,2
+Vitalii Demianets,2
+fsb4000,10
+UdjinM6,6
+Earlz,2
+Daira Hopwood,2
+bikinibabe,2
+Shaul Kfir,6
+Luca Venturini,4
+charlescharles,2
+Jonathan Brown,2
+Ciemon,2
+Nicolas Benoit,4
+Rob Van Mieghem,4
+joshr,2
+Jason Lewicki,2
+CohibAA,2
+Ruben de Vries,2
+zathras-crypto,2
+Daniel Cousens,19
+Chris Arnesen,2
+BitcoinPRReadingGroup,2
+Dave Collins,6
+Corinne Dashjr,2
+svost,2
+João Barbosa,69
+Thomas Daede,2
+lpescher,6
+Erik Mossberg,2
+Andriy Voskoboinyk,3
+Paul Rabahy,5
+Stephen,2
+Alex van der Peet,2
+Jacob Welsh,5
+rion,3
+Esteban Ordano,3
+spin,1
+Florian Schmaus,2
+Paul Georgiou,2
+Thomas Kerin,5
+Braydon Fuller,6
+tailsjoin,3
+฿tcDrak,4
+centaur1,2
+Simon Males,4
+mlmikael,1
+Casey Rodarmor,35
+Pavol Rusnak,4
+Matt Quinn,2
+unsystemizer,6
+Veres Lajos,4
+antonio-fr,2
+Peter Tschipper,1285
+Kevin Cooper,4
+Ian T,2
+James O'Beirne,26
+Ryan Havar,2
+Irving Ruan,2
+GSongHashrate,1
+Diego Viola,3
+EthanHeilman,7
+Rusty Russell,5
+Gustav Simonsson,1
+Arne Brutschy,2
+Chris Kleeschulte,3
+Michael Ford,11
+Mitchell Cash,5
+djb,2
+Bob McElrath,3
+Jonathan Cross,3
+Peter Josling,2
+Andrew Stone,1992
+awemany,7
+Gregory Sanders,49
+Nick,2
+tulip,2
 error10,1
-Suriyaa Kudo,1
-accraze,5
+Suriyaa Kudo,2
+accraze,7
 Ethan Heilman,4
-Elias Rohrer,1
+Elias Rohrer,2
 Marcel Krüger,1
+YarkoL,6
 calebogden,1
-crowning-,2
+crowning-,3
 Chris Wheeler,1
-Prayag Verma,1
-Johnson Lau,20
-Andrew Chow,82
+Prayag Verma,2
+Johnson Lau,25
+Andrew Chow,84
+xor-freenet,8
 Jarret Dyrbye,1
 Nathaniel Mahieu,2
 Kefkius,1
 kirkalx,1
-Matt,1
-Leviathn,1
+Matt,2
+Leviathn,2
 jmacwhyte,1
-jloughry,1
+wodry,4
+jloughry,2
 Andrés G. Aragoneses,1
-Matthew Zipkin,1
+Matthew Zipkin,3
+upgradeadvice,1
 Cédric Félizard,1
 JeremyRand,4
 Alice Wonder,2
 Alfie John,1
 Luv Khemani,1
+Simon,13
+Holger Finger,5
 lewuathe,1
 Francesco 'makevoid' Canessa,1
 Pedro Branco,4
-Elliot Olds,1
-Mustafa,2
-NicolasDorier,16
+Elliot Olds,2
+Mustafa,4
+NicolasDorier,18
 Denis Lukianov,1
 Adam Brown,1
-S. Matthew English,6
-Alexander Regueiro,1
-Rusty Russell,3
+S. Matthew English,8
+Alexander Regueiro,2
 Nikolay Mitev,2
-Joao Fonseca,2
-whythat,9
+Joao Fonseca,3
+whythat,10
 Chris Stewart,6
+Jon Griffiths,2
 Puru,1
+Jonas Nick,19
 Chirag Davé,1
 Tyler Hardin,3
 CryptoVote,1
-Jonas Nick,10
-Jeremy Rubin,14
+Kirill Fomichev,4
+Jeremy Rubin,21
 Will Binns,2
-TheLazieR Yip,1
+TheLazieR Yip,2
 Matthew King,3
 Krzysztof Jurewicz,1
 maiiz,1
-Thomas Snider,7
+TomZ,14
+Thomas Snider,8
 lizhi,1
+llamasoft,3
 Michael Rotarius,2
 adlawren,1
+Andrea Suisani,864
 Justin Camarena,1
 Leif Jurvetson,1
 Sev,1
+Justaphf,100
 Christian Barcenas,1
-Anthony Towns,12
-isle2983,8
+Anthony Towns,14
+SartoNess,12
+isle2983,9
 Alexey Vesnin,1
-Douglas Roark,9
+Dagur Valberg Johannsson,449
+Douglas Roark,10
 Hampus Sjöberg,2
 Gaurav Rana,1
 rodasmith,1
@@ -456,209 +489,247 @@ Anders Øyvind Urke-Sætre,1
 Jiaxing Wang,2
 jonnynewbs,4
 Marty Jones,1
-Amir Abrams,2
+Amir Abrams,3
 Lauda,3
 Derek Miller,1
-John Newbery,156
+John Newbery,161
+freetrader,1032
+digitsu,1
 Stanislas Marion,1
-Russell Yanofsky,117
-Dagur Valberg Johannsson,307
+Russell Yanofsky,121
+Krzysztof Woś,2
+Alex-GR,1
 Steven,1
-poole_party,1
-matthias,2
+poole_party,2
 anduck,1
+bgorlick,2
 Geoffrey Tsui,1
+marlengit,41
 Robert McLaughlin,1
 Masahiko Hyuga,1
 Brian Deery,1
 Greg Walker,1
-Karl-Johan Alm,30
+Karl-Johan Alm,33
 Ivo van der Sangen,1
-wodry,3
+Bitcoin Error Log,2
 Richard Kiss,1
+Amaury Sechet,3
 Anditto Heristyo,2
-Don Patterson,1
-practicalswift,140
+Don Patterson,2
+Amaury Séchet,1363
+practicalswift,161
 James White,1
+andrewc12,1
 Koki Takahashi,1
+HansHauge,2
+Stephen McCarthy,11
 aideca,1
+Helvetian616,3
 CryptAxe,2
+kFTY,1
 kirit93,1
-Marko Bencun,12
+Marko Bencun,16
 Marijn Stollenga,1
+Neil Booth,79
+Allan Doensen,25
+Sean Bowe,1
 James Evans,1
-Awemany,7
-Amaury Séchet,1293
+jjz,7
+Awemany,105
+BitcoinUnlimited Janitor,16
 Kalle Alm,3
+sanch0panza,73
 Jimmy Song,5
 Mario Dian,1
-freetrader,983
+Calin Culianu,1334
 Ricardo Velhote,1
-Antony Zegers,86
+Antony Zegers,88
 hanchon,6
-Andrea Suisani,55
-Dimitris Tsapakidis,1
+Dimitris Tsapakidis,2
 Mateo Friedman,1
 MeshCollider,17
-Calin Culianu,1314
-René Nyffenegger,2
+René Nyffenegger,3
 flack,1
-Neil Booth,4
-Dag Robole,3
-James Hilliard,1
+Dag Robole,4
+Brian McMichael,1
+James Hilliard,2
 gbrown,1
-Shammah Chancellor,246
+Marcus Diaz,6
+Shammah Chancellor,253
 klemens,1
-Jim Posen,34
+Jim Posen,43
 Eelis,2
-Werner Lemberg,1
+Lawrence Nahum,2
+Werner Lemberg,6
 danra,2
 Cristian Mircea Messel,4
-Dan Raviv,3
-Akio Nakamura,3
+Dan Raviv,4
+Akio Nakamura,4
 Adam Langley,1
 gnuser,1
-jjz,5
 dongsamb,1
 Paul Berg,1
-Tomas van der Wansem,5
+Tomas van der Wansem,9
+Debian Live user,3
 Dusty Williams,1
 Aaron Golliver,1
 donaloconnor,1
-Martin Ankerl,1
+Martin Ankerl,3
 Travin Keith,1
-Jason B. Cox,479
+Jason B. Cox,487
+Sjors Provoost,13
+awpcrypto,1
 Luke Mlsna,1
-Aaron Clauson,1
+Aaron Clauson,3
 Varunram,1
 Henrik Jonsson,3
 Pierre Rochard,1
-Sjors Provoost,10
-Bitcoin Error Log,1
+lonoami,20
+singularity87,1
 Jeff Rade,1
 Dan Litovitz,2
 Pablo Fernandez,1
 251,3
 BrendanEMahon,1
+goodvdh,1
 Randolf Richardson,1
+Greg Griffith,42
 Jeremiah Buddenhagen,1
 Matias Alejo Garcia,14
+Søren Bredlund Caspersen,102
 Andy Chen,7
 fivepiece,1
-Ben Woosley,27
-murrayn,2
+Ben Woosley,33
+murrayn,3
 matra774,9
-Conor Scott,4
-Evan Klitzke,8
-qshuai,2
+George Bissias,101
+Conor Scott,6
+Evan Klitzke,11
+Shuai Qi,2
 aethn,1
-Don Viszneki,1
+Don Viszneki,2
 Vasil Dimov,16
-Daniel Connolly,3
-Roman Zeyde,4
-joshuayabut,5
+Daniel Connolly,5
+Roman Zeyde,5
+joshuayabut,7
 buddilla,1
+stckwok,5
 William Robinson,1
-Jesse Cohen,6
-Chun Kuan Lee,26
+Jesse Cohen,7
+Chun Kuan Lee,31
 Dylan Clendenin,1
 Lionello Lunesu,1
 Qasim Javed,1
 Nuno Antunes,1
-Tim Ruffing,15
+Tim Ruffing,28
 lmanners,1
-TheCharlatan,4
+TheCharlatan,8
 Martin Leitner-Ankerl,1
+Weston Reed,1
 steverusso,1
 Giulio Lombardo,1
-Russell O'Connor,4
+PenTesting,1
+Russell O'Connor,8
 Mason Simon,1
-Fuzzbawls,1
+Fuzzbawls,2
 AtsukiTak,1
 Nico Guiton,132
 Joannes Vermorel,5
+OverlordQ,1
 Weipin Xia,1
-Julian Fleischer,2
+Julian Fleischer,6
+Marcin Jachymiak,1
+Dimitris Apostolou,6
+shaunOK,3
 Alexander Leishman,1
 Michael Goldstein,1
 Emanuele Cisbani,1
-Hennadii Stepanov,48
-Jonathan Toomim,18
+Hennadii Stepanov,51
+Jonathan Toomim,21
 marcoagner,1
-Fabien,656
-Phillip Mienk,1
+Fabien,665
 Martin Erlandsson,1
+Chris Pacia,1
 Shawn Wilson,1
-Carl Dong,18
+Carl Dong,30
 Karel Bilek,1
 Jon Layton,2
 Theo Armour,1
-Dimitris Apostolou,3
+John,1
 Marco Antonio Jaguaribe Costa,14
 marcaiaf,1
-liuyujun,1
+liuyujun,2
 Ben Carman,1
 Andres Correa Casablanca,1
-Mark Lundeberg,209
-Florian,12
+Mark Lundeberg,236
+Taylor Hornby,1
+Florian,18
 Gleb Naumenko,14
-DesWurstes,1
+DesWurstes,2
 riordant,1
-sken,6
+sken,12
+romanornr,1
+Greg-Griffith,182
 Emil,1
 Antoine Riard,1
 grim-trigger,1
-Seonpyo Kim,1
+Felix Weis,2
+Seonpyo Kim,2
 Ulrich Kempken,1
-philsmd,1
+Griffith,68
+philsmd,2
 Aseem Sood,1
-Kirill Fomichev,1
 Gert-Jaap Glasbergen,1
-roconnor-blockstream,1
-Mustapha Abiola,1
-Jan Xie,1
+roconnor-blockstream,2
+Mustapha Abiola,2
+Jan Xie,2
 tecnovert,1
+THETCR,1
 Jon Atack,19
 Martin Zumsande,3
-Fernando Pelliccioni,27
+Fernando Pelliccioni,29
 Nathan Marley,1
+Jack Grigg,6
 stefanwouldgo,1
 Sebastian Falbesoner,15
 Jan Beich,1
 Amiti Uttarwar,6
 nijynot,1
 ProtocolCash,2
-tobiasruck,6
-Peter Bushnell,1
+tobiasruck,9
+Peter Bushnell,2
 abc-bot,2
 Josh Green,1
-BigBlockIfTrue,208
+BigBlockIfTrue,210
 Shadow Of Harbringer,5
 howelzy,1
 imaginaryusername,58
 btcfork,4
 Jt Freeman,1
+Lenny Maiorani,1
 mtrycz,6
-Søren Bredlund Caspersen,31
-Griffith,2
+Daniel Edgecumbe,1
 merc1er,1
 10xcryptodev,2
 Troy Giorshev,5
+Axel Gembe,97
 Jonny Heggheim,1
-TomZ,6
 Riccardo Masutti,1
 Raúl Martínez (RME),1
 scyth,1
 sc-9310,1
-Axel Gembe,89
+redfish,1
 Florian Mercier,2
 GChuf,1
 Emergent Reasons,4
 Karol Trzeszczkowski,1
 dikel,1
+Justin Holmes,1
 exteradox,3
 Evan Meakyl,1
 BCHN Translators,12
+Nicolai Skye,2
+fdov,1
 ejose19,4
 farbi,2
 Jonas Lundqvist,3
@@ -672,6 +743,7 @@ mainnet-pat,7
 Fabian Jahr,4
 Kiminuo,1
 pasta,1
+Andrew Kallmeyer,1
 Marius Kjeldahl,1
 Isaac McDonald,1
 PiRK,1
