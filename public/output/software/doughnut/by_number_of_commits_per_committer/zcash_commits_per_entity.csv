@@ -25,12 +25,11 @@ Ricardo M. Correia,10
 Jaromil,1
 John Maguire,4
 Amir Yalon,1
-Wladimir J. van der Laan,2891
+Wladimir J. van der Laan,2892
 Forrest Voight,7
 Luke Dashjr,217
 Jordan Lewis,8
-Wladimir van der Laan,1
-Doug Huff,4
+Doug Huff,5
 Nils Schneider,29
 Dean Lee,2
 Han Lin Yap,10
@@ -70,19 +69,17 @@ Clark Gaebel,2
 Ang Iong Chun,1
 Michael Hendricks,5
 Dylan Noblesmith,1
-Rune K Svendsen,1
-sje397,5
+Rune K. Svendsen,6
+sje397,7
 coderrr,1
 Lars Rasmusson,1
-Gregory Maxwell,159
-gmaxwell,1
-Michael Ford,59
+Gregory Maxwell,160
+fanquake,82
 nomnombtc,1
 Philip Kaufmann,591
 Alistair Buxton,1
 Joel Kaartinen,1
 Pierre Pronchery,1
-Michael,1
 graingert,1
 cardpuncher,2
 Dwayne C. Litzenberger,2
@@ -90,14 +87,9 @@ R E Broadley,25
 Timothy Redaelli,2
 freewil,7
 Peter Todd,59
-Fordy,4
 Christian von Roques,7
 grimd34th,4
-fanquake,18
 xanatos,12
-Scott Ellis,2
-Douglas Huff,1
-Rune K. Svendsen,5
 Stephane Glondu,1
 Shen,1
 kjj2,4
@@ -116,7 +108,7 @@ Richard Schwab,2
 Eric Lombrozo,27
 Mike Hearn,10
 Colin Dean,2
-Rubén Darío Ponticelli,1
+Ruben Dario Ponticelli,4
 Andrew Poelstra,2
 mb300sd,1
 David Griffith,1
@@ -133,21 +125,20 @@ Vinnie Falco,5
 Chuck LeDuc Díaz,1
 William Yager,1
 Daniel Larimer,2
-super3,12
+super3,15
 Warren Togami,12
-Michagogo,4
+Micha,19
 Timon Rapp,1
-Victor Felder,1
+vhf / victor felder,1
 Cory Fields,287
 Cozz Lovan,65
-bitsofproof,1
+Tamas Blummer,2
 Vaclav Vobornik,1
 theuni,4
-Micha,18
 fcicq,5
 phelixbtc,2
 constantined,2
-patrick s,2
+Patrick Strateman,4
 Rav3nPL,1
 Johnathan Corgan,3
 Timothy Stranex,1
@@ -155,11 +146,9 @@ Charlie Lee,1
 Josh Lehan,2
 David Hill,2
 phantomcircuit,2
-Shawn Wilkinson,3
 Chuck,1
 Olivier Langlois,1
 Josh Triplett,8
-Patrick Strateman,1
 Sergey Kazenyuk,1
 Brandon Dahler,3
 Dmitry Smirnov,1
@@ -167,8 +156,8 @@ Florin,1
 Julian Langschaedel,1
 Ryan Niebur,1
 Sined,1
+Michagogo,3
 Michael Bauer,1
-Tamas Blummer,1
 regergregregerrge,1
 Lake Denman,3
 HaltingState,1
@@ -191,9 +180,9 @@ Daniel Newton,1
 Drak,7
 Ian Kelling,1
 Haakon Nilsen,2
-paveljanik,3
-jtimon,63
-arowser,1
+Pavel Janík,23
+jtimon,55
+daniel,1
 Torstein Husebø,1
 Andreas Schildbach,6
 ditto-b,2
@@ -219,7 +208,7 @@ Simon de la Rouviere,1
 Ian Carroll,1
 richierichrawr,1
 Fabian Raetz,2
-Matthew Bogosian,1
+Matt Bogosian,1
 shshshsh,2
 Federico Bond,5
 Kamil Domanski,15
@@ -231,18 +220,17 @@ LongShao007,3
 Tawanda Kembo,1
 tm314159,1
 Giuseppe Mazzotta,2
-sandakersmann,5
+Marius Kjærstad,12
 kevin,1
 dllud,1
 Pavel Vasin,3
 Whit J,3
 Tom Harding,11
-kazcw,2
+Kaz Wesley,2
 Trevin Hofmann,2
 JaSK,19
 Daniel Kraft,15
 Ross Nicoll,5
-Ruben Dario Ponticelli,3
 Zak Wilcox,3
 Otto Allmendinger,6
 elkingtowa,1
@@ -260,7 +248,7 @@ ENikS,9
 himynameismartin,1
 Adam Weiss,4
 Suhas Daftuar,27
-imharrywu,2
+imharrywu,3
 Benedict Chan,2
 kiwigb,3
 Eric Shaw,1
@@ -271,15 +259,14 @@ Andy Alness,1
 Luke,1
 21E14,7
 dexX7,12
-Pavel Janík,20
 mruddy,2
 Flavien Charlon,2
-HarryWu,1
 Glenn Willen,1
 mrbandrews,4
 Heath,1
 Ryan X. Charles,1
 Blake Jakopovic,1
+Jorge Timón,24
 BtcDrak,4
 Jameson Lopp,2
 Eric R. Schulz,3
@@ -288,7 +275,7 @@ Julian Yap,1
 Thomas Zander,2
 fsb4000,4
 Earlz,1
-Daira Hopwood,409
+Daira Hopwood,652
 Shaul Kfir,2
 Ivan Pustogarov,1
 Jonathan Brown,1
@@ -296,41 +283,36 @@ joshr,1
 Luca Venturini,2
 CohibAA,1
 Ruben de Vries,1
-Jorge Timón,16
 MarcoFalke,1
 pitwuu@gmail.com,1
-pstratem,1
 Dave Collins,3
 svost,1
 spin,1
 David A. Harding,4
-Taylor Hornby,152
+Taylor Hornby,153
 Nathan Wilcox,72
-Sean Bowe,459
-ebfull,13
+Sean Bowe,473
 Mansour Moufid,2
 Jonathan Zeppettini,2
 Matthew Herman,1
-Jack Grigg,3374
-zkbot,327
-Simon,528
+Jack Grigg,3568
+zkbot,237
+Simon,533
 Alfie John,3
 aniemerg,2
-GitHub,1013
+GitHub,1160
 Lars-Magnus Skog,1
-,5
-Kevin Gallagher,23
+Kevin Gallagher,24
 Jay Graber,78
-Kevin M. Gallagher,1
 David Mercer,4
 Joe Turgeon,2
 Paige Peterson,10
 Zcash Company,1
 Cameron Boehmer,1
 Murilo Santana,1
+Homu,1053
 Eran Tromer,1
 emilrus,1
-Homu,963
 kozyilmaz,8
 Bjorn Hjortsberg,2
 Ariel Gabizon,7
@@ -343,53 +325,45 @@ jc,1
 Maxwell Gubler,1
 rofl0r,1
 Brad Miller,3
-Charlie O'Keefe,13
-Eirik Ogilvie-Wigley,209
-Larry Ruane,131
+Charlie O'Keefe,14
+Eirik Ogilvie-Wigley,272
+Larry Ruane,135
 Duke Leto,3
 Richard Littauer,1
-Charlie OKeefe,1
 mdr0id,111
-Za Wilcox,1
+zancas,10
 WO,4
 avnish,14
 arielgabizon,2
 Gareth Davies,5
 George Tankersley,3
 avnish98,2
-Eirik0,63
 zebambam,10
 Mary Moore-Simmons,2
 Ian Munoz,1
 codetriage-readme-bot,1
-rex4539,1
+Dimitris Apostolou,27
 Alfredo Garcia,109
 Dagur Valberg Johannsson,1
-Dimitris Apostolou,26
 Miles Manley,1
-zancas,9
 gladcow,7
-Kris Nuttycombe,796
+Kris Nuttycombe,931
 Ben Wilson,8
 therealyingtong,92
 Danny Willems,3
 moss,2
 Rod Vagg,1
 noname45688@gmail.com,2
-ewillbefull@gmail.com,1
 elbandi,3
 Nate Wilcox,2
-str4d,3
 adityapk00,2
 furszy,15
 Josh Ellithorpe,1
 Alex Wied,6
-Marius Kjærstad,5
 Steven Smith,9
 Technetium,1
-Sasha,4
+sasha,73
 Conrado Gouvea,2
-sasha,69
 Marek,2
 Aditya Kulkarni,1
 nathannaveen,1
@@ -397,10 +371,11 @@ DeckerSU,4
 Greg Pfeil,210
 user,1
 Miodrag Popović,5
-Yasser Isa,5
+Yasser Isa,9
 cronicc,1
-Daira Emma Hopwood,69
 teor,1
-yasserisa,4
-Daira-Emma Hopwood,15
-y4ssi,2
+y4ssi,6
+Francisco Gindre,4
+dorianvp,1
+cui,1
+John Boyd,5

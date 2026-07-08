@@ -1,8 +1,7 @@
 sirius-m,77144
 s_nakamoto,169270
 Gavin Andresen,404795
-Satoshi Nakamoto,3310
---author=Satoshi Nakamoto,8652
+Satoshi Nakamoto,11962
 laszloh,16
 gavinandresen,2022
 Witchspace,29
@@ -10,125 +9,111 @@ David FRANCOIS,7
 Marius Hanne,4
 Chris,17
 Chris Moore,3348
+Luke Dashjr,408023
 ojab,31
 tcatm,1139
-devrandom,126
+devrandom,312
 Daniel Folkinshteyn,321
 sandos,2
 Matt Giuca,50
-Luke Dashjr,407931
-Matt Corallo,41803
+Matt Corallo,41830
 Jeff Garzik,162283
 Santiago M. Mola,27
+Pieter Wuille,575400
 Sven Slootweg,176
 Eric Swanson,7
-Pieter Wuille,550797
 gjs278,26
 Dan Loewenherz,9
 Carlo Alberto Ferraris,10
 Dan Helfman,6
 Ricardo M. Correia,212
 Jaromil,88613
+Khalahan,66
 John Maguire,26
 Amir Yalon,9
-Wladimir J. van der Laan,3077661
+Chris Howie,73
+Wladimir J. van der Laan,3141069
 Forrest Voight,256
 Daniel Holbert,2
-mewantsbitcoins,895
+Danube,3768
 Jordan Lewis,79
 Carlos Pizarro,916
-Blitzboom,875
 Anonymous,910
 Federico Faggiano,921
-Wladimir van der Laan,4
-m0ray,917
-Danube,1081
 dabaopku,1019
 ariel,472
 HostFat,14
 Jakob Kramer,75
-xHire,975
-Doug Huff,173
+Michal Zima,2287
+Doug Huff,175
 Nils Schneider,103307
 Dean Lee,861
 Han Lin Yap,1654
 Shane Wegner,5
 mark,7
+Dylan Noblesmith,121
 James Burkle,13
 Giel van Schijndel,63350
+Vegard Nossum,75
 Stéphane Gimenez,67
 Dawid Spiechowicz,1504
 Joerie de Gram,2
 Eric Hosmer,55
-Dylan Noblesmith,121
 Jay Weisskopf,7
 Patrick Varilly,22
-Chris Howie,73
-Celil,2372
+Celil,2378
 Michael Bemmerl,1294
 Abraham Jewowich,11
-celil-kj,6
 JoelKatz,81
 Jeroenz0r,2
 Johannes Henninger,5
-Vegard Nossum,75
+David Joel Schwartz,173
 Venkatesh Srinivas,16
 Fabian H jr.,16
-Michal Zima,1312
 ovdeathiam,636
-Dev Random,186
 Misbakh-Soloviev Vadim A,1133
+flower,170
+Janne Pulkkinen,169
 Alex Waters,20
 Alex B,4737
-Janne Pulkkinen,169
 cjdelisle,82
 p2k,2266
-flower,170
-Khalahan,66
 David Perry,333
-David Joel Schwartz,173
 Victor Leschuk,4
 globalcitizen,77
 kwaaak,3
 Nick Bosma,73
 Clark Gaebel,43
 Ang Iong Chun,2325
+sje397,1716
 Michael Hendricks,67
-Rune K Svendsen,5
-sje397,1020
+Rune K. Svendsen,197
 coderrr,170
 Lars Rasmusson,22
-Gregory Maxwell,11750
-gmaxwell,22
-Michael Ford,4443
+Gregory Maxwell,11772
+fanquake,1469932
 nomnombtc,1298
+Joel Kaartinen,1
 Philip Kaufmann,343458
 Alistair Buxton,1
-Joel Kaartinen,1
 Pierre Pronchery,2
-Michael,57
 graingert,2
 cardpuncher,4
 Dwayne C. Litzenberger,23
 R E Broadley,461
 Timothy Redaelli,14
 freewil,147
-Peter Todd,5608
-Fordy,103
+Peter Todd,5676
 Christian von Roques,622
 grimd34th,21
-fanquake,1100603
 xanatos,144
-Scott Ellis,696
-Douglas Huff,2
-Rune K. Svendsen,192
+Mike Hearn,26979
+justmoon,1139
 Stephane Glondu,72
 osmosis,39
 kjj2,36
 Mark Friedenbach,1212
 Virgil Dupras,9
-Mike Hearn,26979
-justmoon,1139
 Alex,13
 tucenaber,6
 Arnav Singh,64
@@ -138,76 +123,74 @@ default,12
 burger2,4
 redshark1802,14
 Mike Cassano,18
-Andrey Alekseenko,4
+Andrey,57
 Richard Schwab,33
-Andrey,53
-Eric Lombrozo,4545
-Sanjay Ghemawat,258
-David Grogan,117
 Colin Dean,385
-Rubén Darío Ponticelli,7
+Sanjay Ghemawat,258
+Eric Lombrozo,4545
+David Grogan,117
+Ruben Dario Ponticelli,44
 Petter Reinholdtsen,2
 Andrew Poelstra,125
 mb300sd,115
 David Griffith,2
-gladoscc,5
-Roman Mindalev,44
 Larry Gilbert,1
+Roman Mindalev,44
+gladoscc,5
+Jon Lund Steffensen,159
 Jonas Schnelli,103900
+Tariq Bashir,2
+Brandon Dahler,4188
 Patrick Brown,2
 Calvin Owens,6
 APerson241,4
 Scott Howard,229
-Tariq Bashir,2
 David Serrano,6
 Vinnie Falco,83250
+fcicq,33
 Chuck LeDuc Díaz,6
 William Yager,5
+coblee,58
 Daniel Larimer,4
-super3,3233
-Warren Togami,615
-Michagogo,16
-Timon Rapp,2
+super3,3715
 vhf / victor felder,23
-Cory Fields,46774
+Warren Togami,615
+Micha,714
+Cory Fields,49625
+Timon Rapp,2
 Cozz Lovan,6537
-bitsofproof,2
+Tamas Blummer,18
 Vaclav Vobornik,6
 theuni,17
-Micha,706
-fcicq,33
 phelixbtc,6
 constantined,1095
-patrick s,68
+Josh Lehan,220
+Patrick Strateman,3395
 Rav3nPL,2
 Johnathan Corgan,361
 Timothy Stranex,4
-coblee,58
-Josh Lehan,220
-David Hill,23
-phantomcircuit,8
-Shawn Wilkinson,482
 Chuck,56
+David Hill,23
 Olivier Langlois,48
-Josh Triplett,35
-Patrick Strateman,3176
-Sergey Kazenyuk,2
-Brandon Dahler,4188
+phantomcircuit,8
 sje,1546
+Josh Triplett,35
+Sergey Kazenyuk,2
 Guillermo Céspedes Tabárez,147
 Dmitry Smirnov,2
 Florin,2
 Julian Langschaedel,6
+Michael Bauer,11
 Ryan Niebur,2
 Sined,0
-Michael Bauer,11
-Tamas Blummer,16
+Michagogo,8
+HaltingState,5
 regergregregerrge,2
 Lake Denman,10
-HaltingState,5
 Kangmo,17
 Thomas Holenstein,835
 Christian Decker,31
+MarcoFalke,562805
 harry,4
 Christopher Latham,5
 Scott Willeke,2
@@ -218,987 +201,1007 @@ Calvin Tam,4
 Midnight Magic,131
 Subo1978,6
 b6393ce9-d324-4fe1-996b-acf82dbc3d53,2
+Daniel Newton,64
 Bryan Bishop,496
 Wil Bown,4
-Daniel Newton,34
 Drak,37
 Ian Kelling,17
 Haakon Nilsen,25
-paveljanik,97
-jtimon,17038
 daniel,43
+Pavel Janík,2928
+jtimon,16682
 Torstein Husebø,18
+Alon Muroch,312
 Andreas Schildbach,45
 ditto-b,9
-Thomas Zander,126
-Addy Yeow,1
 philsong,2
+Thomas Zander,126
+Addy Yeow,3
 Meeh,1
 Mikael Wikman,6
 peryaudo,6
-Chris Beams,4
 Isidoro Ghezzi,33
+Chris Beams,4
 Andrea D'Amore,4
 Yoichi Hirai,5
-Bardi Harborow,5
 Manuel Araoz,675
+JaSK,1459
+Bardi Harborow,5
 duanemoody,3
-Alon Muroch,312
 Telepatheic,2
 olalonde,4
+rxl,64
 langerhans,2
 Hector Jusforgues,2
 Eric S. Bullington,7
-rxl,64
 Altoidnerd,9
 Simon de la Rouviere,4
 Ian Carroll,3
+David A. Harding,1176
 richierichrawr,7
 Fabian Raetz,26
-David A. Harding,1176
-Matthew Bogosian,2
+Kamil Domanski,1662
+Mathy Vanvoorden,2
+Matt Bogosian,6
+Roy Badami,28261
 shshshsh,9
 Federico Bond,25
-Kamil Domanski,1662
 Stuart Cardall,23
-Roy Badami,28261
-Huang Le,94
 Kosta Zertsekel,96
-LongShao007,33
-Mathy Vanvoorden,2
+Huang Le,94
 Tawanda Kembo,7
+LongShao007,33
 tm314159,1
+Ross Nicoll,234
 Giuseppe Mazzotta,138
-sandakersmann,562
-kevin,1
+Marius Kjærstad,40
+kevin,30
 dllud,12
 Pavel Vasin,61
 Whit J,27
 Tom Harding,855
-kazcw,60
+Kaz Wesley,595
 Trevin Hofmann,11
 Julian Haight,2
-JaSK,1459
 Daniel Kraft,2246
-Ross Nicoll,224
-Ruben Dario Ponticelli,23
+Clinton Christian,457
 Zak Wilcox,31
 Otto Allmendinger,10
 elkingtowa,4
-Clinton Christian,457
-Alex Morcos,11602
 Aitor Pazos,65
-Doug,176
+Alex Morcos,11602
+Doug,16
+Adam Weiss,592
 pryds,92
 ntrgn,24
 Ben Holden-Crowther,4
 Derek701,2
 randy-waterhouse,4614
-elichai,2
+Teran McKinney,6
+Elichai Turkel,163
 Rose Toomey,25
 Dominyk Tiller,24
 ENikS,172
 himynameismartin,10
-Teran McKinney,6
-Adam Weiss,592
-Suhas Daftuar,26131
-imharrywu,3
+SergioDemianLerner,572
 Benedict Chan,4
-Alexander Jeng,8
-Eric Shaw,223
+Suhas Daftuar,33835
+Murch,4608
 Janusz Lenar,4
+imharrywu,5
+Andy Alness,15
+Alexander Jeng,8
+Eric Shaw,357
 Saivann,4
 sinetek,87
-SergioDemianLerner,572
 JL2035,2
-Andy Alness,15
 Luke,2
-Ruben Dario Ponticeli,14
 21E14,95
 dexX7,332
-Pavel Janík,2831
-mruddy,937
 Francis GASCHET,2
+mruddy,937
 kiwigb,67
+Jorge Timón,6120
 Flavien Charlon,10
-HarryWu,2
-Glenn Willen,3578
 mrbandrews,3862
+Glenn Willen,3606
 Heath,144
 Ryan X. Charles,54
 Blake Jakopovic,136
+Ivan Pustogarov,7
 BtcDrak,1856
-Jameson Lopp,150
+sandakersmann,528
+azeteki,4
+Jameson Lopp,173
 Eric R. Schulz,20
 Everett Forth,37
-azeteki,4
 Julian Yap,2
-fsb4000,41
-Earlz,53
 Vitalii Demianets,2
-Matt Bogosian,4
-UdjinM6,107
-bikinibabe,6
+fsb4000,41
+UdjinM6,119
+Earlz,53
 Daira Hopwood,24
+bikinibabe,6
 Shaul Kfir,32
-Ivan Pustogarov,7
+Luca Venturini,452
+charlescharles,2
 Jonathan Brown,2
 Ciemon,49
-joshr,80
+Nicolas Benoit,38
 Rob Van Mieghem,10
-Luca Venturini,452
+joshr,80
+Jason Lewicki,5
 CohibAA,18
 Ruben de Vries,9
-Jorge Timón,5764
-MarcoFalke,489849
-charlescharles,2
-Nicolas Benoit,38
-Jason Lewicki,5
-pstratem,10
-Dave Collins,29
-svost,4
-Corinne Dashjr,159
+zathras-crypto,23
 Chris Arnesen,2
-ayeowch,2
 BitcoinPRReadingGroup,6
+Dave Collins,29
+Corinne Dashjr,159
+svost,4
+João Barbosa,9551
 lpescher,5
 Erik Mossberg,0
 Andriy Voskoboinyk,6
 Paul Rabahy,164
 Stephen,6
+Alex van der Peet,25
 Jacob Welsh,137
 rion,25
-Alex van der Peet,25
 Esteban Ordano,8
-Florian Schmaus,58
+Florian Schmaus,62
 Paul Georgiou,18
 Braydon Fuller,45
-฿tcDrak,2
 tailsjoin,26
+฿tcDrak,2
 centaur1,30
 Simon Males,5
-zathras-crypto,23
 Casey Rodarmor,1999
 Pavol Rusnak,1415
 Matt Quinn,8
 unsystemizer,53
-Marco,626
 Veres Lajos,46
+antonio-fr,2
 ptschip,345
-J Ross Nicoll,10
 Kevin Cooper,39
 Ian T,2
+James O'Beirne,15541
+Ryan Havar,12
 Irving Ruan,2
-João Barbosa,9551
 Diego Viola,8
-EthanHeilman,360
+EthanHeilman,496
 Arne Brutschy,7
-James O'Beirne,15042
 Chris Kleeschulte,2
+Michael Ford,145
 Mitchell Cash,338
-Thomas Kerin,199
 Daniel Cousens,9693
+Thomas Kerin,199
 Bob McElrath,410
 Jonathan Cross,14
 Peter Josling,10
-Patick Strateman,141
-tulip,14
+Gregory Sanders,11351
 Nick,4
-Ryan Havar,12
-Gregory Sanders,3513
-antonio-fr,2
-AlSzacrel,13
-Murch,3167
+tulip,14
+error10,2
 Suriyaa Kudo,2
 accraze,31
+Ethan Heilman,872
 Elias Rohrer,1
 Marcel Krüger,3
 calebogden,14
 crowning-,4
 Chris Wheeler,26
 Prayag Verma,8
-Andrew C,207
-Ethan Heilman,907
+Johnson Lau,2378
+Andrew Chow,60432
 Jarret Dyrbye,11
 Nathaniel Mahieu,24
 Kefkius,6
 kirkalx,9
 Matt,2
-instagibbs,561
 Leviathn,288
 jmacwhyte,2
 jloughry,20
-Andrés G. Aragoneses,2
-Matthew Zipkin,2112
+Andrés G. Aragoneses,53
+Matthew Zipkin,8154
 Cédric Félizard,6
+JeremyRand,42
 Alice Wonder,902
 Alfie John,2
+Luv Khemani,34
 lewuathe,4
+Francesco 'makevoid' Canessa,27
+Pedro Branco,969
 Elliot Olds,24
 Mustafa,78
-Luv Khemani,34
+NicolasDorier,1976
 Denis Lukianov,2
-NicolasDorier,1092
-JeremyRand,42
 Adam Brown,2
-Matthew English,7
-Johnson Lau,2363
+S. Matthew English,39
 Alexander Regueiro,4
 Rusty Russell,28
-Kaz Wesley,535
+Nikolay Mitev,38
 Joao Fonseca,243
-face,28
-Yuri Zhykin,60
-Chris Stewart,262
-Andrew,43
-Andrew Chow,121344
+whythat,359
+Chris Stewart,292
 Puru,2
-Pedro Branco,969
 Chirag Davé,10
 Tyler Hardin,146
-error10,2
+CryptoVote,23
 Jonas Nick,194
-Francesco 'makevoid' Canessa,27
+Jeremy Rubin,3284
 Will Binns,144
 TheLazieR Yip,2
-jl2012,15
 Matthew King,52
 Krzysztof Jurewicz,12
+maiiz,2
 Thomas Snider,483
 lizhi,3
-whythat,299
 Michael Rotarius,110
 adlawren,11
-CryptoVote,23
 Justin Camarena,6
+Leif Jurvetson,18
 Sev,2
-leijurv,18
-Jeremy Rubin,3284
-Nicolas DORIER,81
 Christian Barcenas,4
-Anthony Towns,48350
-djpnewton,30
+Anthony Towns,54023
 isle2983,1421
 Alexey Vesnin,2
+Douglas Roark,342
 Hampus Sjöberg,13
 Gaurav Rana,2
 rodasmith,4
 Spencer Lievens,11
 Anders Øyvind Urke-Sætre,2
 Jiaxing Wang,12
-Marty Jones,5
-maiiz,2
-Amir Abrams,12
-Derek Miller,12
 jonnynewbs,197
-jnewbery,1883
-Lauda,28
+Marty Jones,5
+Amir Abrams,12
+Lauda,32
+Derek Miller,12
+John Newbery,152182
+Stanislas Marion,26
+Russell Yanofsky,42777
 Dagur Valberg Johannsson,4
 Steven,1
 poole_party,39
 matthias,9
-anduck,4
-Russell Yanofsky,42468
-S. Matthew English,32
-Jon Lund Steffensen,159
+anduck,7
 Geoffrey Tsui,11
 Robert McLaughlin,2
-John Newbery,150299
 Masahiko Hyuga,6
 Brian Deery,4
 Greg Walker,2
-Karl-Johan Alm,9015
+Karl-Johan Alm,8854
 Ivo van der Sangen,1
 wodry,110
 Richard Kiss,18
-Douglas Roark,182
 Anditto Heristyo,101
-Stanislas Marion,26
 Don Patterson,2
 practicalswift,29197
+Kalle Alm,271
 James White,34
-Daniel Aleksandersen,2
 Koki Takahashi,16
+Daniel Aleksandersen,2
+aideca,21
 Takashi Mitsuta,15
 ロハン ダル,3947
+kobake,6
 CryptAxe,68
 kirit93,15
 Marko Bencun,1231
+James Evans,21
 Marijn Stollenga,38
-keystrike,5
-kobake,6
-Lawrence Nahum,62
+Matthias Grundmann,262
 Mike van Rossum,2
+Lawrence Nahum,62
 Michael Goldstein,21
-James Evans,16
-Kalle Alm,106
-flack,75
-Eric Shaw Jr,134
-Nicolas Dorier,2
+flack,83
+Jack Grigg,559
 Kyle Honeycutt,7
 Awemany,6
-Matthias Grundmann,262
-Kewde,5
 Allan Doensen,15
+Kewde,5
 KibbledJiveElkZoo,2
-aideca,21
 Mario Dian,159
 Jimmy Song,474
 Shigeya Suzuki,6
 Mikerah,2
 Chris Gavin,6
 Marcos Mayorga,4
+shaolinfry,33
 Greg Griffith,5
 Simone Madeo,19
-Jack Grigg,559
+Ricardo Velhote,66
 Ahmad Kazi,2
-shaolinfry,33
 Pavlos Antoniou,16
-Andres G. Aragoneses,51
 tnaka,1
 Dimitris Tsapakidis,126
-Ricardo Velhote,66
-MeshCollider,17055
+MeshCollider,61516
 esneider,33
+Kyuntae Ethan Kim,11
 Akio Nakamura,828
 darksh1ne,4
-Kyuntae Ethan Kim,11
-romanornr,4
-Dag Robole,44
 René Nyffenegger,70
-Carl Dong,22427
+romanornr,4
+Ferdinando M. Ametrano,47
+Dag Robole,44
+Carl Dong,22450
 Steven D. Lander,12
 Brian McMichael,6
 James Hilliard,68
-Ferdinando M. Ametrano,47
+Charlie Lee,12
+Lucas Betschart,31
 Evan Klitzke,939
 Felix Weis,362
-Charlie Lee,12
 klemens,30
-Eelis,79
 Jim Posen,15030
-Karel Bílek,4
+Eelis,79
+Karel Bilek,824
+Werner Lemberg,196
+Cristian Mircea Messel,305
 Joe Harvell,13
 danra,39
 Dan Raviv,264
-Cristian Mircea Messel,305
+Adam Langley,30
 Daniel Edgecumbe,98
 Utsav Gupta,2
 gnuser,12
-Sjors Provoost,9940
-Adam Langley,30
 jjz,10
-donaloconnor,41
+donaloconnor,43
+Sjors Provoost,23960
+dongsamb,12
 Paul Berg,1
-Lucas Betschart,31
+Tomas van der Wansem,15
 Shooter,2
 Pierre Rochard,383
 Alejandro Avilés,1
-Donal OConnor,2
 Dusty Williams,6
 Johannes Kanig,2
-Tomas van der Wansem,15
-Aaron Clauson,10708
 Aaron Golliver,61
+Aaron Clauson,10708
+Martin Ankerl,615
 Christian Gentry,6
 Vivek Ganesan,6
 Thoragh,21
 Willy Ko,85
-Werner Lemberg,196
 Luke Mlsna,34
 Andras Elso,2
 sean,142
 aaron-hanson,4
-Varunram Ganesh,2
+Varunram,9
 Tim Shimmin,2
 Henrik Jonsson,137
-dongsamb,12
-Varunram,7
-laudaa,4
-Martin Ankerl,5445
-Jan Čapek,1
-Pablo Fernandez,2
-William Casarin,413
 Jeff Rade,150
+Jan Čapek,1
+Andrea Comand,27
+Pablo Fernandez,2
+William Casarin,417
 251,452
+Peter Wagner,1
 Akira Takizawa,937
 Jacky C,4
+Randolf Richardson,57
 azuchi,2
 Alin Rus,44
 Jan Sarenik,2
 Jeremiah Buddenhagen,2
 Felix Wolfsteller,2
-Andrea Comand,27
-Randolf Richardson,57
 Alex Vear,23
-murrayn,176
-Clem Taylor,2
-Conor Scott,339
 fivepiece,144
+murrayn,277
+Clem Taylor,2
 Ben Woosley,5049
-Karel Bilek,820
+Conor Scott,339
+Damian Williamson,18
 Ernest Hemingway,7
-Josh Hartshorn,2
 DaveFromBinary,4
+Josh Hartshorn,2
+Matt Whitlock,18
 532479301,4
-Ken Lee,119
+Chun Kuan Lee,6540
+Dan Bolser,1
 Dimitris Apostolou,142
 Michał Zabielski,4
-Dan Bolser,1
-kallewoof,4
-e0,3
 Nick Vercammen,2
-Vasil Dimov,14180
+Vasil Dimov,19345
 Drew Rasmussen,6
-lutangar,8
-Kevin Pan,29
+Roman Zeyde,736
 Alexey Ivanov,137
-Roman Zeyde,174
+lutangar,8
 Gabriel Davidian,10
 joemphilips,2
-Chun Kuan Lee,6416
-ccdle12,9
+Christopher Coverdale,82
+buddilla,2
 Will Ayd,24
 Indospace.io,4
-buddilla,2
+mryandao,38
 Steve Lee,2
 Darko Janković,10
 okayplanet,2
 Jesse Cohen,594
-mryandao,38
-Kristaps Kaupe,196
+William Robinson,92
+Miguel Herranz,65
+Kristaps Kaupe,215
 ctp-tsteenholdt,244
-Bernhard M. Wiedemann,4
 Qasim Javed,100
-Damian Williamson,18
-marcoagner,310
-Tim Ruffing,280
-lmanners,115
-Grady Laksmono,43
-John Bampton,829
+Bernhard M. Wiedemann,4
 Linrono,6
+marcoagner,310
+chris-belcher,97
+Tim Ruffing,352
+Martin Leitner-Ankerl,7153
+Grady Laksmono,43
+lmanners,131
+John Bampton,831
+lucash-dev,469
 GreatSock,27
+TheCharlatan,42099
 Brandon Ruggles,2
+Gleb Naumenko,2716
 Jeff Frontz,8
-Lowell Manners,16
 steverusso,79
-Giulio Lombardo,331
 Max Kaplan,10
-lucash.dev@gmail.com,68
+Giulio Lombardo,331
 Loganaden Velvindron,2
 DesWurstes,88
 Matteo Sumberaz,4
-Sebastian Kung,450
 Samuel B. Atwood,9
 winder,71
 Conrado Gouvea,2
-Gleb,64
 Mason Simon,64
-Nikolay Mitev,10
-AtsukiTak,12
+Jordan Baczuk,70
 Fuzzbawls,22
-Julian Fleischer,882
+AtsukiTak,12
 DrahtBot,1862
-TheCharlatan,11651
-Hennadii Stepanov,519343
-William Robinson,92
+Julian Fleischer,882
+Hennadii Stepanov,813914
 johnlow95,2
 Marcin Jachymiak,259
-Kvaciral,101
+Dimitri,1548
 Jon Layton,550
 Alexander Leishman,18
 Kostiantyn Stepaniuk,20
 Antoine Riard,2518
-Jordan Baczuk,70
+MapleLaker,80
 Emanuele Cisbani,2
 Michael Polzer,6
 araspitzu,8
 liuyujun,4
 Arvid Norberg,58
 sanket1729,217
-chris-belcher,97
 Walter,1
 Antoine Le Calvez,33
 Justin Turner Arthur,199
 gustavonalle,13
+priscoan,14
+Daniel McNally,2
 poiuty,2
-Damian Mee,4
 Eric Scrivner,5
+Damian Mee,4
+Tobias Kaderle,4
 Martin Erlandsson,357
+Chakib Benziane,10
 Harry Moreno,2
-Murray Nesbitt,101
 fridokus,27
 Lenny Maiorani,68
-ken2812221,5
 1Il1,4
+Zain Iqbal Allarakhia,52
+luciana,10
 Steven Roose,58
 Cornelius Schumacher,30
-Chakib Benziane,10
-Zain Iqbal Allarakhia,52
-Craig Younkins,2
-andrewtoth,258
 vim88,66
-priscoan,14
+Craig Younkins,2
+Andrew Toth,4020
 qubenix,2
 Daniel Ingram,35
 Emil Engler,230
-lucash-dev,401
-luciana,10
+bpay,3
 Stephan Oeste,4
-Ben Carman,98
+Ben Carman,121
 bitcoinhodler,2
 Graham Krizek,66
 marcaiaf,168
-Antti Majakivi,3
 Alexey Poghilenkov,6
-benthecarman,18
+kodslav,7
 Vidar Holen,48
-Daniel McNally,2
 Amiti Uttarwar,6099
-OverlordQ,4
-Gleb Naumenko,2618
-riordant,24
 Adam Jonas,793
+OverlordQ,4
 Alistair Mann,27
 marcuswin,12
-Jon Atack,23245
-gwillen,28
-Miguel Herranz,65
+riordant,24
+darosior,38
+Jon Atack,31532
 r8921039,14
-Torkel Rogstad,19
-Peter Bushnell,134
+Torkel Rogstad,53
+Peter Bushnell,215
 Jack Mallers,2
-Tobias Kaderle,4
-Emil,27
 nkostoulas,41
+Emil,27
 keepkeyjon,2
-Peter Wagner,1
+Antoine Poinsot,11392
+Ryan Ofsky,72817
+tryphe,26
 grim-trigger,5
 orient,4
 Chris Capobianco,2
-darosior,122
+shannon1916,11
 Ulrich Kempken,35
 Josu Goñi,14
-shannon1916,11
+Igor Cota,542
 Neha Narula,232
+Jeffrey Czyz,383
 Aseem Sood,2
-nicolas.dorier,801
-RJ Rybarczyk,1
-Gert-Jaap Glasbergen,57
-qmma,37
 Kirill Fomichev,35
-Fabian Jahr,8922
+Gert-Jaap Glasbergen,57
+RJ Rybarczyk,1
+qmma,37
+Fabian Jahr,14995
 tecnovert,2
 THETCR,8
 zenosage,9
-Kristian Kramer,155
-Martin Zumsande,3982
-Elichai Turkel,161
-Chuf,19
-Nils Loewen,2
+ezegom,166
 Joonmo Yang,74
+Hugo Nguyen,905
+Kristian Kramer,155
 setpill,48
 David Reikher,89
-bpay,3
-ezegom,166
-Sebastian Falbesoner,15780
-Michael Folkson,25
+Martin Zumsande,6066
+Craig Andrews,19
+Chuf,19
+Nils Loewen,2
 "Jonathan ""Duke"" Leto",9
-GChuf,14
-Samuel Dobson,44461
-Larry Ruane,896
+GChuf,18
+Sebastian Falbesoner,22438
+Michael Folkson,25
+Tim Akinbo,7
+Dan Gershony,8
+John L. Jegutanis,39
+Larry Ruane,982
 clashicly,5
 soroosh-sdi,154
-Igor Cota,542
 Nathan Marley,25
-Craig Andrews,19
-BlockMechanic,6
-Dan Gershony,8
-Tim Akinbo,7
+Block Mechanic,62
+stefanwouldgo,87
 Brian Solon,4
-gchuf,4
 Franck Royer,4
 Ava Barron,4
-John L. Jegutanis,39
-Daki Carnhof,4
-Andrew Toth,1196
-Zakk,2
+Daki Carnhof,29
 dannmat,24
-User,34
+Zakk,2
 Danny-Scott,5
-Block Mechanic,56
 JeremyCrookshank,4
-MapleLaker,80
-Jeffrey Czyz,383
-Marius Kjærstad,6
+James Chiang,388
 Jan Beich,2
-kodslav,7
-Rjected,29
 nijynot,21
-randymcmillann,10
-JamesC,299
-James Chiang,89
-randymcmillan,61
-stefanwouldgo,87
-tryphe,26
+Rjected,29
+randymcmillan,227
+HAOYUatHZ,22
 Gr0kchain,5
 Mark Erhardt,2
 ianliu,4
 NullFunctor,4
-Harris,698
 Dominik Spicher,23
+Harris,698
 Wilson Ccasihue S,8
 malevolent,6
 willyk,6
 hackerrdave,4
 Mark Tyneway,4
-Carnhof Daki,25
-Zero,21
-Sanjay K,26
-Bushstar,81
 Micky Yun Chan,31
+Sanjay K,26
+Aaron Hook,50
+Adam Soltys,6
+Zero,79
+furszy,13482
 Gastón I. Silva,1
+Yuval Kogman,15
+emu,45
 Samer Afach,64
+0xb10c,4182
 Travin Keith,22
 Filip Gospodinov,8
-0xb10c,2641
 Yancy Ribbens,28
 Yusuf Sahin HAMZA,106
-David O'Callaghan,48
-Gloria Zhao,243
+Kiminuo,2589
 Albert,4
-emu,45
+gzhao408,3621
+David O'Callaghan,48
+nthumann,275
 4d55397500,2
 “jkcd”,6
 pierrenn,108
 glowang,185
-Suriyaa Sundararuban,34
+Suriyaa Sundararuban,40
+Seibart Nedor,254
 Yahia Chiheb,2
 U-Zyn Chua,4
 Saahil Shangle,2
-Adam Soltys,6
 Danny Lee,84
-Hugo Nguyen,905
 10xcryptodev,59
 Chris Abrams,4
-Anthony Fieroni,41
 Rod Vagg,21
-gzhao408,1797
-codeShark149,96
-Ivan Vershigora,2
+Anthony Fieroni,41
+codeShark149,115
 Calvin Kim,70
-furszy,9870
-pad,2
-Jonathan Schoeller,25
-Kiminuo,2589
-sachinkm77,2
-Gillian Chu,23
-pasta,214
+Ivan Vershigora,2
 Troy Giorshev,980
+pad,2
+Gillian Chu,23
+Jonathan Schoeller,25
+sachinkm77,2
+Ivan Metlushko,1166
+pasta,351
 MIZUTA Takeshi,5
 TrentZ,4
-Ivan Metlushko,1166
+Roy Shao,122
 wiz,1
 Alex Willmer,2
-Roy Shao,122
 jmorgan,6
-saibato,19
-Aaron Hook,50
-Christopher Coverdale,73
+saibato,24
 Duncan Dean,27
 Riccardo Spagni,2
-Brian Liotti,384
-nsa,2
 Amir Ghorbanian,46
+Brian Liotti,384
+Eugene Siegel,1881
+Sishir Giri,118
 freenancial,4
 Chris L,12
 Justin Moon,2
-Robert,20
-eugene,19
 Riccardo Masutti,36
-skmcontrib,4
+Robert,20
 Adam Stein,25
 Jake Leventhal,19
+skmcontrib,4
 Torhte Butler,10
-Dhruv Mehta,1009
-Nadav Ivgi,6
-Antoine Poinsot,8476
+Dhruv Mehta,1366
 Seleme Topuz,174
+Nadav Ivgi,6
 Raúl Martínez (RME),11
-nthumann,269
 Benoit Verret,4
 grubles,13
-t-bast,345
-Nicolas Thumann,6
-gr0kchain,8
 Oliver Gugger,30
-Sishir Giri,118
-kanon,6
-maskoficarus,2
-Nima Yazdanmehr,10
+t-bast,345
 Elliott Jin,194
-Prayank,358
+Prayank,367
+maskoficarus,2
+gr0kchain,8
+kanon,6
+Nima Yazdanmehr,10
 Elle Mouton,62
-RandyMcMillan,4
-Stepan Snigirev,2
 Dmitry Petukhov,24
+Stepan Snigirev,2
 Tyler Chambers,76
 Fabrice Fontaine,6
-Michael Dietz,1542
-lontivero,6
-Niklas Gögge,189
-Jarol Rodriguez,1065
+Michael Dietz,1704
+lontivero,21
+dergoegge,4326
+Jarol Rodriguez,1090
+Mark Lundeberg,246
 pox,5
-Lucas Ontivero,15
-Joel Klabo,2
-Sawyer Billings,38
+Uplab,2
 Ikko Ashimine,42
+Joel Klabo,2
+Jadi,119
+Sawyer Billings,38
+Bezdrighin,155
+PiRK,4
 Michael Tidwell,22
 jackielove4u,153
-jarolrod,25
-HAOYUatHZ,22
 coinforensics,1
 benk10,12
-Bezdrighin,155
-Fotis Koutoupas,4
-Gunar Gessner,29
-Gunar C. Gessner,174
-Bruno Garcia,46
 Dan Benjamin,54
+Gunar C. Gessner,203
+Fotis Koutoupas,4
+brunoerg,5306
 lisa neigut,2
 parazyd,7
+Jake Rawsthorne,157
 Fu Yong Quah,6
-Uplab,2
 Sylvain Goumy,7
-dscotese,2
-Russell O'Connor,128
+dscotese,8
 fyquah,217
+Russell O'Connor,128
+bruno,86
 Maayan Keshet,64
-Jadi,7
-bruno,129
-glozow,39942
-W. J. van der Laan,63404
+apitko,6
 Yerzhan Mazhkenov,12
 sgulls,4
 fdov,2
-klementtan,709
-Pierre K,4
+klementtan,977
 dplusplus1024,6
-William Bright,9
 windsok,292
-Yuval Kogman,15
-unknown,9
+William Bright,9
 Guido Vranken,2
-Klement Tan,268
 Raul Siles,8
 amadeuszpawlik,315
 Patrick Kamin,4
-apitko,6
+Juan Pablo Civile,171
 Darius Parvin,151
+Dmitry Goncharov,110
+josibake,3067
 S3RK,1304
-Josiah Baker,14
-Dmitry Goncharov,108
 Adrian-Stefan Mares,23
 Tushar Singla,1
+lsilva01,692
 Sriram,348
+glozow,96726
 Nelson Galdeman,6
+Shashwat,262
 h,2
-jonatack,243
+naiza,11
 Cuong V. Nguyen,2
 Alex Groce,75
-naiza,11
-Zero-1729,58
 NikhilBartwal,36
-lsilva01,692
 Prateek Sancheti,222
-Shubhankar Gambhir,155
-Suriyaa Rocky Sundararuban,6
-Saibato,5
-Shashwat,262
+Shubhankar,180
+stratospher,5875
+ritickgoenka,70
+pranabp-bit,17
 Rafael Sadowski,12
 aitorjs,6
-ritickgoenka,70
 Shorya,18
-merge-script,31693
+Arnab Sen,398
+merge-script,1691
 pradumnasaraf,6
 ShubhamPalriwala,101
-Jeremy Rand,20
-Douglas Chimento,383
-rajarshimaitra,19
-pranabp-bit,17
-BitcoinTsunami,244
-Shubhankar,25
-brunoerg,3063
+Jeremy Rand,32
+Douglas Chimento,387
 katesalazar,2
 =,10
 Heebs,4
-josibake,2802
+Rob Fielding,17
 Kennan Mell,1
-Pasta,137
 Joan Karadimov,1
-Martin Leitner-Ankerl,2128
 zealsham,2
 Pavel Safronov,84
+node01,27
 CallMeMisterOwl,467
-0xree,2
-Matt Whitlock,10
 anouar kappitou,7
 Nathan Garabedian,8
 Kittywhiskers Van Gogh,23
-Arnab Sen,398
 Perlover,51
+sstone,872
 Florian Baumgartl,7
 brianddk,4
-Dimitri,1447
-node01,27
-Rob Fielding,17
-sstone,89
 Tobin Harding,2
-stratospher,5109
 HiLivin,2
-w0xlt,1703
+w0xlt,3571
 seaona,14
 Rojar Smith,1
 Kuro,8
-laanwj,255283
-Ryan Ofsky,21096
+stickies-v,5836
+laanwj,257843
 sogoagain,9
-willcl-ark,1656
+willcl-ark,880
+junderw,34
 Bitcoin Hodler,12
 sh15h4nk,34
-Seibart Nedor,254
 Taeik Lim,6
-junderw,34
-stickies-v,3396
-Ayush Sharma,1116
-jessebarton,2
-gruve-p,49
-ishaanam,1623
 phyBrackets,13
-Dave Scotese,6
-Jacob P. Fickes,10
-dhruv,357
+ishaanam,2495
+gruve-p,49
 /dev/fd0,6
-TakeshiMusgrave,246
+Ayush Sharma,1116
+Jesse Barton,14
+Jacob P. Fickes,10
+KevinMusgrave,250
 Eunoia,277
-Chris Geihsler,18
-Baas,83
-chinggg,183
 Aurèle Oulès,1320
-dergoegge,3654
+Baas,83
+akankshakashyap,42
+Chris Geihsler,18
+hiago,145
+Daniela Brozzoni,417
+chinggg,183
 brydinh,130
 Smlep,151
-akankshakashyap,42
-hiago,145
-KevinMusgrave,4
-MacroFake,34664
-whiteh0rse,130
 avirgovi,5
-Marnix,41
+whiteh0rse,130
 Suhail Saqan,9
+Marnix,55
 David Bakin,4
 mutatrum,2
-Daniela Brozzoni,212
-Kolby Moroz Liebl,2
-Oskar Mendel,5
-BrokenProgrammer,27
+Kolby ML,6
 CAnon,5
+BrokenProgrammer,32
+kouloumos,600
 Igor Bubelov,20
 Pablo Greco,3
 Greg Weber,4
-Andreas Kouloumos,425
 Stacie,6
+Leonardo Lazzaro,21
 Robert Spigler,2
 Ali Sherief,1
-dontbyte,2
-yancy,20
+Ava Chow,255193
 Janna,40
-kouloumos,175
-muxator,11
+dontbyte,2
+yancy,79
 Leonardo Araujo,21
-Greg Sanders,3577
+muxator,11
+David Gumberg,2485
 Stacie Waleyko,10
 Jeff Ruane,1
-omahs,12
-@RandyMcMillan,3
-John Moffett,453
-Randall Naar,6
+omahs,18
+will,3025
 Skuli Dulfari,6
+John Moffett,523
+Randall Naar,7
+virtu,5581
 FractalEncrypt,9
 JoaoAJMatos,14
-kdmukai,37
-Joshua Kelly,1
-jdjkelly@gmail.com,18
 Miles Liu,185
-Juan Pablo Civile,171
-Kolby ML,4
-721217.xyz,29
-SomberNight,6
-Leonardo Lazzaro,21
-David Gumberg,241
+kdmukai,37
+jdjkelly@gmail.com,19
+pablomartin4btc,752
+SomberNight,8
 roconnor-blockstream,22
 hernanmarino,6
-dougEfish,4
-pablomartin4btc,243
-ekzyis,2
-virtu,1023
-ismaelsadeeq,1188
+ekzyis,77
+Hernan Marino,65
+ismaelsadeeq,6070
 Vasil Stoyanov,57
 dimitaracev,24
-Jesse Barton,12
+Anton A,13
+kevkevin,1060
 Riahiamirreza,4
 Pttn,2
-kevkevin,226
 Reese Russell,30
-MacrabFalke,4
 Ari,2
-Bufo,2
-Ayush Singh,181
 Brotcrunsher,53
-Hernan Marino,65
-Rhythm Garg,2
+Bufo,13
+Ayush Singh,181
 Casey Carter,75
+Sergi Delgado Segura,1243
+Rhythm Garg,2
 iamcarlos94,2
 Charlie,3
+Brandon Odiwuor,954
 Tim Neubauer,9
+ns-xvrn,385
 Erik Arvstedt,508
 David Álvarez Rosa,2
 Erik McKelvey,2
 L0la L33tz,5
 vuittont60,2
-ns-xvrn,385
-Brandon Odiwuor,689
-Jake Rawsthorne,157
-Sergi Delgado Segura,867
 Kashif Smith,118
 Nikodemas Tuckus,12
-Ava Chow,40261
-22388o⚡️,8
 djschnei21,4
+22388o⚡️,8
 Richard Myers,49
-marco,4
-Max Edwards,161
-Lőrinc,204
-Justin Dhillon,2
-jrakibi,23
-Supachai Kheawjuy,4
-naiyoma,2
-spicyzboss,2
-tdb3,242
-Anton A,13
-Ben Westgate,53
-RoboSchmied,6
-crazeteam,8
-AngusP,184
-nanlour,2
-Christopher Bergqvist,4
-Edil Medeiros,5
-StevenMia,8
-umiumi,26
-hanmz,4
+marcofleon,3883
 bstin,13
-Alfonso Roman Zubeldia,39
+Lőrinc,10957
+Max Edwards,699
+tdb3,1204
+Justin Dhillon,2
+jrakibi,51
+spicyzboss,6
+naiyoma,383
+RoboSchmied,6
+AngusP,184
+Ben Westgate,167
+crazeteam,8
+nanlour,2
+Edil Medeiros,5
+Christopher Bergqvist,4
+StevenMia,8
+hanmz,4
+umiumi,26
+Alfonso Roman Zubeldia,226
+Maciej S. Szmigiero,2
 Epic Curious,4
-marcofleon,84
-kevkevinpal,29
-Hodlinator,28
+Afanti,4
+am-sq,13
+Hodlinator,4993
+Konstantin Akimov,7
+Luis Schwab,27
+sunerok,4
+Martin Saposnic,44
+Simon,4
+ion-,10
+Gutflo,2
+Mackain,2
+Novo,446
+secp512k2,9
+Daniel Pfeifer,545
+Andre,25
+Adam Andrews,59
+Gabriele Bocchi,3
+RiceChuan,2
+scgbckbone,24
+Ash Manning,66
+Boris Nagaev,4
+yuvicc,843
+epysqyli,2
+Kay,8
+Adlai Chandrasekhar,14
+Nicola Leonardo Susca,88
+wgyt,26
+pythcoiner,49
+espi3,6
+jurraca,91
+Eval EXEC,99
+tianzedavid,4
+Jiri Jakes,71
+rkrux,1519
+costcould,2
+Prabhat Verma,106
+Pol Espinasa,1292
+Saikiran,74
+janb84,95
+Chandra Pratap,115
+dennsikl,2
+Calin Culianu,28
+monlovesmango,64
+Enoch Azariah,342
+VolodymyrBg,11
+Bue-von-hon,73
+nervana21,20
+Haoran Peng,12
+Haowen Liu,16
+Shunsuke Shimizu,10
+Tomás Andróil,8
+strmfos,1
+zaidmstrr,346
+stringintech,307
+leopardracer,10
+Salvatore Ingala,40
+kilavvy,2
+Hao Xu,294
+fuder.eth,8
+stutxo,2
+deadmanoz,37
+hoffman,2
+Musa Haruna,43
+crStiv,16
+frankomosh,122
+amisha,16
+CaesarCoder,100
+Henry Romp,65
+Coder,2
+WakeTrainDev,112
+SatsAndSports,4
+da1sychain,23
+rustaceanrob,91
+Danny van Heumen,119
+Fibonacci747,1
+billymcbip,109
+ANtutov,8
+Woolfgm,10
+ANAVHEOBA,27
+Anurag chavan,40
+Josh Doman,295
+Robin David,6
+joaonevess,7
+bensig,10
+b-l-u-e,133
+tboy1337,23
+Yash Bhutwala,33
+Padraic Slattery,6
+optout,554
+node,23
+ci,2
+jayvaliya,2
+seduless,279
+Sebastian van Staa,23
+cui,4
+ViniciusCestarii,7
+satsfy (Renato Britto),673
+Peter Zafonte,29
+HouseOfHufflepuff,3
+Mccalabrese,91
+Alexander Wiederin,20
+ArvinFarrelP,2
+Guillermo Fernandes,48
+takeshikurosawaa,8
+Thomas,49
+taboger,4
+Philips Ucheolisah .N,2
+ImMike,2
+junbyjun1238,6
+csjones,4
+Shrey,14
+codeabysss,40
+xyzconstant,2
+Sanjana2906,2
