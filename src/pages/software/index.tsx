@@ -219,6 +219,7 @@ export function Software() {
         selectedSystems={selectedSystems}
         onSelectionChange={handleSelectionChange}
         label="Platforms"
+        layer="software"
       />
 
       <div className="card border border-base-300 shadow-sm bg-base-100 overflow-hidden">

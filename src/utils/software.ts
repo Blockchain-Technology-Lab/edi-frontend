@@ -1,4 +1,5 @@
 import { getColorsForChart, SOFTWARE_DOUGHNUT_CSV } from '@/utils'
+import { BASE_LEDGERS, getBaseLedger } from './charts/ledgers'
 import DevLogger from './devLogger'
 import {
   fetchCsvText,
@@ -9,6 +10,90 @@ import {
 } from './csvParsing'
 
 import type { CsvParseEntry, DataEntry, DoughnutDataEntry } from '@/utils/types'
+
+/**
+ * Software Layer Ledgers - Single Source of Truth
+ */
+const SOFTWARE_KEYS = [
+  'bitcoin',
+  'bitcoin_cash',
+  'cardano',
+  'ethereum_consensus',
+  'ethereum_execution',
+  'litecoin',
+  'polkadot',
+  'solana',
+  'tezos',
+  'zcash'
+] as const
+
+// BASE_LEDGERS.ethereum_consensus/execution use the short 'consensus'/
+// 'execution' ledger ids (the network layer's convention), but every
+// software-layer CSV (line-chart metrics, contributor/client doughnuts)
+// identifies these ledgers by the long key itself - override just those two
+// so every lookup in this module matches the actual data.
+const SOFTWARE_LEDGER_ID_OVERRIDES = new Set<keyof typeof BASE_LEDGERS>([
+  'ethereum_consensus',
+  'ethereum_execution'
+])
+
+function resolveSoftwareLedger(key: keyof typeof BASE_LEDGERS) {
+  const base = BASE_LEDGERS[key]
+  return SOFTWARE_LEDGER_ID_OVERRIDES.has(key) ? { ...base, ledger: key } : base
+}
+
+export const SOFTWARE_LEDGERS = SOFTWARE_KEYS.map(resolveSoftwareLedger).sort(
+  (a, b) => a.displayName.localeCompare(b.displayName)
+)
+
+export const SOFTWARE_LEDGER_NAMES: string[] = SOFTWARE_LEDGERS.map(
+  (l) => l.ledger
+)
+export const SOFTWARE_COLOURS = SOFTWARE_LEDGERS.map((l) => l.color)
+
+// repo/url pairs for the contributor-distribution GitHub links; display
+// names are derived from BASE_LEDGERS rather than duplicated here.
+const SOFTWARE_DOUGHNUT_REPOS = [
+  { repo: 'bitcoin', url: 'https://github.com/bitcoin/bitcoin' },
+  {
+    repo: 'bitcoin_cash',
+    url: 'https://github.com/bitcoincashbch/bitcoin-cash'
+  },
+  { repo: 'cardano', url: 'https://github.com/IntersectMBO/cardano-node' },
+  {
+    repo: 'ethereum_consensus',
+    url: 'https://github.com/ethereum/consensus'
+  },
+  {
+    repo: 'ethereum_execution',
+    url: 'https://github.com/ethereum/execution'
+  },
+  { repo: 'litecoin', url: 'https://github.com/litecoin-project/litecoin' },
+  { repo: 'tezos', url: 'https://github.com/tezos/tezos-mirror' },
+  { repo: 'zcash', url: 'https://github.com/zcash/zcash' }
+] as const
+
+export const SOFTWARE_DOUGHNUT_LEDGER_NAMES = SOFTWARE_DOUGHNUT_REPOS.map(
+  ({ repo, url }) => ({
+    repo,
+    url,
+    name: getBaseLedger(repo)?.displayName ?? repo
+  })
+)
+
+const SOFTWARE_CLIENT_DOUGHNUT_KEYS = [
+  'bitcoin',
+  'bitcoin_cash',
+  'litecoin',
+  'zcash',
+  'ethereum_consensus',
+  'ethereum_execution',
+  'cardano'
+] as const
+
+export const SOFTWARE_CLIENT_DOUGHNUT_LEDGERS = SOFTWARE_CLIENT_DOUGHNUT_KEYS.map(
+  resolveSoftwareLedger
+).sort((a, b) => a.displayName.localeCompare(b.displayName))
 
 // Types
 type SoftwareRepoConfig = {
@@ -35,17 +120,6 @@ const SOFTWARE_COLUMNS = [
   'theil_index'
 ]
 
-const SOFTWARE_ALLOWED_LEDGERS = [
-  'bitcoin',
-  'bitcoin-cash-node',
-  'cardano-node',
-  'go-ethereum',
-  'nethermind',
-  'litecoin',
-  'tezos-mirror',
-  'zcash'
-]
-
 // Chart configuration constants
 const CHART_BORDER_WIDTH = 0.1
 const CSV_DELIMITER = ','
@@ -68,16 +142,6 @@ export const SOFTWARE_METRICS = [
       'The Herfindahl-Hirschman Index (HHI) is a measure of market concentration. It is defined as the sum of the squares of the market shares (as whole numbers, e.g. 40 for 40%) of the entities in the system. Values close to 0 indicate low concentration (many and values close to 10,000 indicate high concentration (one entity responsible for most or all contributions).',
     icon: 'images/cards/hhi.png'
   },
-  /*
-  {
-    metric: 'theil_index',
-    title: 'Theil index',
-    decimals: 2,
-    description:
-      'The Theil index captures the lack of diversity, or the redundancy, in a population. In practice, it is calculated as the maximum possible entropy minus the observed entropy. Values close to 0 indicate equality and values towards infinity indicate inequality.',
-    icon: 'images/cards/theil.png',
-  },
-*/
   {
     metric: 'max_power_ratio',
     title: '1-concentration ratio',
@@ -145,7 +209,7 @@ export function parseSoftwareCsv(csv: string): DataEntry[] {
         }
       }
 
-      if (entry.date && ledger && SOFTWARE_ALLOWED_LEDGERS.includes(ledger)) {
+      if (entry.date && ledger && SOFTWARE_LEDGER_NAMES.includes(ledger)) {
         data.push(entry as DataEntry)
       }
     }
@@ -205,35 +269,27 @@ export function getSoftwareCsvFileName(
 
 // Repository configuration combining file info and display names
 const SOFTWARE_REPO_CONFIG: SoftwareRepoConfig[] = [
-  { fileName: 'bitcoin_commits_per_entity.csv', displayName: 'Bitcoin' },
+  { fileName: 'bitcoin.csv', displayName: 'Bitcoin' },
   {
-    fileName: 'bitcoin-cash-node_commits_per_entity.csv',
+    fileName: 'bitcoin_cash.csv',
     displayName: 'Bitcoin Cash'
   },
-  { fileName: 'cardano-node_commits_per_entity.csv', displayName: 'Cardano' },
+  { fileName: 'cardano.csv', displayName: 'Cardano' },
   {
-    fileName: 'go-ethereum_commits_per_entity.csv',
-    displayName: 'Go Ethereum'
+    fileName: 'ethereum_consensus.csv',
+    displayName: 'Ethereum (Consensus)'
   },
-  { fileName: 'litecoin_commits_per_entity.csv', displayName: 'Litecoin' },
   {
-    fileName: 'nethermind_commits_per_entity.csv',
-    displayName: 'Nethermind (Ethereum)'
+    fileName: 'ethereum_execution.csv',
+    displayName: 'Ethereum (Execution)'
   },
-  { fileName: 'tezos-mirror_commits_per_entity.csv', displayName: 'Tezos' },
-  { fileName: 'zcash_commits_per_entity.csv', displayName: 'ZCash' }
+  { fileName: 'litecoin.csv', displayName: 'Litecoin' },
+  { fileName: 'tezos.csv', displayName: 'Tezos' },
+  { fileName: 'zcash.csv', displayName: 'ZCash' }
 ] as const
 
-// 'consensus' and 'execution' are the ledger IDs used in network data, but the
-// client CSV files use the longer 'ethereum_*' names as advised.
-const CLIENT_FILE_NAME_OVERRIDES: Record<string, string> = {
-  consensus: 'ethereum_consensus',
-  execution: 'ethereum_execution',
-}
-
 export function getSoftwareClientDoughnutCsvFileName(ledger: string): string {
-  const fileName = CLIENT_FILE_NAME_OVERRIDES[ledger] ?? ledger
-  return `${SOFTWARE_DOUGHNUT_CSV}clients/${fileName}.csv`
+  return `${SOFTWARE_DOUGHNUT_CSV}clients/${ledger}.csv`
 }
 
 export function getSoftwareDoughnutCsvFileNames(

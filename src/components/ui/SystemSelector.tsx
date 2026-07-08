@@ -1,4 +1,4 @@
-import { findLedgerByName } from '@/utils'
+import { findLedgerByName, getLedgerInfo, type LayerType } from '@/utils'
 import { TogglePill } from './TogglePill'
 
 interface SystemSelectorProps {
@@ -7,6 +7,7 @@ interface SystemSelectorProps {
   onSelectionChange: (selected: Set<string>) => void
   label?: string
   columns?: number // 1 = single column, 2 = two columns, undefined = flex wrap
+  layer?: LayerType
 }
 
 export function SystemSelector({
@@ -14,7 +15,8 @@ export function SystemSelector({
   selectedSystems,
   onSelectionChange,
   label = 'Select Systems',
-  columns
+  columns,
+  layer
 }: SystemSelectorProps) {
   const handleToggle = (system: string) => {
     const newSelected = new Set(selectedSystems)
@@ -41,7 +43,9 @@ export function SystemSelector({
       <div className="p-4">
         <div className={containerClassName}>
           {systems.map((system) => {
-            const ledger = findLedgerByName(system)
+            const ledger = layer
+              ? getLedgerInfo(system, layer)
+              : findLedgerByName(system)
             if (!ledger) return null
 
             const isSelected = selectedSystems.has(system)
