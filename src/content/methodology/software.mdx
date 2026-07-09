@@ -1,6 +1,67 @@
-import { AppLink } from '@/components'
+import { AppLink, Term, Chain, cardAccents } from '@/components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithub, faGitlab } from '@fortawesome/free-brands-svg-icons'
+import {
+  faCodeCommit,
+  faUserGroup,
+  faLayerGroup
+} from '@fortawesome/free-solid-svg-icons'
+
+export const filterGroups = [
+  {
+    title: 'Contribution Type',
+    subtitle: 'What counts as a contribution',
+    icon: faCodeCommit,
+    accent: 'info',
+    body: (
+      <ul className="list-disc pl-5 text-sm text-base-content/70 space-y-1 mt-1">
+        <li>
+          <span className="font-medium text-base-content/90">Commits</span> — each commit is counted as a single contribution.
+        </li>
+        <li>
+          <span className="font-medium text-base-content/90">Merge commits</span> — only merge commits are counted as contributions.
+        </li>
+        <li>
+          <span className="font-medium text-base-content/90">Lines changed</span> — each line of code changed (added or removed) counts as a contribution; all commits are counted but each is weighted by the number of updated lines.
+        </li>
+      </ul>
+    )
+  },
+  {
+    title: 'Contributor Type',
+    subtitle: 'Who is seen as responsible for the contribution',
+    icon: faUserGroup,
+    accent: 'secondary',
+    body: (
+      <ul className="list-disc pl-5 text-sm text-base-content/70 space-y-1 mt-1">
+        <li>
+          <span className="font-medium text-base-content/90">Author</span> — the person who wrote the code of the commit.
+        </li>
+        <li>
+          <span className="font-medium text-base-content/90">Committer</span> — the person who committed the code on behalf of the original author (can be the same or different).
+        </li>
+      </ul>
+    )
+  },
+  {
+    title: 'Commits per Sample Window',
+    subtitle: 'How many consecutive commits to group before applying a metric',
+    icon: faLayerGroup,
+    accent: 'success',
+    body: (
+      <div className="flex flex-wrap gap-2 mt-2">
+        {['100', '250', '500', '1000'].map((v) => (
+          <span
+            key={v}
+            className="px-2.5 py-1 rounded-lg bg-base-200 text-xs font-mono font-semibold text-base-content/60"
+          >
+            {v}
+          </span>
+        ))}
+      </div>
+    )
+  }
+]
 
 export const softwareRepos = [
   {
@@ -146,61 +207,29 @@ Users can choose which options will be taken into account when generating the gr
   <div className="px-4 py-2.5 bg-base-200/50 border-b border-base-300">
     <span className="text-xs font-semibold text-base-content/70 uppercase tracking-[0.12em]">Filter Options</span>
   </div>
-  <div className="divide-y divide-base-200">
-    <div className="px-4 py-3 space-y-2">
-      <p className="text-sm font-semibold text-base-content">Contribution Type</p>
-      <p className="text-xs text-base-content/50">What counts as a contribution</p>
-      <ul className="list-disc pl-5 text-sm text-base-content/70 space-y-1 mt-1">
-        <li>
-          <span className="font-medium text-base-content/90">Commits</span> — each commit is counted as a single
-          contribution.
-        </li>
-        <li>
-          <span className="font-medium text-base-content/90">Merge commits</span> — only merge commits are counted as
-          contributions.
-        </li>
-        <li>
-          <span className="font-medium text-base-content/90">Lines changed</span> — each line of code changed (added or
-          removed) counts as a contribution; all commits are counted but each is weighted by the number of updated
-          lines.
-        </li>
-      </ul>
-    </div>
-    <div className="px-4 py-3 space-y-2">
-      <p className="text-sm font-semibold text-base-content">Contributor Type</p>
-      <p className="text-xs text-base-content/50">Who is seen as responsible for the contribution</p>
-      <ul className="list-disc pl-5 text-sm text-base-content/70 space-y-1 mt-1">
-        <li>
-          <span className="font-medium text-base-content/90">Author</span> — the person who wrote the code of the
-          commit.
-        </li>
-        <li>
-          <span className="font-medium text-base-content/90">Committer</span> — the person who committed the code on
-          behalf of the original author (can be the same or different).
-        </li>
-      </ul>
-    </div>
-    <div className="px-4 py-3 space-y-2">
-      <p className="text-sm font-semibold text-base-content">Commits per Sample Window</p>
-      <p className="text-xs text-base-content/50">How many consecutive commits to group before applying a metric</p>
-      <div className="flex flex-wrap gap-2 pt-1">
-        {['100', '250', '500', '1000'].map((v) => (
-          <span
-            key={v}
-            className="px-2.5 py-1 rounded-lg bg-base-200 text-xs font-mono font-semibold text-base-content/60"
-          >
-            {v}
-          </span>
-        ))}
+  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-3">
+    {filterGroups.map(({ title, subtitle, icon, accent, body }) => (
+      <div
+        key={title}
+        className={`flex flex-col rounded-lg border border-l-4 border-base-200 ${cardAccents[accent].border} overflow-hidden bg-base-100`}
+      >
+        <div className={`flex items-center gap-2 px-3 py-2 border-b ${cardAccents[accent].header}`}>
+          <FontAwesomeIcon icon={icon} className={`${cardAccents[accent].icon} text-sm`} />
+          <span className="text-sm font-semibold text-base-content">{title}</span>
+        </div>
+        <div className="flex-1 px-3 py-2.5">
+          <p className="text-xs text-base-content/50">{subtitle}</p>
+          {body}
+        </div>
       </div>
-    </div>
+    ))}
   </div>
 </div>
 
-In the 'Client Distribution' part, decentralisation is also evaluated by looking at the distribution of the blockchain clients themselves. With the exception of Cardano, the blockchain data that is needed to determine these distributions are collected using crawlers running on each network. The results are based only on data we have collected and do not include extensive historical data.
+In the <Term>Client Distribution</Term> part, decentralisation is also evaluated by looking at the distribution of the blockchain clients themselves. With the exception of <Chain ledger="cardano">Cardano</Chain>, the blockchain data that is needed to determine these distributions are collected using crawlers running on each network. The results are based only on data we have collected and do not include extensive historical data.
 
-For the Bitcoin, Bitcoin Cash, Litecoin and Zcash networks, the crawler we use is based on the <AppLink href="https://bitnodes.io/">Bitnodes</AppLink> project.
+For the <Chain ledger="bitcoin">Bitcoin</Chain>, <Chain ledger="bitcoin_cash">Bitcoin Cash</Chain>, <Chain ledger="litecoin">Litecoin</Chain> and <Chain ledger="zcash">Zcash</Chain> networks, the crawler we use is based on the <AppLink href="https://bitnodes.io/">Bitnodes</AppLink> project.
 
-In Ethereum's case, the network architecture consists of two distinct layers: execution and consensus. The dashboard reflects this architectural separation. The crawler used is <AppLink href="https://github.com/cskiraly/fast-ethereum-crawler">fast-ethereum-crawler</AppLink>.
+In <Chain ledger="ethereum">Ethereum</Chain>'s case, the network architecture consists of two distinct layers: execution and consensus. The dashboard reflects this architectural separation. The crawler used is <AppLink href="https://github.com/cskiraly/fast-ethereum-crawler">fast-ethereum-crawler</AppLink>.
 
-Finally, for Cardano, the official documentation refers to only one client implementation, and the dashboard therefore displays it. Several other clients are in development, but not ready for production yet: <AppLink href="https://github.com/blinklabs-io/dingo">Dingo</AppLink>, <AppLink href="https://github.com/harmoniclabs/gerolamo">Gerolamo</AppLink>, <AppLink href="https://github.com/pragma-org/amaru">Amaru</AppLink>, <AppLink href="https://github.com/txpipe/dolos">Dolos</AppLink>.
+Finally, for <Chain ledger="cardano">Cardano</Chain>, the official documentation refers to only one client implementation, and the dashboard therefore displays it. Several other clients are in development, but not ready for production yet: <AppLink href="https://github.com/blinklabs-io/dingo">Dingo</AppLink>, <AppLink href="https://github.com/harmoniclabs/gerolamo">Gerolamo</AppLink>, <AppLink href="https://github.com/pragma-org/amaru">Amaru</AppLink>, <AppLink href="https://github.com/txpipe/dolos">Dolos</AppLink>.
