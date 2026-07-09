@@ -319,7 +319,6 @@ export function Software() {
             type={'software'}
             title={repoItem.name}
             key={repoItem.repo}
-            githubUrl={repoItem.url}
             path={doughnutPaths[repoItem.repo]}
             fileName={repoItem.repo}
             showInfo={true}

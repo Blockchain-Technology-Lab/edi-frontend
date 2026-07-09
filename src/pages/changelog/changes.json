@@ -109,5 +109,15 @@
       "Added Cardano results to network and geography graphs and to radar chart."
     ],
     "icon": "Network"
+  },
+  {
+    "date": "2026-07-08",
+    "title": "Software layer updated",
+    "description": [
+      "Added support for 15 new blockchain client repositories: BCHUnlimited, lighthouse, lodestar, nimbus-eth2, prysm, teku, grandine, erigon, besu, reth, litecoin, polkadot-sdk, solana, rippled, zebra",
+      "Grouped together clients belonging to the same blockchain",
+      "Added doughnut charts with the client distributions of 7 systems"
+    ],
+    "icon": "GitHub"
   }
 ]
