@@ -219,6 +219,7 @@ export function Software() {
         selectedSystems={selectedSystems}
         onSelectionChange={handleSelectionChange}
         label="Platforms"
+        layer="software"
       />
 
       <div className="card border border-base-300 shadow-sm bg-base-100 overflow-hidden">
@@ -317,9 +318,9 @@ export function Software() {
           <DoughnutCard
             type={'software'}
             title={repoItem.name}
-            key={repoItem.name}
+            key={repoItem.repo}
             githubUrl={repoItem.url}
-            path={doughnutPaths[repoItem.name]}
+            path={doughnutPaths[repoItem.repo]}
             fileName={repoItem.repo}
             showInfo={true}
           />
