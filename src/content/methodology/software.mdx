@@ -1,4 +1,5 @@
 import { AppLink, Term, Chain, cardAccents } from '@/components'
+import { getBaseLedger } from '@/utils'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithub, faGitlab } from '@fortawesome/free-brands-svg-icons'
 import {
@@ -63,15 +64,27 @@ export const filterGroups = [
   }
 ]
 
+export const spanByClientCount = {
+  1: 'col-span-12 sm:col-span-4 lg:col-span-3',
+  2: 'col-span-12 sm:col-span-6 lg:col-span-4',
+  default: 'col-span-12 sm:col-span-8 lg:col-span-6'
+}
+
+export function spanForClientCount(count) {
+  return spanByClientCount[count] ?? spanByClientCount.default
+}
+
 export const softwareRepos = [
   {
     blockchain: 'Bitcoin',
+    ledger: 'bitcoin',
     clients: [
       { name: 'Bitcoin Core', repo: 'bitcoin/bitcoin', url: 'https://github.com/bitcoin/bitcoin' }
     ]
   },
   {
     blockchain: 'Bitcoin Cash',
+    ledger: 'bitcoin_cash',
     clients: [
       { name: 'Bitcoin Cash Node', repo: 'bitcoin-cash-node/bitcoin-cash-node', url: 'https://github.com/bitcoin-cash-node/bitcoin-cash-node' },
       { name: 'Bitcoin Unlimited', repo: 'bitcoinunlimited/BCHUnlimited', url: 'https://gitlab.com/bitcoinunlimited/BCHUnlimited' }
@@ -79,12 +92,14 @@ export const softwareRepos = [
   },
   {
     blockchain: 'Cardano',
+    ledger: 'cardano',
     clients: [
       { name: 'Cardano Node', repo: 'IntersectMBO/cardano-node', url: 'https://github.com/IntersectMBO/cardano-node' }
     ]
   },
   {
     blockchain: 'Ethereum (execution clients)',
+    ledger: 'ethereum_execution',
     clients: [
       { name: 'Go Ethereum', repo: 'ethereum/go-ethereum', url: 'https://github.com/ethereum/go-ethereum' },
       { name: 'Nethermind', repo: 'NethermindEth/nethermind', url: 'https://github.com/NethermindEth/nethermind' },
@@ -95,6 +110,7 @@ export const softwareRepos = [
   },
   {
     blockchain: 'Ethereum (consensus clients)',
+    ledger: 'ethereum_consensus',
     clients: [
       { name: 'Lighthouse', repo: 'sigp/lighthouse', url: 'https://github.com/sigp/lighthouse' },
       { name: 'Lodestar', repo: 'ChainSafe/lodestar', url: 'https://github.com/ChainSafe/lodestar' },
@@ -106,36 +122,42 @@ export const softwareRepos = [
   },
   {
     blockchain: 'Litecoin',
+    ledger: 'litecoin',
     clients: [
       { name: 'Litecoin Core', repo: 'litecoin-project/litecoin', url: 'https://github.com/litecoin-project/litecoin' }
     ]
   },
   {
     blockchain: 'Polkadot',
+    ledger: 'polkadot',
     clients: [
       { name: 'Polkadot SDK', repo: 'paritytech/polkadot-sdk', url: 'https://github.com/paritytech/polkadot-sdk' }
     ]
   },
   {
     blockchain: 'Solana',
+    ledger: 'solana',
     clients: [
       { name: 'Solana', repo: 'solana-labs/solana', url: 'https://github.com/solana-labs/solana' }
     ]
   },
   {
     blockchain: 'Tezos',
+    ledger: 'tezos',
     clients: [
       { name: 'Tezos', repo: 'tezos/tezos', url: 'https://gitlab.com/tezos/tezos' }
     ]
   },
   {
     blockchain: 'XRPL',
+    ledger: 'xrpl',
     clients: [
       { name: 'rippled', repo: 'XRPLF/rippled', url: 'https://github.com/XRPLF/rippled' }
     ]
   },
   {
     blockchain: 'Zcash',
+    ledger: 'zcash',
     clients: [
       { name: 'Zcash', repo: 'zcash/zcash', url: 'https://github.com/zcash/zcash' },
       { name: 'Zebra', repo: 'ZcashFoundation/zebra', url: 'https://github.com/ZcashFoundation/zebra' }
@@ -147,57 +169,50 @@ On the software layer, decentralisation is evaluated by looking at the open sour
 
 For blockchains that are implemented by more than one independent client, the commit histories of all of their client repositories are merged into a single, chronologically ordered history before any metrics are calculated, so that decentralisation is evaluated at the level of the blockchain as a whole rather than per individual client. Note that Ethereum's execution and consensus clients are treated as two separate systems for this purpose.
 
-The table below lists the projects that are currently supported.
+The cards below list the projects that are currently supported.
 
 <div className="rounded-xl border border-base-300 overflow-hidden bg-base-100 shadow-sm">
   <div className="px-4 py-2.5 bg-base-200/50 border-b border-base-300">
     <span className="text-xs font-semibold text-base-content/70 uppercase tracking-[0.12em]">Supported Repositories</span>
   </div>
-  <div className="overflow-x-auto">
-    <table className="table table-sm [&_th]:align-top [&_td]:align-top">
-      <thead>
-        <tr>
-          <th className="text-[10px] font-mono font-semibold text-base-content/50 uppercase tracking-wider">Blockchain</th>
-          <th className="text-[10px] font-mono font-semibold text-base-content/50 uppercase tracking-wider">Client</th>
-          <th className="text-[10px] font-mono font-semibold text-base-content/50 uppercase tracking-wider">Repository</th>
-        </tr>
-      </thead>
-      <tbody>
-        {softwareRepos.map((group, groupIdx) =>
-          group.clients.map((client, i) => (
-            <tr
-              key={`${group.blockchain}-${client.name}`}
-              className={`${groupIdx % 2 === 1 ? 'bg-base-200/40' : ''}${
-                i === 0 && groupIdx > 0 ? ' border-t-2 border-base-300' : ''
-              }`}
+  <div className="grid grid-cols-12 grid-flow-dense gap-3 p-3">
+    {softwareRepos.map((group) => {
+      const info = getBaseLedger(group.ledger)
+      return (
+      <div
+        key={group.blockchain}
+        className={`flex flex-col rounded-lg border-1 overflow-hidden bg-base-100 ${spanForClientCount(group.clients.length)}`}
+        style={{ borderColor: info?.color }}
+      >
+        <div
+          className="flex items-center gap-2 px-3 py-2 "
+          style={{ backgroundColor: info?.background, borderBottomColor: info?.color }}
+        >
+          <span
+            className="w-2.5 h-2.5 rounded-full shrink-0"
+            style={{ backgroundColor: info?.color }}
+          />
+          <span className="text-sm font-semibold text-base-content">{group.blockchain}</span>
+        </div>
+        <div className="flex flex-wrap gap-1.5 p-3">
+          {group.clients.map((client) => (
+            <AppLink
+              key={client.repo}
+              href={client.url}
+              title={client.repo}
+              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-base-200/60 border border-base-300 text-xs font-medium text-base-content/80 no-underline hover:shadow-sm transition-shadow"
             >
-              {i === 0 && (
-                <td rowSpan={group.clients.length} className="font-medium text-base-content/80">
-                  {group.blockchain}
-                </td>
-              )}
-              <td>
-                <span className="badge badge-outline badge-sm font-normal text-base-content/70 whitespace-nowrap">
-                  {client.name}
-                </span>
-              </td>
-              <td>
-                <AppLink
-                  href={client.url}
-                  className="inline-flex items-center gap-1.5 no-underline hover:underline"
-                >
-                  <FontAwesomeIcon
-                    icon={client.url.includes('gitlab.com') ? faGitlab : faGithub}
-                    className="text-base-content/40 shrink-0"
-                  />
-                  <span className="font-mono text-xs">{client.repo}</span>
-                </AppLink>
-              </td>
-            </tr>
-          ))
-        )}
-      </tbody>
-    </table>
+              <FontAwesomeIcon
+                icon={client.url.includes('gitlab.com') ? faGitlab : faGithub}
+                className="text-[10px] text-base-content/40"
+              />
+              {client.name}
+            </AppLink>
+          ))}
+        </div>
+      </div>
+      )
+    })}
   </div>
 </div>
 
