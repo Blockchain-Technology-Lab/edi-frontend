@@ -1,4 +1,4 @@
-import { AppLink, Term, cardAccents } from '@/components'
+import { AppLink, Term, Chain, cardAccents } from '@/components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faMagnifyingGlass,
@@ -44,7 +44,7 @@ export const clusteringOptions = [
   }
 ]
 
-On the tokenomics layer, decentralisation is evaluated based on the distribution of tokens across token holders. The ledgers that are currently supported are: Bitcoin, Bitcoin Cash, Cardano, Dogecoin, Ethereum, Litecoin, Tezos, and XRPL. Specifically, the following metrics are presented in the dashboard: Gini coefficient, Shannon entropy, Herfindahl-Hirschman index (HHI), 1-concentration ratio, Nakamoto coefficient, 0.66-tau index.
+On the tokenomics layer, decentralisation is evaluated based on the distribution of tokens across token holders. The ledgers that are currently supported are: <Chain ledger="bitcoin">Bitcoin</Chain>, <Chain ledger="bitcoin_cash">Bitcoin Cash</Chain>, <Chain ledger="cardano">Cardano</Chain>, <Chain ledger="dogecoin">Dogecoin</Chain>, <Chain ledger="ethereum">Ethereum</Chain>, <Chain ledger="litecoin">Litecoin</Chain>, <Chain ledger="tezos">Tezos</Chain>, and <Chain ledger="xrpl">XRPL</Chain>. Specifically, the following metrics are presented in the dashboard: <Term>Gini coefficient</Term>, <Term>Shannon entropy</Term>, <Term>Herfindahl-Hirschman index (HHI)</Term>, <Term>1-concentration ratio</Term>, <Term>Nakamoto coefficient</Term>, <Term>0.66-tau index</Term>.
 
 The blockchain data that is needed to determine these distributions are collected from <AppLink href="https://console.cloud.google.com/bigquery">BigQuery</AppLink> and self-hosted full nodes. The dashboard offers various options to the users for customising the results.
 
