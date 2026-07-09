@@ -1,3 +1,5 @@
+export { default as OverviewContent } from './overview.mdx'
+export { default as MetricsContent } from './metrics.mdx'
 export { default as ConsensusContent } from './consensus.mdx'
 export { default as TokenomicsContent } from './tokenomics.mdx'
 export { default as NetworkContent } from './network.mdx'

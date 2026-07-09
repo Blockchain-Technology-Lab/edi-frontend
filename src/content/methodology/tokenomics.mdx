@@ -1,4 +1,48 @@
-import { AppLink } from '@/components'
+import { AppLink, Term, cardAccents } from '@/components'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faMagnifyingGlass,
+  faKey,
+  faLink,
+  faMagicWandSparkles
+} from '@fortawesome/free-solid-svg-icons'
+
+export const thresholdOptions = ['100', '1000', '50%', 'Above $0.01', 'None']
+
+export const clusteringOptions = [
+  {
+    title: 'Explorers',
+    icon: faMagnifyingGlass,
+    accent: 'info',
+    description: (
+      <>
+        Attribution and deanonymisation data collected from blockchain explorers: <AppLink href="https://bitinfocharts.com/">BitInfoCharts</AppLink>, <AppLink href="https://etherscan.io/">Etherscan</AppLink>, <AppLink href="https://www.walletexplorer.com/">Wallet Explorer</AppLink>, <AppLink href="https://whale-alert.io/">Dogecoin Whale Alert</AppLink>, <AppLink href="https://tzkt.io/">TzKT</AppLink>.
+      </>
+    )
+  },
+  {
+    title: 'Staking Keys',
+    icon: faKey,
+    accent: 'success',
+    description: 'Data collected from stake pools and validators that are used to attribute staking addresses to the same entity. Applied only for Cardano.'
+  },
+  {
+    title: 'Multi-input Transactions',
+    icon: faLink,
+    accent: 'warning',
+    description: 'Attributes addresses to the same entity when they are used as inputs in the same transaction — a well-established heuristic for clustering addresses in UTXO-based ledgers.'
+  },
+  {
+    title: 'Crystal Intelligence',
+    icon: faMagicWandSparkles,
+    accent: 'secondary',
+    description: (
+      <>
+        Leverages advanced clustering algorithms from <AppLink href="https://crystalintelligence.com/">Crystal Intelligence & Crypto Compliance</AppLink> to more accurately group addresses belonging to the same real-world entity. Unlike the other methods, which are developed in-house, this is an external integration.
+      </>
+    )
+  }
+]
 
 On the tokenomics layer, decentralisation is evaluated based on the distribution of tokens across token holders. The ledgers that are currently supported are: Bitcoin, Bitcoin Cash, Cardano, Dogecoin, Ethereum, Litecoin, Tezos, and XRPL. Specifically, the following metrics are presented in the dashboard: Gini coefficient, Shannon entropy, Herfindahl-Hirschman index (HHI), 1-concentration ratio, Nakamoto coefficient, 0.66-tau index.
 
@@ -10,26 +54,48 @@ Users can choose which off-chain sources to use to attribute blockchain data to 
   <div className="px-4 py-2.5 bg-base-200/50 border-b border-base-300">
     <span className="text-xs font-semibold text-base-content/70 uppercase tracking-[0.12em]">Clustering Options</span>
   </div>
-  <ul className="divide-y divide-base-200">
-    <li className="px-4 py-3 space-y-1">
-      <p className="text-sm font-semibold text-base-content">"Explorers"</p>
-      <p className="text-sm text-base-content/70">Attribution and deanonymisation data collected from blockchain explorers: <AppLink href="https://bitinfocharts.com/">BitInfoCharts</AppLink>, <AppLink href="https://etherscan.io/">Etherscan</AppLink>, <AppLink href="https://www.walletexplorer.com/">Wallet Explorer</AppLink>, <AppLink href="https://whale-alert.io/">Dogecoin Whale Alert</AppLink>, <AppLink href="https://tzkt.io/">TzKT</AppLink>.</p>
-    </li>
-    <li className="px-4 py-3 space-y-1">
-      <p className="text-sm font-semibold text-base-content">"Staking Keys"</p>
-      <p className="text-sm text-base-content/70">Data collected from stake pools and validators that are used to attribute staking addresses to the same entity. Applied only for Cardano.</p>
-    </li>
-    <li className="px-4 py-3 space-y-1">
-      <p className="text-sm font-semibold text-base-content">"Multi-input Transactions"</p>
-      <p className="text-sm text-base-content/70">Attributes addresses to the same entity when they are used as inputs in the same transaction — a well-established heuristic for clustering addresses in UTXO-based ledgers.</p>
-    </li>
-    <li className="px-4 py-3 space-y-1">
-      <p className="text-sm font-semibold text-base-content">"Crystal Intelligence"</p>
-      <p className="text-sm text-base-content/70">Leverages advanced clustering algorithms from <AppLink href="https://crystalintelligence.com/">Crystal Intelligence & Crypto Compliance</AppLink> to more accurately group addresses belonging to the same real-world entity. Unlike the other methods, which are developed in-house, this is an external integration.</p>
-    </li>
-  </ul>
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3">
+    {clusteringOptions.map(({ title, icon, accent, description }) => (
+      <div
+        key={title}
+        className={`rounded-lg border border-l-4 border-base-200 ${cardAccents[accent].border} overflow-hidden bg-base-100 shadow-sm`}
+      >
+        <div className={`flex items-center gap-2 px-3 py-2 border-b ${cardAccents[accent].header}`}>
+          <FontAwesomeIcon icon={icon} className={`${cardAccents[accent].icon} text-sm`} />
+          <span className="text-sm font-semibold text-base-content">{title}</span>
+        </div>
+        <p className="px-3 py-2.5 text-sm text-base-content/70">{description}</p>
+      </div>
+    ))}
+  </div>
 </div>
 
 Explorer data is used for all ledgers except Cardano, whereas staking keys are used only for Cardano.
 
-Users can also apply the decentralisation metrics on all or part of the data by choosing a relevant inclusion threshold. For example, if the option "100" is chosen, the metrics will apply on the top 100 richest entities in the system, while ignoring the rest. Similarly, if "Above $0.01" is chosen, the metrics will apply on entities that controlled tokens worth at least $0.01 at the given point in time. Threshold options are: "100", "1000", "50%", "Above $0.01" and "None". By default, no inclusion threshold is applied.
+Users can also apply the decentralisation metrics on all or part of the data by choosing a relevant inclusion threshold. For example, if the option <Term>100</Term> is chosen, the metrics will apply on the top 100 richest entities in the system, while ignoring the rest. Similarly, if <Term>Above $0.01</Term> is chosen, the metrics will apply on entities that controlled tokens worth at least $0.01 at the given point in time.
+
+<div className="rounded-xl border border-base-300 overflow-hidden bg-base-100 shadow-sm">
+  <div className="px-4 py-2.5 bg-base-200/50 border-b border-base-300">
+    <span className="text-xs font-semibold text-base-content/70 uppercase tracking-[0.12em]">Inclusion Threshold</span>
+  </div>
+  <div className="p-4 space-y-2">
+    <p className="text-xs text-base-content/50">Limits the metrics to entities meeting the chosen threshold</p>
+    <div className="flex flex-wrap gap-2 pt-1">
+      {thresholdOptions.map((v) => (
+        <span
+          key={v}
+          className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-mono font-semibold ${
+            v === 'None'
+              ? 'bg-primary/10 text-primary border border-primary/30'
+              : 'bg-base-200 text-base-content/60'
+          }`}
+        >
+          {v}
+          {v === 'None' && (
+            <span className="text-[10px] font-sans font-normal opacity-70">(default)</span>
+          )}
+        </span>
+      ))}
+    </div>
+  </div>
+</div>

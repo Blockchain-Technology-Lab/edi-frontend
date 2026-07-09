@@ -1,0 +1,17 @@
+import { AppLink } from '@/components'
+import { LAYER_CONFIG } from '@/config/layers'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+export function LayerTag({ layerKey }) {
+  const layer = LAYER_CONFIG[layerKey]
+  return (
+    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-base-200 text-[0.85em] font-medium text-base-content/80">
+      <FontAwesomeIcon icon={layer.icon} className="text-[0.75em] text-base-content/50" />
+      {layer.label}
+    </span>
+  )
+}
+
+<AppLink href="https://informatics.ed.ac.uk/blockchain/edi">The Edinburgh Decentralisation Index (EDI)</AppLink> is a methodology framework for defining, analysing, and evaluating the decentralisation level of blockchain systems across multiple layers. These layers are <LayerTag layerKey="consensus" />, <LayerTag layerKey="tokenomics" />, <LayerTag layerKey="network" />, <LayerTag layerKey="software" />, <LayerTag layerKey="geography" /> and <LayerTag layerKey="governance" />. EDI combines data from public infrastructure, explorers, repositories, and curated datasets to provide a consistent and comparable decentralisation lens across layers.
+
+This page serves as a central methodology hub. Each layer has its own dedicated methodology section. Metric definitions are also provided below. <AppLink href="https://github.com/Blockchain-Technology-Lab">The EDI codebase</AppLink> is fully open-source.
