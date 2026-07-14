@@ -14,6 +14,10 @@ export * from './useGovernanceCsv'
 export * from './useKeyboardShortcuts'
 export * from './useRadarCsv'
 export * from './useWorldMapData'
-export * from './useWorldMapChart'
+// useWorldMapChart is intentionally NOT re-exported here: it pulls in
+// chartjs-chart-geo + chartjs-plugin-zoom (~62kB), used only by the
+// Geography page. Import it directly (`@/hooks/useWorldMapChart`) so it
+// stays inside Geography's lazy route chunk instead of leaking into the
+// shared eager bundle via this barrel.
 export * from './useContributorSectionNavigation'
 export * from './usePersistedSystemSelection'

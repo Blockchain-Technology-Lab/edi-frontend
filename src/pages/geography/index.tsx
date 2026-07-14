@@ -4,10 +4,10 @@ import {
   DoughnutTopCard,
   LayerTopCard,
   MetricsCard,
-  SystemSelector,
-  GeographyLedgerCards,
-  WorldMapCardTotal
+  SystemSelector
 } from '@/components'
+import { GeographyLedgerCards } from '@/components/ui/GeographyLedgerCards'
+import { WorldMapCardTotal } from '@/components/ui/WorldMapCardTotal'
 import { useContributorSectionNavigation, useGeographyCsv } from '@/hooks'
 import { geographyContributorRoute } from '@/router'
 import {
