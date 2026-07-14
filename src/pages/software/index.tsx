@@ -152,11 +152,13 @@ export function Software() {
             title="Software Layer"
             description={
               <>
-                These graphs represent the historical decentralisation of
-                software development for various blockchain implementations.
-                Each metric value is calculated based on the distribution of
-                some contribution type (e.g. number of commits or lines changed)
-                across contributors over a sample of commits.
+                These graphs represent the historical decentralisation of software
+                development for various blockchains. Metrics
+                are calculated from the distribution of a chosen contribution
+                type (e.g. number of commits or lines changed) across
+                contributors, as identified by their GitHub or GitLab accounts.
+                For blockchains with multiple independent clients,
+                contributions are aggregated across all available clients (see Methodology for details).
               </>
             }
             imageSrc={LAYER_CONFIG.software.cardImage}
