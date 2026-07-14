@@ -13,7 +13,7 @@ import { ThemeContext } from '@/contexts'
 import { createWatermarkPlugin, getChartThemeTokens } from '@/utils'
 import { type NetworkBarEntry, prepareBarChartData } from '@/utils'
 import { useExportChart } from '@/hooks'
-import Tippy from '@tippyjs/react'
+import { Tooltip as InfoTooltip } from '@/components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfo, faDownload } from '@fortawesome/free-solid-svg-icons'
 
@@ -153,7 +153,7 @@ export function BarChart({ data, loading, title, description }: BarChartProps) {
           {title}
         </span>
         {description && (
-          <Tippy content={description} placement="bottom">
+          <InfoTooltip content={description} placement="bottom">
             <button
               type="button"
               tabIndex={0}
@@ -162,7 +162,7 @@ export function BarChart({ data, loading, title, description }: BarChartProps) {
             >
               <FontAwesomeIcon icon={faInfo} className="w-3 h-3" />
             </button>
-          </Tippy>
+          </InfoTooltip>
         )}
       </div>
       <div className="p-4 space-y-3">

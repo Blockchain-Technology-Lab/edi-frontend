@@ -1,5 +1,10 @@
 import type { DataEntry, DoughnutDataEntry } from '@/utils/types'
-import { fetchCsvText } from './csvParsing'
+import {
+  fetchCsvText,
+  forEachCsvDataRow,
+  parseCsvDate,
+  splitCsvContent
+} from './csvParsing'
 
 const GEOGRAPHY_DISTRIBUTION_PREFIX = 'countries'
 
@@ -66,46 +71,47 @@ export async function loadGeographyCsvData(
     fileName,
     `Error loading geography data for ${fileName}`
   )
-  return parseGeographyCSV(csvData, overrideLedgerName)
+  return parseGeographyCSV(csvData, overrideLedgerName, fileName)
 }
 
 export function parseGeographyCSV(
   csvData: string,
-  overrideLedgerName?: string
+  overrideLedgerName?: string,
+  fileName = 'geography.csv'
 ): DataEntry[] {
-  const lines = csvData.trim().split('\n')
-  const headers = lines[0].split(',')
-
+  const { rows, headers } = splitCsvContent(csvData)
   const data: DataEntry[] = []
-  for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(',')
-    if (values.length !== headers.length) continue
 
-    const entry: DataEntry = {} as DataEntry
-    let hasValidDate = false
+  forEachCsvDataRow(rows, headers, fileName, {
+    onRow: ({ reportError }, values) => {
+      const entry: DataEntry = {} as DataEntry
+      let hasValidDate = false
 
-    headers.forEach((header, index) => {
-      const value = values[index].trim()
-      const key = header.trim()
+      headers.forEach((header, index) => {
+        const value = values[index].trim()
 
-      if (key === 'date') {
-        const date = new Date(value)
-        if (!isNaN(date.getTime())) {
-          entry.date = date
-          hasValidDate = true
+        if (header === 'date') {
+          const date = parseCsvDate(value)
+          if (date) {
+            entry.date = date
+            hasValidDate = true
+          }
+        } else if (header === 'ledger') {
+          entry.ledger = overrideLedgerName || value
+        } else if (GEOGRAPHY_COUNTRIES_COLUMNS.includes(header)) {
+          entry[header.replace('=', '_')] = parseFloat(value)
         }
-      } else if (key === 'ledger') {
-        entry.ledger = overrideLedgerName || value
-      } else if (GEOGRAPHY_COUNTRIES_COLUMNS.includes(key)) {
-        entry[key.replace('=', '_')] = parseFloat(value)
-      }
-    })
+      })
 
-    // Only push entries with valid dates
-    if (hasValidDate && entry.date) {
-      data.push(entry)
+      if (hasValidDate && entry.date) {
+        data.push(entry)
+        return true
+      }
+
+      reportError('invalid or missing date')
+      return false
     }
-  }
+  })
 
   data.sort((a, b) => {
     if (!a.ledger || !b.ledger) return 0

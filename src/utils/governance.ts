@@ -198,7 +198,7 @@ export async function loadGovernanceCsvData(
     csvPath,
     `Error loading governance data from ${csvPath}`
   )
-  return parseGovernanceCsv(csvText)
+  return parseGovernanceCsv(csvText, csvPath)
 }
 
 export async function loadGovernanceProposalMetricsCsvData(
@@ -209,7 +209,7 @@ export async function loadGovernanceProposalMetricsCsvData(
     csvPath,
     `Error loading governance proposal metrics from ${csvPath}`
   )
-  return parseGovernanceProposalMetricsCsv(csvText, ledgerName)
+  return parseGovernanceProposalMetricsCsv(csvText, ledgerName, csvPath)
 }
 
 export async function loadGovernanceGithubMetricsCsvData(
@@ -219,7 +219,7 @@ export async function loadGovernanceGithubMetricsCsvData(
     csvPath,
     `Error loading governance GitHub metrics from ${csvPath}`
   )
-  return parseGovernanceGithubMetricsCsv(csvText)
+  return parseGovernanceGithubMetricsCsv(csvText, csvPath)
 }
 
 export async function loadGovernanceCommunityDiscussionMetricsCsvData(
@@ -229,15 +229,18 @@ export async function loadGovernanceCommunityDiscussionMetricsCsvData(
     csvPath,
     `Error loading governance community discussion metrics from ${csvPath}`
   )
-  return parseGovernanceCommunityDiscussionMetricsCsv(csvText)
+  return parseGovernanceCommunityDiscussionMetricsCsv(csvText, csvPath)
 }
 
-export function parseGovernanceCsv(csvData: string): DataEntry[] {
+export function parseGovernanceCsv(
+  csvData: string,
+  fileName = 'governance.csv'
+): DataEntry[] {
   const { rows, headers } = splitCsvContent(csvData)
   const data: DataEntry[] = []
 
-  forEachCsvDataRow(rows, headers, {
-    onRow: (_i, values) => {
+  forEachCsvDataRow(rows, headers, fileName, {
+    onRow: ({ reportError }, values) => {
       const entry: CsvParseEntry = {}
 
       for (let j = 0; j < headers.length; j++) {
@@ -263,7 +266,15 @@ export function parseGovernanceCsv(csvData: string): DataEntry[] {
 
       if (entry.ledger && entry.date && hasMetric) {
         data.push(entry as DataEntry)
+        return true
       }
+
+      reportError(
+        !entry.date
+          ? 'invalid or missing date'
+          : `missing ledger or metric (chain="${entry.ledger ?? ''}")`
+      )
+      return false
     }
   })
 
@@ -272,13 +283,14 @@ export function parseGovernanceCsv(csvData: string): DataEntry[] {
 
 export function parseGovernanceProposalMetricsCsv(
   csvData: string,
-  ledgerName: string
+  ledgerName: string,
+  fileName = 'governance-proposal-metrics.csv'
 ): DataEntry[] {
   const { rows, headers } = splitCsvContent(csvData)
   const data: DataEntry[] = []
 
-  forEachCsvDataRow(rows, headers, {
-    onRow: (_i, values) => {
+  forEachCsvDataRow(rows, headers, fileName, {
+    onRow: ({ reportError }, values) => {
       const entry: CsvParseEntry = {}
       entry.ledger = ledgerName
 
@@ -303,19 +315,26 @@ export function parseGovernanceProposalMetricsCsv(
 
       if (entry.date && hasMetric) {
         data.push(entry as DataEntry)
+        return true
       }
+
+      reportError(!entry.date ? 'invalid or missing year' : 'no metric columns had a numeric value')
+      return false
     }
   })
 
   return data.sort((a, b) => a.date.getTime() - b.date.getTime())
 }
 
-export function parseGovernanceGithubMetricsCsv(csvData: string): DataEntry[] {
+export function parseGovernanceGithubMetricsCsv(
+  csvData: string,
+  fileName = 'governance-github-metrics.csv'
+): DataEntry[] {
   const { rows, headers } = splitCsvContent(csvData)
   const data: DataEntry[] = []
 
-  forEachCsvDataRow(rows, headers, {
-    onRow: (_i, values) => {
+  forEachCsvDataRow(rows, headers, fileName, {
+    onRow: ({ reportError }, values) => {
       const entry: CsvParseEntry = {}
 
       for (let j = 0; j < headers.length; j++) {
@@ -341,7 +360,15 @@ export function parseGovernanceGithubMetricsCsv(csvData: string): DataEntry[] {
 
       if (entry.ledger && entry.date && hasMetric) {
         data.push(entry as DataEntry)
+        return true
       }
+
+      reportError(
+        !entry.date
+          ? 'invalid or missing date'
+          : `missing ledger or metric (chain="${entry.ledger ?? ''}")`
+      )
+      return false
     }
   })
 
@@ -349,13 +376,14 @@ export function parseGovernanceGithubMetricsCsv(csvData: string): DataEntry[] {
 }
 
 export function parseGovernanceCommunityDiscussionMetricsCsv(
-  csvData: string
+  csvData: string,
+  fileName = 'governance-community-discussion-metrics.csv'
 ): DataEntry[] {
   const { rows, headers } = splitCsvContent(csvData)
   const data: DataEntry[] = []
 
-  forEachCsvDataRow(rows, headers, {
-    onRow: (_i, values) => {
+  forEachCsvDataRow(rows, headers, fileName, {
+    onRow: ({ reportError }, values) => {
       const entry: CsvParseEntry = {}
 
       for (let j = 0; j < headers.length; j++) {
@@ -381,7 +409,15 @@ export function parseGovernanceCommunityDiscussionMetricsCsv(
 
       if (entry.ledger && entry.date && hasMetric) {
         data.push(entry as DataEntry)
+        return true
       }
+
+      reportError(
+        !entry.date
+          ? 'invalid or missing date'
+          : `missing ledger or metric (discussion_source="${entry.ledger ?? ''}")`
+      )
+      return false
     }
   })
 

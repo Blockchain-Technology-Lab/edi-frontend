@@ -157,20 +157,9 @@ export function parseSoftwareCsv(
 ): DataEntry[] {
   const { rows, headers } = splitCsvContent(csv)
   const data: DataEntry[] = []
-  const totalRows = rows.length
 
-  // Data rows start after the header line, so the header line is line 1.
-  const toFileLine = (rowIndex: number) => rowIndex + 1
-
-  forEachCsvDataRow(rows, headers, {
-    onMalformedRow: (i, actualColumns, expectedColumns) => {
-      DevLogger.csvRowError(
-        fileName,
-        toFileLine(i),
-        `expected ${expectedColumns} columns, got ${actualColumns}`
-      )
-    },
-    onRow: (i, values) => {
+  forEachCsvDataRow(rows, headers, fileName, {
+    onRow: ({ reportError }, values) => {
       const entry: CsvParseEntry = {}
       let ledger: string | undefined
 
@@ -181,11 +170,7 @@ export function parseSoftwareCsv(
         if (header === 'date') {
           const date = parseCsvDate(value)
           if (!date) {
-            DevLogger.csvRowError(
-              fileName,
-              toFileLine(i),
-              `invalid date "${value}"`
-            )
+            reportError(`invalid date "${value}"`)
             continue
           }
           entry.date = date
@@ -200,17 +185,15 @@ export function parseSoftwareCsv(
 
       if (entry.date && ledger && SOFTWARE_LEDGER_NAMES.includes(ledger)) {
         data.push(entry as DataEntry)
-      } else if (entry.date) {
-        DevLogger.csvRowError(
-          fileName,
-          toFileLine(i),
-          `unrecognised or missing ledger "${ledger ?? ''}"`
-        )
+        return true
       }
+
+      if (entry.date) {
+        reportError(`unrecognised or missing ledger "${ledger ?? ''}"`)
+      }
+      return false
     }
   })
-
-  DevLogger.csvParsed(fileName, data.length, totalRows)
 
   return data.sort(sortByLedgerAndDate)
 }

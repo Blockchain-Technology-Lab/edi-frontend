@@ -16,6 +16,13 @@ class DevLogger {
     }
   }
 
+  static errorOnce(key: string, message: string, ...args: unknown[]) {
+    if (process.env.NODE_ENV === 'development' && !this.loggedKeys.has(key)) {
+      this.loggedKeys.add(key)
+      console.error(message, ...args)
+    }
+  }
+
   static clearCache() {
     this.loggedKeys.clear()
   }
@@ -39,19 +46,24 @@ class DevLogger {
     if (validRows === totalRows) {
       this.logOnce(key, `[CSV] ${fileName}: ${validRows}/${totalRows} rows parsed OK`)
     } else {
-      this.warnOnce(
+      this.errorOnce(
         key,
-        `[CSV] ${fileName}: ${validRows}/${totalRows} rows parsed, ${totalRows - validRows} skipped (see row errors above)`
+        `%c[CSV] ${fileName}: ${validRows}/${totalRows} rows parsed, ${totalRows - validRows} skipped (see row errors above)`,
+        'font-weight: bold'
       )
     }
   }
 
   /**
    * Reports a single unparseable CSV row with the exact file name and line
-   * number, so it can be located and fixed in the source file.
+   * number, so it can be located and fixed in the source file. Uses
+   * console.error (rather than warn) so it stands out from the noise of
+   * per-file success logs and is easy to filter for in devtools. Left
+   * unbolded so the bold per-file summary (csvParsed) is what catches the
+   * eye first; these are the detail you read once you've spotted that.
    */
   static csvRowError(fileName: string, line: number, reason: string) {
-    this.warnOnce(
+    this.errorOnce(
       `csv-row-error-${fileName}-${line}`,
       `[CSV] ${fileName}:${line} — ${reason}`
     )

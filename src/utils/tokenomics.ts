@@ -86,12 +86,15 @@ export type ClusteringOption = 'explorers' | 'staking' | 'multi' | 'crystal'
 /**
  * Parses the tokenomics CSV content into DataEntry[]
  */
-export function parseTokenomicsCsv(csv: string): DataEntry[] {
+export function parseTokenomicsCsv(
+  csv: string,
+  fileName = 'tokenomics.csv'
+): DataEntry[] {
   const { rows, headers } = splitCsvContent(csv)
   const data: DataEntry[] = []
 
-  forEachCsvDataRow(rows, headers, {
-    onRow: (i, values) => {
+  forEachCsvDataRow(rows, headers, fileName, {
+    onRow: ({ reportError }, values) => {
       const entry: CsvParseEntry = {}
       let ledger: string | undefined
 
@@ -102,7 +105,7 @@ export function parseTokenomicsCsv(csv: string): DataEntry[] {
         if (header === 'date') {
           const date = parseCsvDate(value)
           if (!date) {
-            console.warn(`Invalid date: "${value}" at row ${i}`)
+            reportError(`invalid date "${value}"`)
             continue
           }
           entry.date = date
@@ -118,7 +121,13 @@ export function parseTokenomicsCsv(csv: string): DataEntry[] {
       // Only include entries with valid date and allowed ledger
       if (entry.date && ledger && TOKENOMICS_ALLOWED_LEDGERS.includes(ledger)) {
         data.push(entry as DataEntry)
+        return true
       }
+
+      if (entry.date) {
+        reportError(`unrecognised or missing ledger "${ledger ?? ''}"`)
+      }
+      return false
     }
   })
 
@@ -135,7 +144,7 @@ export async function loadTokenomicsCsvData(
     fileName,
     `Error loading tokenomics data from ${fileName}`
   )
-  return parseTokenomicsCsv(csvText)
+  return parseTokenomicsCsv(csvText, fileName)
 }
 
 /**

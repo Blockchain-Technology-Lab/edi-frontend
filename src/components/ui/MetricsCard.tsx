@@ -1,8 +1,6 @@
-import { LineChart } from '@/components'
+import { LineChart, Tooltip } from '@/components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfo } from '@fortawesome/free-solid-svg-icons'
-import Tippy from '@tippyjs/react'
-import 'tippy.js/dist/tippy.css'
 import type { ReactNode } from 'react'
 import type { LayerType } from '@/utils'
 import type { DataEntry } from '@/utils/types'
@@ -77,15 +75,15 @@ export function MetricsCard({
     <div className="card border border-base-300 shadow-sm overflow-hidden bg-base-100" key={metric.metric}>
       {/* Card header */}
       <div className="flex items-center justify-between gap-3 px-4 py-2.5 bg-base-200/50 border-b border-base-300">
-        <Tippy content={metric.title} placement="bottom-start" delay={[400, 0]}>
+        <Tooltip content={metric.title} placement="bottom-start" delayDuration={400}>
           <span className="text-sm font-semibold text-base-content leading-snug truncate min-w-0 flex-1 cursor-default">
             {metric.title}
           </span>
-        </Tippy>
+        </Tooltip>
         <div className="flex items-center gap-1 shrink-0">
           {headerControl}
           {metric.description && (
-            <Tippy content={metric.description} placement="bottom">
+            <Tooltip content={metric.description} placement="bottom">
               <button
                 type="button"
                 tabIndex={0}
@@ -94,7 +92,7 @@ export function MetricsCard({
               >
                 <FontAwesomeIcon icon={faInfo} className="w-3 h-3" />
               </button>
-            </Tippy>
+            </Tooltip>
           )}
         </div>
       </div>
