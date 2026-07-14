@@ -127,28 +127,16 @@ export function filterMetricsByTauVariant(
 
 // --------------------------- CSV Parsing Logic ----------------------------
 
-export function parseConsensusCsv(csv: string): DataEntry[] {
+export function parseConsensusCsv(
+  csv: string,
+  fileName = 'consensus.csv'
+): DataEntry[] {
   const { rows, headers } = splitCsvContent(csv, CSV_DELIMITER)
   const data: DataEntry[] = []
-  let skippedLines = 0
-  const isProduction = process.env.NODE_ENV === 'production'
 
-  // Create a unique identifier for this CSV file based on content hash
-  const csvHash = csv.slice(0, 100).replace(/\W/g, '').substring(0, 20)
-  const csvId = `consensus-csv-${rows.length}-${csvHash}`
-
-  forEachCsvDataRow(rows, headers, {
+  forEachCsvDataRow(rows, headers, fileName, {
     delimiter: CSV_DELIMITER,
-    onMalformedRow: (i, actualColumns, expectedColumns) => {
-      skippedLines++
-      if (!isProduction) {
-        DevLogger.warnOnce(
-          `${csvId}-header-mismatch-${i}`,
-          `Row ${i}: Expected ${expectedColumns} columns, got ${actualColumns}`
-        )
-      }
-    },
-    onRow: (i, values) => {
+    onRow: ({ reportError }, values) => {
       const entry: CsvParseEntry = {}
       let ledger: string | undefined
       let hasValidData = false
@@ -160,10 +148,7 @@ export function parseConsensusCsv(csv: string): DataEntry[] {
         if (header === 'date') {
           const date = parseCsvDate(value)
           if (!date) {
-            DevLogger.warnOnce(
-              `${csvId}-invalid-date-${i}`,
-              `Invalid date: "${value}" at row ${i}`
-            )
+            reportError(`invalid date "${value}"`)
             continue
           }
           entry.date = date
@@ -187,32 +172,17 @@ export function parseConsensusCsv(csv: string): DataEntry[] {
         CONSENSUS_ALLOWED_LEDGERS.includes(ledger as ConsensusLedger)
       ) {
         data.push(entry as DataEntry)
-      } else {
-        skippedLines++
-        if (!hasValidData) {
-          DevLogger.warnOnce(
-            `${csvId}-invalid-entry-${i}`,
-            `Row ${i}: Missing required data (date, ledger, or valid metrics)`
-          )
-        }
+        return true
       }
+
+      reportError(
+        hasValidData
+          ? `unrecognised or missing ledger "${ledger ?? ''}"`
+          : 'missing required data (date, ledger, or valid metrics)'
+      )
+      return false
     }
   })
-
-  // Log summary only once per CSV file - only if there are significant issues
-  if (skippedLines > 5) {
-    DevLogger.logOnce(
-      `${csvId}-summary`,
-      `Consensus CSV parsing: ${skippedLines} malformed lines skipped, ${data.length} valid entries processed`
-    )
-  }
-
-  // Still log in production if there are many errors
-  if (isProduction && skippedLines > 10) {
-    console.warn(
-      `Consensus CSV parsing: ${skippedLines} lines skipped, ${data.length} entries parsed`
-    )
-  }
 
   return data.sort(sortByLedgerAndDate)
 }
@@ -223,12 +193,13 @@ export async function loadConsensusCsvData(
   ledger: string,
   fileName: string
 ): Promise<DataEntry[]> {
-  const path = `${CONSENSUS_CSV}${ledger}/${fileName}`
+  const relativePath = `${ledger}/${fileName}`
+  const path = `${CONSENSUS_CSV}${relativePath}`
   const text = await fetchCsvText(
     path,
-    `Error loading consensus data: ${ledger}/${fileName}`
+    `Error loading consensus data: ${relativePath}`
   )
-  return parseConsensusCsv(text).map((entry) => ({
+  return parseConsensusCsv(text, relativePath).map((entry) => ({
     ...entry,
     ledger
   }))

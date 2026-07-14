@@ -1,10 +1,21 @@
 import { useQuery } from '@tanstack/react-query'
-import { loadSoftwareCsvData, loadDoughnutCsvData } from '@/utils'
+import {
+  loadSoftwareCsvData,
+  loadDoughnutCsvData,
+  SOFTWARE_LEDGER_NAMES
+} from '@/utils'
 
-export function useSoftwareCsv(csvPath: string) {
+export function useSoftwareCsvAll(fileName: string) {
   const { data = [], isPending: loading, error } = useQuery({
-    queryKey: ['csv', 'software', csvPath],
-    queryFn: () => loadSoftwareCsvData(csvPath),
+    queryKey: ['csv', 'software', fileName],
+    queryFn: async () => {
+      const allData = await Promise.all(
+        SOFTWARE_LEDGER_NAMES.map((ledger) =>
+          loadSoftwareCsvData(ledger, fileName)
+        )
+      )
+      return allData.flat()
+    },
   })
 
   return { data, loading, error: error as Error | null }

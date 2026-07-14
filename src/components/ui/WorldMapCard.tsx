@@ -1,7 +1,8 @@
 import { useMemo, useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDownload } from '@fortawesome/free-solid-svg-icons'
-import { useExportChart, useWorldMapChart } from '@/hooks'
+import { useExportChart } from '@/hooks'
+import { useWorldMapChart } from '@/hooks/useWorldMapChart'
 import { ThemeContext } from '@/contexts'
 import {
   getMapColorScheme,

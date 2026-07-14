@@ -1,4 +1,4 @@
-import { InfographicsImages } from '@/components'
+import { InfographicsImages } from '@/components/ui/InfographicsImages'
 
 export function Infographics() {
   return (

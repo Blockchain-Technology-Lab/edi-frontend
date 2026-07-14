@@ -1,4 +1,5 @@
-import { DoughnutCard, WorldMapCard } from '@/components'
+import { DoughnutCard } from '@/components'
+import { WorldMapCard } from '@/components/ui/WorldMapCard'
 import { useWorldMapData } from '@/hooks'
 import type { LayerType } from '@/utils'
 

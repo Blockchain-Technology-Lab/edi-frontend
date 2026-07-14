@@ -1,6 +1,5 @@
-import { DoughnutChartRenderer } from '@/components'
+import { DoughnutChartRenderer, Tooltip } from '@/components'
 import type { LayerType } from '@/utils'
-import Tippy from '@tippyjs/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfo } from '@fortawesome/free-solid-svg-icons'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
@@ -35,7 +34,7 @@ export function DoughnutCard({
         </span>
         <div className="flex items-center gap-1 shrink-0">
           {showInfo && description && (
-            <Tippy content={description} placement="bottom">
+            <Tooltip content={description} placement="bottom">
               <button
                 type="button"
                 tabIndex={0}
@@ -44,10 +43,10 @@ export function DoughnutCard({
               >
                 <FontAwesomeIcon icon={faInfo} className="w-3 h-3" />
               </button>
-            </Tippy>
+            </Tooltip>
           )}
           {githubUrl && (
-            <Tippy content="View on GitHub" placement="bottom">
+            <Tooltip content="View on GitHub" placement="bottom">
               <a
                 href={githubUrl}
                 target="_blank"
@@ -57,7 +56,7 @@ export function DoughnutCard({
               >
                 <FontAwesomeIcon icon={faGithub} className="w-3.5 h-3.5" />
               </a>
-            </Tippy>
+            </Tooltip>
           )}
         </div>
       </div>

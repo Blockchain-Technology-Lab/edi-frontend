@@ -1,4 +1,4 @@
-import { getColorsForChart, SOFTWARE_DOUGHNUT_CSV } from '@/utils'
+import { getColorsForChart, SOFTWARE_CSV, SOFTWARE_DOUGHNUT_CSV } from '@/utils'
 import { BASE_LEDGERS, getBaseLedger } from './charts/ledgers'
 import DevLogger from './devLogger'
 import {
@@ -147,27 +147,19 @@ export const SOFTWARE_METRICS = [
 const SOFTWARE_COLUMNS = SOFTWARE_METRICS.map((m) => m.metric)
 
 /**
- * Parses software layer CSV content into DataEntry[]
+ * Parses software layer CSV content into DataEntry[]. `fileName` identifies
+ * the source file in dev-console diagnostics (see DevLogger.csvParsed /
+ * csvRowError) so parse issues can be traced back to an exact file + line.
  */
-export function parseSoftwareCsv(csv: string): DataEntry[] {
+export function parseSoftwareCsv(
+  csv: string,
+  fileName = 'software.csv'
+): DataEntry[] {
   const { rows, headers } = splitCsvContent(csv)
   const data: DataEntry[] = []
 
-  let malformedCount = 0
-  let invalidDateCount = 0
-  let totalProcessed = 0
-
-  forEachCsvDataRow(rows, headers, {
-    onMalformedRow: (i, actualColumns, expectedColumns) => {
-      malformedCount++
-      DevLogger.warnOnce(
-        `malformed-csv-line-${i}`,
-        `Malformed CSV line at row ${i}: expected ${expectedColumns} columns, got ${actualColumns}`
-      )
-      totalProcessed++
-    },
-    onRow: (i, values) => {
-      totalProcessed++
+  forEachCsvDataRow(rows, headers, fileName, {
+    onRow: ({ reportError }, values) => {
       const entry: CsvParseEntry = {}
       let ledger: string | undefined
 
@@ -178,11 +170,7 @@ export function parseSoftwareCsv(csv: string): DataEntry[] {
         if (header === 'date') {
           const date = parseCsvDate(value)
           if (!date) {
-            invalidDateCount++
-            DevLogger.warnOnce(
-              `invalid-date-${i}`,
-              `Invalid date: "${value}" at row ${i}`
-            )
+            reportError(`invalid date "${value}"`)
             continue
           }
           entry.date = date
@@ -197,33 +185,37 @@ export function parseSoftwareCsv(csv: string): DataEntry[] {
 
       if (entry.date && ledger && SOFTWARE_LEDGER_NAMES.includes(ledger)) {
         data.push(entry as DataEntry)
+        return true
       }
+
+      if (entry.date) {
+        reportError(`unrecognised or missing ledger "${ledger ?? ''}"`)
+      }
+      return false
     }
   })
-
-  // Log parsing summary once
-  DevLogger.logOnce(
-    'software-csv-parsing-summary',
-    `Software CSV parsing complete: ${data.length} valid entries from ${totalProcessed} total lines`,
-    malformedCount > 0 || invalidDateCount > 0
-      ? { malformedCount, invalidDateCount }
-      : undefined
-  )
 
   return data.sort(sortByLedgerAndDate)
 }
 
 /**
- * Loads and parses the software CSV file from a given path.
+ * Loads and parses a per-ledger software CSV file, e.g.
+ * output/software/line/{ledger}/{fileName}.
  */
 export async function loadSoftwareCsvData(
+  ledger: string,
   fileName: string
 ): Promise<DataEntry[]> {
+  const relativePath = `${ledger}/${fileName}`
+  const path = `${SOFTWARE_CSV}${relativePath}`
   const csvText = await fetchCsvText(
-    fileName,
-    `Error loading software data from ${fileName}`
+    path,
+    `Error loading software data: ${relativePath}`
   )
-  return parseSoftwareCsv(csvText)
+  return parseSoftwareCsv(csvText, relativePath).map((entry) => ({
+    ...entry,
+    ledger
+  }))
 }
 
 export function getSoftwareCsvFileName(
@@ -232,17 +224,17 @@ export function getSoftwareCsvFileName(
   commits: string
 ): string {
   const fileNameTemplates: Record<string, string> = {
-    lines_author: 'all_metrics_by_lines_changed_per_author_per_%s_commits.csv',
+    lines_author: 'metrics_by_lines_changed_per_author_per_%s_commits.csv',
     lines_committer:
-      'all_metrics_by_lines_changed_per_committer_per_%s_commits.csv',
+      'metrics_by_lines_changed_per_committer_per_%s_commits.csv',
     commits_author:
-      'all_metrics_by_number_of_commits_per_author_per_%s_commits.csv',
+      'metrics_by_number_of_commits_per_author_per_%s_commits.csv',
     commits_committer:
-      'all_metrics_by_number_of_commits_per_committer_per_%s_commits.csv',
+      'metrics_by_number_of_commits_per_committer_per_%s_commits.csv',
     merge_author:
-      'all_metrics_by_number_of_merge_commits_per_author_per_%s_commits.csv',
+      'metrics_by_number_of_merge_commits_per_author_per_%s_commits.csv',
     merge_committer:
-      'all_metrics_by_number_of_merge_commits_per_committer_per_%s_commits.csv'
+      'metrics_by_number_of_merge_commits_per_committer_per_%s_commits.csv'
   }
 
   const key = `${weight}_${entity}`
@@ -282,7 +274,7 @@ export function getSoftwareDoughnutCsvFileNames(
   const folder = folderMap[folderKey]
 
   return SOFTWARE_DOUGHNUT_REPOS.map(
-    ({ repo }) => `${SOFTWARE_DOUGHNUT_CSV}${folder}/${repo}.csv`
+    ({ repo }) => `${SOFTWARE_DOUGHNUT_CSV}${repo}/${folder}.csv`
   )
 }
 
@@ -415,21 +407,21 @@ export function generateDoughnutPaths(
   const pathsRecord: Record<string, string> = {}
 
   fileNames.forEach((filePath) => {
-    // Extract the filename from the full path
-    const fileName = filePath.split(PATH_SEPARATOR).pop() || ''
+    // Paths are shaped as `.../doughnut/{repo}/{metric}.csv`, so the repo
+    // is the parent directory of the file, not the file name itself.
+    const segments = filePath.split(PATH_SEPARATOR)
+    const repo = segments[segments.length - 2]
 
     // Find the corresponding repo for this file, keyed by repo id (not
     // display name) so this can't drift out of sync with BASE_LEDGERS.
-    const repoEntry = SOFTWARE_DOUGHNUT_REPOS.find(
-      ({ repo }) => `${repo}.csv` === fileName
-    )
+    const repoEntry = SOFTWARE_DOUGHNUT_REPOS.find((r) => r.repo === repo)
 
     if (repoEntry) {
       pathsRecord[repoEntry.repo] = filePath
     } else {
       DevLogger.warnOnce(
-        `missing-repo-config-${fileName}`,
-        `No repo config found for file: ${fileName}`
+        `missing-repo-config-${filePath}`,
+        `No repo config found for file: ${filePath}`
       )
     }
   })

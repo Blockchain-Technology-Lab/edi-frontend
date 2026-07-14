@@ -2,7 +2,14 @@
 import type { DataEntry } from '@/utils/types'
 import { NETWORK_CSV } from '@/utils/paths'
 import { NETWORK_LEDGERS } from '@/utils/charts/constants'
-import { fetchCsvText, sortByLedgerAndDate } from './csvParsing'
+import {
+  fetchCsvText,
+  forEachCsvDataRow,
+  parseCsvDate,
+  sortByLedgerAndDate,
+  splitCsvContent
+} from './csvParsing'
+import DevLogger from './devLogger'
 
 // --- Constants ---
 
@@ -88,42 +95,52 @@ export async function loadNetworkOrganizationsCsvData(
 
 // --- Parser ---
 
-function parseGenericCSV(csvData: string, valueColumns: string[]): DataEntry[] {
-  const lines = csvData.trim().split('\n')
-  const headers = lines[0].split(',').map((h) => h.trim())
+function parseGenericCSV(
+  csvData: string,
+  valueColumns: string[],
+  fileName = 'network.csv'
+): DataEntry[] {
+  const { rows, headers } = splitCsvContent(csvData)
   const cleanKeys = valueColumns.map((c) => c.replace('=', '_'))
-
   const data: DataEntry[] = []
 
-  for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(',')
-    if (values.length !== headers.length) continue
+  forEachCsvDataRow(rows, headers, fileName, {
+    onRow: ({ reportError }, values) => {
+      const entry: Partial<DataEntry> = {}
 
-    const entry: Partial<DataEntry> = {}
+      for (let j = 0; j < headers.length; j++) {
+        const header = headers[j]
+        const value = values[j].trim()
 
-    for (let j = 0; j < headers.length; j++) {
-      const header = headers[j]
-      const value = values[j].trim()
-
-      if (header === 'date') {
-        entry.date = new Date(value)
-      } else if (header === 'ledger') {
-        entry.ledger = value
-      } else if (valueColumns.includes(header)) {
-        const cleanHeader = header.replace('=', '_')
-        const parsed = parseFloat(value)
-        entry[cleanHeader] = isNaN(parsed) ? null : parsed
+        if (header === 'date') {
+          const date = parseCsvDate(value)
+          if (date) entry.date = date
+        } else if (header === 'ledger') {
+          entry.ledger = value
+        } else if (valueColumns.includes(header)) {
+          const cleanHeader = header.replace('=', '_')
+          const parsed = parseFloat(value)
+          entry[cleanHeader] = isNaN(parsed) ? null : parsed
+        }
       }
-    }
 
-    const hasValidMetric = cleanKeys.some(
-      (key) => typeof entry[key as keyof DataEntry] === 'number'
-    )
+      const hasValidMetric = cleanKeys.some(
+        (key) => typeof entry[key as keyof DataEntry] === 'number'
+      )
 
-    if (entry.ledger && entry.date && hasValidMetric) {
-      data.push(entry as DataEntry)
+      if (entry.ledger && entry.date && hasValidMetric) {
+        data.push(entry as DataEntry)
+        return true
+      }
+
+      reportError(
+        !entry.date
+          ? 'invalid or missing date'
+          : `missing ledger or metric (ledger="${entry.ledger ?? ''}")`
+      )
+      return false
     }
-  }
+  })
 
   data.sort(sortByLedgerAndDate)
   return data
@@ -139,7 +156,7 @@ async function fetchAndParseCsv(
     `Failed to fetch ${label} CSV at ${filePath}`,
     `Unknown error loading ${label} CSV`
   )
-  return parseGenericCSV(text, columns)
+  return parseGenericCSV(text, columns, filePath)
 }
 
 // --- Bar Chart Types & Functions ---
@@ -149,27 +166,40 @@ export type NetworkBarEntry = {
   nodes: number
 }
 
-export function parseNetworkBarCsv(csv: string): NetworkBarEntry[] {
-  const lines = csv.trim().split('\n')
-  if (lines.length < 2) return []
-
-  const headers = lines[0].split(',').map((h) => h.trim())
+export function parseNetworkBarCsv(
+  csv: string,
+  fileName = 'network-bar.csv'
+): NetworkBarEntry[] {
+  const { rows, headers } = splitCsvContent(csv)
   const ledgerIdx = headers.indexOf('ledger')
   const nodesIdx = headers.indexOf('nodes')
-
   const data: NetworkBarEntry[] = []
 
-  for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(',')
-    if (values.length !== headers.length) continue
-
-    const ledger = values[ledgerIdx]?.trim()
-    const nodes = parseInt(values[nodesIdx]?.trim(), 10)
-
-    if (ledger && !isNaN(nodes)) {
-      data.push({ ledger, nodes })
-    }
+  if (ledgerIdx === -1 || nodesIdx === -1) {
+    DevLogger.csvRowError(
+      fileName,
+      1,
+      'missing required "ledger" or "nodes" column in header'
+    )
+    return data
   }
+
+  forEachCsvDataRow(rows, headers, fileName, {
+    onRow: ({ reportError }, values) => {
+      const ledger = values[ledgerIdx]?.trim()
+      const nodes = parseInt(values[nodesIdx]?.trim(), 10)
+
+      if (ledger && !isNaN(nodes)) {
+        data.push({ ledger, nodes })
+        return true
+      }
+
+      reportError(
+        `invalid ledger/nodes value ("${ledger ?? ''}", "${values[nodesIdx] ?? ''}")`
+      )
+      return false
+    }
+  })
 
   return data
 }
@@ -182,7 +212,7 @@ export async function loadNetworkBarCsvData(
     `Failed to fetch bar chart CSV at ${filePath}`,
     'Unknown error loading bar chart CSV'
   )
-  return parseNetworkBarCsv(text)
+  return parseNetworkBarCsv(text, filePath)
 }
 
 export const NETWORK_DEFAULT_BAR_COLOUR = '#2563eb' // fallback blue
