@@ -9,7 +9,7 @@ import {
 import {
   useContributorSectionNavigation,
   usePersistedSystemSelection,
-  useSoftwareCsv
+  useSoftwareCsvAll
 } from '@/hooks'
 import {
   DOUGHNUT_CARD,
@@ -18,7 +18,6 @@ import {
   getSoftwareCsvFileName,
   getSoftwareDoughnutCsvFileNames,
   SOFTWARE_CLIENT_DOUGHNUT_LEDGERS,
-  SOFTWARE_CSV,
   SOFTWARE_DOUGHNUT_LEDGER_NAMES,
   SOFTWARE_METRICS,
   SOFTWARE_LEDGERS,
@@ -121,8 +120,7 @@ export function Software() {
   )
 
   const doughnutPaths = generateDoughnutPaths(doughnutFilenames)
-  const csvPath = `${SOFTWARE_CSV + filename}`
-  const { data, loading, error } = useSoftwareCsv(csvPath)
+  const { data, loading, error } = useSoftwareCsvAll(filename)
 
   // Extract unique systems from actual data and merge with constants
   const softwareSystems = useMemo((): string[] => {
