@@ -376,8 +376,8 @@ function getChartOptions(
         padding: 10,
         titleFont: { family: CHART_FONT, size: 12, weight: 'bold' },
         bodyFont: { family: CHART_FONT, size: 11 },
-        filter(item, _, items) {
-          return items[0].label === item.label
+        filter(item, index, items) {
+          return items.findIndex((i) => i.datasetIndex === item.datasetIndex) === index
         },
         callbacks: {
           title: function (context) {
