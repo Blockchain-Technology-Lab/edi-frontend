@@ -282,35 +282,33 @@ export function Software() {
           }
           imageSrc={DOUGHNUT_CARD}
           methodologyPath={LAYER_CONFIG.software.methodologyPath}
-        />
-      </div>
-
-      <div className="card border border-base-300 shadow-sm bg-base-100 overflow-hidden">
-        <div className="px-4 py-2.5 bg-base-200/50 border-b border-base-300">
-          <h3 className="text-sm font-semibold text-base-content">Options</h3>
-        </div>
-        <div className="p-4 sm:p-5">
-          <div className="flex flex-col sm:flex-row gap-0">
-            <div className="pb-5 border-b border-base-300 sm:pb-0 sm:border-b-0 sm:pr-6 sm:border-r sm:border-base-300">
-              <RadioGroup
-                label="Contribution Type"
-                items={DOUGHNUT_WEIGHT_ITEMS}
-                selectedItem={selectedDoughnutWeight}
-                onChange={setSelectedDoughnutWeight}
-                stacked={true}
-              />
-            </div>
-            <div className="pt-5 sm:pt-0 sm:pl-6">
-              <RadioGroup
-                label="Contributor Type"
-                items={DOUGHNUT_ENTITY_ITEMS}
-                selectedItem={selectedDoughnutEntity}
-                onChange={setSelectedDoughnutEntity}
-                stacked={true}
-              />
+        >
+          <div className="px-4 py-2.5 bg-base-200/50 border-b border-base-300">
+            <h3 className="text-sm font-semibold text-base-content">Options</h3>
+          </div>
+          <div className="p-4 sm:p-5 flex-1">
+            <div className="flex flex-col sm:flex-row gap-0">
+              <div className="pb-5 border-b border-base-300 sm:pb-0 sm:border-b-0 sm:pr-6 sm:border-r sm:border-base-300">
+                <RadioGroup
+                  label="Contribution Type"
+                  items={DOUGHNUT_WEIGHT_ITEMS}
+                  selectedItem={selectedDoughnutWeight}
+                  onChange={setSelectedDoughnutWeight}
+                  stacked={true}
+                />
+              </div>
+              <div className="pt-5 sm:pt-0 sm:pl-6">
+                <RadioGroup
+                  label="Contributor Type"
+                  items={DOUGHNUT_ENTITY_ITEMS}
+                  selectedItem={selectedDoughnutEntity}
+                  onChange={setSelectedDoughnutEntity}
+                  stacked={true}
+                />
+              </div>
             </div>
           </div>
-        </div>
+        </DoughnutTopCard>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
