@@ -6,13 +6,20 @@ type IpfsStepCardProps = {
   kicker: string
   title: string
   content: ComponentType<Record<string, unknown>>
+  contentWidth?: 'full' | 'prose'
   footer?: ReactNode
+}
+
+const CONTENT_WIDTH_CLASSES: Record<'full' | 'prose', string> = {
+  full: '',
+  prose: 'max-w-2xl [&>div]:w-full! [&_pre]:w-full!'
 }
 
 export function IpfsStepCard({
   kicker,
   title,
   content: Content,
+  contentWidth = 'full',
   footer
 }: IpfsStepCardProps) {
   return (
@@ -27,7 +34,7 @@ export function IpfsStepCard({
       </div>
 
       <div className="px-5 py-5 sm:px-6 sm:py-6">
-        <IpfsProse className="space-y-4">
+        <IpfsProse className={`space-y-4 ${CONTENT_WIDTH_CLASSES[contentWidth]}`}>
           <Content components={{ pre: CodeBlock }} />
         </IpfsProse>
       </div>

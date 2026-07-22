@@ -1,4 +1,6 @@
+import { Link } from '@tanstack/react-router'
 import { basePath } from '@/utils/paths'
+import { dataFormatsRoute } from '@/router'
 
 Before you start, gather everything you want to share into a single folder, for example:
 
@@ -10,7 +12,7 @@ my-dataset/
 └── logs/
 ```
 
-That's it — any structure is fine, as long as it's all in one folder.
+The data can feed directly into one of our decentralisation-analysis tools, we accept it in that raw format too — see our <Link to={dataFormatsRoute.to} className="link link-primary font-medium">Data Format Templates</Link> for the schema, by layer.
 
 We also recommend including a `metadata.json` file describing the dataset. You can start from our template:
 

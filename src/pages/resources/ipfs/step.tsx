@@ -23,6 +23,7 @@ export function IpfsTutorialStep() {
         kicker={`Sharing Your Node Data With Us — ${step.label}`}
         title={step.title}
         content={step.content}
+        contentWidth={step.contentWidth}
         footer={
           <div className="flex items-stretch justify-between gap-3">
             {prev ? (

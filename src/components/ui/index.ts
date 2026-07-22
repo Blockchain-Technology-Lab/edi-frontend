@@ -38,18 +38,14 @@ export * from './ToggleMulti'
 export * from './Toggle'
 export * from './CheckboxGroup'
 export * from './RadioGroup'
-// WorldMapCard, WorldMapCardTotal, and GeographyLedgerCards are
-// intentionally NOT re-exported here: this barrel is imported by many
-// unrelated lazy-loaded pages, and since it statically imports every
-// re-exported module, Rollup hoists it (and its Geography-only chain
-// down to chartjs-chart-geo + chartjs-plugin-zoom, ~62kB) into the
-// shared bundle if even one of those modules stays barrel-reachable.
-// Geography imports them directly from their file paths instead.
 export * from './MethodologyCard'
+export * from './MethodologyHelpers'
+export * from './cardAccents'
+export * from './GovernanceLifecycleDiagram'
+export * from './CommandPalette'
 export * from './IpfsStepCard'
 export * from './IpfsTileLabel'
 export * from './IpfsProse'
 export * from './IpfsExplainerVideo'
 export * from './CodeBlock'
-export * from './GovernanceLifecycleDiagram'
-export * from './CommandPalette'
+export * from './DataFormatCard'

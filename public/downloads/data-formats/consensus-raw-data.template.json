@@ -1,0 +1,16 @@
+{
+  "number": "<block height>",
+  "timestamp": "<yyyy-mm-dd hh:mm:ss UTC>",
+  "identifiers": "<coinbase_param field of the coinbase transaction>",
+  "outputs": [
+    {
+      "index": "<output index>",
+      "script_asm": "<output script, asm form>",
+      "script_hex": "<output script, hex form>",
+      "required_signatures": "<number of required signatures>",
+      "type": "<output type, e.g. pubkeyhash>",
+      "addresses": ["<address that received this output>"],
+      "value": 0
+    }
+  ]
+}

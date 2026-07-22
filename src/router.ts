@@ -81,6 +81,12 @@ const IpfsTutorial = lazy(() =>
   }))
 )
 
+const DataFormats = lazy(() =>
+  import('@/pages/resources/data-formats').then((mod) => ({
+    default: mod.DataFormats
+  }))
+)
+
 const IpfsTutorialStep = lazy(() =>
   import('@/pages/resources/ipfs/step').then((mod) => ({
     default: mod.IpfsTutorialStep
@@ -247,6 +253,12 @@ export const ipfsStepRoute = createRoute({
   component: IpfsTutorialStep
 })
 
+export const dataFormatsRoute = createRoute({
+  path: withBase('/resources/data-formats'),
+  getParentRoute: () => rootRoute,
+  component: DataFormats
+})
+
 export const infographicsRoute = createRoute({
   path: withBase('/infographics'),
   getParentRoute: () => rootRoute,
@@ -268,6 +280,7 @@ export const routeTree = rootRoute.addChildren([
   resourcesRoute,
   ipfsRoute,
   ipfsStepRoute,
+  dataFormatsRoute,
   methodologyRoute.addChildren([
     consensusMethodologyRoute,
     tokenomicsMethodologyRoute,

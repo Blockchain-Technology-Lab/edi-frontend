@@ -1,0 +1,87 @@
+import { basePath } from '@/utils/paths'
+import { AppLink, DataFormatCard } from '@/components'
+
+Our <AppLink href="https://github.com/Blockchain-Technology-Lab/consensus-decentralization">consensus-decentralization</AppLink> tool expects one file per ledger, named `<project_name>_raw_data.json` (e.g. `bitcoin_raw_data.json`), in newline-delimited JSON — one JSON object per block, per line. The fields depend on the ledger:
+
+<div className="columns-1 sm:columns-2 gap-4">
+
+<DataFormatCard>
+
+**UTXO chains** (Bitcoin, Bitcoin Cash, Dogecoin, Litecoin, Zcash):
+
+```json
+{
+  "number": "507715",
+  "timestamp": "2018-02-05 04:54:34 UTC",
+  "identifiers": "<coinbase_param field of the coinbase transaction>",
+  "outputs": [
+    {
+      "index": "0",
+      "script_asm": "...",
+      "script_hex": "...",
+      "required_signatures": "1",
+      "type": "pubkeyhash",
+      "addresses": ["1J7FCFaafPRxqu4X9VsaiMZr1XMemx69GR"],
+      "value": 13250677
+    }
+  ]
+}
+```
+
+</DataFormatCard>
+
+<DataFormatCard>
+
+**Ethereum:**
+
+```json
+{
+  "number": "16382083",
+  "timestamp": "2023-01-11 07:29:47 UTC",
+  "reward_addresses": "<block's miner address>",
+  "identifiers": "<block's extra_data field>"
+}
+```
+
+</DataFormatCard>
+
+<DataFormatCard>
+
+**Cardano:**
+
+```json
+{
+  "number": "17809932",
+  "timestamp": "2020-12-31T00:57:03",
+  "identifiers": "<block's pool ticker name — omit the field if unavailable>",
+  "reward_addresses": "<block's pool hash — omit the field if unavailable>"
+}
+```
+
+</DataFormatCard>
+
+<DataFormatCard>
+
+**Tezos:**
+
+```json
+{
+  "number": "1649812",
+  "timestamp": "2021-08-30 00:36:18 UTC",
+  "reward_addresses": "<block's baker address — omit the field if unavailable>"
+}
+```
+
+`identifiers` does not apply to Tezos — leave it out entirely rather than sending it empty.
+
+</DataFormatCard>
+
+</div>
+
+Every entry's `timestamp` is UTC. Most ledgers format it as `yyyy-mm-dd hh:mm:ss UTC`; Cardano's raw samples use ISO 8601 (`yyyy-mm-ddThh:mm:ss`, no suffix) instead — either is fine, so just match whatever your own node/crawler naturally produces.
+
+<a href={basePath + "/downloads/data-formats/consensus-raw-data.template.json"} download className="link link-primary font-medium">
+  Download a single-block template (UTXO-chain shape)
+</a>
+
+See the <AppLink href="https://github.com/Blockchain-Technology-Lab/consensus-decentralization/tree/main/raw_block_data">sample raw data files</AppLink> in our consensus-decentralization repo for full real-world examples of each shape above.

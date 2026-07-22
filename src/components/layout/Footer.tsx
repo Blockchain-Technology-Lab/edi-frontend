@@ -2,7 +2,7 @@ import {
   accessibilityRoute,
   changelogRoute,
   infographicsRoute,
-  ipfsRoute
+  resourcesRoute
 } from '@/router'
 import { Link } from '@tanstack/react-router'
 import {
@@ -81,7 +81,7 @@ export function Footer() {
           <Link to={changelogRoute.to} className="link link-hover">
             Changelog
           </Link>
-          <Link to={ipfsRoute.to} className="link link-hover">
+          <Link to={resourcesRoute.to} className="link link-hover">
             Share Your Data
           </Link>
           <a
