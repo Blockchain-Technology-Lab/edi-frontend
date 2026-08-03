@@ -445,7 +445,6 @@ export function RadarChart({
                 icon: layer.icon,
                 iconColor: layer.color
               }))}
-              initialOpenId={EDI_LAYERS[0].name}
             />
           </div>
         </div>
