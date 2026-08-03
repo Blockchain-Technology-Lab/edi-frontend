@@ -1,6 +1,6 @@
 {
-  "number": "<block height>",
+  "number": "<block number>",
   "timestamp": "<yyyy-mm-dd hh:mm:ss UTC>",
-  "identifiers": "<field identifying the block producer, e.g. a coinbase parameter, extra_data, or pool ticker — omit if not applicable>",
-  "reward_addresses": "<address(es) that received the block reward, comma-separated if there are multiple>"
+  "identifiers": "<some identifier linking the block to its creator, such as Bitcoin's coinbase_param field, Ethereum's extra_data field, or Cardano's pool_ticker field>",
+  "reward_addresses": ["<address(es) that received the block reward, comma-separated if there are multiple>"]
 }
