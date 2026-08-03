@@ -6,7 +6,7 @@
 set -euo pipefail
 
 CONTACT_EMAIL="edi@ed.ac.uk"
-PROJECT_NAME="Edinburgh Blockchain EDI Dashboard"
+PROJECT_NAME="EDI Dashboard"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 

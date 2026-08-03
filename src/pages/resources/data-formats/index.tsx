@@ -22,10 +22,7 @@ export function DataFormats() {
               <Link to={ipfsRoute.to} className="link link-primary font-medium">
                 IPFS
               </Link>{' '}
-              or any other channel — and it can feed directly into one of our
-              decentralisation-analysis tools, matching its expected raw
-              format below means we can start using it right away, with no
-              reformatting on our end.
+              or any other channel — you can use these templates to ensure your data is structured in a way that we can easily process and analyze. Each layer has its own specific format, and you can find descriptions and examples for each one below.
             </p>
           </IpfsProse>
         </div>
