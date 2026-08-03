@@ -1,7 +1,7 @@
 import { Link, useRouterState } from '@tanstack/react-router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouse } from '@fortawesome/free-solid-svg-icons'
-import { router } from '@/router'
+import { router, withBase } from '@/router'
 import { basePath } from '@/utils/paths'
 
 const BASE_PATH: string = basePath || ''
@@ -74,6 +74,19 @@ export function Breadcrumb() {
       if (segment === 'infographics') {
         return 'Infographics'
       }
+      if (segment === 'resources') {
+        return 'Resources'
+      }
+      if (segment === 'ipfs') {
+        return 'IPFS'
+      }
+      if (segment === 'faq') {
+        return 'FAQ'
+      }
+      const stepMatch = segment.match(/^step-(\d+)$/)
+      if (stepMatch) {
+        return `Step ${stepMatch[1]}`
+      }
 
       // Layer detection - if it's a known layer, add "Layer"
       const knownLayers = [
@@ -107,7 +120,9 @@ export function Breadcrumb() {
       '/software',
       '/geography',
       '/governance',
-      '/infographics'
+      '/infographics',
+      '/resources',
+      '/resources/ipfs'
     ]
 
     // Check if it's a main layer page
@@ -126,7 +141,10 @@ export function Breadcrumb() {
     <div className="breadcrumbs text-sm mb-4 opacity-70">
       <ul>
         <li>
-          <Link to="/" className="flex items-center gap-1 hover:opacity-100">
+          <Link
+            to={withBase('/')}
+            className="flex items-center gap-1 hover:opacity-100"
+          >
             <FontAwesomeIcon icon={faHouse} size="sm" />
             Home
           </Link>
@@ -140,7 +158,7 @@ export function Breadcrumb() {
             <li key={index}>
               {isClickable ? (
                 <Link
-                  to={segmentInfo.path as never}
+                  to={withBase(segmentInfo.path) as never}
                   className="flex items-center gap-1 hover:opacity-100 hover:text-primary"
                 >
                   {segmentInfo.label}

@@ -1,0 +1,31 @@
+import { AppLink } from '@/components'
+
+**What is a CID?**
+A CID (Content Identifier) is a unique fingerprint for your exact dataset. If we download using that CID, we can be sure we received exactly what you uploaded — nothing more, nothing less.
+
+**The daemon won't start / the script fails partway through.**
+Just run `bash setup.sh` again — every step checks what's already done and picks up where it left off.
+
+**"Address already in use" when starting the daemon.**
+You (or another program) already have an IPFS daemon running. Run `ipfs id` first to check — if it responds, your daemon is already up and you can skip straight to uploading.
+
+**Can our team actually reach my node?**
+See "Behind a firewall, VPN, or corporate/university network?" in Step 3 — most home connections work fine, but office networks and VPNs often block the connection IPFS needs. If in doubt, just mention it in your email and we'll sort out an alternative together.
+
+**`ipfs add` fails with a permissions or disk space error.**
+Double-check you have read access to every file in the dataset folder, and enough free disk space for IPFS to process it (roughly the size of the dataset again, temporarily). Re-running `bash setup.sh` will pick up where it left off once fixed.
+
+**Do I need to keep my computer on forever?**
+Just until we confirm we've retrieved the dataset. We'll let you know.
+
+**Do I need to compute a checksum?**
+No — the CID already guarantees the data hasn't changed. `setup.sh` will offer to compute a SHA256 checksum too, only in case your organization's internal records require one.
+
+**Where can I learn more about IPFS?**
+
+- <AppLink href="https://docs.ipfs.tech/">IPFS Documentation</AppLink>
+- <AppLink href="https://docs.ipfs.tech/install/">Installation Guide</AppLink>
+- <AppLink href="https://docs.ipfs.tech/how-to/command-line-quick-start/">Command Line Quick Start</AppLink>
+- <AppLink href="https://docs.ipfs.tech/quickstart/pin/">Pinning Guide</AppLink>
+
+Questions? Email us any time at <AppLink href="mailto:edi@ed.ac.uk">edi@ed.ac.uk</AppLink>.

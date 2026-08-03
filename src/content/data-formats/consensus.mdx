@@ -1,0 +1,31 @@
+import { basePath } from '@/utils/paths'
+import { AppLink } from '@/components'
+
+Our <AppLink
+href="https://github.com/Blockchain-Technology-Lab/consensus-decentralization">consensus-decentralization</AppLink>
+tool expects one file per ledger, named `<project_name>_raw_data.json` (e.g.
+`bitcoin_raw_data.json`), in newline-delimited JSON — one JSON object per block,
+per line. The entries in the file should adhere to the following format:
+
+```json
+{
+  "number": "<block number>",
+  "timestamp": "<yyyy-mm-dd hh:mm:ss UTC>",
+  "identifiers": "<some identifier linking the block to its creator, such as  Bitcoin's coinbase_param field, Ethereum's extra_data field, or Cardano's pool_ticker field>"
+  "reward_addresses": ["<address(es) that received the block reward, comma-separated if there are multiple>"]
+}
+```
+
+Every entry's `timestamp` is UTC. Most ledgers format it as `yyyy-mm-dd hh:mm:ss UTC`; some raw samples (e.g. Cardano) use ISO 8601 (`yyyy-mm-ddThh:mm:ss`, no suffix) instead — either is fine, so just match whatever your own node/crawler naturally produces.
+
+If some field is not applicable for a specific blockchain, then it can be
+omitted, but ideally we want all of them to be included.
+
+<a href={basePath + "/downloads/data-formats/consensus-raw-data.template.json"} download className="link link-primary font-medium">
+  Download a single-block template
+</a>
+
+See the <AppLink
+href="https://github.com/Blockchain-Technology-Lab/consensus-decentralization/tree/main/raw_block_data">sample
+raw data files</AppLink> in our consensus-decentralization repo for
+example files of consensus input data.
