@@ -1,6 +1,8 @@
 import { basePath } from '@/utils/paths'
 import { AppLink } from '@/components'
 
+## Block data
+
 Our <AppLink
 href="https://github.com/Blockchain-Technology-Lab/consensus-decentralization">consensus-decentralization</AppLink>
 tool expects one file per ledger, named `<project_name>_raw_data.json` (e.g.
@@ -29,3 +31,64 @@ See the <AppLink
 href="https://github.com/Blockchain-Technology-Lab/consensus-decentralization/tree/main/raw_block_data">sample
 raw data files</AppLink> in our consensus-decentralization repo for
 example files of consensus input data.
+
+## Mapping information
+
+If you also have information linking block identifiers or reward addresses to
+the real-world entities that control them (e.g., mining pools), you can share
+that too. This mapping information falls into three categories: identifiers,
+addresses and legal links. Full details are available on the <AppLink
+href="https://blockchain-technology-lab.github.io/consensus-decentralization/mappings/">mappings
+documentation page</AppLink>.
+
+**Identifiers** link a pool's tag or ticker, the substring by which it is
+identifiable in the blocks it produces, to information about the pool, such
+as its name and homepage. As with block data, this is one file per ledger,
+named `<project_name>_identifiers.json` (e.g. `bitcoin_identifiers.json`). For
+example, if P1 and P2 are tags used in blocks, we can have the following
+identifiers file:
+
+```json
+{
+  "P1": {
+    "name": "Pool P1",
+    "homepage": "example.com/p1"
+  },
+  "P2": {
+    "name": "Pool P2",
+    "homepage": "example.com/p2"
+  }
+}
+```
+
+**Addresses** link a reward address to the pool that owns it, along with a
+public source for the ownership claim. Again, one file per ledger, named
+`<project_name>_addresses.json` (e.g. `bitcoin_addresses.json`):
+
+```json
+{
+  "address1": {
+    "name": "Pool P2",
+    "source": "example.com"
+  }
+}
+```
+
+**Legal links** record off-chain ownership relationships between a pool and
+its parent company (e.g. following an acquisition), so that blocks can be
+attributed to the top-level entity that ultimately controls the pool. Unlike
+identifiers and addresses, this is a single file, `legal_links.json`,
+covering all ledgers:
+
+```json
+{
+  "<parent company>": [
+    {
+      "name": "<pool name>",
+      "from": "<start date>",
+      "to": "<end date>",
+      "source": "<source of information>"
+    }
+  ]
+}
+```
