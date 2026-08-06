@@ -1,0 +1,19 @@
+name: Deploy to AFS
+
+# Queue overlapping runs instead of cancelling — a deploy must never be killed mid-flight.
+concurrency:
+  group: edi-deploy
+  cancel-in-progress: false
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Build and deploy to AFS
+    runs-on: [self-hosted]
+    steps:
+      - name: Run guarded build + deploy
+        run: /home/eidf086/eidf086/zeeshan/scripts/edi-frontend/deploy-with-guard.sh
