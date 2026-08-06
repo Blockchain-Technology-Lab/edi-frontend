@@ -29,6 +29,8 @@ export function Footer() {
       })
     : 'Build date not available'
 
+  const commitHash = import.meta.env.VITE_COMMIT_HASH
+
   return (
     <footer className="footer sm:footer-horizontal bg-base-200 text-base-content px-4 pt-3 pb-4 sm:p-4 relative gap-y-5">
       {/* Action buttons — always pinned top-right so they never consume a row */}
@@ -66,7 +68,23 @@ export function Footer() {
             className="h-6 sm:h-7 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
           />
         </a>
-        <div className="text-[10px] opacity-60">{buildDate}</div>
+        <div className="text-[10px] opacity-60 flex items-center gap-1.5">
+          <span>{buildDate}</span>
+          {commitHash && commitHash !== 'unknown' && (
+            <>
+              <span aria-hidden="true">&middot;</span>
+              <a
+                href={`https://github.com/Blockchain-Technology-Lab/edi-frontend/commit/${commitHash}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-mono hover:opacity-100 hover:underline"
+                title="View this commit on GitHub"
+              >
+                {commitHash}
+              </a>
+            </>
+          )}
+        </div>
       </aside>
 
       {/*
