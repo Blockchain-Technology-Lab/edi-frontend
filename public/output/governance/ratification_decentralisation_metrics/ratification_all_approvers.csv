@@ -1,0 +1,17 @@
+approver_scope,chain,stagnant_filter,date,gini,cr1,shannon_entropy,hhi
+all_approvers,ethereum,exclude,2018-01-01,0.0,1.0,0.0,10000.0
+all_approvers,ethereum,exclude,2019-01-01,0.5152,0.3667,2.6208,2377.8
+all_approvers,ethereum,exclude,2020-01-01,0.25,0.3333,2.4183,2083.3
+all_approvers,ethereum,exclude,2021-01-01,0.6227,0.4091,2.9023,2415.1
+all_approvers,ethereum,exclude,2022-01-01,0.7299,0.4412,2.9121,2422.1
+all_approvers,ethereum,exclude,2023-01-01,0.7698,0.4521,2.8577,2641.1
+all_approvers,ethereum,exclude,2024-01-01,0.6074,0.31,3.5508,1544.0
+all_approvers,ethereum,exclude,2025-01-01,0.6676,0.448,3.2471,2308.5
+all_approvers,ethereum,include,2018-01-01,0.0,1.0,0.0,10000.0
+all_approvers,ethereum,include,2019-01-01,0.5152,0.3667,2.6208,2377.8
+all_approvers,ethereum,include,2020-01-01,0.25,0.3333,2.4183,2083.3
+all_approvers,ethereum,include,2021-01-01,0.6169,0.403,2.9709,2345.7
+all_approvers,ethereum,include,2022-01-01,0.7292,0.4246,3.0146,2288.6
+all_approvers,ethereum,include,2023-01-01,0.77,0.4483,2.9432,2573.6
+all_approvers,ethereum,include,2024-01-01,0.6188,0.3119,3.6085,1517.5
+all_approvers,ethereum,include,2025-01-01,0.6699,0.4348,3.3228,2212.8
