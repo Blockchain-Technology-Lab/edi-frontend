@@ -114,7 +114,7 @@ export const LAYER_CONFIG: Record<LayerKey, LayerConfig> = {
     content: GeographyContent
   },
   governance: {
-    enabled: false,
+    enabled: true,
     label: 'Governance',
     path: governanceTo,
     methodologyPath: `${methodologyTo}/governance`,
