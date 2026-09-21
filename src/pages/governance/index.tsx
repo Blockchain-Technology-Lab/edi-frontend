@@ -1,4 +1,10 @@
-import { useMemo, useState } from 'react'
+import {
+  useMemo,
+  useState,
+  type Dispatch,
+  type ReactNode,
+  type SetStateAction
+} from 'react'
 import {
   LayerTopCard,
   MetricsTopCard,
@@ -6,13 +12,17 @@ import {
   SystemSelector,
   RadioGroup,
   DoughnutCard,
-  BinaryToggle
+  BinaryToggle,
+  type Metric
 } from '@/components'
 import {
   useGovernanceCsv,
   useGovernanceCommunityDiscussionMetricsCsv,
   useGovernanceGithubMetricsCsv,
   useGovernanceProposalMetricsCsv,
+  useGovernanceRatificationOverviewMetricsCsv,
+  useGovernanceRatificationDecentralisationMetricsCsv,
+  useGovernanceAcdMeetingMetricsCsv,
   usePersistedSystemSelection
 } from '@/hooks'
 import {
@@ -22,13 +32,22 @@ import {
   GOVERNANCE_GITHUB_METRICS,
   GOVERNANCE_METRICS,
   GOVERNANCE_PROPOSAL_METRICS,
+  GOVERNANCE_RATIFICATION_OVERVIEW_METRICS,
+  GOVERNANCE_RATIFICATION_METRICS,
+  GOVERNANCE_ACD_MEETING_METRICS,
   getGovernanceAuthorshipCsvPath,
   getOrderedSystemsForLayer,
   GOVERNANCE_LEDGERS,
   type GovernanceCommunityDiscussionRole,
   type GovernanceGranularity,
-  type GovernanceGithubRole
+  type GovernanceGithubRole,
+  type GovernanceRatificationOverviewMetric,
+  type GovernanceRatificationApproverScope,
+  type GovernanceRatificationStagnantFilter,
+  type GovernanceAcdMeetingPopulation,
+  type GovernanceAcdMeetingMeasure
 } from '@/utils'
+import type { DataEntry } from '@/utils/types'
 import { LAYER_CONFIG } from '@/config/layers'
 
 
@@ -49,6 +68,46 @@ const COMMUNITY_ROLE_ITEMS: Array<{
   { label: 'Participant', value: 'participant' }
 ]
 
+const RATIFICATION_OVERVIEW_METRIC_ITEMS: Array<{
+  label: string
+  value: GovernanceRatificationOverviewMetric
+}> = GOVERNANCE_RATIFICATION_OVERVIEW_METRICS.map(({ metric, title }) => ({
+  label: title,
+  value: metric
+}))
+
+const APPROVER_SCOPE_ITEMS: Array<{
+  label: string
+  value: GovernanceRatificationApproverScope
+}> = [
+  { label: 'Core editors only', value: 'core_editors' },
+  { label: 'All approvers', value: 'all_approvers' }
+]
+
+const STAGNANT_FILTER_ITEMS: Array<{
+  label: string
+  value: GovernanceRatificationStagnantFilter
+}> = [
+  { label: 'Exclude', value: 'exclude' },
+  { label: 'Include', value: 'include' }
+]
+
+const ACD_POPULATION_ITEMS: Array<{
+  label: string
+  value: GovernanceAcdMeetingPopulation
+}> = [
+  { label: 'All participants', value: 'all_participants' },
+  { label: 'Editors only', value: 'editors_only' }
+]
+
+const ACD_MEASURE_ITEMS: Array<{
+  label: string
+  value: GovernanceAcdMeetingMeasure
+}> = [
+  { label: 'Attendance', value: 'attendance' },
+  { label: 'Speaking', value: 'speaking' }
+]
+
 const SYSTEMS_STORAGE_KEY = 'governance_selectedSystems'
 const DEFAULT_GOVERNANCE_SYSTEMS = GOVERNANCE_LEDGERS.map((l) => l.ledger)
 
@@ -59,15 +118,104 @@ const PLATFORM_TO_DISCUSSION_SOURCES: Record<string, string[]> = {
   ethereum: ['ethereum_magicians']
 }
 
+// Every section's control state is "which item of a fixed list is
+// selected" — this keeps that one line instead of a useState<...>()
+// repeated per section with its own (typeof X)[number] annotation.
+function useSelectedItem<T>(items: T[]) {
+  return useState<T>(items[0])
+}
+
+// RadioGroup hands back a plain {label, value: string} item; the list
+// constants above carry a narrower `value` union, so every onChange needs
+// the same cast back to it. Centralised here instead of inlined per RadioGroup.
+function handleRadioSelect<T extends { value: string }>(
+  setSelected: Dispatch<SetStateAction<T>>
+) {
+  return (item: { label: string; value: string }) =>
+    setSelected(item as unknown as T)
+}
+
+// Every section filters its series down to the currently selected
+// platforms the same way; only the discussion-source section needs
+// different filtering logic (via allowedDiscussionSources) so it doesn't
+// use this.
+function useSelectedSystemsFilter(
+  entries: DataEntry[],
+  selectedSystems: Set<string>
+): DataEntry[] {
+  return useMemo(
+    () =>
+      entries.filter(
+        (entry) => !entry.ledger || selectedSystems.has(entry.ledger)
+      ),
+    [entries, selectedSystems]
+  )
+}
+
+// Every section below renders the same "grid of metric cards, or an error
+// line" shape once its data/loading/error and (already filtered) metrics
+// list are known.
+function GovernanceMetricsGrid({
+  metrics,
+  data,
+  loading,
+  error,
+  keyPrefix,
+  timeUnit,
+  selectedSystems,
+  onSystemToggle,
+  headerControl
+}: {
+  metrics: Metric[]
+  data: DataEntry[]
+  loading: boolean
+  error: Error | null
+  keyPrefix: string
+  timeUnit: 'year' | 'month' | 'day'
+  selectedSystems?: Set<string>
+  onSystemToggle?: (system: string) => void
+  headerControl?: ReactNode
+}) {
+  return (
+    <>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+        {!error &&
+          metrics.map((metric) => (
+            <MetricsCard
+              key={`${keyPrefix}-${metric.metric}`}
+              metric={metric}
+              data={data}
+              loading={loading}
+              type="governance"
+              timeUnit={timeUnit}
+              selectedSystems={selectedSystems}
+              onSystemToggle={onSystemToggle}
+              headerControl={headerControl}
+            />
+          ))}
+      </div>
+      {error && <div className="text-error mt-2">{error.message}</div>}
+    </>
+  )
+}
+
 export function Governance() {
   const [selectedGranularity, setSelectedGranularity] =
     useState<GovernanceGranularity>('yearly')
-  const [selectedGithubRole, setSelectedGithubRole] = useState<
-    (typeof GITHUB_ROLE_ITEMS)[number]
-  >(GITHUB_ROLE_ITEMS[0])
-  const [selectedCommunityRole, setSelectedCommunityRole] = useState<
-    (typeof COMMUNITY_ROLE_ITEMS)[number]
-  >(COMMUNITY_ROLE_ITEMS[0])
+  const [selectedGithubRole, setSelectedGithubRole] =
+    useSelectedItem(GITHUB_ROLE_ITEMS)
+  const [selectedCommunityRole, setSelectedCommunityRole] =
+    useSelectedItem(COMMUNITY_ROLE_ITEMS)
+  const [selectedRatificationOverviewMetric, setSelectedRatificationOverviewMetric] =
+    useSelectedItem(RATIFICATION_OVERVIEW_METRIC_ITEMS)
+  const [selectedApproverScope, setSelectedApproverScope] =
+    useSelectedItem(APPROVER_SCOPE_ITEMS)
+  const [selectedStagnantFilter, setSelectedStagnantFilter] =
+    useSelectedItem(STAGNANT_FILTER_ITEMS)
+  const [selectedAcdPopulation, setSelectedAcdPopulation] =
+    useSelectedItem(ACD_POPULATION_ITEMS)
+  const [selectedAcdMeasure, setSelectedAcdMeasure] =
+    useSelectedItem(ACD_MEASURE_ITEMS)
 
   const { data, loading, error } = useGovernanceCsv(selectedGranularity)
   const {
@@ -85,6 +233,29 @@ export function Governance() {
     loading: communityDiscussionLoading,
     error: communityDiscussionError
   } = useGovernanceCommunityDiscussionMetricsCsv(selectedCommunityRole.value)
+  const {
+    data: ratificationOverviewData,
+    loading: ratificationOverviewLoading,
+    error: ratificationOverviewError
+  } = useGovernanceRatificationOverviewMetricsCsv(
+    selectedRatificationOverviewMetric.value
+  )
+  const {
+    data: ratificationDecentralisationData,
+    loading: ratificationDecentralisationLoading,
+    error: ratificationDecentralisationError
+  } = useGovernanceRatificationDecentralisationMetricsCsv(
+    selectedApproverScope.value,
+    selectedStagnantFilter.value
+  )
+  const {
+    data: acdMeetingData,
+    loading: acdMeetingLoading,
+    error: acdMeetingError
+  } = useGovernanceAcdMeetingMetricsCsv(
+    selectedAcdPopulation.value,
+    selectedAcdMeasure.value
+  )
 
   const governanceSystems = useMemo((): string[] => {
     const orderedSystems = getOrderedSystemsForLayer(
@@ -100,28 +271,26 @@ export function Governance() {
   const { selectedSystems, handleSelectionChange, handleSystemToggle } =
     usePersistedSystemSelection(SYSTEMS_STORAGE_KEY, DEFAULT_GOVERNANCE_SYSTEMS)
 
-  const filteredData = useMemo(
-    () =>
-      data.filter(
-        (entry) => !entry.ledger || selectedSystems.has(entry.ledger)
-      ),
-    [data, selectedSystems]
+  const filteredData = useSelectedSystemsFilter(data, selectedSystems)
+  const filteredProposalData = useSelectedSystemsFilter(
+    proposalData,
+    selectedSystems
   )
-
-  const filteredProposalData = useMemo(
-    () =>
-      proposalData.filter(
-        (entry) => !entry.ledger || selectedSystems.has(entry.ledger)
-      ),
-    [proposalData, selectedSystems]
+  const filteredGithubData = useSelectedSystemsFilter(
+    githubData,
+    selectedSystems
   )
-
-  const filteredGithubData = useMemo(
-    () =>
-      githubData.filter(
-        (entry) => !entry.ledger || selectedSystems.has(entry.ledger)
-      ),
-    [githubData, selectedSystems]
+  const filteredRatificationOverviewData = useSelectedSystemsFilter(
+    ratificationOverviewData,
+    selectedSystems
+  )
+  const filteredRatificationDecentralisationData = useSelectedSystemsFilter(
+    ratificationDecentralisationData,
+    selectedSystems
+  )
+  const filteredAcdMeetingData = useSelectedSystemsFilter(
+    acdMeetingData,
+    selectedSystems
   )
 
   const allowedDiscussionSources = useMemo(() => {
@@ -189,32 +358,18 @@ export function Governance() {
             items={COMMUNITY_ROLE_ITEMS}
             selectedItem={selectedCommunityRole}
             twoColumnDesktop={true}
-            onChange={(item) =>
-              setSelectedCommunityRole(
-                item as (typeof COMMUNITY_ROLE_ITEMS)[number]
-              )
-            }
+            onChange={handleRadioSelect(setSelectedCommunityRole)}
           />
         }
       />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
-        {!communityDiscussionError &&
-          GOVERNANCE_COMMUNITY_DISCUSSION_METRICS.map((metric) => (
-            <MetricsCard
-              key={`community-${metric.metric}`}
-              metric={metric}
-              data={filteredCommunityDiscussionData}
-              loading={communityDiscussionLoading}
-              type="governance"
-              timeUnit="month"
-            />
-          ))}
-      </div>
-      {communityDiscussionError && (
-        <div className="text-error mt-2">
-          {communityDiscussionError.message}
-        </div>
-      )}
+      <GovernanceMetricsGrid
+        metrics={GOVERNANCE_COMMUNITY_DISCUSSION_METRICS}
+        data={filteredCommunityDiscussionData}
+        loading={communityDiscussionLoading}
+        error={communityDiscussionError}
+        keyPrefix="community"
+        timeUnit="month"
+      />
       {/* Ends - Community Discussion Decentralisation Merics*/}
       {/* Start - GitHub Decentralisation Merics*/}
       <MetricsTopCard
@@ -240,30 +395,20 @@ export function Governance() {
             items={GITHUB_ROLE_ITEMS}
             selectedItem={selectedGithubRole}
             twoColumnDesktop={true}
-            onChange={(item) =>
-              setSelectedGithubRole(item as (typeof GITHUB_ROLE_ITEMS)[number])
-            }
+            onChange={handleRadioSelect(setSelectedGithubRole)}
           />
         }
       />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
-        {!githubError &&
-          GOVERNANCE_GITHUB_METRICS.map((metric) => (
-            <MetricsCard
-              key={`github-${metric.metric}`}
-              metric={metric}
-              data={filteredGithubData}
-              loading={githubLoading}
-              type="governance"
-              timeUnit="month"
-              selectedSystems={selectedSystems}
-              onSystemToggle={handleSystemToggle}
-            />
-          ))}
-      </div>
-      {githubError && (
-        <div className="text-error mt-2">{githubError.message}</div>
-      )}
+      <GovernanceMetricsGrid
+        metrics={GOVERNANCE_GITHUB_METRICS}
+        data={filteredGithubData}
+        loading={githubLoading}
+        error={githubError}
+        keyPrefix="github"
+        timeUnit="month"
+        selectedSystems={selectedSystems}
+        onSystemToggle={handleSystemToggle}
+      />
       {/* Ends - GitHub Decentralisation Merics */
       /* Start - Proposal
       Decentralisation Merics*/}
@@ -283,24 +428,16 @@ export function Governance() {
         layout="default"
         imageSrc={ORG_DISTRIBUTOR}
       />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
-        {!proposalError &&
-          GOVERNANCE_PROPOSAL_METRICS.map((metric) => (
-            <MetricsCard
-              key={metric.metric}
-              metric={metric}
-              data={filteredProposalData}
-              loading={proposalLoading}
-              type="governance"
-              timeUnit="month"
-              selectedSystems={selectedSystems}
-              onSystemToggle={handleSystemToggle}
-            />
-          ))}
-      </div>
-      {proposalError && (
-        <div className="text-error mt-2">{proposalError.message}</div>
-      )}
+      <GovernanceMetricsGrid
+        metrics={GOVERNANCE_PROPOSAL_METRICS}
+        data={filteredProposalData}
+        loading={proposalLoading}
+        error={proposalError}
+        keyPrefix="proposal"
+        timeUnit="month"
+        selectedSystems={selectedSystems}
+        onSystemToggle={handleSystemToggle}
+      />
       {/* Ends - Proposal Decentralisation Merics*/}
       {/* Start - Contributor Activity Concentration */}
       {/*}
@@ -318,33 +455,27 @@ export function Governance() {
         layout="default"
         imageSrc={ORG_DISTRIBUTOR}
       /> */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
-        {!error &&
-          GOVERNANCE_METRICS.map((metric) => (
-            <MetricsCard
-              key={metric.metric}
-              metric={metric}
-              data={filteredData}
-              loading={loading}
-              type="governance"
-              timeUnit="month"
-              selectedSystems={selectedSystems}
-              onSystemToggle={handleSystemToggle}
-              headerControl={
-                <BinaryToggle
-                  labelA="Yearly"
-                  labelB="Half-yearly"
-                  value={selectedGranularity}
-                  valueA="yearly"
-                  valueB="half_yearly"
-                  onChange={setSelectedGranularity}
-                  ariaLabel="Toggle granularity"
-                />
-              }
-            />
-          ))}
-      </div>
-      {error && <div className="text-error mt-2">{error.message}</div>}
+      <GovernanceMetricsGrid
+        metrics={GOVERNANCE_METRICS}
+        data={filteredData}
+        loading={loading}
+        error={error}
+        keyPrefix="concentration"
+        timeUnit="month"
+        selectedSystems={selectedSystems}
+        onSystemToggle={handleSystemToggle}
+        headerControl={
+          <BinaryToggle
+            labelA="Yearly"
+            labelB="Half-yearly"
+            value={selectedGranularity}
+            valueA="yearly"
+            valueB="half_yearly"
+            onChange={setSelectedGranularity}
+            ariaLabel="Toggle granularity"
+          />
+        }
+      />
       {/* Ends - Contributor Activity Concentration */}
       {/* Start - Authorship Distribution */}
       <MetricsTopCard
@@ -378,6 +509,137 @@ export function Governance() {
         ))}
       </div>
       {/* Ends - Authorship Distribution */}
+      {/* Start - Ratification Overview Metrics */}
+      <MetricsTopCard
+        title={'Ratification Overview Metrics'}
+        description={
+          <>
+            This chart displays raw activity volume underlying Stage 3
+            (Ratification), across both the editorial (GitHub) track and the
+            ACD meeting track. Each of the five metrics represents a distinct
+            count: ratification PRs merged, editor approvals, distinct
+            editors, ACD meetings held, or median meeting attendance. Users
+            can toggle between metrics.
+          </>
+        }
+        layout="default"
+        imageSrc={ORG_DISTRIBUTOR}
+        control={
+          <RadioGroup
+            label="Metric"
+            items={RATIFICATION_OVERVIEW_METRIC_ITEMS}
+            selectedItem={selectedRatificationOverviewMetric}
+            twoColumnDesktop={true}
+            onChange={handleRadioSelect(setSelectedRatificationOverviewMetric)}
+          />
+        }
+      />
+      <GovernanceMetricsGrid
+        metrics={GOVERNANCE_RATIFICATION_OVERVIEW_METRICS.filter(
+          (metric) => metric.metric === selectedRatificationOverviewMetric.value
+        )}
+        data={filteredRatificationOverviewData}
+        loading={ratificationOverviewLoading}
+        error={ratificationOverviewError}
+        keyPrefix="ratification-overview"
+        timeUnit="year"
+        selectedSystems={selectedSystems}
+        onSystemToggle={handleSystemToggle}
+      />
+      {/* Ends - Ratification Overview Metrics */}
+      {/* Start - Ratification Approver Concentration */}
+      <MetricsTopCard
+        title={'Ratification Approver Concentration'}
+        description={
+          <>
+            These charts display four decentralisation metrics (Gini
+            coefficient, CR1, normalised Shannon entropy, and HHI) computed
+            annually over the distribution of approvals on ratification pull
+            requests (status-change PRs: Draft → Review → Last Call → Final,
+            Withdrawn, Stagnant), corresponding to Stage 3 (Ratification).
+            Activity refers to the number of approvals contributed by each
+            approver on ratification PRs. Users can toggle between approver
+            scope (core editors only, or all approvers) and whether Stagnant
+            PRs are included. CR1 (top-approver share) is used in place of
+            the Nakamoto coefficient.
+          </>
+        }
+        layout="default"
+        imageSrc={ORG_DISTRIBUTOR}
+        control={
+          <>
+            <RadioGroup
+              label="Approver scope"
+              items={APPROVER_SCOPE_ITEMS}
+              selectedItem={selectedApproverScope}
+              onChange={handleRadioSelect(setSelectedApproverScope)}
+            />
+            <RadioGroup
+              label="Stagnant PRs"
+              items={STAGNANT_FILTER_ITEMS}
+              selectedItem={selectedStagnantFilter}
+              onChange={handleRadioSelect(setSelectedStagnantFilter)}
+            />
+          </>
+        }
+      />
+      <GovernanceMetricsGrid
+        metrics={GOVERNANCE_RATIFICATION_METRICS}
+        data={filteredRatificationDecentralisationData}
+        loading={ratificationDecentralisationLoading}
+        error={ratificationDecentralisationError}
+        keyPrefix="ratification-decentralisation"
+        timeUnit="year"
+        selectedSystems={selectedSystems}
+        onSystemToggle={handleSystemToggle}
+      />
+      {/* Ends - Ratification Approver Concentration */}
+      {/* Start - ACD Meeting Decentralisation */}
+      <MetricsTopCard
+        title={'ACD Meeting Decentralisation'}
+        description={
+          <>
+            These charts display four decentralisation metrics (Gini
+            coefficient, CR1, normalised Shannon entropy, and HHI) computed
+            per quarter over the distribution of participation in All Core
+            Devs (ACD) calls, corresponding to Stage 3 (Ratification).
+            Activity refers to meeting attendance or speaking turns,
+            depending on the Measure toggle. Users can toggle between
+            population (all participants, or editors only) and measure
+            (attendance or speaking). CR1 (top-actor share) is used in place
+            of the Nakamoto coefficient.
+          </>
+        }
+        layout="default"
+        imageSrc={ORG_DISTRIBUTOR}
+        control={
+          <>
+            <RadioGroup
+              label="Population"
+              items={ACD_POPULATION_ITEMS}
+              selectedItem={selectedAcdPopulation}
+              onChange={handleRadioSelect(setSelectedAcdPopulation)}
+            />
+            <RadioGroup
+              label="Measure"
+              items={ACD_MEASURE_ITEMS}
+              selectedItem={selectedAcdMeasure}
+              onChange={handleRadioSelect(setSelectedAcdMeasure)}
+            />
+          </>
+        }
+      />
+      <GovernanceMetricsGrid
+        metrics={GOVERNANCE_ACD_MEETING_METRICS}
+        data={filteredAcdMeetingData}
+        loading={acdMeetingLoading}
+        error={acdMeetingError}
+        keyPrefix="acd-meeting"
+        timeUnit="month"
+        selectedSystems={selectedSystems}
+        onSystemToggle={handleSystemToggle}
+      />
+      {/* Ends - ACD Meeting Decentralisation */}
     </div>
   )
 }
