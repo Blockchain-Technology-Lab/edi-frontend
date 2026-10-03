@@ -22,7 +22,6 @@ import {
   useGovernanceProposalMetricsCsv,
   useGovernanceRatificationOverviewMetricsCsv,
   useGovernanceRatificationDecentralisationMetricsCsv,
-//  useGovernanceAcdMeetingMetricsCsv,
   usePersistedSystemSelection
 } from '@/hooks'
 import {
@@ -43,9 +42,8 @@ import {
   type GovernanceGithubRole,
   type GovernanceRatificationOverviewMetric,
   type GovernanceRatificationApproverScope,
-  type GovernanceRatificationStagnantFilter,
-//  type GovernanceAcdMeetingPopulation,
-//  type GovernanceAcdMeetingMeasure
+  type GovernanceRatificationPrStatus,
+
 } from '@/utils'
 import type { DataEntry } from '@/utils/types'
 import { LAYER_CONFIG } from '@/config/layers'
@@ -84,30 +82,19 @@ const APPROVER_SCOPE_ITEMS: Array<{
   { label: 'All approvers', value: 'all_approvers' }
 ]
 
-const STAGNANT_FILTER_ITEMS: Array<{
+const PR_STATUS_ITEMS: Array<{
   label: string
-  value: GovernanceRatificationStagnantFilter
+  value: GovernanceRatificationPrStatus
 }> = [
-  { label: 'Exclude', value: 'exclude' },
-  { label: 'Include', value: 'include' }
-]
-{/*
-const ACD_POPULATION_ITEMS: Array<{
-  label: string
-  value: GovernanceAcdMeetingPopulation
-}> = [
-  { label: 'All participants', value: 'all_participants' },
-  { label: 'Editors only', value: 'editors_only' }
+  { label: 'All', value: 'all' },
+  { label: 'Draft', value: 'draft' },
+  { label: 'Review', value: 'review' },
+  { label: 'Last call', value: 'last-call' },
+  { label: 'Final', value: 'final' },
+  { label: 'Stagnant', value: 'stagnant' },
+  { label: 'Withdrawn', value: 'withdrawn' }
 ]
 
-const ACD_MEASURE_ITEMS: Array<{
-  label: string
-  value: GovernanceAcdMeetingMeasure
-}> = [
-  { label: 'Attendance', value: 'attendance' },
-  { label: 'Speaking', value: 'speaking' }
-]
-*/}
 const SYSTEMS_STORAGE_KEY = 'governance_selectedSystems'
 const DEFAULT_GOVERNANCE_SYSTEMS = GOVERNANCE_LEDGERS.map((l) => l.ledger)
 
@@ -210,10 +197,8 @@ export function Governance() {
     useSelectedItem(RATIFICATION_OVERVIEW_METRIC_ITEMS)
   const [selectedApproverScope, setSelectedApproverScope] =
     useSelectedItem(APPROVER_SCOPE_ITEMS)
-  const [selectedStagnantFilter, setSelectedStagnantFilter] =
-    useSelectedItem(STAGNANT_FILTER_ITEMS)
-//  const [selectedAcdPopulation, setSelectedAcdPopulation] = useSelectedItem(ACD_POPULATION_ITEMS)
-//  const [selectedAcdMeasure, setSelectedAcdMeasure] =  useSelectedItem(ACD_MEASURE_ITEMS)
+  const [selectedPrStatus, setSelectedPrStatus] =
+    useSelectedItem(PR_STATUS_ITEMS)
 
   const { data, loading, error } = useGovernanceCsv(selectedGranularity)
   const {
@@ -244,18 +229,9 @@ export function Governance() {
     error: ratificationDecentralisationError
   } = useGovernanceRatificationDecentralisationMetricsCsv(
     selectedApproverScope.value,
-    selectedStagnantFilter.value
+    selectedPrStatus.value
   )
- {/*
-  const {
-    data: acdMeetingData,
-    loading: acdMeetingLoading,
-    error: acdMeetingError
-  } = useGovernanceAcdMeetingMetricsCsv(
-    selectedAcdPopulation.value,
-    selectedAcdMeasure.value
-  )
-*/}
+ 
 
   const governanceSystems = useMemo((): string[] => {
     const orderedSystems = getOrderedSystemsForLayer(
@@ -289,11 +265,7 @@ export function Governance() {
     selectedSystems
   )
   
-{/*  const filteredAcdMeetingData = useSelectedSystemsFilter(
-    acdMeetingData,
-    selectedSystems
-  )
-*/}
+
   const allowedDiscussionSources = useMemo(() => {
     const sources = new Set<string>()
     for (const platform of selectedSystems) {
@@ -358,7 +330,6 @@ export function Governance() {
             label="Discussion source role"
             items={COMMUNITY_ROLE_ITEMS}
             selectedItem={selectedCommunityRole}
-            twoColumnDesktop={true}
             onChange={handleRadioSelect(setSelectedCommunityRole)}
           />
         }
@@ -395,7 +366,6 @@ export function Governance() {
             label="GitHub role"
             items={GITHUB_ROLE_ITEMS}
             selectedItem={selectedGithubRole}
-            twoColumnDesktop={true}
             onChange={handleRadioSelect(setSelectedGithubRole)}
           />
         }
@@ -441,21 +411,7 @@ export function Governance() {
       />
       {/* Ends - Proposal Decentralisation Merics*/}
       {/* Start - Contributor Activity Concentration */}
-      {/*}
-      <MetricsTopCard
-        title={'Top 3 Contributor Activity Concentration'}
-        description={
-          <>
-            These graphs track the combined weighted contribution of the top 3
-            most prolific authors as a share of total proposal authorship in
-            each time period. A higher value indicates that proposal authorship
-            is concentrated among fewer contributors. Users can toggle between
-            yearly and half-yearly granularity.
-          </>
-        }
-        layout="default"
-        imageSrc={ORG_DISTRIBUTOR}
-      /> */}
+      
       <GovernanceMetricsGrid
         metrics={GOVERNANCE_METRICS}
         data={filteredData}
@@ -516,11 +472,10 @@ export function Governance() {
         description={
           <>
             This chart displays raw activity volume underlying Stage 3
-            (Ratification), across both the editorial (GitHub) track and the
-            ACD meeting track. Each of the five metrics represents a distinct
-            count: ratification PRs merged, editor approvals, distinct
-            editors, ACD meetings held, or median meeting attendance. Users
-            can toggle between metrics.
+            (Ratification), on the editorial (GitHub) track. Each of the
+            three metrics represents a distinct count: ratification PRs
+            merged, editor approvals, or distinct editors. Users can toggle
+            between metrics.
           </>
         }
         layout="default"
@@ -530,7 +485,6 @@ export function Governance() {
             label="Metric"
             items={RATIFICATION_OVERVIEW_METRIC_ITEMS}
             selectedItem={selectedRatificationOverviewMetric}
-            twoColumnDesktop={true}
             onChange={handleRadioSelect(setSelectedRatificationOverviewMetric)}
           />
         }
@@ -560,9 +514,10 @@ export function Governance() {
             Withdrawn, Stagnant), corresponding to Stage 3 (Ratification).
             Activity refers to the number of approvals contributed by each
             approver on ratification PRs. Users can toggle between approver
-            scope (core editors only, or all approvers) and whether Stagnant
-            PRs are included. CR1 (top-approver share) is used in place of
-            the Nakamoto coefficient.
+            scope (core editors only, or all approvers) and PR status (all,
+            draft, review, last call, final, stagnant, or withdrawn). CR1
+            (top-approver share) is used in place of the Nakamoto
+            coefficient.
           </>
         }
         layout="default"
@@ -576,10 +531,10 @@ export function Governance() {
               onChange={handleRadioSelect(setSelectedApproverScope)}
             />
             <RadioGroup
-              label="Stagnant PRs"
-              items={STAGNANT_FILTER_ITEMS}
-              selectedItem={selectedStagnantFilter}
-              onChange={handleRadioSelect(setSelectedStagnantFilter)}
+              label="PR status"
+              items={PR_STATUS_ITEMS}
+              selectedItem={selectedPrStatus}
+              onChange={handleRadioSelect(setSelectedPrStatus)}
             />
           </>
         }
@@ -594,55 +549,7 @@ export function Governance() {
         selectedSystems={selectedSystems}
         onSystemToggle={handleSystemToggle}
       />
-      {/* Ends - Ratification Approver Concentration */}
-      {/* Start - ACD Meeting Decentralisation */}
-      {/* 
-      <MetricsTopCard
-        title={'ACD Meeting Decentralisation'}
-        description={
-          <>
-            These charts display four decentralisation metrics (Gini
-            coefficient, CR1, normalised Shannon entropy, and HHI) computed
-            per quarter over the distribution of participation in All Core
-            Devs (ACD) calls, corresponding to Stage 3 (Ratification).
-            Activity refers to meeting attendance or speaking turns,
-            depending on the Measure toggle. Users can toggle between
-            population (all participants, or editors only) and measure
-            (attendance or speaking). CR1 (top-actor share) is used in place
-            of the Nakamoto coefficient.
-          </>
-        }
-        layout="default"
-        imageSrc={ORG_DISTRIBUTOR}
-        control={
-          <>
-            <RadioGroup
-              label="Population"
-              items={ACD_POPULATION_ITEMS}
-              selectedItem={selectedAcdPopulation}
-              onChange={handleRadioSelect(setSelectedAcdPopulation)}
-            />
-            <RadioGroup
-              label="Measure"
-              items={ACD_MEASURE_ITEMS}
-              selectedItem={selectedAcdMeasure}
-              onChange={handleRadioSelect(setSelectedAcdMeasure)}
-            />
-          </>
-        }
-      />
-      <GovernanceMetricsGrid
-        metrics={GOVERNANCE_ACD_MEETING_METRICS}
-        data={filteredAcdMeetingData}
-        loading={acdMeetingLoading}
-        error={acdMeetingError}
-        keyPrefix="acd-meeting"
-        timeUnit="month"
-        selectedSystems={selectedSystems}
-        onSystemToggle={handleSystemToggle}
-      />
-      */}
-      {/* Ends - ACD Meeting Decentralisation */}
+      {/* Ends - Ratification Approver Concentration */}    
     </div>
   )
 }

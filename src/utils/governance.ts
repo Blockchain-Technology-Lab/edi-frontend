@@ -161,7 +161,14 @@ export type GovernanceRatificationOverviewMetric =
   | 'editor_approvals'
   | 'editor_count'
 export type GovernanceRatificationApproverScope = 'core_editors' | 'all_approvers'
-export type GovernanceRatificationStagnantFilter = 'exclude' | 'include'
+export type GovernanceRatificationPrStatus =
+  | 'all'
+  | 'draft'
+  | 'review'
+  | 'last-call'
+  | 'final'
+  | 'stagnant'
+  | 'withdrawn'
 export type GovernanceAcdMeetingPopulation = 'all_participants' | 'editors_only'
 export type GovernanceAcdMeetingMeasure = 'attendance' | 'speaking'
 
@@ -547,11 +554,11 @@ export async function loadGovernanceRatificationOverviewMetricsCsvData(
 
 /**
  * Fetches the ratification-decentralisation CSV for the given approver
- * scope and parses out the requested stagnant_filter series.
+ * scope and parses out the requested PR-status series.
  */
 export async function loadGovernanceRatificationDecentralisationMetricsCsvData(
   csvPath: string,
-  stagnantFilter: GovernanceRatificationStagnantFilter
+  status: GovernanceRatificationPrStatus
 ): Promise<DataEntry[]> {
   const csvText = await fetchGovernanceCsv(
     csvPath,
@@ -559,7 +566,7 @@ export async function loadGovernanceRatificationDecentralisationMetricsCsvData(
   )
   return parseGovernanceRatificationDecentralisationMetricsCsv(
     csvText,
-    stagnantFilter,
+    status,
     csvPath
   )
 }
@@ -725,20 +732,20 @@ export function parseGovernanceRatificationOverviewMetricsCsv(
 }
 
 /**
- * Each approver-scope file carries both stagnant_filter variants, so
+ * Each approver-scope file carries all seven PR-status variants, so
  * parsing keeps only the rows matching the requested one.
  */
 export function parseGovernanceRatificationDecentralisationMetricsCsv(
   csvData: string,
-  stagnantFilter: GovernanceRatificationStagnantFilter,
+  status: GovernanceRatificationPrStatus,
   fileName = 'ratification-decentralisation-metrics.csv'
 ): DataEntry[] {
   return parseGovernanceLedgerMetricsCsv(csvData, {
     fileName,
     columns: GOVERNANCE_RATIFICATION_COLUMNS,
     seriesFilter: {
-      discriminatorColumn: 'stagnant_filter',
-      discriminatorValue: stagnantFilter
+      discriminatorColumn: 'status_changed_to',
+      discriminatorValue: status
     }
   })
 }
