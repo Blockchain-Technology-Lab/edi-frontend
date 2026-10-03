@@ -22,7 +22,7 @@ import {
   useGovernanceProposalMetricsCsv,
   useGovernanceRatificationOverviewMetricsCsv,
   useGovernanceRatificationDecentralisationMetricsCsv,
-  useGovernanceAcdMeetingMetricsCsv,
+//  useGovernanceAcdMeetingMetricsCsv,
   usePersistedSystemSelection
 } from '@/hooks'
 import {
@@ -34,7 +34,7 @@ import {
   GOVERNANCE_PROPOSAL_METRICS,
   GOVERNANCE_RATIFICATION_OVERVIEW_METRICS,
   GOVERNANCE_RATIFICATION_METRICS,
-  GOVERNANCE_ACD_MEETING_METRICS,
+//  GOVERNANCE_ACD_MEETING_METRICS,
   getGovernanceAuthorshipCsvPath,
   getOrderedSystemsForLayer,
   GOVERNANCE_LEDGERS,
@@ -44,8 +44,8 @@ import {
   type GovernanceRatificationOverviewMetric,
   type GovernanceRatificationApproverScope,
   type GovernanceRatificationStagnantFilter,
-  type GovernanceAcdMeetingPopulation,
-  type GovernanceAcdMeetingMeasure
+//  type GovernanceAcdMeetingPopulation,
+//  type GovernanceAcdMeetingMeasure
 } from '@/utils'
 import type { DataEntry } from '@/utils/types'
 import { LAYER_CONFIG } from '@/config/layers'
@@ -91,7 +91,7 @@ const STAGNANT_FILTER_ITEMS: Array<{
   { label: 'Exclude', value: 'exclude' },
   { label: 'Include', value: 'include' }
 ]
-
+{/*
 const ACD_POPULATION_ITEMS: Array<{
   label: string
   value: GovernanceAcdMeetingPopulation
@@ -107,7 +107,7 @@ const ACD_MEASURE_ITEMS: Array<{
   { label: 'Attendance', value: 'attendance' },
   { label: 'Speaking', value: 'speaking' }
 ]
-
+*/}
 const SYSTEMS_STORAGE_KEY = 'governance_selectedSystems'
 const DEFAULT_GOVERNANCE_SYSTEMS = GOVERNANCE_LEDGERS.map((l) => l.ledger)
 
@@ -212,10 +212,8 @@ export function Governance() {
     useSelectedItem(APPROVER_SCOPE_ITEMS)
   const [selectedStagnantFilter, setSelectedStagnantFilter] =
     useSelectedItem(STAGNANT_FILTER_ITEMS)
-  const [selectedAcdPopulation, setSelectedAcdPopulation] =
-    useSelectedItem(ACD_POPULATION_ITEMS)
-  const [selectedAcdMeasure, setSelectedAcdMeasure] =
-    useSelectedItem(ACD_MEASURE_ITEMS)
+//  const [selectedAcdPopulation, setSelectedAcdPopulation] = useSelectedItem(ACD_POPULATION_ITEMS)
+//  const [selectedAcdMeasure, setSelectedAcdMeasure] =  useSelectedItem(ACD_MEASURE_ITEMS)
 
   const { data, loading, error } = useGovernanceCsv(selectedGranularity)
   const {
@@ -248,6 +246,7 @@ export function Governance() {
     selectedApproverScope.value,
     selectedStagnantFilter.value
   )
+ {/*
   const {
     data: acdMeetingData,
     loading: acdMeetingLoading,
@@ -256,6 +255,7 @@ export function Governance() {
     selectedAcdPopulation.value,
     selectedAcdMeasure.value
   )
+*/}
 
   const governanceSystems = useMemo((): string[] => {
     const orderedSystems = getOrderedSystemsForLayer(
@@ -288,11 +288,12 @@ export function Governance() {
     ratificationDecentralisationData,
     selectedSystems
   )
-  const filteredAcdMeetingData = useSelectedSystemsFilter(
+  
+{/*  const filteredAcdMeetingData = useSelectedSystemsFilter(
     acdMeetingData,
     selectedSystems
   )
-
+*/}
   const allowedDiscussionSources = useMemo(() => {
     const sources = new Set<string>()
     for (const platform of selectedSystems) {
@@ -343,7 +344,7 @@ export function Governance() {
             coefficient, Nakamoto coefficient, normalised Shannon entropy, and
             HHI) computed annually over the distribution of community discussion
             activity for each blockchain, corresponding to the Community
-            Deliberation phase, which runs concurrently with Stages 1–3 of the
+            Deliberation phase, which runs concurrently with Stages 1-3 of the
             governance lifecycle. Activity refers to the number of posts or
             replies contributed by each participant. Users can toggle between
             participant roles (poster, replier, or participant, where
@@ -595,6 +596,7 @@ export function Governance() {
       />
       {/* Ends - Ratification Approver Concentration */}
       {/* Start - ACD Meeting Decentralisation */}
+      {/* 
       <MetricsTopCard
         title={'ACD Meeting Decentralisation'}
         description={
@@ -639,6 +641,7 @@ export function Governance() {
         selectedSystems={selectedSystems}
         onSystemToggle={handleSystemToggle}
       />
+      */}
       {/* Ends - ACD Meeting Decentralisation */}
     </div>
   )
