@@ -12,7 +12,6 @@ interface RadioGroupProps {
   label?: string
   stacked?: boolean
   fullHeight?: boolean
-  twoColumnDesktop?: boolean
 }
 
 export function RadioGroup({
@@ -21,31 +20,24 @@ export function RadioGroup({
   onChange,
   label,
   stacked = false,
-  fullHeight = false,
-  twoColumnDesktop = false
+  fullHeight = false
 }: RadioGroupProps) {
   const groupId = useId()
-
-  const optionsClassName = stacked
-    ? 'flex flex-col gap-2.5'
-    : twoColumnDesktop
-      ? 'grid grid-cols-1 lg:grid-cols-2 gap-2.5'
-      : 'flex flex-wrap gap-3'
 
   return (
     <div className={fullHeight ? 'flex flex-col' : ''}>
       {label && (
-        <p className="text-[11px] font-semibold text-base-content/50 uppercase tracking-[0.12em] mb-3">
+        <p className="text-[11px] font-semibold text-base-content/50 uppercase tracking-[0.12em] mb-2.5">
           {label}
         </p>
       )}
-      <div className={optionsClassName}>
+      <div className={stacked ? 'flex flex-col gap-1' : 'flex flex-wrap gap-x-4 gap-y-1'}>
         {items.map((item) => {
           const isSelected = selectedItem?.value === item.value
           return (
             <label
               key={item.value}
-              className={`flex items-center gap-2.5 cursor-pointer group${twoColumnDesktop ? ' w-full' : ''}`}
+              className="flex items-center gap-2 py-1.5 cursor-pointer group"
             >
               <input
                 type="radio"
@@ -62,7 +54,7 @@ export function RadioGroup({
                 {isSelected && <span className="w-2 h-2 rounded-full bg-primary" />}
               </span>
               <span
-                className={`text-sm transition-colors duration-150
+                className={`text-sm whitespace-nowrap transition-colors duration-150
                   ${isSelected ? 'text-base-content font-medium' : 'text-base-content/60 group-hover:text-base-content/80'}`}
               >
                 {item.label}

@@ -6,7 +6,7 @@ import {
   type GovernanceGithubRole,
   type GovernanceRatificationOverviewMetric,
   type GovernanceRatificationApproverScope,
-  type GovernanceRatificationStagnantFilter,
+  type GovernanceRatificationPrStatus,
   type GovernanceAcdMeetingPopulation,
   type GovernanceAcdMeetingMeasure,
   getGovernanceTop3ContributionRatioCsvFileName,
@@ -82,15 +82,15 @@ export function useGovernanceRatificationOverviewMetricsCsv(
 
 export function useGovernanceRatificationDecentralisationMetricsCsv(
   scope: GovernanceRatificationApproverScope,
-  stagnantFilter: GovernanceRatificationStagnantFilter
+  status: GovernanceRatificationPrStatus
 ) {
   const csvPath = getGovernanceRatificationDecentralisationMetricsCsvPath(scope)
   return useGovernanceCsvQuery(
-    ['csv', 'governance-ratification-decentralisation', csvPath, stagnantFilter],
+    ['csv', 'governance-ratification-decentralisation', csvPath, status],
     () =>
       loadGovernanceRatificationDecentralisationMetricsCsvData(
         csvPath,
-        stagnantFilter
+        status
       )
   )
 }

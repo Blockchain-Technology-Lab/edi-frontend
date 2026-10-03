@@ -34,15 +34,23 @@ export function MetricsTopCard({
   if (control) {
     return (
       <div className="card border border-base-300 shadow-sm overflow-hidden bg-base-100">
-        <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr_auto] lg:items-center p-5 sm:p-6 gap-4 sm:gap-6">
-          <figure className="w-full lg:w-36 xl:w-44 h-32 lg:h-28 overflow-hidden rounded-lg bg-base-200 shrink-0">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 p-5 sm:p-6">
+          <figure className="w-full sm:w-36 xl:w-44 h-32 sm:h-28 overflow-hidden rounded-lg bg-base-200 shrink-0">
             <img src={imageSrc} alt={title} className="object-cover w-full h-full" />
           </figure>
           <div className="min-w-0">
             <h2 className="text-lg font-semibold text-base-content leading-tight mb-2">{title}</h2>
             <p className="text-sm text-base-content/70 leading-relaxed">{description}</p>
           </div>
-          <div className="flex flex-wrap gap-2 lg:justify-end">{control}</div>
+        </div>
+        <div
+          className="flex flex-col lg:flex-row lg:flex-nowrap items-start
+            px-5 sm:px-6 lg:py-4 border-t border-base-300/70 bg-base-200/30
+            divide-y lg:divide-y-0 lg:divide-x divide-base-300/70
+            [&>*]:min-w-0 [&>*]:py-3 lg:[&>*]:py-0
+            lg:[&>*]:px-8 lg:[&>*:first-child]:pl-0 lg:[&>*:last-child]:pr-0"
+        >
+          {control}
         </div>
       </div>
     )
