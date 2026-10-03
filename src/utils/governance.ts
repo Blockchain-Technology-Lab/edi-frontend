@@ -160,8 +160,6 @@ export type GovernanceRatificationOverviewMetric =
   | 'ratification_prs_merged'
   | 'editor_approvals'
   | 'editor_count'
-  | 'meeting_count'
-  | 'median_attendees'
 export type GovernanceRatificationApproverScope = 'core_editors' | 'all_approvers'
 export type GovernanceRatificationStagnantFilter = 'exclude' | 'include'
 export type GovernanceAcdMeetingPopulation = 'all_participants' | 'editors_only'
@@ -296,20 +294,6 @@ export const GOVERNANCE_RATIFICATION_OVERVIEW_METRICS: Array<{
     decimals: 0,
     description:
       'The number of distinct editors who approved ratification pull requests, per year.'
-  },
-  {
-    metric: 'meeting_count',
-    title: 'ACD meeting count',
-    decimals: 0,
-    description:
-      'The number of All Core Devs (ACD) meetings held, per year.'
-  },
-  {
-    metric: 'median_attendees',
-    title: 'ACD attendees',
-    decimals: 0,
-    description:
-      'The median number of attendees per All Core Devs (ACD) meeting, per year.'
   }
 ]
 
