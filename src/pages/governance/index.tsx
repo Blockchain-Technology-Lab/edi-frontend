@@ -33,7 +33,7 @@ import {
   GOVERNANCE_PROPOSAL_METRICS,
   GOVERNANCE_RATIFICATION_OVERVIEW_METRICS,
   GOVERNANCE_RATIFICATION_METRICS,
-//  GOVERNANCE_ACD_MEETING_METRICS,
+  //  GOVERNANCE_ACD_MEETING_METRICS,
   getGovernanceAuthorshipCsvPath,
   getOrderedSystemsForLayer,
   GOVERNANCE_LEDGERS,
@@ -42,12 +42,10 @@ import {
   type GovernanceGithubRole,
   type GovernanceRatificationOverviewMetric,
   type GovernanceRatificationApproverScope,
-  type GovernanceRatificationPrStatus,
-
+  type GovernanceRatificationPrStatus
 } from '@/utils'
 import type { DataEntry } from '@/utils/types'
 import { LAYER_CONFIG } from '@/config/layers'
-
 
 const GITHUB_ROLE_ITEMS: Array<{ label: string; value: GovernanceGithubRole }> =
   [
@@ -193,8 +191,10 @@ export function Governance() {
     useSelectedItem(GITHUB_ROLE_ITEMS)
   const [selectedCommunityRole, setSelectedCommunityRole] =
     useSelectedItem(COMMUNITY_ROLE_ITEMS)
-  const [selectedRatificationOverviewMetric, setSelectedRatificationOverviewMetric] =
-    useSelectedItem(RATIFICATION_OVERVIEW_METRIC_ITEMS)
+  const [
+    selectedRatificationOverviewMetric,
+    setSelectedRatificationOverviewMetric
+  ] = useSelectedItem(RATIFICATION_OVERVIEW_METRIC_ITEMS)
   const [selectedApproverScope, setSelectedApproverScope] =
     useSelectedItem(APPROVER_SCOPE_ITEMS)
   const [selectedPrStatus, setSelectedPrStatus] =
@@ -231,7 +231,6 @@ export function Governance() {
     selectedApproverScope.value,
     selectedPrStatus.value
   )
- 
 
   const governanceSystems = useMemo((): string[] => {
     const orderedSystems = getOrderedSystemsForLayer(
@@ -264,7 +263,6 @@ export function Governance() {
     ratificationDecentralisationData,
     selectedSystems
   )
-  
 
   const allowedDiscussionSources = useMemo(() => {
     const sources = new Set<string>()
@@ -290,8 +288,10 @@ export function Governance() {
         title="Governance Layer"
         description={
           <>
-            These graphs represent the governance decentralisation. The results
-            are based only on data we have collected about Bitcoin, Cardano and
+            These graphs represent the off-chain governance decentralisation. It
+            models governance as a five-stage lifecycle: Deliberation, Proposal,
+            Ratification, Implementation, and Adoption. The results are
+            currently based on data collected for Bitcoin, Cardano, and
             Ethereum.
           </>
         }
@@ -312,7 +312,7 @@ export function Governance() {
         title={'Community Discussion Decentralisation'}
         description={
           <>
-            These graphs display four decentralisation metrics (Gini
+            These charts display four decentralisation metrics (Gini
             coefficient, Nakamoto coefficient, normalised Shannon entropy, and
             HHI) computed annually over the distribution of community discussion
             activity for each blockchain, corresponding to the Community
@@ -348,7 +348,7 @@ export function Governance() {
         title={'GitHub Activity Decentralisation'}
         description={
           <>
-            These graphs display four decentralisation metrics (Gini
+            These charts display four decentralisation metrics (Gini
             coefficient, Nakamoto coefficient, normalised Shannon entropy, and
             HHI) computed annually over the distribution of GitHub activity on
             the improvement proposal repositories, corresponding to Stage 1:
@@ -387,7 +387,7 @@ export function Governance() {
         title={'Proposal Authorship Decentralisation'}
         description={
           <>
-            These graphs display four decentralisation metrics (Gini
+            These charts display four decentralisation metrics (Gini
             coefficient, Nakamoto coefficient, normalised Shannon entropy, and
             HHI) computed annually over the distribution of weighted proposal
             authorship. A higher Nakamoto coefficient and Shannon entropy
@@ -411,7 +411,7 @@ export function Governance() {
       />
       {/* Ends - Proposal Decentralisation Merics*/}
       {/* Start - Contributor Activity Concentration */}
-      
+
       <GovernanceMetricsGrid
         metrics={GOVERNANCE_METRICS}
         data={filteredData}
@@ -439,13 +439,13 @@ export function Governance() {
         title={'Authorship Distribution'}
         description={
           <>
-            These graphs show the weighted contribution of improvement proposal
+            These charts show the weighted contribution of improvement proposal
             authors for each blockchain, corresponding to Stage 2 (Proposal) of
             the governance lifecycle. Each slice represents an author's share of
             total weighted proposals, where one proposal with n co-authors
             contributes 1/n to each author's total. The most prolific authors
             are shown individually, with all remaining authors grouped as
-            "Others. "
+            "Others".
           </>
         }
         layout="default"
@@ -472,10 +472,9 @@ export function Governance() {
         description={
           <>
             This chart displays raw activity volume underlying Stage 3
-            (Ratification), on the editorial (GitHub) track. Each of the
-            three metrics represents a distinct count: ratification PRs
-            merged, editor approvals, or distinct editors. Users can toggle
-            between metrics.
+            (Ratification), on the editorial (GitHub) track. Each of the three
+            metrics represents a distinct count: ratification PRs merged, editor
+            approvals, or distinct editors. Users can toggle between metrics.
           </>
         }
         layout="default"
@@ -509,15 +508,13 @@ export function Governance() {
           <>
             These charts display four decentralisation metrics (Gini
             coefficient, CR1, normalised Shannon entropy, and HHI) computed
-            annually over the distribution of approvals on ratification pull
-            requests (status-change PRs: Draft → Review → Last Call → Final,
-            Withdrawn, Stagnant), corresponding to Stage 3 (Ratification).
-            Activity refers to the number of approvals contributed by each
-            approver on ratification PRs. Users can toggle between approver
-            scope (core editors only, or all approvers) and PR status (all,
-            draft, review, last call, final, stagnant, or withdrawn). CR1
-            (top-approver share) is used in place of the Nakamoto
-            coefficient.
+            annually over approvals on ratification PRs — Stage 3
+            (Ratification). A ratification PR is any merged PR that changes a
+            proposal's Status field, from intermediate transitions (Draft →
+            Review → Last Call) through terminal outcomes (Final, Withdrawn,
+            Stagnant, Replaced, Rejected); each transition counts as one
+            approval event. Users can toggle approver scope (core editors only,
+            or all) and whether Stagnant PRs are included.
           </>
         }
         layout="default"
@@ -549,7 +546,7 @@ export function Governance() {
         selectedSystems={selectedSystems}
         onSystemToggle={handleSystemToggle}
       />
-      {/* Ends - Ratification Approver Concentration */}    
+      {/* Ends - Ratification Approver Concentration */}
     </div>
   )
 }
