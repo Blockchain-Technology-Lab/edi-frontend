@@ -471,10 +471,11 @@ export function Governance() {
         title={'Ratification Overview Metrics'}
         description={
           <>
-            This chart displays raw activity volume underlying Stage 3
-            (Ratification), on the editorial (GitHub) track. Each of the three
-            metrics represents a distinct count: ratification PRs merged, editor
-            approvals, or distinct editors. Users can toggle between metrics.
+            This chart displays raw activity volume on the editorial (GitHub)
+            track underlying Stage 3 (Ratification), counted per year:
+            ratification PRs merged, editor approvals, and the number of core
+            editors. A ratification PR is any merged PR that makes a status
+            transition for a proposal. Users can toggle between metrics.
           </>
         }
         layout="default"
@@ -507,14 +508,15 @@ export function Governance() {
         description={
           <>
             These charts display four decentralisation metrics (Gini
-            coefficient, CR1, normalised Shannon entropy, and HHI) computed
-            annually over approvals on ratification PRs — Stage 3
-            (Ratification). A ratification PR is any merged PR that changes a
-            proposal's Status field, from intermediate transitions (Draft →
-            Review → Last Call) through terminal outcomes (Final, Withdrawn,
-            Stagnant, Replaced, Rejected); each transition counts as one
-            approval event. Users can toggle approver scope (core editors only,
-            or all) and whether Stagnant PRs are included.
+            coefficient, CR1, Shannon entropy, and HHI) computed annually over
+            approvals on ratification PRs — Stage 3 (Ratification). Activity
+            refers to the number of proposals each approver approved in the
+            year. A ratification PR is any merged PR that changes a proposal's
+            Status field, covering any status transition (Draft → Review → Last
+            Call → Final, Withdrawn, Stagnant). Core editors are the current and
+            emeritus EIP editors; all approvers also includes the bot account
+            eth-bot. Users can toggle approver scope (core editors only, or all
+            approvers) and the status the PR transfers to.
           </>
         }
         layout="default"
@@ -528,7 +530,7 @@ export function Governance() {
               onChange={handleRadioSelect(setSelectedApproverScope)}
             />
             <RadioGroup
-              label="PR status"
+              label="PR STATUS TRANSITION TO"
               items={PR_STATUS_ITEMS}
               selectedItem={selectedPrStatus}
               onChange={handleRadioSelect(setSelectedPrStatus)}
