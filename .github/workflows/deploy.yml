@@ -1,14 +1,21 @@
 name: Deploy to AFS
 
+# Disabled: AFS access from this self-hosted runner (EIDF) was revoked.
+# A different machine may get AFS access later — when it does, point runs-on/the
+# script path at that runner and restore the push trigger below.
+#
+# on:
+#   push:
+#     branches:
+#       - main
+
 # Queue overlapping runs instead of cancelling — a deploy must never be killed mid-flight.
 concurrency:
   group: edi-deploy
   cancel-in-progress: false
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   deploy:
