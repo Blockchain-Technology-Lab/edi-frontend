@@ -30,3 +30,40 @@ jobs:
         id: csv_check
         run: node scripts/validate-csvs.mjs
 
+  # Warns (never fails) when a PR updates one half of a pair of files that
+  # normally change together, e.g. a ledger's network data without its
+  # geography companion - see scripts/validate-data-pr-completeness.mjs.
+  check-completeness:
+    name: Check companion data files
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node + dependencies
+        uses: ./.github/actions/setup-node-npm
+        with:
+          node-version: '22'
+
+      - name: Run completeness check
+        run: |
+          node scripts/validate-data-pr-completeness.mjs \
+            "${{ github.event.pull_request.base.sha }}" \
+            "${{ github.event.pull_request.head.sha }}"
+
+      - name: Post or update PR comment
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -s data-completeness-report.md ]; then
+            gh pr comment "${{ github.event.pull_request.number }}" \
+              --body-file data-completeness-report.md \
+              --edit-last --create-if-none
+          fi
+
