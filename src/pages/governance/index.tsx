@@ -1,4 +1,5 @@
 import {
+  useEffect,
   useMemo,
   useState,
   type Dispatch,
@@ -35,14 +36,14 @@ import {
   GOVERNANCE_RATIFICATION_METRICS,
   //  GOVERNANCE_ACD_MEETING_METRICS,
   getGovernanceAuthorshipCsvPath,
+  getGovernanceRatificationPrStatusItems,
   getOrderedSystemsForLayer,
   GOVERNANCE_LEDGERS,
   type GovernanceCommunityDiscussionRole,
   type GovernanceGranularity,
   type GovernanceGithubRole,
   type GovernanceRatificationOverviewMetric,
-  type GovernanceRatificationApproverScope,
-  type GovernanceRatificationPrStatus
+  type GovernanceRatificationApproverScope
 } from '@/utils'
 import type { DataEntry } from '@/utils/types'
 import { LAYER_CONFIG } from '@/config/layers'
@@ -78,19 +79,6 @@ const APPROVER_SCOPE_ITEMS: Array<{
 }> = [
   { label: 'Core editors only', value: 'core_editors' },
   { label: 'All approvers', value: 'all_approvers' }
-]
-
-const PR_STATUS_ITEMS: Array<{
-  label: string
-  value: GovernanceRatificationPrStatus
-}> = [
-  { label: 'All', value: 'all' },
-  { label: 'Draft', value: 'draft' },
-  { label: 'Review', value: 'review' },
-  { label: 'Last call', value: 'last-call' },
-  { label: 'Final', value: 'final' },
-  { label: 'Stagnant', value: 'stagnant' },
-  { label: 'Withdrawn', value: 'withdrawn' }
 ]
 
 const SYSTEMS_STORAGE_KEY = 'governance_selectedSystems'
@@ -197,8 +185,22 @@ export function Governance() {
   ] = useSelectedItem(RATIFICATION_OVERVIEW_METRIC_ITEMS)
   const [selectedApproverScope, setSelectedApproverScope] =
     useSelectedItem(APPROVER_SCOPE_ITEMS)
-  const [selectedPrStatus, setSelectedPrStatus] =
-    useSelectedItem(PR_STATUS_ITEMS)
+
+  const { selectedSystems, handleSelectionChange, handleSystemToggle } =
+    usePersistedSystemSelection(SYSTEMS_STORAGE_KEY, DEFAULT_GOVERNANCE_SYSTEMS)
+
+  // Status vocabulary isn't the same across chains (EIP vs BIP/CIP), so this
+  // tracks selectedSystems instead of being a static list.
+  const prStatusItems = useMemo(
+    () => getGovernanceRatificationPrStatusItems(selectedSystems),
+    [selectedSystems]
+  )
+  const [selectedPrStatus, setSelectedPrStatus] = useState(prStatusItems[0])
+  useEffect(() => {
+    if (!prStatusItems.some((item) => item.value === selectedPrStatus.value)) {
+      setSelectedPrStatus(prStatusItems[0])
+    }
+  }, [prStatusItems, selectedPrStatus])
 
   const { data, loading, error } = useGovernanceCsv(selectedGranularity)
   const {
@@ -242,9 +244,6 @@ export function Governance() {
       ? orderedSystems
       : DEFAULT_GOVERNANCE_SYSTEMS
   }, [data])
-
-  const { selectedSystems, handleSelectionChange, handleSystemToggle } =
-    usePersistedSystemSelection(SYSTEMS_STORAGE_KEY, DEFAULT_GOVERNANCE_SYSTEMS)
 
   const filteredData = useSelectedSystemsFilter(data, selectedSystems)
   const filteredProposalData = useSelectedSystemsFilter(
@@ -531,7 +530,7 @@ export function Governance() {
             />
             <RadioGroup
               label="PR STATUS TRANSITION TO"
-              items={PR_STATUS_ITEMS}
+              items={prStatusItems}
               selectedItem={selectedPrStatus}
               onChange={handleRadioSelect(setSelectedPrStatus)}
             />

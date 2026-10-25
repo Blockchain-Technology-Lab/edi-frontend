@@ -169,6 +169,45 @@ export type GovernanceRatificationPrStatus =
   | 'final'
   | 'stagnant'
   | 'withdrawn'
+
+// Bitcoin and Cardano don't have ratification data yet, so their lists are
+// just "All" until BIP/CIP status values get added.
+export type GovernanceRatificationChain = 'bitcoin' | 'ethereum' | 'cardano'
+
+export const GOVERNANCE_RATIFICATION_PR_STATUS_ITEMS_BY_CHAIN: Record<
+  GovernanceRatificationChain,
+  Array<{ label: string; value: GovernanceRatificationPrStatus }>
+> = {
+  ethereum: [
+    { label: 'All', value: 'all' },
+    { label: 'Draft', value: 'draft' },
+    { label: 'Review', value: 'review' },
+    { label: 'Last call', value: 'last-call' },
+    { label: 'Final', value: 'final' },
+    { label: 'Stagnant', value: 'stagnant' },
+    { label: 'Withdrawn', value: 'withdrawn' }
+  ],
+  bitcoin: [{ label: 'All', value: 'all' }],
+  cardano: [{ label: 'All', value: 'all' }]
+}
+
+// Ethereum goes first here, not bitcoin/ethereum/cardano like SystemSelector -
+// all three are selected by default, and bitcoin's placeholder list would
+// otherwise bury the status breakdown most people actually want.
+const GOVERNANCE_RATIFICATION_STATUS_CHAIN_PRIORITY: GovernanceRatificationChain[] =
+  ['ethereum', 'bitcoin', 'cardano']
+
+export function getGovernanceRatificationPrStatusItems(
+  selectedSystems: Set<string>
+): Array<{ label: string; value: GovernanceRatificationPrStatus }> {
+  const chain =
+    GOVERNANCE_RATIFICATION_STATUS_CHAIN_PRIORITY.find((candidate) =>
+      selectedSystems.has(candidate)
+    ) ?? 'ethereum'
+
+  return GOVERNANCE_RATIFICATION_PR_STATUS_ITEMS_BY_CHAIN[chain]
+}
+
 export type GovernanceAcdMeetingPopulation = 'all_participants' | 'editors_only'
 export type GovernanceAcdMeetingMeasure = 'attendance' | 'speaking'
 
