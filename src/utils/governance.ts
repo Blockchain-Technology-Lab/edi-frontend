@@ -164,9 +164,6 @@ export type GovernanceRatificationOverviewMetric =
 export type GovernanceRatificationApproverScope = 'core_editors' | 'all_approvers'
 export type GovernanceRatificationPrStatus =
   | 'all'
-  | 'draft'
-  | 'review'
-  | 'last-call'
   | 'final'
   | 'stagnant'
   | 'rejected'
@@ -181,14 +178,11 @@ export const GOVERNANCE_RATIFICATION_PR_STATUS_ITEMS_BY_CHAIN: Record<
 > = {
   ethereum: [
     { label: 'All', value: 'all' },
-    { label: 'Draft', value: 'draft' },
-    { label: 'Review', value: 'review' },
-    { label: 'Last call', value: 'last-call' },
     { label: 'Final', value: 'final' },
     { label: 'Stagnant', value: 'stagnant' },
     { label: 'Withdrawn', value: 'withdrawn' }
   ],
-  // BIPs skip Draft/Review/Last call and use Rejected instead of Stagnant.
+  // BIPs use Rejected instead of Stagnant.
   bitcoin: [
     { label: 'All', value: 'all' },
     { label: 'Final', value: 'final' },
@@ -220,28 +214,10 @@ const GOVERNANCE_RATIFICATION_PR_STATUS_MASTER_ORDER: Array<{
   ).values()
 )
 
-export function getGovernanceRatificationPrStatusItems(
-  selectedSystems: Set<string>,
-  // Which statuses actually have rows for each chain (see
-  // parseGovernanceRatificationAvailableStatuses) - omit while that's still
-  // loading so options aren't disabled before we know either way.
-  availableStatuses?: Record<string, Set<string>>
-): GovernanceRatificationPrStatusItem[] {
-  const chain =
-    GOVERNANCE_RATIFICATION_STATUS_CHAIN_PRIORITY.find((candidate) =>
-      selectedSystems.has(candidate)
-    ) ?? 'ethereum'
-
-  const applicable = new Set(
-    GOVERNANCE_RATIFICATION_PR_STATUS_ITEMS_BY_CHAIN[chain].map(
-      (item) => item.value
-    )
-  )
-  const hasData = availableStatuses?.[chain]
-
+export function getGovernanceRatificationPrStatusItems(): GovernanceRatificationPrStatusItem[] {
   return GOVERNANCE_RATIFICATION_PR_STATUS_MASTER_ORDER.map((item) => ({
     ...item,
-    disabled: !applicable.has(item.value) || Boolean(hasData && !hasData.has(item.value))
+    disabled: false
   }))
 }
 
@@ -816,37 +792,6 @@ export function parseGovernanceRatificationDecentralisationMetricsCsv(
       discriminatorValue: status
     }
   })
-}
-
-// Maps each chain to the statuses that have at least one row, so an empty
-// status can be greyed out instead of landing on a blank chart.
-export function parseGovernanceRatificationAvailableStatuses(
-  csvData: string,
-  // Must match filterCsvRowsForSeries' default, or a status whose only
-  // rows are in the excluded year would wrongly show as available.
-  excludeFromYear = 2026
-): Record<string, Set<string>> {
-  const { rows, headers } = splitCsvContent(csvData)
-  const chainIndex = headers.indexOf('chain')
-  const statusIndex = headers.indexOf('status_changed_to')
-  const dateIndex = headers.indexOf('date')
-  const available: Record<string, Set<string>> = {}
-  if (chainIndex === -1 || statusIndex === -1) return available
-
-  for (const values of rows) {
-    const chain = values[chainIndex]?.trim()
-    const status = values[statusIndex]?.trim()
-    if (!chain || !status) continue
-
-    if (dateIndex !== -1) {
-      const date = parseCsvDate(values[dateIndex]?.trim() ?? '')
-      if (date && date.getUTCFullYear() >= excludeFromYear) continue
-    }
-
-    ;(available[chain] ??= new Set()).add(status)
-  }
-
-  return available
 }
 
 /**

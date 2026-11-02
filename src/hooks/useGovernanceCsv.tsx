@@ -23,7 +23,6 @@ import {
   getGovernanceRatificationDecentralisationMetricsCsvPath,
   loadGovernanceRatificationDecentralisationCsvText,
   parseGovernanceRatificationDecentralisationMetricsCsv,
-  parseGovernanceRatificationAvailableStatuses,
   getGovernanceAcdMeetingMetricsCsvPath,
   loadGovernanceAcdMeetingMetricsCsvData,
 } from '@/utils'
@@ -113,20 +112,6 @@ export function useGovernanceRatificationDecentralisationMetricsCsv(
           )
         : [],
     [csvText, status, csvPath]
-  )
-  return { data, loading, error }
-}
-
-// Which PR-status options have any data at all, per chain - drives disabling
-// an option with nothing to show (see getGovernanceRatificationPrStatusItems).
-export function useGovernanceRatificationAvailableStatusesCsv(
-  scope: GovernanceRatificationApproverScope
-) {
-  const { csvText, loading, error } =
-    useGovernanceRatificationDecentralisationCsvText(scope)
-  const data = useMemo(
-    () => (csvText ? parseGovernanceRatificationAvailableStatuses(csvText) : undefined),
-    [csvText]
   )
   return { data, loading, error }
 }

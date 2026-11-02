@@ -23,7 +23,6 @@ import {
   useGovernanceProposalMetricsCsv,
   useGovernanceRatificationOverviewMetricsCsv,
   useGovernanceRatificationDecentralisationMetricsCsv,
-  useGovernanceRatificationAvailableStatusesCsv,
   usePersistedSystemSelection
 } from '@/hooks'
 import {
@@ -175,17 +174,9 @@ export function Governance() {
     DEFAULT_GOVERNANCE_SYSTEMS
   )
 
-  // Status vocabulary isn't the same across chains (EIP vs BIP/CIP), so this
-  // tracks selectedSystems instead of being a static list.
-  const { data: availableRatificationStatuses } =
-    useGovernanceRatificationAvailableStatusesCsv(selectedApproverScope.value)
   const prStatusItems = useMemo(
-    () =>
-      getGovernanceRatificationPrStatusItems(
-        selectedSystems,
-        availableRatificationStatuses
-      ),
-    [selectedSystems, availableRatificationStatuses]
+    () => getGovernanceRatificationPrStatusItems(),
+    []
   )
   const [selectedPrStatus, setSelectedPrStatus] = useState(prStatusItems[0])
   useEffect(() => {
