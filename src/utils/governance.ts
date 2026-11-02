@@ -16,6 +16,7 @@ const GOVERNANCE_PROPOSAL_COLUMNS = [
   'hhi'
 ]
 const GOVERNANCE_RATIFICATION_COLUMNS = ['gini', 'cr1', 'shannon_entropy', 'hhi']
+const GOVERNANCE_RATIFICATION_ACTIVITY_COLUMNS = ['n_approvers', 'n_proposals']
 
 /**
  * Keeps only rows matching the given discriminator column value, and
@@ -168,10 +169,10 @@ export type GovernanceRatificationPrStatus =
   | 'last-call'
   | 'final'
   | 'stagnant'
+  | 'rejected'
   | 'withdrawn'
 
-// Bitcoin and Cardano don't have ratification data yet, so their lists are
-// just "All" until BIP/CIP status values get added.
+// Cardano has no ratification data yet, so its list is just "All".
 export type GovernanceRatificationChain = 'bitcoin' | 'ethereum' | 'cardano'
 
 export const GOVERNANCE_RATIFICATION_PR_STATUS_ITEMS_BY_CHAIN: Record<
@@ -187,25 +188,61 @@ export const GOVERNANCE_RATIFICATION_PR_STATUS_ITEMS_BY_CHAIN: Record<
     { label: 'Stagnant', value: 'stagnant' },
     { label: 'Withdrawn', value: 'withdrawn' }
   ],
-  bitcoin: [{ label: 'All', value: 'all' }],
+  // BIPs skip Draft/Review/Last call and use Rejected instead of Stagnant.
+  bitcoin: [
+    { label: 'All', value: 'all' },
+    { label: 'Final', value: 'final' },
+    { label: 'Rejected', value: 'rejected' },
+    { label: 'Withdrawn', value: 'withdrawn' }
+  ],
   cardano: [{ label: 'All', value: 'all' }]
 }
 
-// Ethereum goes first here, not bitcoin/ethereum/cardano like SystemSelector -
-// all three are selected by default, and bitcoin's placeholder list would
-// otherwise bury the status breakdown most people actually want.
+// Ethereum takes priority so its fuller status breakdown isn't buried.
 const GOVERNANCE_RATIFICATION_STATUS_CHAIN_PRIORITY: GovernanceRatificationChain[] =
   ['ethereum', 'bitcoin', 'cardano']
 
+export type GovernanceRatificationPrStatusItem = {
+  label: string
+  value: GovernanceRatificationPrStatus
+  disabled: boolean
+}
+
+// Full button set in a stable order, derived from the lists above.
+const GOVERNANCE_RATIFICATION_PR_STATUS_MASTER_ORDER: Array<{
+  label: string
+  value: GovernanceRatificationPrStatus
+}> = Array.from(
+  new Map(
+    GOVERNANCE_RATIFICATION_STATUS_CHAIN_PRIORITY.flatMap(
+      (chain) => GOVERNANCE_RATIFICATION_PR_STATUS_ITEMS_BY_CHAIN[chain]
+    ).map((item) => [item.value, item] as const)
+  ).values()
+)
+
 export function getGovernanceRatificationPrStatusItems(
-  selectedSystems: Set<string>
-): Array<{ label: string; value: GovernanceRatificationPrStatus }> {
+  selectedSystems: Set<string>,
+  // Which statuses actually have rows for each chain (see
+  // parseGovernanceRatificationAvailableStatuses) - omit while that's still
+  // loading so options aren't disabled before we know either way.
+  availableStatuses?: Record<string, Set<string>>
+): GovernanceRatificationPrStatusItem[] {
   const chain =
     GOVERNANCE_RATIFICATION_STATUS_CHAIN_PRIORITY.find((candidate) =>
       selectedSystems.has(candidate)
     ) ?? 'ethereum'
 
-  return GOVERNANCE_RATIFICATION_PR_STATUS_ITEMS_BY_CHAIN[chain]
+  const applicable = new Set(
+    GOVERNANCE_RATIFICATION_PR_STATUS_ITEMS_BY_CHAIN[chain].map(
+      (item) => item.value
+    )
+  )
+  const hasData = availableStatuses?.[chain]
+
+  return GOVERNANCE_RATIFICATION_PR_STATUS_MASTER_ORDER.map((item) => ({
+    ...item,
+    disabled: !applicable.has(item.value) || Boolean(hasData && !hasData.has(item.value))
+  }))
 }
 
 export type GovernanceAcdMeetingPopulation = 'all_participants' | 'editors_only'
@@ -592,22 +629,14 @@ export async function loadGovernanceRatificationOverviewMetricsCsvData(
 }
 
 /**
- * Fetches the ratification-decentralisation CSV for the given approver
- * scope and parses out the requested PR-status series.
+ * Fetches the ratification-decentralisation CSV text for the given
+ * approver scope. Shared by the filtered-series and available-statuses
+ * hooks so switching PR status doesn't re-fetch/re-parse the same file.
  */
-export async function loadGovernanceRatificationDecentralisationMetricsCsvData(
-  csvPath: string,
-  status: GovernanceRatificationPrStatus
-): Promise<DataEntry[]> {
-  const csvText = await fetchGovernanceCsv(
-    csvPath,
-    'ratification decentralisation metrics'
-  )
-  return parseGovernanceRatificationDecentralisationMetricsCsv(
-    csvText,
-    status,
-    csvPath
-  )
+export async function loadGovernanceRatificationDecentralisationCsvText(
+  csvPath: string
+): Promise<string> {
+  return fetchGovernanceCsv(csvPath, 'ratification decentralisation metrics')
 }
 
 /**
@@ -781,12 +810,43 @@ export function parseGovernanceRatificationDecentralisationMetricsCsv(
 ): DataEntry[] {
   return parseGovernanceLedgerMetricsCsv(csvData, {
     fileName,
-    columns: GOVERNANCE_RATIFICATION_COLUMNS,
+    columns: [...GOVERNANCE_RATIFICATION_COLUMNS, ...GOVERNANCE_RATIFICATION_ACTIVITY_COLUMNS],
     seriesFilter: {
       discriminatorColumn: 'status_changed_to',
       discriminatorValue: status
     }
   })
+}
+
+// Maps each chain to the statuses that have at least one row, so an empty
+// status can be greyed out instead of landing on a blank chart.
+export function parseGovernanceRatificationAvailableStatuses(
+  csvData: string,
+  // Must match filterCsvRowsForSeries' default, or a status whose only
+  // rows are in the excluded year would wrongly show as available.
+  excludeFromYear = 2026
+): Record<string, Set<string>> {
+  const { rows, headers } = splitCsvContent(csvData)
+  const chainIndex = headers.indexOf('chain')
+  const statusIndex = headers.indexOf('status_changed_to')
+  const dateIndex = headers.indexOf('date')
+  const available: Record<string, Set<string>> = {}
+  if (chainIndex === -1 || statusIndex === -1) return available
+
+  for (const values of rows) {
+    const chain = values[chainIndex]?.trim()
+    const status = values[statusIndex]?.trim()
+    if (!chain || !status) continue
+
+    if (dateIndex !== -1) {
+      const date = parseCsvDate(values[dateIndex]?.trim() ?? '')
+      if (date && date.getUTCFullYear() >= excludeFromYear) continue
+    }
+
+    ;(available[chain] ??= new Set()).add(status)
+  }
+
+  return available
 }
 
 /**

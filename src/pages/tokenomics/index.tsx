@@ -68,15 +68,9 @@ export function Tokenomics() {
     return orderedSystems.length > 0 ? orderedSystems : fallback
   }, [data])
 
-  const { selectedSystems, handleSelectionChange, handleSystemToggle } =
-    usePersistedSystemSelection(SYSTEMS_STORAGE_KEY, DEFAULT_TOKENOMICS_SYSTEMS)
-
-  const filteredData = useMemo(
-    () =>
-      data.filter(
-        (entry) => !entry.ledger || selectedSystems.has(entry.ledger)
-      ),
-    [data, selectedSystems]
+  const { selectedSystems, handleSelectionChange } = usePersistedSystemSelection(
+    SYSTEMS_STORAGE_KEY,
+    DEFAULT_TOKENOMICS_SYSTEMS
   )
 
   return (
@@ -136,12 +130,11 @@ export function Tokenomics() {
             <MetricsCard
               key={m.metric}
               metric={m}
-              data={filteredData}
+              data={data}
               loading={loading}
               type="tokenomics"
               timeUnit="month"
               selectedSystems={selectedSystems}
-              onSystemToggle={handleSystemToggle}
             />
           ))}
       </div>

@@ -51,18 +51,9 @@ export function Geography() {
     return orderedSystems.length > 0 ? orderedSystems : fallback
   }, [nodesData])
 
-  const { selectedSystems, handleSelectionChange, handleSystemToggle } =
-    usePersistedSystemSelection(
-      SYSTEMS_STORAGE_KEY,
-      DEFAULT_GEOGRAPHY_SYSTEMS
-    )
-
-  const filteredData = useMemo(
-    () =>
-      nodesData.filter(
-        (entry) => !entry.ledger || selectedSystems.has(entry.ledger)
-      ),
-    [nodesData, selectedSystems]
+  const { selectedSystems, handleSelectionChange } = usePersistedSystemSelection(
+    SYSTEMS_STORAGE_KEY,
+    DEFAULT_GEOGRAPHY_SYSTEMS
   )
 
   return (
@@ -117,12 +108,11 @@ export function Geography() {
             <MetricsCard
               key={m.metric}
               metric={m}
-              data={filteredData}
+              data={nodesData}
               loading={loading}
               type="geography"
               timeUnit="month"
               selectedSystems={selectedSystems}
-              onSystemToggle={handleSystemToggle}
             />
           ))}
       </div>

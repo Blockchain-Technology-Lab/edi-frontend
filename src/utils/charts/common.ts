@@ -11,12 +11,13 @@ import type { DataEntry } from '@/utils/types'
 
 type LedgerDataset = {
   label: string
-  data: { x: Date; y: number }[]
+  data: { x: Date; y: number; raw?: DataEntry }[]
   borderColor: string
   backgroundColor: string
   fill: boolean
   pointRadius?: number
   pointHoverRadius?: number
+  hidden?: boolean
 }
 
 type LedgerDatasets = {
@@ -65,7 +66,9 @@ export type ChartData = {
 export function getChartData(
   metric: string,
   type: LayerType,
-  data: DataEntry[]
+  data: DataEntry[],
+  // Unselected ledgers start hidden/struck-through, not excluded.
+  selectedSystems?: Set<string>
 ) {
   if (!data) return
   const { minValue, maxValue } = findMinMaxValues(data)
@@ -83,7 +86,7 @@ export function getChartData(
 
   return {
     labels: buildLabels(data, minValue, maxValue),
-    datasets: buildDatasets(data, metric, ledgerColorMap, type)
+    datasets: buildDatasets(data, metric, ledgerColorMap, type, selectedSystems)
   }
 }
 
@@ -112,7 +115,8 @@ function buildDatasets(
   data: DataEntry[],
   metric: string,
   ledgerColorMap: { [key: string]: string },
-  layer: LayerType
+  layer: LayerType,
+  selectedSystems?: Set<string>
 ) {
   // Initialize ledger datasets for the current metric
   const ledgerDatasets = {} as LedgerDatasets
@@ -133,12 +137,14 @@ function buildDatasets(
         backgroundColor: ledgerColorMap[ledger],
         fill: false,
         pointRadius: 1.5,
-        pointHoverRadius: 3
+        pointHoverRadius: 3,
+        hidden: selectedSystems ? !selectedSystems.has(ledger) : false
       }
     }
     ledgerDatasets[ledger].data.push({
       x: entry.date,
-      y: rawValue as number
+      y: rawValue as number,
+      raw: entry
     })
   })
 

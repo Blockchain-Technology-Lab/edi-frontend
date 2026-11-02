@@ -30,7 +30,7 @@ export interface Metric {
   }
 }
 {
-  /* 
+  /*
 interface MetricsCardProps {
   metric: {
     metric: string;
@@ -53,9 +53,10 @@ interface MetricsCardProps {
   type: LayerType
   timeUnit?: 'year' | 'month' | 'day'
   padYAxis?: boolean
-  selectedSystems?: Set<string>
-  onSystemToggle?: (system: string) => void
   headerControl?: ReactNode
+  // See LineChart for both of these.
+  selectedSystems?: Set<string>
+  tooltipExtraLines?: (raw: DataEntry) => string[]
 }
 
 // (Metric already declared above)
@@ -67,9 +68,9 @@ export function MetricsCard({
   type,
   timeUnit = 'year',
   padYAxis = false,
+  headerControl,
   selectedSystems,
-  onSystemToggle,
-  headerControl
+  tooltipExtraLines
 }: MetricsCardProps) {
   return (
     <div className="card border border-base-300 shadow-sm overflow-hidden bg-base-100" key={metric.metric}>
@@ -109,7 +110,7 @@ export function MetricsCard({
           yAxisDecimals={metric.decimals ?? metric.yAxisDecimals ?? null}
           multiAxis={metric.multiAxis}
           selectedSystems={selectedSystems}
-          onSystemToggle={onSystemToggle}
+          tooltipExtraLines={tooltipExtraLines}
         />
       </div>
     </div>

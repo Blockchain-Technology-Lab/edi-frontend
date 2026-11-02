@@ -132,15 +132,9 @@ export function Software() {
     return orderedSystems.length > 0 ? orderedSystems : fallback
   }, [data])
 
-  const { selectedSystems, handleSelectionChange, handleSystemToggle } =
-    usePersistedSystemSelection(SYSTEMS_STORAGE_KEY, DEFAULT_SOFTWARE_SYSTEMS)
-
-  const filteredData = useMemo(
-    () =>
-      data.filter(
-        (entry) => !entry.ledger || selectedSystems.has(entry.ledger)
-      ),
-    [data, selectedSystems]
+  const { selectedSystems, handleSelectionChange } = usePersistedSystemSelection(
+    SYSTEMS_STORAGE_KEY,
+    DEFAULT_SOFTWARE_SYSTEMS
   )
 
   return (
@@ -265,12 +259,11 @@ export function Software() {
             <MetricsCard
               key={metric.metric}
               metric={metric}
-              data={filteredData}
+              data={data}
               loading={loading}
               type="software"
               timeUnit="month"
               selectedSystems={selectedSystems}
-              onSystemToggle={handleSystemToggle}
             />
           ))}
       </div>

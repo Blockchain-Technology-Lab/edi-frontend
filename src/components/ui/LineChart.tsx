@@ -48,8 +48,10 @@ type LineProps = {
   tooltipDecimals?: number
   yAxisDecimals?: number | null
   multiAxis?: MultiAxisConfig
+  // Unselected ledgers stay in the legend but start hidden/struck-through.
   selectedSystems?: Set<string>
-  onSystemToggle?: (system: string) => void
+  // Extra tooltip lines per point, under that ledger's value line.
+  tooltipExtraLines?: (raw: DataEntry) => string[]
 }
 
 export function LineChart({
@@ -63,13 +65,14 @@ export function LineChart({
   yAxisDecimals,
   multiAxis,
   selectedSystems,
-  onSystemToggle
+  tooltipExtraLines
 }: LineProps) {
   const { theme: resolvedTheme } = useContext(ThemeContext)
   const { chartData, sliderValue, sliderRange, setSliderValue } = useChartData(
     metric,
     type,
-    csvData
+    csvData,
+    selectedSystems
   )
   const exportChart = useExportChart()
   const chartRef = useRef<HTMLCanvasElement | null>(null)
@@ -194,8 +197,7 @@ export function LineChart({
       tooltipDecimals,
       yAxisDecimals,
       multiAxis,
-      onSystemToggle,
-      selectedSystems
+      tooltipExtraLines
     )
   }, [
     metric,
@@ -206,8 +208,7 @@ export function LineChart({
     tooltipDecimals,
     yAxisDecimals,
     multiAxis,
-    onSystemToggle,
-    selectedSystems
+    tooltipExtraLines
   ])
 
   // Re-register plugin when theme changes
@@ -238,9 +239,10 @@ export function LineChart({
     <div className="space-y-3">
       <div className="aspect-video">
         <Line
+          // Remount on selectedSystems change so it always wins over a stale per-chart legend click.
           key={`chart-${metric}-${resolvedTheme}-${
             multiAxis ? 'multi' : 'single'
-          }`}
+          }-${selectedSystems ? [...selectedSystems].sort().join(',') : ''}`}
           data={{
             labels: finalChartData?.labels,
             datasets: finalChartData?.datasets || []
@@ -350,8 +352,7 @@ function getChartOptions(
   tooltipDecimals?: number,
   yAxisDecimals?: number | null,
   multiAxis?: MultiAxisConfig,
-  onSystemToggle?: (system: string) => void,
-  selectedSystems?: Set<string>
+  tooltipExtraLines?: (raw: DataEntry) => string[]
 ): ChartOptions<'line'> {
   const t = getChartThemeTokens(theme)
 
@@ -403,33 +404,26 @@ function getChartOptions(
                   })
                 : value
 
-            return `${label}: ${formatted}`
+            const line = `${label}: ${formatted}`
+            if (!tooltipExtraLines) return line
+
+            const point = context.dataset.data[context.dataIndex] as
+              | { raw?: DataEntry }
+              | undefined
+            const extra = point?.raw ? tooltipExtraLines(point.raw) : []
+            return extra.length > 0 ? [line, ...extra.map((e) => `  ${e}`)] : line
           }
         }
       },
       legend: {
         display: true,
         position: 'top' as const,
+        // Default onClick: hides that dataset + strikes its label, locally.
         labels: {
           color: t.tickColor,
           usePointStyle: true,
           pointStyle: multiAxis ? 'line' : 'circle',
           font: { family: CHART_FONT, size: 12 }
-        },
-        onClick: (_event, legendItem, legend) => {
-          if (
-            onSystemToggle &&
-            selectedSystems &&
-            typeof legendItem.datasetIndex === 'number'
-          ) {
-            const dataset = legend.chart.data.datasets[legendItem.datasetIndex]
-            if (dataset && dataset.label) {
-              const systemName = dataset.label
-                .toLowerCase()
-                .replace(/\\s+/g, '_')
-              onSystemToggle(systemName)
-            }
-          }
         }
       }
     },

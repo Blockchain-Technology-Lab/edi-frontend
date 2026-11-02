@@ -23,6 +23,7 @@ import {
   useGovernanceProposalMetricsCsv,
   useGovernanceRatificationOverviewMetricsCsv,
   useGovernanceRatificationDecentralisationMetricsCsv,
+  useGovernanceRatificationAvailableStatusesCsv,
   usePersistedSystemSelection
 } from '@/hooks'
 import {
@@ -108,23 +109,6 @@ function handleRadioSelect<T extends { value: string }>(
     setSelected(item as unknown as T)
 }
 
-// Every section filters its series down to the currently selected
-// platforms the same way; only the discussion-source section needs
-// different filtering logic (via allowedDiscussionSources) so it doesn't
-// use this.
-function useSelectedSystemsFilter(
-  entries: DataEntry[],
-  selectedSystems: Set<string>
-): DataEntry[] {
-  return useMemo(
-    () =>
-      entries.filter(
-        (entry) => !entry.ledger || selectedSystems.has(entry.ledger)
-      ),
-    [entries, selectedSystems]
-  )
-}
-
 // Every section below renders the same "grid of metric cards, or an error
 // line" shape once its data/loading/error and (already filtered) metrics
 // list are known.
@@ -135,9 +119,9 @@ function GovernanceMetricsGrid({
   error,
   keyPrefix,
   timeUnit,
-  selectedSystems,
-  onSystemToggle,
-  headerControl
+  headerControl,
+  tooltipExtraLines,
+  selectedSystems
 }: {
   metrics: Metric[]
   data: DataEntry[]
@@ -145,9 +129,9 @@ function GovernanceMetricsGrid({
   error: Error | null
   keyPrefix: string
   timeUnit: 'year' | 'month' | 'day'
-  selectedSystems?: Set<string>
-  onSystemToggle?: (system: string) => void
   headerControl?: ReactNode
+  tooltipExtraLines?: (point: DataEntry) => string[]
+  selectedSystems?: Set<string>
 }) {
   return (
     <>
@@ -161,9 +145,9 @@ function GovernanceMetricsGrid({
               loading={loading}
               type="governance"
               timeUnit={timeUnit}
-              selectedSystems={selectedSystems}
-              onSystemToggle={onSystemToggle}
               headerControl={headerControl}
+              tooltipExtraLines={tooltipExtraLines}
+              selectedSystems={selectedSystems}
             />
           ))}
       </div>
@@ -186,19 +170,32 @@ export function Governance() {
   const [selectedApproverScope, setSelectedApproverScope] =
     useSelectedItem(APPROVER_SCOPE_ITEMS)
 
-  const { selectedSystems, handleSelectionChange, handleSystemToggle } =
-    usePersistedSystemSelection(SYSTEMS_STORAGE_KEY, DEFAULT_GOVERNANCE_SYSTEMS)
+  const { selectedSystems, handleSelectionChange } = usePersistedSystemSelection(
+    SYSTEMS_STORAGE_KEY,
+    DEFAULT_GOVERNANCE_SYSTEMS
+  )
 
   // Status vocabulary isn't the same across chains (EIP vs BIP/CIP), so this
   // tracks selectedSystems instead of being a static list.
+  const { data: availableRatificationStatuses } =
+    useGovernanceRatificationAvailableStatusesCsv(selectedApproverScope.value)
   const prStatusItems = useMemo(
-    () => getGovernanceRatificationPrStatusItems(selectedSystems),
-    [selectedSystems]
+    () =>
+      getGovernanceRatificationPrStatusItems(
+        selectedSystems,
+        availableRatificationStatuses
+      ),
+    [selectedSystems, availableRatificationStatuses]
   )
   const [selectedPrStatus, setSelectedPrStatus] = useState(prStatusItems[0])
   useEffect(() => {
-    if (!prStatusItems.some((item) => item.value === selectedPrStatus.value)) {
-      setSelectedPrStatus(prStatusItems[0])
+    const current = prStatusItems.find(
+      (item) => item.value === selectedPrStatus.value
+    )
+    if (!current || current.disabled) {
+      setSelectedPrStatus(
+        prStatusItems.find((item) => !item.disabled) ?? prStatusItems[0]
+      )
     }
   }, [prStatusItems, selectedPrStatus])
 
@@ -245,24 +242,7 @@ export function Governance() {
       : DEFAULT_GOVERNANCE_SYSTEMS
   }, [data])
 
-  const filteredData = useSelectedSystemsFilter(data, selectedSystems)
-  const filteredProposalData = useSelectedSystemsFilter(
-    proposalData,
-    selectedSystems
-  )
-  const filteredGithubData = useSelectedSystemsFilter(
-    githubData,
-    selectedSystems
-  )
-  const filteredRatificationOverviewData = useSelectedSystemsFilter(
-    ratificationOverviewData,
-    selectedSystems
-  )
-  const filteredRatificationDecentralisationData = useSelectedSystemsFilter(
-    ratificationDecentralisationData,
-    selectedSystems
-  )
-
+  // Translates selectedSystems into discussion-source values (e.g. "bitcoin_forum").
   const allowedDiscussionSources = useMemo(() => {
     const sources = new Set<string>()
     for (const platform of selectedSystems) {
@@ -272,14 +252,6 @@ export function Governance() {
     }
     return sources
   }, [selectedSystems])
-
-  const filteredCommunityDiscussionData = useMemo(
-    () =>
-      communityDiscussionData.filter(
-        (entry) => !entry.ledger || allowedDiscussionSources.has(entry.ledger)
-      ),
-    [communityDiscussionData, allowedDiscussionSources]
-  )
 
   return (
     <div className="flex flex-col gap-6">
@@ -335,11 +307,12 @@ export function Governance() {
       />
       <GovernanceMetricsGrid
         metrics={GOVERNANCE_COMMUNITY_DISCUSSION_METRICS}
-        data={filteredCommunityDiscussionData}
+        data={communityDiscussionData}
         loading={communityDiscussionLoading}
         error={communityDiscussionError}
         keyPrefix="community"
         timeUnit="month"
+        selectedSystems={allowedDiscussionSources}
       />
       {/* Ends - Community Discussion Decentralisation Merics*/}
       {/* Start - GitHub Decentralisation Merics*/}
@@ -371,13 +344,12 @@ export function Governance() {
       />
       <GovernanceMetricsGrid
         metrics={GOVERNANCE_GITHUB_METRICS}
-        data={filteredGithubData}
+        data={githubData}
         loading={githubLoading}
         error={githubError}
         keyPrefix="github"
         timeUnit="month"
         selectedSystems={selectedSystems}
-        onSystemToggle={handleSystemToggle}
       />
       {/* Ends - GitHub Decentralisation Merics */
       /* Start - Proposal
@@ -400,26 +372,24 @@ export function Governance() {
       />
       <GovernanceMetricsGrid
         metrics={GOVERNANCE_PROPOSAL_METRICS}
-        data={filteredProposalData}
+        data={proposalData}
         loading={proposalLoading}
         error={proposalError}
         keyPrefix="proposal"
         timeUnit="month"
         selectedSystems={selectedSystems}
-        onSystemToggle={handleSystemToggle}
       />
       {/* Ends - Proposal Decentralisation Merics*/}
       {/* Start - Contributor Activity Concentration */}
 
       <GovernanceMetricsGrid
         metrics={GOVERNANCE_METRICS}
-        data={filteredData}
+        data={data}
         loading={loading}
         error={error}
         keyPrefix="concentration"
         timeUnit="month"
         selectedSystems={selectedSystems}
-        onSystemToggle={handleSystemToggle}
         headerControl={
           <BinaryToggle
             labelA="Yearly"
@@ -492,13 +462,12 @@ export function Governance() {
         metrics={GOVERNANCE_RATIFICATION_OVERVIEW_METRICS.filter(
           (metric) => metric.metric === selectedRatificationOverviewMetric.value
         )}
-        data={filteredRatificationOverviewData}
+        data={ratificationOverviewData}
         loading={ratificationOverviewLoading}
         error={ratificationOverviewError}
         keyPrefix="ratification-overview"
         timeUnit="year"
         selectedSystems={selectedSystems}
-        onSystemToggle={handleSystemToggle}
       />
       {/* Ends - Ratification Overview Metrics */}
       {/* Start - Ratification Approver Concentration */}
@@ -508,14 +477,14 @@ export function Governance() {
           <>
             These charts display four decentralisation metrics (Gini
             coefficient, CR1, Shannon entropy, and HHI) computed annually over
-            approvals on ratification PRs — Stage 3 (Ratification). Activity
-            refers to the number of proposals each approver approved in the
-            year. A ratification PR is any merged PR that changes a proposal's
-            Status field, covering any status transition (Draft → Review → Last
-            Call → Final, Withdrawn, Stagnant). Core editors are the current and
-            emeritus EIP editors; all approvers also includes the bot account
-            eth-bot. Users can toggle approver scope (core editors only, or all
-            approvers) and the status the PR transfers to.
+            approvals on ratification PRs for Ethereum and Bitcoin — Stage 3
+            (Ratification). Activity refers to the number of proposals each
+            approver approved in the year. A ratification PR is any merged PR
+            that changes a proposal's Status field, such as a transition to
+            Final, Withdrawn, or Stagnant (Ethereum) / Rejected (Bitcoin). Users
+            can toggle approver scope (core editors only, or all approvers) and
+            the status the PR transfers to. Hover or tap a point to see that
+            year's approver and proposal counts.
           </>
         }
         layout="default"
@@ -539,13 +508,15 @@ export function Governance() {
       />
       <GovernanceMetricsGrid
         metrics={GOVERNANCE_RATIFICATION_METRICS}
-        data={filteredRatificationDecentralisationData}
+        data={ratificationDecentralisationData}
         loading={ratificationDecentralisationLoading}
         error={ratificationDecentralisationError}
         keyPrefix="ratification-decentralisation"
         timeUnit="year"
         selectedSystems={selectedSystems}
-        onSystemToggle={handleSystemToggle}
+        tooltipExtraLines={(point) => [
+          `${Number(point.n_approvers)} approvers, ${Number(point.n_proposals)} proposals`
+        ]}
       />
       {/* Ends - Ratification Approver Concentration */}
     </div>

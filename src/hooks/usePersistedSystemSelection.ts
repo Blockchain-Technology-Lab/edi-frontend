@@ -35,24 +35,9 @@ export function usePersistedSystemSelection(
     [persist]
   )
 
-  const handleSystemToggle = useCallback(
-    (system: string) => {
-      const next = new Set(selectedSystems)
-      if (next.has(system)) {
-        next.delete(system)
-      } else {
-        next.add(system)
-      }
-      setSelectedSystems(next)
-      persist(next)
-    },
-    [selectedSystems, persist]
-  )
-
   return {
     selectedSystems,
     setSelectedSystems,
-    handleSelectionChange,
-    handleSystemToggle
+    handleSelectionChange
   }
 }

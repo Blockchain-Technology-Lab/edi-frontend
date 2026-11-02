@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useQuery, type QueryKey } from '@tanstack/react-query'
 import type { DataEntry } from '@/utils/types'
 import {
@@ -20,7 +21,9 @@ import {
   getGovernanceRatificationOverviewMetricsCsvPath,
   loadGovernanceRatificationOverviewMetricsCsvData,
   getGovernanceRatificationDecentralisationMetricsCsvPath,
-  loadGovernanceRatificationDecentralisationMetricsCsvData,
+  loadGovernanceRatificationDecentralisationCsvText,
+  parseGovernanceRatificationDecentralisationMetricsCsv,
+  parseGovernanceRatificationAvailableStatuses,
   getGovernanceAcdMeetingMetricsCsvPath,
   loadGovernanceAcdMeetingMetricsCsvData,
 } from '@/utils'
@@ -80,19 +83,52 @@ export function useGovernanceRatificationOverviewMetricsCsv(
   )
 }
 
+// Raw CSV text, shared by the two hooks below so switching PR status (or
+// just checking which statuses have data) doesn't re-fetch/re-parse the
+// same file twice.
+function useGovernanceRatificationDecentralisationCsvText(
+  scope: GovernanceRatificationApproverScope
+) {
+  const csvPath = getGovernanceRatificationDecentralisationMetricsCsvPath(scope)
+  const { data: csvText, isPending: loading, error } = useQuery({
+    queryKey: ['csv-text', 'governance-ratification-decentralisation', csvPath],
+    queryFn: () => loadGovernanceRatificationDecentralisationCsvText(csvPath)
+  })
+  return { csvPath, csvText, loading, error: error as Error | null }
+}
+
 export function useGovernanceRatificationDecentralisationMetricsCsv(
   scope: GovernanceRatificationApproverScope,
   status: GovernanceRatificationPrStatus
 ) {
-  const csvPath = getGovernanceRatificationDecentralisationMetricsCsvPath(scope)
-  return useGovernanceCsvQuery(
-    ['csv', 'governance-ratification-decentralisation', csvPath, status],
+  const { csvPath, csvText, loading, error } =
+    useGovernanceRatificationDecentralisationCsvText(scope)
+  const data = useMemo(
     () =>
-      loadGovernanceRatificationDecentralisationMetricsCsvData(
-        csvPath,
-        status
-      )
+      csvText
+        ? parseGovernanceRatificationDecentralisationMetricsCsv(
+            csvText,
+            status,
+            csvPath
+          )
+        : [],
+    [csvText, status, csvPath]
   )
+  return { data, loading, error }
+}
+
+// Which PR-status options have any data at all, per chain - drives disabling
+// an option with nothing to show (see getGovernanceRatificationPrStatusItems).
+export function useGovernanceRatificationAvailableStatusesCsv(
+  scope: GovernanceRatificationApproverScope
+) {
+  const { csvText, loading, error } =
+    useGovernanceRatificationDecentralisationCsvText(scope)
+  const data = useMemo(
+    () => (csvText ? parseGovernanceRatificationAvailableStatuses(csvText) : undefined),
+    [csvText]
+  )
+  return { data, loading, error }
 }
 
 export function useGovernanceAcdMeetingMetricsCsv(

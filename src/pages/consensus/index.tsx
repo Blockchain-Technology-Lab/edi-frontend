@@ -18,8 +18,10 @@ const SYSTEMS_STORAGE_KEY = 'consensus_selectedSystems'
 
 
 export function Consensus() {
-  const { selectedSystems, handleSelectionChange, handleSystemToggle } =
-    usePersistedSystemSelection(SYSTEMS_STORAGE_KEY, CONSENSUS_SYSTEMS)
+  const { selectedSystems, handleSelectionChange } = usePersistedSystemSelection(
+    SYSTEMS_STORAGE_KEY,
+    CONSENSUS_SYSTEMS
+  )
   const [tauVariant, setTauVariant] = useState<TauVariant>(DEFAULT_TAU_VARIANT)
 
   const displayMetrics = useMemo(
@@ -28,11 +30,6 @@ export function Consensus() {
   )
 
   const { data, loading, error } = useConsensusCsvAll(CONSENSUS_FILE_NAME)
-
-  const filteredData = useMemo(
-    () => data.filter((e) => !e.ledger || selectedSystems.has(e.ledger)),
-    [data, selectedSystems]
-  )
 
   return (
     <div className="flex flex-col gap-6">
@@ -64,12 +61,11 @@ export function Consensus() {
             <MetricsCard
               key={m.metric}
               metric={m}
-              data={filteredData}
+              data={data}
               loading={loading}
               type="consensus"
               timeUnit="month"
               selectedSystems={selectedSystems}
-              onSystemToggle={handleSystemToggle}
               headerControl={
                 isTauMetric(m.metric) ? (
                   <BinaryToggle

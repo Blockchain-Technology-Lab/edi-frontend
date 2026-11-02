@@ -52,15 +52,9 @@ export function Network() {
     return orderedSystems.length > 0 ? orderedSystems : fallback
   }, [orgData])
 
-  const { selectedSystems, handleSelectionChange, handleSystemToggle } =
-    usePersistedSystemSelection(SYSTEMS_STORAGE_KEY, DEFAULT_NETWORK_SYSTEMS)
-
-  const filteredData = useMemo(
-    () =>
-      orgData.filter(
-        (entry) => !entry.ledger || selectedSystems.has(entry.ledger)
-      ),
-    [orgData, selectedSystems]
+  const { selectedSystems, handleSelectionChange } = usePersistedSystemSelection(
+    SYSTEMS_STORAGE_KEY,
+    DEFAULT_NETWORK_SYSTEMS
   )
 
   return (
@@ -120,12 +114,11 @@ export function Network() {
             <MetricsCard
               key={m.metric}
               metric={m}
-              data={filteredData}
+              data={orgData}
               loading={loading}
               type="network"
-              selectedSystems={selectedSystems}
-              onSystemToggle={handleSystemToggle}
               timeUnit="month"
+              selectedSystems={selectedSystems}
             />
           ))}
       </div>
