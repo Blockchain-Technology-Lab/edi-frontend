@@ -1,5 +1,4 @@
 import {
-  useEffect,
   useMemo,
   useState,
   type Dispatch,
@@ -36,14 +35,14 @@ import {
   GOVERNANCE_RATIFICATION_METRICS,
   //  GOVERNANCE_ACD_MEETING_METRICS,
   getGovernanceAuthorshipCsvPath,
-  getGovernanceRatificationPrStatusItems,
   getOrderedSystemsForLayer,
   GOVERNANCE_LEDGERS,
   type GovernanceCommunityDiscussionRole,
   type GovernanceGranularity,
   type GovernanceGithubRole,
   type GovernanceRatificationOverviewMetric,
-  type GovernanceRatificationApproverScope
+  type GovernanceRatificationApproverScope,
+  type GovernanceRatificationPrStatus
 } from '@/utils'
 import type { DataEntry } from '@/utils/types'
 import { LAYER_CONFIG } from '@/config/layers'
@@ -79,6 +78,15 @@ const APPROVER_SCOPE_ITEMS: Array<{
 }> = [
   { label: 'Core editors only', value: 'core_editors' },
   { label: 'All approvers', value: 'all_approvers' }
+]
+
+const PR_STATUS_ITEMS: Array<{
+  label: string
+  value: GovernanceRatificationPrStatus
+}> = [
+  { label: 'All', value: 'all' },
+  { label: 'Successful', value: 'successful' },
+  { label: 'Unsuccessful', value: 'unsuccessful' }
 ]
 
 const SYSTEMS_STORAGE_KEY = 'governance_selectedSystems'
@@ -169,26 +177,10 @@ export function Governance() {
   const [selectedApproverScope, setSelectedApproverScope] =
     useSelectedItem(APPROVER_SCOPE_ITEMS)
 
-  const { selectedSystems, handleSelectionChange } = usePersistedSystemSelection(
-    SYSTEMS_STORAGE_KEY,
-    DEFAULT_GOVERNANCE_SYSTEMS
-  )
+  const { selectedSystems, handleSelectionChange } =
+    usePersistedSystemSelection(SYSTEMS_STORAGE_KEY, DEFAULT_GOVERNANCE_SYSTEMS)
 
-  const prStatusItems = useMemo(
-    () => getGovernanceRatificationPrStatusItems(),
-    []
-  )
-  const [selectedPrStatus, setSelectedPrStatus] = useState(prStatusItems[0])
-  useEffect(() => {
-    const current = prStatusItems.find(
-      (item) => item.value === selectedPrStatus.value
-    )
-    if (!current || current.disabled) {
-      setSelectedPrStatus(
-        prStatusItems.find((item) => !item.disabled) ?? prStatusItems[0]
-      )
-    }
-  }, [prStatusItems, selectedPrStatus])
+  const [selectedPrStatus, setSelectedPrStatus] = useSelectedItem(PR_STATUS_ITEMS)
 
   const { data, loading, error } = useGovernanceCsv(selectedGranularity)
   const {
@@ -432,10 +424,11 @@ export function Governance() {
         description={
           <>
             This chart displays raw activity volume on the editorial (GitHub)
-            track underlying Stage 3 (Ratification), counted per year:
-            ratification PRs merged, editor approvals, and the number of core
-            editors. A ratification PR is any merged PR that makes a status
-            transition for a proposal. Users can toggle between metrics.
+            track underlying Stage 3 (Ratification) for Ethereum and Bitcoin,
+            counted per year: ratification PRs merged, editor approvals, and
+            the number of core editors. A ratification PR is any merged PR
+            that makes a status transition for a proposal. Users can toggle
+            between metrics.
           </>
         }
         layout="default"
@@ -471,11 +464,11 @@ export function Governance() {
             approvals on ratification PRs for Ethereum and Bitcoin — Stage 3
             (Ratification). Activity refers to the number of proposals each
             approver approved in the year. A ratification PR is any merged PR
-            that changes a proposal's Status field, such as a transition to
-            Final, Withdrawn, or Stagnant (Ethereum) / Rejected (Bitcoin). Users
-            can toggle approver scope (core editors only, or all approvers) and
-            the status the PR transfers to. Hover or tap a point to see that
-            year's approver and proposal counts.
+            that changes a proposal's Status field, either successfully (a
+            transition to Final) or unsuccessfully (a transition to Withdrawn
+            for Ethereum, or to Rejected or Withdrawn for Bitcoin). Users can
+            toggle approver scope (core editors only, or all approvers) and the
+            status outcome (all, successful, or unsuccessful).
           </>
         }
         layout="default"
@@ -490,7 +483,7 @@ export function Governance() {
             />
             <RadioGroup
               label="PR STATUS TRANSITION TO"
-              items={prStatusItems}
+              items={PR_STATUS_ITEMS}
               selectedItem={selectedPrStatus}
               onChange={handleRadioSelect(setSelectedPrStatus)}
             />

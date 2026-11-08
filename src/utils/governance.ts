@@ -162,64 +162,10 @@ export type GovernanceRatificationOverviewMetric =
   | 'editor_approvals'
   | 'editor_count'
 export type GovernanceRatificationApproverScope = 'core_editors' | 'all_approvers'
-export type GovernanceRatificationPrStatus =
-  | 'all'
-  | 'final'
-  | 'stagnant'
-  | 'rejected'
-  | 'withdrawn'
-
-// Cardano has no ratification data yet, so its list is just "All".
-export type GovernanceRatificationChain = 'bitcoin' | 'ethereum' | 'cardano'
-
-export const GOVERNANCE_RATIFICATION_PR_STATUS_ITEMS_BY_CHAIN: Record<
-  GovernanceRatificationChain,
-  Array<{ label: string; value: GovernanceRatificationPrStatus }>
-> = {
-  ethereum: [
-    { label: 'All', value: 'all' },
-    { label: 'Final', value: 'final' },
-    { label: 'Stagnant', value: 'stagnant' },
-    { label: 'Withdrawn', value: 'withdrawn' }
-  ],
-  // BIPs use Rejected instead of Stagnant.
-  bitcoin: [
-    { label: 'All', value: 'all' },
-    { label: 'Final', value: 'final' },
-    { label: 'Rejected', value: 'rejected' },
-    { label: 'Withdrawn', value: 'withdrawn' }
-  ],
-  cardano: [{ label: 'All', value: 'all' }]
-}
-
-// Ethereum takes priority so its fuller status breakdown isn't buried.
-const GOVERNANCE_RATIFICATION_STATUS_CHAIN_PRIORITY: GovernanceRatificationChain[] =
-  ['ethereum', 'bitcoin', 'cardano']
-
-export type GovernanceRatificationPrStatusItem = {
-  label: string
-  value: GovernanceRatificationPrStatus
-  disabled: boolean
-}
-
-// Full button set in a stable order, derived from the lists above.
-const GOVERNANCE_RATIFICATION_PR_STATUS_MASTER_ORDER: Array<{
-  label: string
-  value: GovernanceRatificationPrStatus
-}> = Array.from(
-  new Map(
-    GOVERNANCE_RATIFICATION_STATUS_CHAIN_PRIORITY.flatMap(
-      (chain) => GOVERNANCE_RATIFICATION_PR_STATUS_ITEMS_BY_CHAIN[chain]
-    ).map((item) => [item.value, item] as const)
-  ).values()
-)
-
-export function getGovernanceRatificationPrStatusItems(): GovernanceRatificationPrStatusItem[] {
-  return GOVERNANCE_RATIFICATION_PR_STATUS_MASTER_ORDER.map((item) => ({
-    ...item,
-    disabled: false
-  }))
-}
+// Successful = Final. Unsuccessful = Withdrawn (Ethereum) or Rejected/Withdrawn
+// (Bitcoin) - already combined into these two outcomes in the CSV itself, so
+// the same three options apply to both chains.
+export type GovernanceRatificationPrStatus = 'all' | 'successful' | 'unsuccessful'
 
 export type GovernanceAcdMeetingPopulation = 'all_participants' | 'editors_only'
 export type GovernanceAcdMeetingMeasure = 'attendance' | 'speaking'
@@ -506,11 +452,14 @@ export function getGovernanceAuthorshipCsvPath(ledger: string): string {
 }
 
 /**
- * Returns the single ratification-overview-metrics CSV path; all five
- * toggleable metrics live in this one file.
+ * Returns the ratification-overview-metrics CSV path for the given
+ * improvement-proposal track (BIP or EIP) — each file carries all three
+ * toggleable metrics for its chain.
  */
-export function getGovernanceRatificationOverviewMetricsCsvPath(): string {
-  return `${GOVERNANCE_CSV}ratification_overview_metrics/ratification_overview_metrics.csv`
+export function getGovernanceRatificationOverviewMetricsCsvPath(
+  proposal: 'BIP' | 'EIP'
+): string {
+  return `${GOVERNANCE_CSV}ratification_overview_metrics/ratification_overview_metrics_${proposal}.csv`
 }
 
 /**
@@ -776,8 +725,8 @@ export function parseGovernanceRatificationOverviewMetricsCsv(
 }
 
 /**
- * Each approver-scope file carries all seven PR-status variants, so
- * parsing keeps only the rows matching the requested one.
+ * Each approver-scope file carries all three PR-status variants (all,
+ * successful, unsuccessful), so parsing keeps only the requested one.
  */
 export function parseGovernanceRatificationDecentralisationMetricsCsv(
   csvData: string,

@@ -75,45 +75,40 @@ export function useGovernanceCommunityDiscussionMetricsCsv(
 export function useGovernanceRatificationOverviewMetricsCsv(
   metric: GovernanceRatificationOverviewMetric
 ) {
-  const csvPath = getGovernanceRatificationOverviewMetricsCsvPath()
   return useGovernanceCsvQuery(
-    ['csv', 'governance-ratification-overview', csvPath, metric],
-    () => loadGovernanceRatificationOverviewMetricsCsvData(csvPath, metric)
+    ['csv', 'governance-ratification-overview', metric],
+    async () => {
+      const proposals = ['BIP', 'EIP'] as const
+      const results = await Promise.all(
+        proposals.map((proposal) => {
+          const csvPath = getGovernanceRatificationOverviewMetricsCsvPath(proposal)
+          return loadGovernanceRatificationOverviewMetricsCsvData(csvPath, metric)
+        })
+      )
+      return results.flat()
+    }
   )
 }
 
-// Raw CSV text, shared by the two hooks below so switching PR status (or
-// just checking which statuses have data) doesn't re-fetch/re-parse the
-// same file twice.
-function useGovernanceRatificationDecentralisationCsvText(
-  scope: GovernanceRatificationApproverScope
+// Raw CSV text is cached once per scope; switching PR status just re-filters
+// it client-side instead of re-fetching.
+export function useGovernanceRatificationDecentralisationMetricsCsv(
+  scope: GovernanceRatificationApproverScope,
+  status: GovernanceRatificationPrStatus
 ) {
   const csvPath = getGovernanceRatificationDecentralisationMetricsCsvPath(scope)
   const { data: csvText, isPending: loading, error } = useQuery({
     queryKey: ['csv-text', 'governance-ratification-decentralisation', csvPath],
     queryFn: () => loadGovernanceRatificationDecentralisationCsvText(csvPath)
   })
-  return { csvPath, csvText, loading, error: error as Error | null }
-}
-
-export function useGovernanceRatificationDecentralisationMetricsCsv(
-  scope: GovernanceRatificationApproverScope,
-  status: GovernanceRatificationPrStatus
-) {
-  const { csvPath, csvText, loading, error } =
-    useGovernanceRatificationDecentralisationCsvText(scope)
   const data = useMemo(
     () =>
       csvText
-        ? parseGovernanceRatificationDecentralisationMetricsCsv(
-            csvText,
-            status,
-            csvPath
-          )
+        ? parseGovernanceRatificationDecentralisationMetricsCsv(csvText, status, csvPath)
         : [],
     [csvText, status, csvPath]
   )
-  return { data, loading, error }
+  return { data, loading, error: error as Error | null }
 }
 
 export function useGovernanceAcdMeetingMetricsCsv(
