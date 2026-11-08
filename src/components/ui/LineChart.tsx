@@ -101,7 +101,9 @@ export function LineChart({
         return Number.isFinite(y) ? [{ x: entry.date, y }] : []
       })
 
-    const datasets: ChartDataset<'line', { x: Date; y: number }[]>[] = [
+    // y: number | null to match LedgerDataset's data shape (common.ts) - chartData
+    // can fall through to that type above when multiAxis/csvData aren't set.
+    const datasets: ChartDataset<'line', { x: Date; y: number | null }[]>[] = [
       {
         label: leftLabel,
         data: leftAxisData,
@@ -378,6 +380,7 @@ function getChartOptions(
         titleFont: { family: CHART_FONT, size: 12, weight: 'bold' },
         bodyFont: { family: CHART_FONT, size: 11 },
         filter(item, index, items) {
+          if (item.parsed.y === null) return false
           return items.findIndex((i) => i.datasetIndex === item.datasetIndex) === index
         },
         callbacks: {
@@ -473,14 +476,18 @@ function getChartOptions(
         ...(padYAxis
           ? {
               afterDataLimits(scale) {
-                const values = scale.chart.data.datasets.flatMap((ds) =>
-                  ds.data.map((p) => {
-                    if (typeof p === 'number') return p
-                    if (typeof p === 'object' && p !== null && 'y' in p)
-                      return Number((p as { y: number }).y)
-                    return 0
-                  })
-                )
+                const values = scale.chart.data.datasets
+                  .flatMap((ds) =>
+                    ds.data.map((p) => {
+                      if (typeof p === 'number') return p
+                      if (typeof p === 'object' && p !== null && 'y' in p)
+                        return (p as { y: number | null }).y
+                      return 0
+                    })
+                  )
+                  // Null points are gaps (no value), not zeros - exclude
+                  // them so they don't skew the padded range.
+                  .filter((v): v is number => v !== null)
                 const min = Math.min(...values)
                 const max = Math.max(...values)
                 const pad = (max - min || 1) * 0.25

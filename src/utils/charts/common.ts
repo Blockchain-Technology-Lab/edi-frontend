@@ -6,18 +6,30 @@ import {
   getLedgerDisplayName
 } from '@/utils'
 
-import type { Plugin } from 'chart.js'
+import type { Plugin, ScriptableContext } from 'chart.js'
 import type { DataEntry } from '@/utils/types'
 
 type LedgerDataset = {
   label: string
-  data: { x: Date; y: number; raw?: DataEntry }[]
+  // null y = no value for that point (e.g. Gini undefined with only one
+  // approver) - keeps the x position so the line shows a gap there, instead
+  // of interpolating straight across it.
+  data: { x: Date; y: number | null; raw?: DataEntry }[]
   borderColor: string
   backgroundColor: string
   fill: boolean
-  pointRadius?: number
-  pointHoverRadius?: number
+  pointRadius?: number | ((ctx: ScriptableContext<'line'>) => number)
+  pointHoverRadius?: number | ((ctx: ScriptableContext<'line'>) => number)
   hidden?: boolean
+}
+
+// A point with gaps (or the chart edge) on both sides is easy to miss at the
+// default radius - draw it larger so it still reads as a real data point.
+function isIsolatedPoint(ctx: ScriptableContext<'line'>): boolean {
+  const data = ctx.dataset.data as unknown as { y: number | null }[]
+  const prev = data[ctx.dataIndex - 1]?.y
+  const next = data[ctx.dataIndex + 1]?.y
+  return (prev === null || prev === undefined) && (next === null || next === undefined)
 }
 
 type LedgerDatasets = {
@@ -126,7 +138,12 @@ function buildDatasets(
     const ledger = entry.ledger
     const rawValue = entry[metric]
 
-    if (!ledger || typeof rawValue !== 'number' || isNaN(rawValue)) return
+    // undefined = this metric doesn't apply to the entry at all; skip it
+    // entirely. null/NaN = the value is legitimately missing for this point
+    // (e.g. Gini with only one approver); keep the point as a gap instead.
+    if (!ledger || rawValue === undefined) return
+    const value =
+      typeof rawValue === 'number' && !isNaN(rawValue) ? rawValue : null
 
     if (!ledgerDatasets[ledger]) {
       ledgerDatasets[ledger] = {
@@ -136,14 +153,14 @@ function buildDatasets(
         borderColor: ledgerColorMap[ledger],
         backgroundColor: ledgerColorMap[ledger],
         fill: false,
-        pointRadius: 1.5,
-        pointHoverRadius: 3,
+        pointRadius: (ctx) => (isIsolatedPoint(ctx) ? 4 : 1.5),
+        pointHoverRadius: (ctx) => (isIsolatedPoint(ctx) ? 6 : 3),
         hidden: selectedSystems ? !selectedSystems.has(ledger) : false
       }
     }
     ledgerDatasets[ledger].data.push({
       x: entry.date,
-      y: rawValue as number,
+      y: value,
       raw: entry
     })
   })
