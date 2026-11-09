@@ -1,5 +1,4 @@
 import fs from 'fs'
-import path from 'path'
 import { execSync, spawnSync } from 'child_process'
 import readline from 'readline'
 import chalk from 'chalk'
@@ -39,16 +38,15 @@ function backupFiles() {
 
 function restoreFiles() {
   FILES_TO_MODIFY.forEach((file) => {
-    if (originalContents[file]) {
+    if (originalContents[file] !== undefined) {
       fs.writeFileSync(file, originalContents[file])
     }
   })
 }
 
-function updateConfig(basePath, outputDir) {
+function updateConfig(basePath) {
   updateFile('src/utils/paths.ts', [
-    [/basePath\s*=\s*["'].*?["']/g, `basePath = "${basePath}"`],
-    [/distDir:\s*["'].*?["']/g, `distDir: "${outputDir}"`]
+    [/basePath\s*=\s*["'].*?["']/g, `basePath = "${basePath}"`]
   ])
 
   updateFile('vite.config.ts', [
@@ -59,6 +57,10 @@ function updateConfig(basePath, outputDir) {
 function updateFile(filePath, replacements) {
   let fileContent = fs.readFileSync(filePath, 'utf8')
   replacements.forEach(([regex, replacement]) => {
+    // Fail loudly if the code no longer matches, instead of building with the wrong config
+    if (fileContent.search(regex) === -1) {
+      throw new Error(`Pattern ${regex} not found in ${filePath}`)
+    }
     fileContent = fileContent.replace(regex, replacement)
   })
   fs.writeFileSync(filePath, fileContent)
@@ -70,35 +72,41 @@ function buildProject(outputDir) {
   ensureDirectoryExists('upload')
   cleanDirectory(outputDir)
 
-  execSync('npm run build', { stdio: 'inherit' })
+  // Pass outDir explicitly so the build always lands where we clean and deploy from
+  execSync(`npm run build -- --outDir ${outputDir}`, { stdio: 'inherit' })
+  removeDSStore(outputDir)
   console.log(chalk.green(`Build completed.`))
+}
+
+function removeDSStore(directory) {
+  for (const file of fs.readdirSync(directory, { recursive: true })) {
+    if (file.endsWith('.DS_Store')) {
+      fs.rmSync(`${directory}/${file}`)
+    }
+  }
 }
 
 function copyHtaccessFile(outputDir) {
   console.log(chalk.cyan(`Copying .htaccess file...`))
-  try {
-    fs.copyFileSync('htaccess/.htaccess.demo', `${outputDir}/.htaccess`)
-    console.log(chalk.green(`.htaccess file copied successfully.`))
-  } catch (error) {
-    console.error(chalk.red('Failed to copy .htaccess file:', error))
-    process.exit(1)
-  }
+  // Throw rather than exit, so the caller restores the config files
+  fs.copyFileSync('htaccess/.htaccess.demo', `${outputDir}/.htaccess`)
+  console.log(chalk.green(`.htaccess file copied successfully.`))
 }
 
-function deployToAFS(localDir, afsDir, skipOutputFolder = false) {
+function deployToAFS(localDir, afsDir) {
   console.log(chalk.green('\nDeploying to AFS...'))
-  try {
-    const command = skipOutputFolder
-      ? `rsync -av --exclude 'output/' ${localDir}/ ${afsDir}/`
-      : `sh -c 'cp -R ${localDir}/* ${afsDir}/'`
-
-    execSync(command, { stdio: 'inherit' })
-
-    console.log(chalk.green('Deployment to AFS successful.'))
-  } catch (error) {
-    console.error(chalk.red('Deployment failed:', error))
-    process.exit(1)
-  }
+  // The trailing "/" on localDir copies dotfiles (.htaccess) too.
+  // -c compares file contents, not timestamps: every build gives all files a new
+  // timestamp, so a time-based check would re-copy everything on each deploy.
+  // --delete removes files no longer in the build (old hashed JS/CSS, renamed data),
+  // so the AFS folder always matches the build exactly.
+  execSync(
+    `rsync -rlcv --delete --exclude '.DS_Store' ${localDir}/ ${afsDir}/`,
+    {
+      stdio: 'inherit'
+    }
+  )
+  console.log(chalk.green('Deployment to AFS successful.'))
 }
 
 async function prompt(question, defaultValue = '') {
@@ -147,26 +155,24 @@ function safeRestoreAndExit(code = 1) {
 ;(async () => {
   const argv = yargs(hideBin(process.argv))
     .option('deploy', { type: 'boolean', default: false })
-    .option('no-output', { type: 'boolean', default: false })
     .parseSync()
 
   const shouldDeploy = argv.deploy
-  const skipOutputFolder = argv['no-output']
-  //const shouldDeploy = process.argv.includes("--deploy");
-  //const skipOutputFolder = process.argv.includes("--no-output");
 
-  // Always restore on process exit (e.g., Ctrl+C)
-  process.on('SIGINT', () => {
-    console.error(chalk.yellow('\nInterrupted (SIGINT). Cleaning up...'))
-    safeRestoreAndExit(1)
-  })
+  // Always restore the config files if the script is interrupted or killed
+  for (const signal of ['SIGINT', 'SIGTERM', 'SIGHUP']) {
+    process.on(signal, () => {
+      console.error(chalk.yellow(`\nInterrupted (${signal}). Cleaning up...`))
+      safeRestoreAndExit(1)
+    })
+  }
 
   process.on('uncaughtException', (err) => {
     console.error('\nUncaught Exception:', err)
     safeRestoreAndExit(1)
   })
 
-  process.on('unhandledRejection', (reason, promise) => {
+  process.on('unhandledRejection', (reason) => {
     console.error('\nUnhandled Rejection:', reason)
     safeRestoreAndExit(1)
   })
@@ -180,7 +186,7 @@ function safeRestoreAndExit(code = 1) {
     backupFiles()
 
     console.log(chalk.blueBright('Updating configuration for build...'))
-    updateConfig(config.basePath, config.outputDir)
+    updateConfig(config.basePath)
 
     console.log(chalk.blueBright('Running build...'))
     buildProject(config.outputDir)
@@ -194,7 +200,7 @@ function safeRestoreAndExit(code = 1) {
 
     if (shouldDeploy) {
       console.log(chalk.blueBright('Deploying...'))
-      deployToAFS(config.outputDir, config.afsDeployPath, skipOutputFolder)
+      deployToAFS(config.outputDir, config.afsDeployPath)
     }
 
     console.log(chalk.green('\nDemo build script completed successfully.'))
@@ -202,6 +208,5 @@ function safeRestoreAndExit(code = 1) {
     console.error(chalk.red('\nAn error occurred during the build process.'))
     console.error(error.message || error)
     safeRestoreAndExit(1)
-    //process.exit(1);
   }
 })()
