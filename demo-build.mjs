@@ -125,6 +125,7 @@ async function loginToAFS() {
     console.error('kinit failed.')
     process.exit(1)
   }
+  spawnSync('kswitch', ['-p', username], { stdio: 'inherit' })
   console.log(chalk.green('Running aklog...'))
   if (spawnSync('aklog', { stdio: 'inherit' }).status !== 0) {
     console.error('aklog failed.')
