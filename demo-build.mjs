@@ -75,7 +75,26 @@ function buildProject(outputDir) {
   // Pass outDir explicitly so the build always lands where we clean and deploy from
   execSync(`npm run build -- --outDir ${outputDir}`, { stdio: 'inherit' })
   removeDSStore(outputDir)
+  restorePublicMtimes(outputDir)
   console.log(chalk.green(`Build completed.`))
+}
+
+function restorePublicMtimes(outputDir) {
+  const publicDir = 'public'
+  for (const relPath of fs.readdirSync(publicDir, { recursive: true })) {
+    const srcPath = `${publicDir}/${relPath}`
+    const destPath = `${outputDir}/${relPath}`
+    if (!fs.statSync(srcPath).isFile() || !fs.existsSync(destPath)) continue
+
+    const srcStat = fs.statSync(srcPath)
+    const destStat = fs.statSync(destPath)
+    const unchanged =
+      srcStat.size === destStat.size &&
+      fs.readFileSync(srcPath).equals(fs.readFileSync(destPath))
+    if (unchanged) {
+      fs.utimesSync(destPath, srcStat.atime, srcStat.mtime)
+    }
+  }
 }
 
 function removeDSStore(directory) {
@@ -95,13 +114,8 @@ function copyHtaccessFile(outputDir) {
 
 function deployToAFS(localDir, afsDir) {
   console.log(chalk.green('\nDeploying to AFS...'))
-  // The trailing "/" on localDir copies dotfiles (.htaccess) too.
-  // -c compares file contents, not timestamps: every build gives all files a new
-  // timestamp, so a time-based check would re-copy everything on each deploy.
-  // --delete removes files no longer in the build (old hashed JS/CSS, renamed data),
-  // so the AFS folder always matches the build exactly.
   execSync(
-    `rsync -rlcv --delete --exclude '.DS_Store' ${localDir}/ ${afsDir}/`,
+    `rsync -rltv --delete --exclude '.DS_Store' ${localDir}/ ${afsDir}/`,
     {
       stdio: 'inherit'
     }
