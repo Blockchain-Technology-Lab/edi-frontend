@@ -16,15 +16,6 @@ import {
   type Metric
 } from '@/components'
 import {
-  useGovernanceCsv,
-  useGovernanceCommunityDiscussionMetricsCsv,
-  useGovernanceGithubMetricsCsv,
-  useGovernanceProposalMetricsCsv,
-  useGovernanceRatificationOverviewMetricsCsv,
-  useGovernanceRatificationDecentralisationMetricsCsv,
-  usePersistedSystemSelection
-} from '@/hooks'
-import {
   GOVERNANCE_AUTHORSHIP_DOUGHNUTS,
   GOVERNANCE_COMMUNITY_DISCUSSION_METRICS,
   ORG_DISTRIBUTOR,
@@ -35,6 +26,7 @@ import {
   GOVERNANCE_RATIFICATION_METRICS,
   //  GOVERNANCE_ACD_MEETING_METRICS,
   getGovernanceAuthorshipCsvPath,
+  getDiscussionSourcesForLedger,
   getOrderedSystemsForLayer,
   GOVERNANCE_LEDGERS,
   type GovernanceCommunityDiscussionRole,
@@ -44,6 +36,15 @@ import {
   type GovernanceRatificationApproverScope,
   type GovernanceRatificationPrStatus
 } from '@/utils'
+import {
+  useGovernanceCsv,
+  useGovernanceCommunityDiscussionMetricsCsv,
+  useGovernanceGithubMetricsCsv,
+  useGovernanceProposalMetricsCsv,
+  useGovernanceRatificationOverviewMetricsCsv,
+  useGovernanceRatificationDecentralisationMetricsCsv,
+  usePersistedSystemSelection
+} from '@/hooks'
 import type { DataEntry } from '@/utils/types'
 import { LAYER_CONFIG } from '@/config/layers'
 
@@ -92,13 +93,6 @@ const PR_STATUS_ITEMS: Array<{
 const SYSTEMS_STORAGE_KEY = 'governance_selectedSystems'
 const DEFAULT_GOVERNANCE_SYSTEMS = GOVERNANCE_LEDGERS.map((l) => l.ledger)
 
-// Maps pre-defined platform ledger names to their community discussion sources
-const PLATFORM_TO_DISCUSSION_SOURCES: Record<string, string[]> = {
-  bitcoin: ['bitcoin_forum', 'bitcoin_mailing_list'],
-  cardano: ['cardano_forum'],
-  ethereum: ['ethereum_magicians']
-}
-
 // Every section's control state is "which item of a fixed list is
 // selected" — this keeps that one line instead of a useState<...>()
 // repeated per section with its own (typeof X)[number] annotation.
@@ -116,9 +110,6 @@ function handleRadioSelect<T extends { value: string }>(
     setSelected(item as unknown as T)
 }
 
-// Every section below renders the same "grid of metric cards, or an error
-// line" shape once its data/loading/error and (already filtered) metrics
-// list are known.
 function GovernanceMetricsGrid({
   metrics,
   data,
@@ -180,7 +171,8 @@ export function Governance() {
   const { selectedSystems, handleSelectionChange } =
     usePersistedSystemSelection(SYSTEMS_STORAGE_KEY, DEFAULT_GOVERNANCE_SYSTEMS)
 
-  const [selectedPrStatus, setSelectedPrStatus] = useSelectedItem(PR_STATUS_ITEMS)
+  const [selectedPrStatus, setSelectedPrStatus] =
+    useSelectedItem(PR_STATUS_ITEMS)
 
   const { data, loading, error } = useGovernanceCsv(selectedGranularity)
   const {
@@ -229,7 +221,7 @@ export function Governance() {
   const allowedDiscussionSources = useMemo(() => {
     const sources = new Set<string>()
     for (const platform of selectedSystems) {
-      for (const source of PLATFORM_TO_DISCUSSION_SOURCES[platform] ?? []) {
+      for (const source of getDiscussionSourcesForLedger(platform)) {
         sources.add(source)
       }
     }
@@ -424,11 +416,11 @@ export function Governance() {
         description={
           <>
             This chart displays raw activity volume on the editorial (GitHub)
-            track underlying Stage 3 (Ratification) for Ethereum and Bitcoin,
-            counted per year: ratification PRs merged, editor approvals, and
-            the number of core editors. A ratification PR is any merged PR
-            that makes a status transition for a proposal. Users can toggle
-            between metrics.
+            track underlying Stage 3 (Ratification) for Ethereum, Bitcoin, and
+            Cardano, counted per year: ratification PRs merged, editor
+            approvals, and the number of core editors. A ratification PR is any
+            merged PR that makes a status transition for a proposal. Users can
+            toggle between metrics.
           </>
         }
         layout="default"
@@ -461,12 +453,15 @@ export function Governance() {
           <>
             These charts display four decentralisation metrics (Gini
             coefficient, CR1, Shannon entropy, and HHI) computed annually over
-            approvals on ratification PRs for Ethereum and Bitcoin — Stage 3
-            (Ratification). Activity refers to the number of proposals each
-            approver approved in the year. A ratification PR is any merged PR
-            that changes a proposal's Status field, either successfully (a
-            transition to Final) or unsuccessfully (a transition to Withdrawn
-            for Ethereum, or to Rejected or Withdrawn for Bitcoin). Users can
+            approvals on ratification PRs for Ethereum, Bitcoin and Cardano —
+            Stage 3 (Ratification). Activity refers to the number of proposals
+            each approver approved in the year. A ratification PR is any merged
+            PR that changes a proposal's Status field, either successfully (a
+            transition to Final, or to Active for Cardano) or unsuccessfully (a
+            transition to Withdrawn for Ethereum, to Rejected or Withdrawn for
+            Bitcoin, or to Inactive for Cardano). Core editors are the editors
+            on each chain's official list (BIP-2/BIP-3, EIP-1, CIP-0001), who
+            hold merge rights and make status changes take effect. Users can
             toggle approver scope (core editors only, or all approvers) and the
             status outcome (all, successful, or unsuccessful).
           </>
@@ -498,9 +493,18 @@ export function Governance() {
         keyPrefix="ratification-decentralisation"
         timeUnit="year"
         selectedSystems={selectedSystems}
-        tooltipExtraLines={(point) => [
-          `${Number(point.n_approvers)} approvers, ${Number(point.n_proposals)} proposals`
-        ]}
+        tooltipExtraLines={(point) =>
+          selectedApproverScope.value === 'core_editors'
+            ? [
+                `${point.serving_editors_approved ?? '?'} serving editors approved, ${Number(point.n_proposals)} proposals`,
+                ...(point.no_approvals && point.no_approvals !== '0'
+                  ? [`No approvals: ${point.no_approvals}`]
+                  : [])
+              ]
+            : [
+                `${Number(point.n_approvers)} approvers, ${Number(point.n_proposals)} proposals`
+              ]
+        }
       />
       {/* Ends - Ratification Approver Concentration */}
     </div>

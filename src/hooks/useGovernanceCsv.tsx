@@ -10,6 +10,9 @@ import {
   type GovernanceRatificationPrStatus,
   type GovernanceAcdMeetingPopulation,
   type GovernanceAcdMeetingMeasure,
+  type GovernanceProposalTrack,
+  GOVERNANCE_PROPOSAL_TRACKS,
+  getLedgerForProposalTrack,
   getGovernanceTop3ContributionRatioCsvFileName,
   loadGovernanceCsvData,
   getGovernanceProposalMetricsCsvPath,
@@ -35,6 +38,20 @@ function useGovernanceCsvQuery(queryKey: QueryKey, queryFn: () => Promise<DataEn
   return { data, loading, error: error as Error | null }
 }
 
+// Proposal authorship and ratification overview each ship one CSV per
+// improvement-proposal track (BIP/CIP/EIP) - fetch all tracks in
+// GOVERNANCE_PROPOSAL_TRACKS (derived from GOVERNANCE_LEDGERS, the single
+// source for enabled protocols) and flatten into one series.
+function useGovernancePerProposalTrackCsvQuery(
+  queryKey: QueryKey,
+  queryFn: (proposal: GovernanceProposalTrack) => Promise<DataEntry[]>
+) {
+  return useGovernanceCsvQuery(queryKey, async () => {
+    const results = await Promise.all(GOVERNANCE_PROPOSAL_TRACKS.map(queryFn))
+    return results.flat()
+  })
+}
+
 export function useGovernanceCsv(granularity: GovernanceGranularity) {
   const csvPath = getGovernanceTop3ContributionRatioCsvFileName(granularity)
   return useGovernanceCsvQuery(['csv', 'governance', csvPath], () =>
@@ -43,22 +60,15 @@ export function useGovernanceCsv(granularity: GovernanceGranularity) {
 }
 
 export function useGovernanceProposalMetricsCsv() {
-  return useGovernanceCsvQuery(['csv', 'governance-proposals'], async () => {
-    const proposals = ['BIP', 'CIP', 'EIP'] as const
-    const ledgerMap = { BIP: 'bitcoin', CIP: 'cardano', EIP: 'ethereum' }
-    const results = await Promise.all(
-      proposals.map((proposal) => {
-        const csvPath = getGovernanceProposalMetricsCsvPath(proposal)
-        return loadGovernanceProposalMetricsCsvData(csvPath, ledgerMap[proposal])
-      })
-    )
-    return results.flat()
+  return useGovernancePerProposalTrackCsvQuery(['csv', 'governance', 'proposals'], (proposal) => {
+    const csvPath = getGovernanceProposalMetricsCsvPath(proposal)
+    return loadGovernanceProposalMetricsCsvData(csvPath, getLedgerForProposalTrack(proposal))
   })
 }
 
 export function useGovernanceGithubMetricsCsv(role: GovernanceGithubRole) {
   const csvPath = getGovernanceGithubMetricsCsvPath(role)
-  return useGovernanceCsvQuery(['csv', 'governance-github', csvPath], () =>
+  return useGovernanceCsvQuery(['csv', 'governance', 'github', csvPath], () =>
     loadGovernanceGithubMetricsCsvData(csvPath)
   )
 }
@@ -67,7 +77,7 @@ export function useGovernanceCommunityDiscussionMetricsCsv(
   role: GovernanceCommunityDiscussionRole
 ) {
   const csvPath = getGovernanceCommunityDiscussionMetricsCsvPath(role)
-  return useGovernanceCsvQuery(['csv', 'governance-community', csvPath], () =>
+  return useGovernanceCsvQuery(['csv', 'governance', 'community', csvPath], () =>
     loadGovernanceCommunityDiscussionMetricsCsvData(csvPath)
   )
 }
@@ -75,17 +85,11 @@ export function useGovernanceCommunityDiscussionMetricsCsv(
 export function useGovernanceRatificationOverviewMetricsCsv(
   metric: GovernanceRatificationOverviewMetric
 ) {
-  return useGovernanceCsvQuery(
-    ['csv', 'governance-ratification-overview', metric],
-    async () => {
-      const proposals = ['BIP', 'EIP'] as const
-      const results = await Promise.all(
-        proposals.map((proposal) => {
-          const csvPath = getGovernanceRatificationOverviewMetricsCsvPath(proposal)
-          return loadGovernanceRatificationOverviewMetricsCsvData(csvPath, metric)
-        })
-      )
-      return results.flat()
+  return useGovernancePerProposalTrackCsvQuery(
+    ['csv', 'governance', 'ratification-overview', metric],
+    (proposal) => {
+      const csvPath = getGovernanceRatificationOverviewMetricsCsvPath(proposal)
+      return loadGovernanceRatificationOverviewMetricsCsvData(csvPath, metric)
     }
   )
 }
@@ -98,7 +102,7 @@ export function useGovernanceRatificationDecentralisationMetricsCsv(
 ) {
   const csvPath = getGovernanceRatificationDecentralisationMetricsCsvPath(scope)
   const { data: csvText, isPending: loading, error } = useQuery({
-    queryKey: ['csv-text', 'governance-ratification-decentralisation', csvPath],
+    queryKey: ['csv', 'governance', 'ratification-decentralisation', csvPath],
     queryFn: () => loadGovernanceRatificationDecentralisationCsvText(csvPath)
   })
   const data = useMemo(
@@ -116,7 +120,7 @@ export function useGovernanceAcdMeetingMetricsCsv(
   measure: GovernanceAcdMeetingMeasure
 ) {
   const csvPath = getGovernanceAcdMeetingMetricsCsvPath(population)
-  return useGovernanceCsvQuery(['csv', 'governance-acd-meeting', csvPath, measure], () =>
+  return useGovernanceCsvQuery(['csv', 'governance', 'acd-meeting', csvPath, measure], () =>
     loadGovernanceAcdMeetingMetricsCsvData(csvPath, measure)
   )
 }

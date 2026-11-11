@@ -105,33 +105,60 @@ export const GEOGRAPHY_DOUGHNUT_LEDGERS = GEOGRAPHY_DOUGHNUT_KEYS.map(
 ).sort((a, b) => a.displayName.localeCompare(b.displayName))
 
 export const GOVERNANCE_LEDGERS = [
-  BASE_LEDGERS.bitcoin,
-  BASE_LEDGERS.ethereum,
-  BASE_LEDGERS.cardano
-] as const
-
-export const GOVERNANCE_DISCUSSION_SOURCE_LEDGERS = [
   {
-    ledger: 'bitcoin_forum',
-    displayName: 'Bitcoin Forum',
-    color: BASE_LEDGERS.bitcoin.color
+    ...BASE_LEDGERS.bitcoin,
+    proposalTrack: 'BIP',
+    discussionSources: [
+      {
+        ledger: 'bitcoin_forum',
+        displayName: 'Bitcoin Forum',
+        color: BASE_LEDGERS.bitcoin.color
+      },
+      {
+        ledger: 'bitcoin_mailing_list',
+        displayName: 'Bitcoin Mailing List',
+        color: 'rgba(255, 186, 92, 1)'
+      }
+    ]
   },
   {
-    ledger: 'bitcoin_mailing_list',
-    displayName: 'Bitcoin Mailing List',
-    color: 'rgba(255, 186, 92, 1)'
+    ...BASE_LEDGERS.ethereum,
+    proposalTrack: 'EIP',
+    discussionSources: [
+      {
+        ledger: 'ethereum_magicians',
+        displayName: 'Ethereum Magicians',
+        color: BASE_LEDGERS.ethereum.color
+      }
+    ]
   },
   {
-    ledger: 'cardano_forum',
-    displayName: 'Cardano Forum',
-    color: BASE_LEDGERS.cardano.color
-  },
-  {
-    ledger: 'ethereum_magicians',
-    displayName: 'Ethereum Magicians',
-    color: BASE_LEDGERS.ethereum.color
+    ...BASE_LEDGERS.cardano,
+    proposalTrack: 'CIP',
+    discussionSources: [
+      {
+        ledger: 'cardano_forum',
+        displayName: 'Cardano Forum',
+        color: BASE_LEDGERS.cardano.color
+      }
+    ]
   }
 ] as const
+
+type GovernanceDiscussionSource = {
+  ledger: string
+  displayName: string
+  color: string
+}
+
+// Built with a plain loop instead of flatMap - each protocol's
+// discussionSources is its own distinct literal tuple type (one per
+// protocol), and declaring the result type upfront here is simpler than
+// getting flatMap's generics to unify them.
+export const GOVERNANCE_DISCUSSION_SOURCE_LEDGERS: GovernanceDiscussionSource[] = []
+for (const ledger of GOVERNANCE_LEDGERS) {
+  GOVERNANCE_DISCUSSION_SOURCE_LEDGERS.push(...ledger.discussionSources)
+}
 
 // Legacy exports for backward compatibility
 export const TOKENOMICS_LEDGER_NAMES = TOKENOMICS_LEDGERS.map((l) => l.ledger)
@@ -151,6 +178,8 @@ export const GOVERNANCE_COLOURS = GOVERNANCE_LEDGERS.map((l) => l.color)
 
 export const GOVERNANCE_DISCUSSION_SOURCE_COLOURS =
   GOVERNANCE_DISCUSSION_SOURCE_LEDGERS.map((l) => l.color)
+export const GOVERNANCE_DISCUSSION_SOURCE_LEDGER_NAMES =
+  GOVERNANCE_DISCUSSION_SOURCE_LEDGERS.map((l) => l.ledger)
 
 /**
  * Centralized Layer Mapping

@@ -1,6 +1,11 @@
 import type { CsvParseEntry, DataEntry } from '@/utils/types'
 import { GOVERNANCE_CSV } from '@/utils/paths'
 import {
+  GOVERNANCE_LEDGERS,
+  GOVERNANCE_LEDGER_NAMES,
+  GOVERNANCE_DISCUSSION_SOURCE_LEDGER_NAMES
+} from '@/utils/charts/constants'
+import {
   fetchCsvText,
   forEachCsvDataRow,
   parseCsvDate,
@@ -17,6 +22,21 @@ const GOVERNANCE_PROPOSAL_COLUMNS = [
 ]
 const GOVERNANCE_RATIFICATION_COLUMNS = ['gini', 'cr1', 'shannon_entropy', 'hhi']
 const GOVERNANCE_RATIFICATION_ACTIVITY_COLUMNS = ['n_approvers', 'n_proposals']
+// Only the core-editors file has these two columns - maps their (spaced/
+// punctuated) CSV header text to a plain DataEntry key. Ignored entirely
+// when parsing the all-approvers file, which doesn't have these headers.
+const GOVERNANCE_RATIFICATION_CORE_EDITOR_COLUMNS: Record<string, string> = {
+  'serving editors approved': 'serving_editors_approved',
+  'No approvals:': 'no_approvals'
+}
+
+// Which ledger-column values are allowed, per column name, derived from
+// GOVERNANCE_LEDGERS (charts/constants.ts) - the single source for the
+// whole Governance layer. A column not listed here passes through ungated.
+const GOVERNANCE_LEDGER_ALLOW_LISTS: Record<string, readonly string[]> = {
+  chain: GOVERNANCE_LEDGER_NAMES,
+  discussion_source: GOVERNANCE_DISCUSSION_SOURCE_LEDGER_NAMES
+}
 
 /**
  * Keeps only rows matching the given discriminator column value, and
@@ -67,11 +87,15 @@ function parseGovernanceLedgerMetricsCsv(
     fileName,
     ledgerColumn = 'chain',
     columns,
+    stringColumns,
     seriesFilter
   }: {
     fileName: string
     ledgerColumn?: string
     columns: string[]
+    // Non-numeric columns, kept as-is rather than parsed with parseFloat -
+    // maps raw CSV header text to the DataEntry key it's stored under.
+    stringColumns?: Record<string, string>
     seriesFilter?: {
       discriminatorColumn: string
       discriminatorValue: string
@@ -103,14 +127,26 @@ function parseGovernanceLedgerMetricsCsv(
         } else if (columns.includes(header)) {
           const parsed = parseFloat(value)
           entry[header] = Number.isNaN(parsed) ? null : parsed
+        } else if (stringColumns && header in stringColumns) {
+          entry[stringColumns[header]] = value
         }
       }
 
       const hasMetric = columns.some(
         (column) => typeof entry[column] === 'number'
       )
+      // Gate known ledger columns against GOVERNANCE_LEDGERS
+      // (charts/constants.ts) - the single place that enables/disables a
+      // protocol, and its per-protocol discussion sources - so removing one
+      // there drops its rows here too, same as TOKENOMICS_ALLOWED_LEDGERS
+      // does for tokenomics. An unrecognised ledger column passes through
+      // ungated.
+      const allowedLedgerNames = GOVERNANCE_LEDGER_ALLOW_LISTS[ledgerColumn]
+      const isAllowedLedger =
+        !allowedLedgerNames ||
+        (entry.ledger && allowedLedgerNames.includes(entry.ledger))
 
-      if (entry.ledger && entry.date && hasMetric) {
+      if (entry.ledger && entry.date && hasMetric && isAllowedLedger) {
         data.push(entry as DataEntry)
         return true
       }
@@ -118,7 +154,9 @@ function parseGovernanceLedgerMetricsCsv(
       reportError(
         !entry.date
           ? 'invalid or missing date'
-          : `missing ledger or metric (${ledgerColumn}="${entry.ledger ?? ''}")`
+          : !isAllowedLedger
+            ? `disabled or unrecognised ${ledgerColumn} "${entry.ledger ?? ''}"`
+            : `missing ledger or metric (${ledgerColumn}="${entry.ledger ?? ''}")`
       )
       return false
     }
@@ -161,6 +199,36 @@ export type GovernanceRatificationOverviewMetric =
   | 'ratification_prs_merged'
   | 'editor_approvals'
   | 'editor_count'
+// Which improvement-proposal tracks have their own per-chain CSV file
+// (proposal authorship, ratification overview, ...) - derived from
+// GOVERNANCE_LEDGERS (src/utils/charts/constants.ts), the single place that
+// enables/disables a protocol across the whole Governance layer.
+export const GOVERNANCE_PROPOSAL_TRACKS = GOVERNANCE_LEDGERS.map(
+  (ledger) => ledger.proposalTrack
+)
+export type GovernanceProposalTrack = (typeof GOVERNANCE_PROPOSAL_TRACKS)[number]
+
+/**
+ * Looks up the ledger name for a proposal track (e.g. 'EIP' -> 'ethereum').
+ * Used to tag proposal-authorship rows, which carry no ledger column of
+ * their own - one fixed file per track.
+ */
+export function getLedgerForProposalTrack(
+  proposal: GovernanceProposalTrack
+): string {
+  return GOVERNANCE_LEDGERS.find((ledger) => ledger.proposalTrack === proposal)!.ledger
+}
+
+/**
+ * Looks up the community-discussion source names for a protocol (e.g.
+ * 'bitcoin' -> ['bitcoin_forum', 'bitcoin_mailing_list']). Returns [] for a
+ * ledger with no discussion sources defined, or one that isn't part of the
+ * Governance layer at all.
+ */
+export function getDiscussionSourcesForLedger(ledger: string): string[] {
+  const entry = GOVERNANCE_LEDGERS.find((l) => l.ledger === ledger)
+  return entry ? entry.discussionSources.map((source) => source.ledger) : []
+}
 export type GovernanceRatificationApproverScope = 'core_editors' | 'all_approvers'
 // Successful = Final. Unsuccessful = Withdrawn (Ethereum) or Rejected/Withdrawn
 // (Bitcoin) - already combined into these two outcomes in the CSV itself, so
@@ -364,20 +432,10 @@ export const GOVERNANCE_ACD_MEETING_METRICS = [
   }
 ]
 
-export const GOVERNANCE_AUTHORSHIP_DOUGHNUTS = [
-  {
-    ledger: 'bitcoin',
-    title: 'Bitcoin'
-  },
-  {
-    ledger: 'cardano',
-    title: 'Cardano'
-  },
-  {
-    ledger: 'ethereum',
-    title: 'Ethereum'
-  }
-] as const
+export const GOVERNANCE_AUTHORSHIP_DOUGHNUTS = GOVERNANCE_LEDGERS.map((ledger) => ({
+  ledger: ledger.ledger,
+  title: ledger.displayName
+}))
 
 /**
  * Returns the top3-contribution-ratio CSV path for the given granularity
@@ -401,7 +459,7 @@ export function getGovernanceTop3ContributionRatioCsvFileName(
  * track (BIP, CIP, or EIP).
  */
 export function getGovernanceProposalMetricsCsvPath(
-  proposal: 'BIP' | 'CIP' | 'EIP'
+  proposal: GovernanceProposalTrack
 ): string {
   return `${GOVERNANCE_CSV}proposal_decentralisation_metrics/${proposal}_author_proposal.csv`
 }
@@ -453,11 +511,11 @@ export function getGovernanceAuthorshipCsvPath(ledger: string): string {
 
 /**
  * Returns the ratification-overview-metrics CSV path for the given
- * improvement-proposal track (BIP or EIP) — each file carries all three
- * toggleable metrics for its chain.
+ * improvement-proposal track — each file carries all three toggleable
+ * metrics for its chain.
  */
 export function getGovernanceRatificationOverviewMetricsCsvPath(
-  proposal: 'BIP' | 'EIP'
+  proposal: GovernanceProposalTrack
 ): string {
   return `${GOVERNANCE_CSV}ratification_overview_metrics/ratification_overview_metrics_${proposal}.csv`
 }
@@ -707,7 +765,10 @@ export function parseGovernanceRatificationOverviewMetricsCsv(
         }
       }
 
-      if (entry.ledger && entry.date && typeof entry[metric] === 'number') {
+      const isAllowedLedger =
+        entry.ledger && (GOVERNANCE_LEDGER_NAMES as readonly string[]).includes(entry.ledger)
+
+      if (entry.ledger && entry.date && typeof entry[metric] === 'number' && isAllowedLedger) {
         data.push(entry as DataEntry)
         return true
       }
@@ -715,7 +776,9 @@ export function parseGovernanceRatificationOverviewMetricsCsv(
       reportError(
         !entry.date
           ? 'invalid or missing date'
-          : `missing ledger or value (chain="${entry.ledger ?? ''}")`
+          : !isAllowedLedger
+            ? `disabled or unrecognised chain "${entry.ledger ?? ''}"`
+            : `missing ledger or value (chain="${entry.ledger ?? ''}")`
       )
       return false
     }
@@ -736,6 +799,7 @@ export function parseGovernanceRatificationDecentralisationMetricsCsv(
   return parseGovernanceLedgerMetricsCsv(csvData, {
     fileName,
     columns: [...GOVERNANCE_RATIFICATION_COLUMNS, ...GOVERNANCE_RATIFICATION_ACTIVITY_COLUMNS],
+    stringColumns: GOVERNANCE_RATIFICATION_CORE_EDITOR_COLUMNS,
     seriesFilter: {
       discriminatorColumn: 'status_changed_to',
       discriminatorValue: status
