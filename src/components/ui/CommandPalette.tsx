@@ -10,7 +10,7 @@ import {
   faHouse
 } from '@fortawesome/free-solid-svg-icons'
 import { ThemeContext } from '@/contexts'
-import { LAYER_CONFIG, LAYER_KEYS } from '@/config/layers'
+import { LAYER_CONFIG, ENABLED_LAYER_KEYS } from '@/config/layers'
 import { homeTo } from '@/routes/routePaths'
 
 interface PaletteItem {
@@ -40,7 +40,7 @@ export function CommandPalette() {
     close()
   }
 
-  const layerItems: PaletteItem[] = LAYER_KEYS.map(key => {
+  const layerItems: PaletteItem[] = ENABLED_LAYER_KEYS.map(key => {
     const cfg = LAYER_CONFIG[key]
     return {
       id: key,

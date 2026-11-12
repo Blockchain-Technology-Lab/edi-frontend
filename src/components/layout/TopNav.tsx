@@ -2,13 +2,11 @@ import { Link, useRouterState } from '@tanstack/react-router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHouse } from '@fortawesome/free-solid-svg-icons'
 import { homeTo } from '@/routes/routePaths'
-import { LAYER_CONFIG, LAYER_KEYS } from '@/config/layers'
+import { LAYER_CONFIG, ENABLED_LAYER_KEYS } from '@/config/layers'
 
 const navItems = [
   { label: 'Home', path: homeTo, icon: faHouse },
-  ...LAYER_KEYS
-    .filter(key => LAYER_CONFIG[key].enabled)
-    .map(key => ({
+  ...ENABLED_LAYER_KEYS.map(key => ({
       label: LAYER_CONFIG[key].label,
       path:  LAYER_CONFIG[key].path,
       icon:  LAYER_CONFIG[key].icon,

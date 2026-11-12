@@ -9,7 +9,8 @@ import {
   faNetworkWired,
   faCode,
   faGlobe,
-  faGavel
+  faGavel,
+  faServer
 } from '@fortawesome/free-solid-svg-icons'
 import {
   consensusTo,
@@ -18,6 +19,7 @@ import {
   softwareTo,
   geographyTo,
   governanceTo,
+  clientApiTo,
   methodologyTo
 } from '@/routes/routePaths'
 import {
@@ -26,7 +28,8 @@ import {
   SOFTWARE_CARD,
   NETWORK_CARD,
   GEOGRAPHY_CARD,
-  GOVERNANCE_CARD
+  GOVERNANCE_CARD,
+  CLIENT_API_CARD
 } from '@/utils/paths'
 import {
   ConsensusContent,
@@ -34,7 +37,8 @@ import {
   NetworkContent,
   SoftwareContent,
   GeographyContent,
-  GovernanceContent
+  GovernanceContent,
+  ClientApiContent
 } from '@/content'
 
 export type LayerKey =
@@ -43,6 +47,7 @@ export type LayerKey =
   | 'software'
   | 'network'
   | 'geography'
+  | 'clientApi'
   | 'governance'
 
 export type LayerConfig = {
@@ -66,7 +71,8 @@ export const LAYER_CONFIG: Record<LayerKey, LayerConfig> = {
     icon: faCubes,
     desc: 'This layer describes the decentralisation of block production over time.',
     cardImage: CONSENSUS_CARD,
-    github: 'https://github.com/Blockchain-Technology-Lab/consensus-decentralization',
+    github:
+      'https://github.com/Blockchain-Technology-Lab/consensus-decentralization',
     content: ConsensusContent
   },
   tokenomics: {
@@ -77,7 +83,8 @@ export const LAYER_CONFIG: Record<LayerKey, LayerConfig> = {
     icon: faCoins,
     desc: 'This layer describes the decentralisation of token ownership over time.',
     cardImage: TOKENOMICS_CARD,
-    github: 'https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization',
+    github:
+      'https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization',
     content: TokenomicsContent
   },
   software: {
@@ -88,7 +95,8 @@ export const LAYER_CONFIG: Record<LayerKey, LayerConfig> = {
     icon: faCode,
     desc: 'This layer describes the decentralisation of the development of full node software projects over time.',
     cardImage: SOFTWARE_CARD,
-    github: 'https://github.com/Blockchain-Technology-Lab/software-decentralization',
+    github:
+      'https://github.com/Blockchain-Technology-Lab/software-decentralization',
     content: SoftwareContent
   },
   network: {
@@ -99,7 +107,8 @@ export const LAYER_CONFIG: Record<LayerKey, LayerConfig> = {
     icon: faNetworkWired,
     desc: 'This layer describes the decentralisation of nodes over time, in terms of the service providers (organisations) they use.',
     cardImage: NETWORK_CARD,
-    github: 'https://github.com/Blockchain-Technology-Lab/network-decentralization',
+    github:
+      'https://github.com/Blockchain-Technology-Lab/network-decentralization',
     content: NetworkContent
   },
   geography: {
@@ -110,8 +119,20 @@ export const LAYER_CONFIG: Record<LayerKey, LayerConfig> = {
     icon: faGlobe,
     desc: 'This layer describes the geographic decentralisation of nodes over time.',
     cardImage: GEOGRAPHY_CARD,
-    github: 'https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin',
+    github:
+      'https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin',
     content: GeographyContent
+  },
+  clientApi: {
+    enabled: true,
+    label: 'Client-API',
+    path: clientApiTo,
+    methodologyPath: `${methodologyTo}/client-api`,
+    icon: faServer,
+    desc: 'This layer describes the decentralisation of RPC traffic across client API providers over time.',
+    cardImage: CLIENT_API_CARD,
+    github: 'https://github.com/Blockchain-Technology-Lab',
+    content: ClientApiContent
   },
   governance: {
     enabled: false,
@@ -121,9 +142,15 @@ export const LAYER_CONFIG: Record<LayerKey, LayerConfig> = {
     icon: faGavel,
     desc: 'This layer describes the governance structures and processes in place within blockchain networks. We plan to publish this layer soon.',
     cardImage: GOVERNANCE_CARD,
-    github: 'https://github.com/Blockchain-Technology-Lab/governance-decentralization',
+    github:
+      'https://github.com/Blockchain-Technology-Lab/governance-decentralization',
     content: GovernanceContent
   }
 }
 
 export const LAYER_KEYS = Object.keys(LAYER_CONFIG) as LayerKey[]
+
+// Layers with enabled: true — use this anywhere a disabled layer should not appear.
+export const ENABLED_LAYER_KEYS = LAYER_KEYS.filter(
+  (key) => LAYER_CONFIG[key].enabled
+)

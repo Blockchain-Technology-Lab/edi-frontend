@@ -97,6 +97,7 @@ CSV-related notes:
   - src/utils/software.ts
   - src/utils/network.ts
   - src/utils/geography.ts
+  - src/utils/clientApi.ts
 - Shared parsing helpers live in src/utils/csvParsing.ts.
 
 Chart metadata and color definitions:

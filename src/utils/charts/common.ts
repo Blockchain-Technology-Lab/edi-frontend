@@ -28,12 +28,12 @@ export const CHART_FONT = 'Inter, ui-sans-serif, system-ui, sans-serif'
 export function getChartThemeTokens(theme: string) {
   const isDim = theme === 'dim'
   return {
-    tickColor:     isDim ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.55)',
-    gridColor:     isDim ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)',
-    tooltipBg:     isDim ? 'rgba(15,23,42,0.92)'    : 'rgba(255,255,255,0.96)',
-    tooltipTitle:  isDim ? 'rgba(255,255,255,0.9)'  : 'rgba(17,24,39,0.9)',
-    tooltipBody:   isDim ? 'rgba(255,255,255,0.7)'  : 'rgba(55,65,81,0.85)',
-    tooltipBorder: isDim ? 'rgba(255,255,255,0.1)'  : 'rgba(0,0,0,0.08)',
+    tickColor: isDim ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.55)',
+    gridColor: isDim ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)',
+    tooltipBg: isDim ? 'rgba(15,23,42,0.92)' : 'rgba(255,255,255,0.96)',
+    tooltipTitle: isDim ? 'rgba(255,255,255,0.9)' : 'rgba(17,24,39,0.9)',
+    tooltipBody: isDim ? 'rgba(255,255,255,0.7)' : 'rgba(55,65,81,0.85)',
+    tooltipBorder: isDim ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)'
   }
 }
 
@@ -262,6 +262,32 @@ function generateDeterministicColor(index: number): string {
   const saturation = 72
   const lightness = 56
   return `hsl(${hue}, ${saturation}%, ${lightness}%)`
+}
+
+function hslToRgba(h: number, s: number, l: number): string {
+  // h in degrees, s/l in 0..1
+  const k = (n: number) => (n + h / 30) % 12
+  const a = s * Math.min(l, 1 - l)
+  const f = (n: number) =>
+    Math.round(255 * (l - a * Math.max(-1, Math.min(k(n) - 3, 9 - k(n), 1))))
+  return `rgba(${f(0)}, ${f(8)}, ${f(4)}, 1)`
+}
+
+const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b))
+
+export function getCategoricalColors(
+  length: number,
+  { startHue = 210, saturation = 0.62, lightness = [0.5, 0.64] } = {}
+): string[] {
+  if (length <= 0) return []
+  // Stride through the evenly spaced hues by the step closest to the golden
+  // angle that visits every hue exactly once (i.e. is coprime with length).
+  let step = Math.max(1, Math.round(length * (137.508 / 360)))
+  while (length > 1 && gcd(step, length) !== 1) step++
+  return Array.from({ length }, (_, i) => {
+    const hue = (startHue + ((i * step) % length) * (360 / length)) % 360
+    return hslToRgba(hue, saturation, lightness[i % lightness.length])
+  })
 }
 
 export function getColorsForChart(length: number): string[] {

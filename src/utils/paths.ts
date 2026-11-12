@@ -30,6 +30,7 @@ export const SOFTWARE_CARD = getImageUrl('/images/cards/software.png')
 export const NETWORK_CARD = getImageUrl('/images/cards/network.png')
 export const GEOGRAPHY_CARD = getImageUrl('/images/cards/geography.png')
 export const GOVERNANCE_CARD = getImageUrl('/images/cards/governance.png')
+export const CLIENT_API_CARD = getImageUrl('/images/cards/client-api.png')
 export const HARDWARE_CARD = getImageUrl('/images/cards/hardware.png')
 export const CONSENSUS_METHOD_CARD = getImageUrl(
   '/images/methodology/consensus.png'
@@ -57,6 +58,7 @@ export const SOFTWARE_DOUGHNUT_CSV = basePath + '/output/software/doughnut/'
 export const NETWORK_CSV = basePath + '/output/network/'
 export const GEOGRAPHY_CSV = basePath + '/output/geography/'
 export const GOVERNANCE_CSV = basePath + '/output/governance/'
+export const CLIENT_API_CSV = basePath + '/output/client-api/'
 export const CHANGELOG_JSON = basePath + '/changelog/changes.json'
 export const INFOGRAPHICS = basePath + '/infographics/'
 export const RADAR_CSV = basePath + '/output/radar_chart.csv'

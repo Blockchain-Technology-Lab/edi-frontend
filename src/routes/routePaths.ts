@@ -8,6 +8,7 @@ export const networkTo = `${basePath}/network`
 export const softwareTo = `${basePath}/software`
 export const geographyTo = `${basePath}/geography`
 export const governanceTo = `${basePath}/governance`
+export const clientApiTo = `${basePath}/client-api`
 export const hardwareTo = `${basePath}/hardware`
 export const homeTo = `${basePath}/`
 export const methodologyTo = `${basePath}/methodology`

@@ -57,6 +57,10 @@ const Governance = lazy(() =>
   import('@/pages/governance').then((mod) => ({ default: mod.Governance }))
 )
 
+const ClientApi = lazy(() =>
+  import('@/pages/client-api').then((mod) => ({ default: mod.ClientApi }))
+)
+
 const Accessiblity = lazy(() =>
   import('@/pages/accessibility').then((mod) => ({
     default: mod.AccessibilityStatement
@@ -223,6 +227,20 @@ export const governanceMethodologyRoute = createRoute({
   component: Methodology
 })
 
+export const clientApiRoute = createRoute({
+  ...guardLayer('clientApi'),
+  path: withBase('/client-api'),
+  getParentRoute: () => rootRoute,
+  component: ClientApi
+})
+
+export const clientApiMethodologyRoute = createRoute({
+  ...guardLayer('clientApi'),
+  path: `client-api`,
+  getParentRoute: () => methodologyRoute,
+  component: Methodology
+})
+
 export const accessibilityRoute = createRoute({
   path: withBase('/accessibility'),
   getParentRoute: () => rootRoute,
@@ -273,6 +291,7 @@ export const routeTree = rootRoute.addChildren([
   networkRoute.addChildren([networkContributorRoute]),
   softwareRoute.addChildren([softwareContributorRoute, softwareClientRoute]),
   geographyRoute.addChildren([geographyContributorRoute]),
+  clientApiRoute,
   governanceRoute,
   accessibilityRoute,
   changelogRoute,
@@ -287,6 +306,7 @@ export const routeTree = rootRoute.addChildren([
     networkMethodologyRoute,
     softwareMethodologyRoute,
     geographyMethodologyRoute,
+    clientApiMethodologyRoute,
     governanceMethodologyRoute
   ])
 ])

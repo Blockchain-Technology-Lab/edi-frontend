@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react'
 import { useNavigate } from '@tanstack/react-router'
-import { LAYER_CONFIG, LAYER_KEYS } from '@/config/layers'
+import { LAYER_CONFIG, ENABLED_LAYER_KEYS } from '@/config/layers'
 import { homeTo } from '@/routes/routePaths'
 
 const scrollToTop = () => {
@@ -24,9 +24,7 @@ const NAV_SHORTCUTS: Record<string, { to: string; message: string }> = {
   '0': { to: homeTo, message: 'Navigated to Home' },
 }
 
-LAYER_KEYS
-  .filter(key => LAYER_CONFIG[key].enabled)
-  .forEach((key, i) => {
+ENABLED_LAYER_KEYS.forEach((key, i) => {
     NAV_SHORTCUTS[String(i + 1)] = {
       to: LAYER_CONFIG[key].path,
       message: `Navigated to ${LAYER_CONFIG[key].label} Layer`,
@@ -99,9 +97,7 @@ export function useKeyboardShortcuts() {
   }, [navigateToPath])
 
   const layerShortcuts = Object.fromEntries(
-    LAYER_KEYS
-      .filter(key => LAYER_CONFIG[key].enabled)
-      .map((key, i) => [String(i + 1), `${LAYER_CONFIG[key].label} Layer`])
+    ENABLED_LAYER_KEYS.map((key, i) => [String(i + 1), `${LAYER_CONFIG[key].label} Layer`])
   )
 
   return {

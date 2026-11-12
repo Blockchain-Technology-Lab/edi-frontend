@@ -77,6 +77,9 @@ export function Breadcrumb() {
       if (segment === 'resources') {
         return 'Resources'
       }
+      if (segment === 'client-api') {
+        return 'Client-API Layer'
+      }
       if (segment === 'ipfs') {
         return 'IPFS'
       }
@@ -120,6 +123,7 @@ export function Breadcrumb() {
       '/software',
       '/geography',
       '/governance',
+      '/client-api',
       '/infographics',
       '/resources',
       '/resources/ipfs'

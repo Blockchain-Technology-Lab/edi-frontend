@@ -2,7 +2,7 @@ import { MethodologyCard } from '@/components'
 import { OverviewContent, MetricsContent } from '@/content'
 import { useLocation } from '@tanstack/react-router'
 import { useEffect } from 'react'
-import { LAYER_CONFIG, LAYER_KEYS } from '@/config/layers'
+import { LAYER_CONFIG, ENABLED_LAYER_KEYS } from '@/config/layers'
 
 export function Methodology() {
   const location = useLocation()
@@ -54,8 +54,11 @@ export function Methodology() {
           </h2>
         </div>
         <div className="space-y-4">
-          {LAYER_KEYS.filter(key => LAYER_CONFIG[key].enabled).map(key => (
-            <div id={`methodology-${key}`} key={key}>
+          {ENABLED_LAYER_KEYS.map((key) => (
+            <div
+              id={`methodology-${LAYER_CONFIG[key].methodologyPath.split('/').pop()}`}
+              key={key}
+            >
               <MethodologyCard
                 title={LAYER_CONFIG[key].label}
                 content={LAYER_CONFIG[key].content}
