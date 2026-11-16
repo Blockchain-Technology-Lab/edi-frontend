@@ -30,14 +30,16 @@ export function ClientApi() {
       />
 
       {!error && (
-        <StackedAreaChart
-          title="Estimated RPC Provider Traffic Share"
-          description={CLIENT_API_TRAFFIC_SHARE_DESCRIPTION}
-          dates={data?.dates ?? []}
-          series={series}
-          loading={loading}
-          yAxisLabel="Estimated traffic share (%)"
-        />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full">
+          <StackedAreaChart
+            title="Estimated RPC Provider Traffic Share"
+            description={CLIENT_API_TRAFFIC_SHARE_DESCRIPTION}
+            dates={data?.dates ?? []}
+            series={series}
+            loading={loading}
+            yAxisLabel="Estimated traffic share (%)"
+          />
+        </div>
       )}
       {error && <div className="text-error mt-2">{error.message}</div>}
     </div>
