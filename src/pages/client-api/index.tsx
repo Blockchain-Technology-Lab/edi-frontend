@@ -15,7 +15,7 @@ export function ClientApi() {
   return (
     <div className="flex flex-col gap-6">
       <LayerTopCard
-        title="Client-API Layer"
+        title="Client API Layer"
         description={
           <>
             This graph represents the estimated distribution of{' '}

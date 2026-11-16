@@ -1,5 +1,7 @@
-{/* TODO: placeholder methodology — replace with the final Client-API methodology text. */}
+import { AppLink } from '@/components'
 
-On the Client-API layer, decentralisation is evaluated based on the distribution of RPC traffic across client API providers (for example node-as-a-service and public RPC endpoint operators).
+On the client API layer, decentralisation is evaluated based on the distribution of traffic (e.g. web traffic and API calls) across RPC providers. Although this metric is not directly measured, it is assumed that a significant proportion of blockchain transactions are routed through these APIs. Unlike the other layers, the analysis is not ledger-specific, as most RPC providers offer services for multiple ledgers.
 
-Traffic shares are estimated for each Tranco list date. For every date, the estimated shares of all providers sum to 100%. The dashboard shows the ten providers with the highest average share individually and groups all remaining providers as "Others".
+The analysis uses data from the <AppLink href="https://tranco-list.eu/">Tranco</AppLink> project, which provides rankings of the one million most popular websites. The domains associated with RPC providers are identified, and their respective rankings are converted into estimated shares of RPC traffic using Zipf's law with an exponent of 1. This approach is supported by two research papers: The <AppLink href="https://doi.org/10.1016/j.econlet.2015.01.019">Size Distribution of Websites</AppLink> by Schmeiser S. and The <AppLink href="https://doi.org/10.1016/j.comnet.2005.07.009">Universality of Rank Distributions of Website Popularity</AppLink> by Krashakov S. A. et al.
+
+The dashboard displays the ten providers with the highest average estimated traffic shares individually, while aggregating all remaining providers into a single category labelled "Others".

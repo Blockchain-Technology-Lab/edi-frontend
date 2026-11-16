@@ -125,7 +125,7 @@ export const LAYER_CONFIG: Record<LayerKey, LayerConfig> = {
   },
   clientApi: {
     enabled: true,
-    label: 'Client-API',
+    label: 'Client API',
     path: clientApiTo,
     methodologyPath: `${methodologyTo}/client-api`,
     icon: faServer,

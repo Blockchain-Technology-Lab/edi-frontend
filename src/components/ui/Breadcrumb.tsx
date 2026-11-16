@@ -78,7 +78,7 @@ export function Breadcrumb() {
         return 'Resources'
       }
       if (segment === 'client-api') {
-        return 'Client-API Layer'
+        return 'Client API Layer'
       }
       if (segment === 'ipfs') {
         return 'IPFS'

@@ -4,8 +4,8 @@ The Edinburgh Decentralisation Index ([EDI](https://informatics.ed.ac.uk/blockch
 
 ## Public URLs
 
-- http://blockchainlab.inf.ed.ac.uk/edi-dashboard/
-- https://groups.inf.ed.ac.uk/blockchainlab/edi-dashboard/
+- <http://blockchainlab.inf.ed.ac.uk/edi-dashboard/>
+- <https://groups.inf.ed.ac.uk/blockchainlab/edi-dashboard/>
 
 ## Code repos
 
@@ -51,7 +51,7 @@ npm run preview
 
 Notes:
 
-- Vite dev server defaults to http://localhost:5173 unless configured otherwise.
+- Vite dev server defaults to <http://localhost:5173> unless configured otherwise.
 - This repository's default build output is configured in vite.config.ts (currently upload/demo).
 - `npm run lint` now also validates MDX JSX spacing patterns (e.g., disallowing `</Tag>{' '}`).
 
