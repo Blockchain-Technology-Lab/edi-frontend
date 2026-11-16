@@ -1,66 +1,131 @@
-Countries,2026-11-03
-United States,1011
-Unknown,647
-Germany,528
-France,304
-Canada,171
-United Kingdom,169
-Japan,132
-Finland,107
-Singapore,88
-The Netherlands,84
-Australia,62
-Switzerland,57
-Netherlands,40
-Ireland,36
-India,36
-Austria,28
-Sweden,26
-Italy,26
-South Korea,25
-Belgium,24
-Hong Kong,17
-South Africa,16
-Vietnam,15
-Poland,14
-Romania,13
-Czechia,13
-Spain,11
-Norway,10
-China,9
-Brazil,9
-Slovenia,8
-Chile,8
-Taiwan,8
-Estonia,7
-New Zealand,7
-Greece,6
-Indonesia,6
-United Arab Emirates,5
-Argentina,5
-Ukraine,4
-Malaysia,4
-Lithuania,4
-Denmark,4
-Iran,4
-Bulgaria,4
-Hungary,4
-Thailand,3
-Peru,3
-Cyprus,3
-Mexico,3
-Latvia,3
-Jersey,2
-Russia,2
-Portugal,2
-Israel,2
-Philippines,2
-Liechtenstein,1
-Türkiye,1
-Seychelles,1
-Kazakhstan,1
-Albania,1
-Serbia,1
-Luxembourg,1
-Croatia,1
-New Caledonia,1
+Countries,2026-11-03,2026-11-16
+United States,1011,null
+Unknown,647,null
+Germany,528,null
+France,304,null
+Canada,171,null
+United Kingdom,169,null
+Japan,132,null
+Finland,107,null
+Singapore,88,null
+The Netherlands,84,null
+Australia,62,null
+Switzerland,57,null
+Netherlands,40,null
+Ireland,36,null
+India,36,null
+Austria,28,null
+Sweden,26,null
+Italy,26,null
+South Korea,25,null
+Belgium,24,null
+Hong Kong,17,null
+South Africa,16,null
+Vietnam,15,null
+Poland,14,null
+Romania,13,null
+Czechia,13,null
+Spain,11,null
+Norway,10,null
+China,9,null
+Brazil,9,null
+Slovenia,8,null
+Chile,8,null
+Taiwan,8,null
+Estonia,7,null
+New Zealand,7,null
+Greece,6,null
+Indonesia,6,null
+United Arab Emirates,5,null
+Argentina,5,null
+Ukraine,4,null
+Malaysia,4,null
+Lithuania,4,null
+Denmark,4,null
+Iran,4,null
+Bulgaria,4,null
+Hungary,4,null
+Thailand,3,null
+Peru,3,null
+Cyprus,3,null
+Mexico,3,null
+Latvia,3,null
+Jersey,2,null
+Russia,2,null
+Portugal,2,null
+Israel,2,null
+Philippines,2,null
+Liechtenstein,1,null
+Türkiye,1,null
+Seychelles,1,null
+Kazakhstan,1,null
+Albania,1,null
+Serbia,1,null
+Luxembourg,1,null
+Croatia,1,null
+New Caledonia,1,null
+United States,null,1005
+Unknown,null,643
+Germany,null,523
+France,null,303
+Canada,null,170
+United Kingdom,null,166
+Japan,null,133
+Finland,null,107
+Singapore,null,87
+The Netherlands,null,83
+Australia,null,62
+Switzerland,null,56
+Netherlands,null,36
+India,null,36
+Ireland,null,35
+Austria,null,28
+Italy,null,26
+Sweden,null,26
+South Korea,null,25
+Belgium,null,24
+Hong Kong,null,17
+South Africa,null,16
+Vietnam,null,15
+Poland,null,14
+Czechia,null,13
+Romania,null,13
+Spain,null,11
+Norway,null,10
+China,null,10
+Brazil,null,9
+Estonia,null,9
+New Zealand,null,8
+Slovenia,null,8
+Chile,null,8
+Taiwan,null,7
+Indonesia,null,6
+Greece,null,6
+United Arab Emirates,null,5
+Argentina,null,5
+Ukraine,null,4
+Hungary,null,4
+Bulgaria,null,4
+Lithuania,null,4
+Denmark,null,4
+Malaysia,null,4
+Iran,null,4
+Peru,null,3
+Mexico,null,3
+Thailand,null,3
+Latvia,null,3
+Cyprus,null,3
+Portugal,null,2
+Russia,null,2
+Israel,null,2
+Philippines,null,2
+Jersey,null,2
+Liechtenstein,null,1
+Serbia,null,1
+Croatia,null,1
+New Caledonia,null,1
+Albania,null,1
+Kazakhstan,null,1
+Luxembourg,null,1
+Türkiye,null,1
+Seychelles,null,1
