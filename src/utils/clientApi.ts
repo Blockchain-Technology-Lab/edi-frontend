@@ -123,3 +123,114 @@ export function toTrafficShareSeries(
         : colours[i]
   }))
 }
+
+// Long-format CSV: one row per date with that date's concentration metrics.
+export const CLIENT_API_METRICS_CSV = `${CLIENT_API_CSV}datatable.csv`
+
+export type ClientApiMetrics = {
+  date: Date
+  hhi: number
+  nakamotoCoefficient: number
+  entropy: number
+  // Keyed by k: share (0-1) of traffic held by the top-k providers.
+  concentrationRatios: { k: number; value: number }[]
+  totalEntities: number
+}
+
+export async function loadClientApiMetricsCsv(
+  csvPath: string = CLIENT_API_METRICS_CSV
+): Promise<ClientApiMetrics[]> {
+  const csvText = await fetchCsvText(
+    csvPath,
+    `Error loading client API metrics from ${csvPath}`
+  )
+  return parseClientApiMetricsCsv(csvText, csvPath)
+}
+
+export function parseClientApiMetricsCsv(
+  csvData: string,
+  fileName = 'datatable.csv'
+): ClientApiMetrics[] {
+  const { rows, headers } = splitCsvContent(csvData)
+  const col = (name: string) => headers.indexOf(name)
+  const crColumns = headers
+    .map((h, index) => ({
+      k: Number(h.match(/^concentration_ratio=(\d+)$/)?.[1]),
+      index
+    }))
+    .filter(({ k }) => !Number.isNaN(k))
+    .sort((a, b) => a.k - b.k)
+
+  const metrics: ClientApiMetrics[] = []
+
+  forEachCsvDataRow(rows, headers, fileName, {
+    onRow: ({ reportError }, values) => {
+      const date = parseCsvDate(values[col('date')] ?? '')
+      if (!date) {
+        reportError('invalid date')
+        return false
+      }
+      const num = (index: number) => parseFloat(values[index])
+      metrics.push({
+        date,
+        hhi: num(col('hhi')),
+        nakamotoCoefficient: num(col('nakamoto_coefficient')),
+        entropy: num(col('entropy=1')),
+        concentrationRatios: crColumns.map(({ k, index }) => ({
+          k,
+          value: num(index)
+        })),
+        totalEntities: num(col('total_entities'))
+      })
+      return true
+    }
+  })
+
+  return metrics.sort((a, b) => a.date.getTime() - b.date.getTime())
+}
+
+// Providers ranked by share on the given date, largest first.
+export function rankProvidersOnDate(
+  data: TrafficShareData,
+  date: Date
+): { provider: string; share: number }[] {
+  const i = data.dates.findIndex((d) => d.getTime() === date.getTime())
+  if (i === -1) return []
+  return data.providers
+    .map((p) => ({ provider: p.provider, share: p.shares[i] ?? 0 }))
+    .sort((a, b) => b.share - a.share)
+}
+
+export type SeverityTone = 'error' | 'warning' | 'success'
+export type Severity = { label: string; tone: SeverityTone }
+
+// Classic HHI bands: below 1,500 / 1,500-2,500 / above 2,500.
+export const HHI_BANDS = { moderate: 1500, high: 2500, max: 10000 }
+
+export function hhiSeverity(hhi: number): Severity {
+  if (hhi > HHI_BANDS.high)
+    return { label: 'Highly concentrated', tone: 'error' }
+  if (hhi >= HHI_BANDS.moderate)
+    return { label: 'Moderately concentrated', tone: 'warning' }
+  return { label: 'Unconcentrated', tone: 'success' }
+}
+
+export function nakamotoSeverity(n: number): Severity {
+  if (n <= 1) return { label: 'One provider holds a majority', tone: 'error' }
+  if (n <= 3) return { label: 'Few providers hold a majority', tone: 'warning' }
+  return { label: 'Majority is spread out', tone: 'success' }
+}
+
+// Share held by the single largest provider (CR1, 0-1).
+export function topShareSeverity(cr1: number): Severity {
+  if (cr1 > 0.5) return { label: 'Majority share', tone: 'error' }
+  if (cr1 > 0.25) return { label: 'Dominant share', tone: 'warning' }
+  return { label: 'No dominant provider', tone: 'success' }
+}
+
+// Provider name -> chart colour, matching the stacked-area chart; providers
+// outside the chart's top N take the "Others" grey.
+export function providerColourLookup(series: TrafficShareSeries[]) {
+  const map = new Map(series.map((s) => [s.label, s.color]))
+  return (provider: string) => map.get(provider) ?? CLIENT_API_OTHERS_COLOUR
+}

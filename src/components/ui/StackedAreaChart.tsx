@@ -50,9 +50,7 @@ interface StackedAreaChartProps {
 const withAlpha = (rgba: string, alpha: number) =>
   rgba.replace(/[\d.]+\)$/, `${alpha})`)
 
-// Legend sits on the right on wide screens (as in the reference chart) and
-// drops below the plot on narrow ones so the plot area isn't squashed.
-function useIsWide(query = '(min-width: 768px)') {
+function useIsWide(query = '(min-width: 1024px)') {
   const [isWide, setIsWide] = useState(
     () => typeof window !== 'undefined' && window.matchMedia(query).matches
   )
@@ -92,7 +90,9 @@ export function StackedAreaChart({
     () => ({
       // Dates are irregular (e.g. two points days apart), so they are plotted
       // as evenly spaced categories rather than on a time axis.
-      labels: dates.map((d) => [format(d, 'dd MMM'), format(d, 'yyyy')]),
+      labels: dates.map((d) =>
+        isWide ? [format(d, 'dd MMM'), format(d, 'yyyy')] : format(d, 'MMM yy')
+      ),
       datasets: series.map((s, i) => ({
         label: s.label,
         data: s.values,
@@ -105,7 +105,7 @@ export function StackedAreaChart({
         fill: i === 0 ? ('origin' as const) : ('-1' as const)
       }))
     }),
-    [dates, series]
+    [dates, series, isWide]
   )
 
   const options = useMemo<ChartOptions<'line'>>(() => {
@@ -117,8 +117,8 @@ export function StackedAreaChart({
       interaction: { mode: 'index', intersect: false },
       plugins: {
         legend: {
-          display: true,
-          position: isWide ? 'right' : 'bottom',
+          display: isWide,
+          position: 'right',
           labels: {
             color: t.tickColor,
             usePointStyle: true,
@@ -154,7 +154,8 @@ export function StackedAreaChart({
             color: t.tickColor,
             font: { family: CHART_FONT, size: 11 },
             maxRotation: 0,
-            autoSkip: true
+            autoSkip: true,
+            maxTicksLimit: isWide ? undefined : 6
           },
           grid: { display: false },
           border: { display: false }
@@ -229,7 +230,7 @@ export function StackedAreaChart({
     <div className="card border border-base-300 shadow-sm overflow-hidden bg-base-100">
       {header}
       <div className="p-4 space-y-3">
-        <div className={isWide ? 'aspect-[16/8]' : 'aspect-[4/5]'}>
+        <div className={isWide ? 'aspect-[16/8]' : 'aspect-[4/3]'}>
           <Line
             key={`stacked-${resolvedTheme}`}
             data={chartData}
