@@ -2,48 +2,60 @@ approver_scope,chain,status_changed_to,date,gini,cr1,shannon_entropy,hhi,n_appro
 core_editors,bitcoin,all,2018-01-01,1.00,1.00,0.00,10000.00,1,8,1,1/1,0
 core_editors,bitcoin,all,2019-01-01,1.00,1.00,0.00,10000.00,1,8,1,1/1,0
 core_editors,bitcoin,all,2020-01-01,1.00,1.00,0.00,10000.00,1,24,1,1/1,0
-core_editors,bitcoin,all,2021-01-01,1.00,1.00,0.00,10000.00,1,2,2,1/2,kallewoof
-core_editors,bitcoin,all,2023-01-01,1.00,1.00,0.00,10000.00,1,6,2,1/2,luke-jr
-core_editors,bitcoin,all,2024-01-01,0.09,0.59,0.98,5165.30,2,22,7,2/7,"luke-jr, kallewoof, kanzure, Roasbeef, RubenSomsen"
-core_editors,bitcoin,all,2025-01-01,0.33,0.67,1.25,5000.00,3,10,6,3/6,"luke-jr, kanzure, RubenSomsen"
+core_editors,bitcoin,all,2021-01-01,0.50,1.00,0.00,10000.00,1,2,2,1/2,kallewoof
+core_editors,bitcoin,all,2022-01-01,,,,,0,0,2,0/2,"luke-jr, kallewoof"
+core_editors,bitcoin,all,2023-01-01,0.50,1.00,0.00,10000.00,1,6,2,1/2,luke-jr
+core_editors,bitcoin,all,2024-01-01,0.74,0.59,0.98,5165.30,2,22,7,2/7,"luke-jr, kallewoof, kanzure, Roasbeef, RubenSomsen"
+core_editors,bitcoin,all,2025-01-01,0.67,0.67,1.25,5000.00,3,10,6,3/6,"luke-jr, kanzure, RubenSomsen"
 core_editors,bitcoin,successful,2018-01-01,1.00,1.00,0.00,10000.00,1,6,1,1/1,0
 core_editors,bitcoin,successful,2019-01-01,1.00,1.00,0.00,10000.00,1,2,1,1/1,0
 core_editors,bitcoin,successful,2020-01-01,1.00,1.00,0.00,10000.00,1,3,1,1/1,0
-core_editors,bitcoin,successful,2021-01-01,1.00,1.00,0.00,10000.00,1,1,2,1/2,kallewoof
-core_editors,bitcoin,successful,2023-01-01,1.00,1.00,0.00,10000.00,1,6,2,1/2,luke-jr
-core_editors,bitcoin,successful,2024-01-01,0.12,0.62,0.96,5283.40,2,21,7,2/7,"luke-jr, kallewoof, kanzure, Roasbeef, RubenSomsen"
-core_editors,bitcoin,successful,2025-01-01,0.22,0.56,1.44,4074.10,3,7,6,3/6,"luke-jr, kanzure, RubenSomsen"
+core_editors,bitcoin,successful,2021-01-01,0.50,1.00,0.00,10000.00,1,1,2,1/2,kallewoof
+core_editors,bitcoin,successful,2022-01-01,,,,,0,0,2,0/2,"luke-jr, kallewoof"
+core_editors,bitcoin,successful,2023-01-01,0.50,1.00,0.00,10000.00,1,6,2,1/2,luke-jr
+core_editors,bitcoin,successful,2024-01-01,0.75,0.62,0.96,5283.40,2,21,7,2/7,"luke-jr, kallewoof, kanzure, Roasbeef, RubenSomsen"
+core_editors,bitcoin,successful,2025-01-01,0.61,0.56,1.44,4074.10,3,7,6,3/6,"luke-jr, kanzure, RubenSomsen"
 core_editors,bitcoin,unsuccessful,2018-01-01,1.00,1.00,0.00,10000.00,1,2,1,1/1,0
 core_editors,bitcoin,unsuccessful,2019-01-01,1.00,1.00,0.00,10000.00,1,6,1,1/1,0
 core_editors,bitcoin,unsuccessful,2020-01-01,1.00,1.00,0.00,10000.00,1,21,1,1/1,0
-core_editors,bitcoin,unsuccessful,2021-01-01,1.00,1.00,0.00,10000.00,1,1,2,1/2,kallewoof
-core_editors,bitcoin,unsuccessful,2024-01-01,1.00,1.00,0.00,10000.00,1,1,7,1/7,"luke-jr, kallewoof, kanzure, jonatack, Roasbeef, RubenSomsen"
-core_editors,bitcoin,unsuccessful,2025-01-01,1.00,1.00,0.00,10000.00,1,3,6,1/6,"luke-jr, kanzure, jonatack, Roasbeef, RubenSomsen"
-core_editors,ethereum,all,2019-01-01,0.17,0.67,0.92,5555.60,2,13,8,2/8,"Souptacular, cdetrio, vbuterin, wanderer, nicksavers, gcolvin"
-core_editors,ethereum,all,2020-01-01,0.00,0.50,1.00,5000.00,2,2,9,2/9,"Souptacular, Arachnid, cdetrio, vbuterin, wanderer, nicksavers, gcolvin"
-core_editors,ethereum,all,2021-01-01,0.08,0.58,0.98,5138.90,2,11,10,2/10,"Souptacular, Arachnid, cdetrio, vbuterin, wanderer, nicksavers, axic, gcolvin"
-core_editors,ethereum,all,2022-01-01,0.43,0.51,1.84,3425.90,5,35,6,5/6,axic
-core_editors,ethereum,all,2023-01-01,0.57,0.51,1.75,3702.40,6,49,7,6/7,gcolvin
-core_editors,ethereum,all,2024-01-01,0.53,0.72,1.23,5555.60,4,18,7,4/7,"gcolvin, Pandapip1, xinbenlv"
-core_editors,ethereum,all,2025-01-01,0.41,0.71,1.13,5555.60,3,19,5,3/5,"xinbenlv, jochem-brouwer"
-core_editors,ethereum,successful,2019-01-01,0.17,0.67,0.92,5555.60,2,13,8,2/8,"Souptacular, cdetrio, vbuterin, wanderer, nicksavers, gcolvin"
-core_editors,ethereum,successful,2020-01-01,0.00,0.50,1.00,5000.00,2,2,9,2/9,"Souptacular, Arachnid, cdetrio, vbuterin, wanderer, nicksavers, gcolvin"
-core_editors,ethereum,successful,2021-01-01,0.08,0.58,0.98,5138.90,2,11,10,2/10,"Souptacular, Arachnid, cdetrio, vbuterin, wanderer, nicksavers, axic, gcolvin"
-core_editors,ethereum,successful,2022-01-01,0.43,0.51,1.84,3425.90,5,35,6,5/6,axic
-core_editors,ethereum,successful,2023-01-01,0.57,0.52,1.76,3728.00,6,48,7,6/7,gcolvin
-core_editors,ethereum,successful,2024-01-01,0.50,0.81,0.87,6796.90,3,16,7,3/7,"axic, gcolvin, Pandapip1, xinbenlv"
-core_editors,ethereum,successful,2025-01-01,0.49,0.79,0.91,6509.70,3,17,5,3/5,"xinbenlv, jochem-brouwer"
-core_editors,ethereum,unsuccessful,2023-01-01,1.00,1.00,0.00,10000.00,1,1,7,1/7,"axic, gcolvin, lightclient, SamWilsn, xinbenlv, g11tech"
-core_editors,ethereum,unsuccessful,2024-01-01,0.00,0.50,1.00,5000.00,2,2,7,2/7,"gcolvin, lightclient, SamWilsn, Pandapip1, xinbenlv"
-core_editors,ethereum,unsuccessful,2025-01-01,0.00,0.50,1.00,5000.00,2,2,5,2/5,"xinbenlv, g11tech, jochem-brouwer"
+core_editors,bitcoin,unsuccessful,2021-01-01,0.50,1.00,0.00,10000.00,1,1,2,1/2,kallewoof
+core_editors,bitcoin,unsuccessful,2022-01-01,,,,,0,0,2,0/2,"luke-jr, kallewoof"
+core_editors,bitcoin,unsuccessful,2023-01-01,,,,,0,0,2,0/2,"luke-jr, kallewoof"
+core_editors,bitcoin,unsuccessful,2024-01-01,0.86,1.00,0.00,10000.00,1,1,7,1/7,"luke-jr, kallewoof, kanzure, jonatack, Roasbeef, RubenSomsen"
+core_editors,bitcoin,unsuccessful,2025-01-01,0.83,1.00,0.00,10000.00,1,3,6,1/6,"luke-jr, kanzure, jonatack, Roasbeef, RubenSomsen"
+core_editors,ethereum,all,2019-01-01,0.79,0.67,0.92,5555.60,2,13,8,2/8,"Souptacular, cdetrio, vbuterin, wanderer, nicksavers, gcolvin"
+core_editors,ethereum,all,2020-01-01,0.78,0.50,1.00,5000.00,2,2,9,2/9,"Souptacular, Arachnid, cdetrio, vbuterin, wanderer, nicksavers, gcolvin"
+core_editors,ethereum,all,2021-01-01,0.82,0.58,0.98,5138.90,2,11,10,2/10,"Souptacular, Arachnid, cdetrio, vbuterin, wanderer, nicksavers, axic, gcolvin"
+core_editors,ethereum,all,2022-01-01,0.53,0.51,1.84,3425.90,5,35,6,5/6,axic
+core_editors,ethereum,all,2023-01-01,0.63,0.51,1.75,3702.40,6,49,7,6/7,gcolvin
+core_editors,ethereum,all,2024-01-01,0.73,0.72,1.23,5555.60,4,18,7,4/7,"gcolvin, Pandapip1, xinbenlv"
+core_editors,ethereum,all,2025-01-01,0.65,0.71,1.13,5555.60,3,19,5,3/5,"xinbenlv, jochem-brouwer"
+core_editors,ethereum,successful,2019-01-01,0.79,0.67,0.92,5555.60,2,13,8,2/8,"Souptacular, cdetrio, vbuterin, wanderer, nicksavers, gcolvin"
+core_editors,ethereum,successful,2020-01-01,0.78,0.50,1.00,5000.00,2,2,9,2/9,"Souptacular, Arachnid, cdetrio, vbuterin, wanderer, nicksavers, gcolvin"
+core_editors,ethereum,successful,2021-01-01,0.82,0.58,0.98,5138.90,2,11,10,2/10,"Souptacular, Arachnid, cdetrio, vbuterin, wanderer, nicksavers, axic, gcolvin"
+core_editors,ethereum,successful,2022-01-01,0.53,0.51,1.84,3425.90,5,35,6,5/6,axic
+core_editors,ethereum,successful,2023-01-01,0.63,0.52,1.76,3728.00,6,48,7,6/7,gcolvin
+core_editors,ethereum,successful,2024-01-01,0.79,0.81,0.87,6796.90,3,16,7,3/7,"axic, gcolvin, Pandapip1, xinbenlv"
+core_editors,ethereum,successful,2025-01-01,0.69,0.79,0.91,6509.70,3,17,5,3/5,"xinbenlv, jochem-brouwer"
+core_editors,ethereum,unsuccessful,2019-01-01,,,,,0,0,8,0/8,"Souptacular, Arachnid, cdetrio, vbuterin, wanderer, nicksavers, axic, gcolvin"
+core_editors,ethereum,unsuccessful,2020-01-01,,,,,0,0,9,0/9,"Souptacular, Arachnid, cdetrio, vbuterin, wanderer, nicksavers, axic, gcolvin, MicahZoltu"
+core_editors,ethereum,unsuccessful,2021-01-01,,,,,0,0,10,0/10,"Souptacular, Arachnid, cdetrio, vbuterin, wanderer, nicksavers, axic, gcolvin, MicahZoltu, lightclient"
+core_editors,ethereum,unsuccessful,2022-01-01,,,,,0,0,6,0/6,"axic, gcolvin, MicahZoltu, lightclient, SamWilsn, Pandapip1"
+core_editors,ethereum,unsuccessful,2023-01-01,0.86,1.00,0.00,10000.00,1,1,7,1/7,"axic, gcolvin, lightclient, SamWilsn, xinbenlv, g11tech"
+core_editors,ethereum,unsuccessful,2024-01-01,0.71,0.50,1.00,5000.00,2,2,7,2/7,"gcolvin, lightclient, SamWilsn, Pandapip1, xinbenlv"
+core_editors,ethereum,unsuccessful,2025-01-01,0.60,0.50,1.00,5000.00,2,2,5,2/5,"xinbenlv, g11tech, jochem-brouwer"
 core_editors,cardano,all,2021-01-01,0.17,0.29,2.25,2195.60,5,9,5,5/5,0
-core_editors,cardano,all,2022-01-01,0.13,0.40,1.53,3557.70,3,21,5,3/5,"crptmppt, dcoutts"
-core_editors,cardano,all,2023-01-01,0.05,0.36,1.58,3367.40,3,8,6,3/6,"crptmppt, SebastienGllmt, Crypto2099"
-core_editors,cardano,all,2024-01-01,0.34,0.41,2.02,2785.50,5,17,6,5/6,SebastienGllmt
-core_editors,cardano,all,2025-01-01,0.20,0.42,1.89,2908.60,4,8,4,4/4,0
+core_editors,cardano,all,2022-01-01,0.48,0.40,1.53,3557.70,3,21,5,3/5,"crptmppt, dcoutts"
+core_editors,cardano,all,2023-01-01,0.56,0.39,1.54,3518.50,3,10,6,3/6,"crptmppt, SebastienGllmt, Crypto2099"
+core_editors,cardano,all,2024-01-01,0.45,0.42,2.01,2808.60,5,18,6,5/6,SebastienGllmt
+core_editors,cardano,all,2025-01-01,0.20,0.41,1.89,2892.60,4,9,4,4/4,0
 core_editors,cardano,successful,2021-01-01,0.17,0.29,2.25,2195.60,5,9,5,5/5,0
-core_editors,cardano,successful,2022-01-01,0.13,0.40,1.53,3557.70,3,21,5,3/5,"crptmppt, dcoutts"
-core_editors,cardano,successful,2023-01-01,0.05,0.36,1.58,3367.40,3,8,6,3/6,"crptmppt, SebastienGllmt, Crypto2099"
-core_editors,cardano,successful,2024-01-01,0.38,0.44,1.97,2949.20,5,16,6,5/6,SebastienGllmt
+core_editors,cardano,successful,2022-01-01,0.48,0.40,1.53,3557.70,3,21,5,3/5,"crptmppt, dcoutts"
+core_editors,cardano,successful,2023-01-01,0.52,0.36,1.58,3367.30,3,8,6,3/6,"crptmppt, SebastienGllmt, Crypto2099"
+core_editors,cardano,successful,2024-01-01,0.48,0.44,1.97,2949.20,5,16,6,5/6,SebastienGllmt
 core_editors,cardano,successful,2025-01-01,0.20,0.42,1.89,2908.60,4,8,4,4/4,0
-core_editors,cardano,unsuccessful,2024-01-01,0.00,0.50,1.00,5000.00,2,1,6,2/6,"SebastienGllmt, rphair, Crypto2099, perturbing"
+core_editors,cardano,unsuccessful,2021-01-01,,,,,0,0,5,0/5,"crptmppt, KtorZ, SebastienGllmt, dcoutts, rphair"
+core_editors,cardano,unsuccessful,2022-01-01,,,,,0,0,5,0/5,"crptmppt, KtorZ, SebastienGllmt, dcoutts, rphair"
+core_editors,cardano,unsuccessful,2023-01-01,0.67,0.50,1.00,5000.00,2,2,6,2/6,"crptmppt, SebastienGllmt, Ryun1, Crypto2099"
+core_editors,cardano,unsuccessful,2024-01-01,0.58,0.50,1.50,3750.00,3,2,6,3/6,"SebastienGllmt, Crypto2099, perturbing"
+core_editors,cardano,unsuccessful,2025-01-01,0.25,0.33,1.58,3333.30,3,1,4,3/4,perturbing
