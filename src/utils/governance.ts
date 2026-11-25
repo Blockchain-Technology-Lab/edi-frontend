@@ -27,10 +27,8 @@ const GOVERNANCE_RATIFICATION_COLUMNS = [
   'hhi'
 ]
 const GOVERNANCE_RATIFICATION_ACTIVITY_COLUMNS = ['n_approvers', 'n_proposals']
-const GOVERNANCE_COMMUNITY_DISCUSSION_ACTIVITY_COLUMNS = [
-  'n_users',
-  'n_activities'
-]
+// Per-role user/activity counts (GitHub and community discussion files).
+const GOVERNANCE_USER_ACTIVITY_COLUMNS = ['n_users', 'n_activities']
 const GOVERNANCE_RATIFICATION_CORE_EDITOR_COLUMNS: Record<string, string> = {
   'serving editors approved': 'serving_editors_approved',
   'No approvals:': 'no_approvals'
@@ -724,7 +722,10 @@ export function parseGovernanceGithubMetricsCsv(
 ): DataEntry[] {
   return parseGovernanceLedgerMetricsCsv(csvData, {
     fileName,
-    columns: GOVERNANCE_PROPOSAL_COLUMNS
+    columns: [
+      ...GOVERNANCE_PROPOSAL_COLUMNS,
+      ...GOVERNANCE_USER_ACTIVITY_COLUMNS
+    ]
   })
 }
 
@@ -741,7 +742,7 @@ export function parseGovernanceCommunityDiscussionMetricsCsv(
     ledgerColumn: 'discussion_source',
     columns: [
       ...GOVERNANCE_PROPOSAL_COLUMNS,
-      ...GOVERNANCE_COMMUNITY_DISCUSSION_ACTIVITY_COLUMNS
+      ...GOVERNANCE_USER_ACTIVITY_COLUMNS
     ]
   })
 }

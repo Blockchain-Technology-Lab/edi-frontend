@@ -65,14 +65,39 @@ const COMMUNITY_ROLE_ITEMS: Array<{
   { label: 'Participant', value: 'participant' }
 ]
 
-// Tooltip wording for n_users / n_activities, per community role.
+type UserActivityLabels = { users: string; activities: string }
+
+// Tooltip wording for n_users / n_activities, per role.
+const GITHUB_ROLE_ACTIVITY_LABELS: Record<
+  GovernanceGithubRole,
+  UserActivityLabels
+> = {
+  pr_author: { users: 'authors', activities: 'PRs' },
+  reviewer: { users: 'reviewers', activities: 'reviews' },
+  commenter: { users: 'commenters', activities: 'comments' },
+  participant: { users: 'participants', activities: 'activities' }
+}
+
 const COMMUNITY_ROLE_ACTIVITY_LABELS: Record<
   GovernanceCommunityDiscussionRole,
-  { users: string; activities: string }
+  UserActivityLabels
 > = {
   poster: { users: 'posters', activities: 'posts' },
   commenter: { users: 'commenters', activities: 'comments' },
   participant: { users: 'participants', activities: 'activities' }
+}
+
+// e.g. "2,241 commenters, 8,109 comments"; omitted when either count is empty.
+function userActivityTooltipLines(
+  point: DataEntry,
+  labels: UserActivityLabels
+): string[] {
+  const users = point.n_users
+  const activities = point.n_activities
+  if (typeof users !== 'number' || typeof activities !== 'number') return []
+  return [
+    `${users.toLocaleString('en-GB')} ${labels.users}, ${activities.toLocaleString('en-GB')} ${labels.activities}`
+  ]
 }
 
 const RATIFICATION_OVERVIEW_METRIC_ITEMS: Array<{
@@ -298,17 +323,12 @@ export function Governance() {
         keyPrefix="community"
         timeUnit="month"
         selectedSystems={allowedDiscussionSources}
-        tooltipExtraLines={(point) => {
-          const users = point.n_users
-          const activities = point.n_activities
-          if (typeof users !== 'number' || typeof activities !== 'number')
-            return []
-          const labels =
+        tooltipExtraLines={(point) =>
+          userActivityTooltipLines(
+            point,
             COMMUNITY_ROLE_ACTIVITY_LABELS[selectedCommunityRole.value]
-          return [
-            `${users.toLocaleString('en-GB')} ${labels.users}, ${activities.toLocaleString('en-GB')} ${labels.activities}`
-          ]
-        }}
+          )
+        }
       />
       {/* Ends - Community Discussion Decentralisation Merics*/}
       {/* Start - GitHub Decentralisation Merics*/}
@@ -317,9 +337,9 @@ export function Governance() {
         description={
           <>
             These charts display four decentralisation metrics (Gini
-            coefficient, Nakamoto coefficient, normalised Shannon entropy, and
-            HHI) computed annually over the distribution of GitHub activity on
-            the improvement proposal repositories, corresponding to Stage 1:
+            coefficient, Nakamoto coefficient, Shannon entropy, and HHI)
+            computed annually over the distribution of GitHub activity on the
+            improvement proposal repositories, corresponding to Stage 1:
             Ideation (Formal Review) of the governance lifecycle. Activity
             refers to the number of pull requests, reviews, or comments
             contributed by each participant. Users can toggle between
@@ -346,6 +366,12 @@ export function Governance() {
         keyPrefix="github"
         timeUnit="month"
         selectedSystems={selectedSystems}
+        tooltipExtraLines={(point) =>
+          userActivityTooltipLines(
+            point,
+            GITHUB_ROLE_ACTIVITY_LABELS[selectedGithubRole.value]
+          )
+        }
       />
       {/* Ends - GitHub Decentralisation Merics */
       /* Start - Proposal
