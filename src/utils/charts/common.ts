@@ -12,24 +12,55 @@ import type { DataEntry } from '@/utils/types'
 type LedgerDataset = {
   label: string
   // null y = no value for that point (e.g. Gini undefined with only one
-  // approver) - keeps the x position so the line shows a gap there, instead
-  // of interpolating straight across it.
+  // approver) - keeps the x position with no point drawn; the line shows a
+  // gap there unless spanGaps is set.
   data: { x: Date; y: number | null; raw?: DataEntry }[]
   borderColor: string
   backgroundColor: string
   fill: boolean
   pointRadius?: number | ((ctx: ScriptableContext<'line'>) => number)
   pointHoverRadius?: number | ((ctx: ScriptableContext<'line'>) => number)
+  pointBorderWidth?: number | ((ctx: ScriptableContext<'line'>) => number)
+  pointHoverBorderWidth?: number | ((ctx: ScriptableContext<'line'>) => number)
+  pointBorderColor?: string | ((ctx: ScriptableContext<'line'>) => string)
+  // Join the line across null values (no point is drawn at the null itself).
+  spanGaps?: boolean
   hidden?: boolean
+}
+
+// Sparse series (e.g. yearly governance metrics) get larger points with a
+// background-coloured halo; dense series keep small dots to avoid clutter.
+const SPARSE_SERIES_MAX_POINTS = 30
+
+function isSparseSeries(ctx: ScriptableContext<'line'>): boolean {
+  return ctx.dataset.data.length <= SPARSE_SERIES_MAX_POINTS
+}
+
+// Card background (daisyUI base-100), so the halo matches either theme.
+function getPointHaloColor(ctx: ScriptableContext<'line'>): string {
+  const canvas = ctx.chart.canvas
+  if (typeof window === 'undefined' || !canvas) return '#ffffff'
+  const value = getComputedStyle(canvas)
+    .getPropertyValue('--color-base-100')
+    .trim()
+  return value || '#ffffff'
 }
 
 // A point with gaps (or the chart edge) on both sides is easy to miss at the
 // default radius - draw it larger so it still reads as a real data point.
 function isIsolatedPoint(ctx: ScriptableContext<'line'>): boolean {
   const data = ctx.dataset.data as unknown as { y: number | null }[]
+  // With spanGaps the line joins across nulls, so a point is only isolated
+  // when it is the series' sole value.
+  if ((ctx.dataset as { spanGaps?: boolean }).spanGaps) {
+    return data.filter((p) => p.y !== null && p.y !== undefined).length === 1
+  }
   const prev = data[ctx.dataIndex - 1]?.y
   const next = data[ctx.dataIndex + 1]?.y
-  return (prev === null || prev === undefined) && (next === null || next === undefined)
+  return (
+    (prev === null || prev === undefined) &&
+    (next === null || next === undefined)
+  )
 }
 
 type LedgerDatasets = {
@@ -41,12 +72,12 @@ export const CHART_FONT = 'Inter, ui-sans-serif, system-ui, sans-serif'
 export function getChartThemeTokens(theme: string) {
   const isDim = theme === 'dim'
   return {
-    tickColor:     isDim ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.55)',
-    gridColor:     isDim ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)',
-    tooltipBg:     isDim ? 'rgba(15,23,42,0.92)'    : 'rgba(255,255,255,0.96)',
-    tooltipTitle:  isDim ? 'rgba(255,255,255,0.9)'  : 'rgba(17,24,39,0.9)',
-    tooltipBody:   isDim ? 'rgba(255,255,255,0.7)'  : 'rgba(55,65,81,0.85)',
-    tooltipBorder: isDim ? 'rgba(255,255,255,0.1)'  : 'rgba(0,0,0,0.08)',
+    tickColor: isDim ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.55)',
+    gridColor: isDim ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)',
+    tooltipBg: isDim ? 'rgba(15,23,42,0.92)' : 'rgba(255,255,255,0.96)',
+    tooltipTitle: isDim ? 'rgba(255,255,255,0.9)' : 'rgba(17,24,39,0.9)',
+    tooltipBody: isDim ? 'rgba(255,255,255,0.7)' : 'rgba(55,65,81,0.85)',
+    tooltipBorder: isDim ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)'
   }
 }
 
@@ -153,8 +184,20 @@ function buildDatasets(
         borderColor: ledgerColorMap[ledger],
         backgroundColor: ledgerColorMap[ledger],
         fill: false,
-        pointRadius: (ctx) => (isIsolatedPoint(ctx) ? 4 : 1.5),
-        pointHoverRadius: (ctx) => (isIsolatedPoint(ctx) ? 6 : 3),
+        pointRadius: (ctx) => {
+          if (!isSparseSeries(ctx)) return isIsolatedPoint(ctx) ? 4 : 1.5
+          return isIsolatedPoint(ctx) ? 6 : 4.5
+        },
+        pointHoverRadius: (ctx) => {
+          if (!isSparseSeries(ctx)) return isIsolatedPoint(ctx) ? 6 : 3
+          return isIsolatedPoint(ctx) ? 8 : 6.5
+        },
+        pointBorderWidth: (ctx) => (isSparseSeries(ctx) ? 2 : 1),
+        pointHoverBorderWidth: (ctx) => (isSparseSeries(ctx) ? 2 : 1),
+        pointBorderColor: (ctx) =>
+          isSparseSeries(ctx) ? getPointHaloColor(ctx) : ledgerColorMap[ledger],
+        // Governance interpolates across empty years; other layers keep gaps.
+        spanGaps: layer === 'governance',
         hidden: selectedSystems ? !selectedSystems.has(ledger) : false
       }
     }
