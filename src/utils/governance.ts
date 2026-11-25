@@ -20,19 +20,21 @@ const GOVERNANCE_PROPOSAL_COLUMNS = [
   'shannon_entropy',
   'hhi'
 ]
-const GOVERNANCE_RATIFICATION_COLUMNS = ['gini', 'cr1', 'shannon_entropy', 'hhi']
+const GOVERNANCE_RATIFICATION_COLUMNS = [
+  'gini',
+  'cr1',
+  'shannon_entropy',
+  'hhi'
+]
 const GOVERNANCE_RATIFICATION_ACTIVITY_COLUMNS = ['n_approvers', 'n_proposals']
-// Only the core-editors file has these two columns - maps their (spaced/
-// punctuated) CSV header text to a plain DataEntry key. Ignored entirely
-// when parsing the all-approvers file, which doesn't have these headers.
+const GOVERNANCE_COMMUNITY_DISCUSSION_ACTIVITY_COLUMNS = [
+  'n_users',
+  'n_activities'
+]
 const GOVERNANCE_RATIFICATION_CORE_EDITOR_COLUMNS: Record<string, string> = {
   'serving editors approved': 'serving_editors_approved',
   'No approvals:': 'no_approvals'
 }
-
-// Which ledger-column values are allowed, per column name, derived from
-// GOVERNANCE_LEDGERS (charts/constants.ts) - the single source for the
-// whole Governance layer. A column not listed here passes through ungated.
 const GOVERNANCE_LEDGER_ALLOW_LISTS: Record<string, readonly string[]> = {
   chain: GOVERNANCE_LEDGER_NAMES,
   discussion_source: GOVERNANCE_DISCUSSION_SOURCE_LEDGER_NAMES
@@ -181,24 +183,23 @@ function buildGovernanceCsvPath<K extends string>(
  * Fetches CSV text with a consistent "Error loading governance <label>
  * from <path>" message; every load* function below calls this first.
  */
-async function fetchGovernanceCsv(csvPath: string, label: string): Promise<string> {
-  return fetchCsvText(csvPath, `Error loading governance ${label} from ${csvPath}`)
+async function fetchGovernanceCsv(
+  csvPath: string,
+  label: string
+): Promise<string> {
+  return fetchCsvText(
+    csvPath,
+    `Error loading governance ${label} from ${csvPath}`
+  )
 }
 
 export type GovernanceGranularity = 'yearly' | 'half_yearly'
 export type GovernanceGithubRole =
-  | 'commenter'
-  | 'participant'
-  | 'pr_author'
-  | 'reviewer'
+  'commenter' | 'participant' | 'pr_author' | 'reviewer'
 export type GovernanceCommunityDiscussionRole =
-  | 'commenter'
-  | 'participant'
-  | 'poster'
+  'commenter' | 'participant' | 'poster'
 export type GovernanceRatificationOverviewMetric =
-  | 'ratification_prs_merged'
-  | 'editor_approvals'
-  | 'editor_count'
+  'ratification_prs_merged' | 'editor_approvals' | 'editor_count'
 // Which improvement-proposal tracks have their own per-chain CSV file
 // (proposal authorship, ratification overview, ...) - derived from
 // GOVERNANCE_LEDGERS (src/utils/charts/constants.ts), the single place that
@@ -206,7 +207,8 @@ export type GovernanceRatificationOverviewMetric =
 export const GOVERNANCE_PROPOSAL_TRACKS = GOVERNANCE_LEDGERS.map(
   (ledger) => ledger.proposalTrack
 )
-export type GovernanceProposalTrack = (typeof GOVERNANCE_PROPOSAL_TRACKS)[number]
+export type GovernanceProposalTrack =
+  (typeof GOVERNANCE_PROPOSAL_TRACKS)[number]
 
 /**
  * Looks up the ledger name for a proposal track (e.g. 'EIP' -> 'ethereum').
@@ -216,7 +218,8 @@ export type GovernanceProposalTrack = (typeof GOVERNANCE_PROPOSAL_TRACKS)[number
 export function getLedgerForProposalTrack(
   proposal: GovernanceProposalTrack
 ): string {
-  return GOVERNANCE_LEDGERS.find((ledger) => ledger.proposalTrack === proposal)!.ledger
+  return GOVERNANCE_LEDGERS.find((ledger) => ledger.proposalTrack === proposal)!
+    .ledger
 }
 
 /**
@@ -229,11 +232,13 @@ export function getDiscussionSourcesForLedger(ledger: string): string[] {
   const entry = GOVERNANCE_LEDGERS.find((l) => l.ledger === ledger)
   return entry ? entry.discussionSources.map((source) => source.ledger) : []
 }
-export type GovernanceRatificationApproverScope = 'core_editors' | 'all_approvers'
+export type GovernanceRatificationApproverScope =
+  'core_editors' | 'all_approvers'
 // Successful = Final. Unsuccessful = Withdrawn (Ethereum) or Rejected/Withdrawn
 // (Bitcoin) - already combined into these two outcomes in the CSV itself, so
 // the same three options apply to both chains.
-export type GovernanceRatificationPrStatus = 'all' | 'successful' | 'unsuccessful'
+export type GovernanceRatificationPrStatus =
+  'all' | 'successful' | 'unsuccessful'
 
 export type GovernanceAcdMeetingPopulation = 'all_participants' | 'editors_only'
 export type GovernanceAcdMeetingMeasure = 'attendance' | 'speaking'
@@ -432,10 +437,12 @@ export const GOVERNANCE_ACD_MEETING_METRICS = [
   }
 ]
 
-export const GOVERNANCE_AUTHORSHIP_DOUGHNUTS = GOVERNANCE_LEDGERS.map((ledger) => ({
-  ledger: ledger.ledger,
-  title: ledger.displayName
-}))
+export const GOVERNANCE_AUTHORSHIP_DOUGHNUTS = GOVERNANCE_LEDGERS.map(
+  (ledger) => ({
+    ledger: ledger.ledger,
+    title: ledger.displayName
+  })
+)
 
 /**
  * Returns the top3-contribution-ratio CSV path for the given granularity
@@ -595,7 +602,10 @@ export async function loadGovernanceGithubMetricsCsvData(
 export async function loadGovernanceCommunityDiscussionMetricsCsvData(
   csvPath: string
 ): Promise<DataEntry[]> {
-  const csvText = await fetchGovernanceCsv(csvPath, 'community discussion metrics')
+  const csvText = await fetchGovernanceCsv(
+    csvPath,
+    'community discussion metrics'
+  )
   return parseGovernanceCommunityDiscussionMetricsCsv(csvText, csvPath)
 }
 
@@ -607,7 +617,10 @@ export async function loadGovernanceRatificationOverviewMetricsCsvData(
   csvPath: string,
   metric: GovernanceRatificationOverviewMetric
 ): Promise<DataEntry[]> {
-  const csvText = await fetchGovernanceCsv(csvPath, 'ratification overview metrics')
+  const csvText = await fetchGovernanceCsv(
+    csvPath,
+    'ratification overview metrics'
+  )
   return parseGovernanceRatificationOverviewMetricsCsv(csvText, metric, csvPath)
 }
 
@@ -689,7 +702,11 @@ export function parseGovernanceProposalMetricsCsv(
         return true
       }
 
-      reportError(!entry.date ? 'invalid or missing year' : 'no metric columns had a numeric value')
+      reportError(
+        !entry.date
+          ? 'invalid or missing year'
+          : 'no metric columns had a numeric value'
+      )
       return false
     }
   })
@@ -722,7 +739,10 @@ export function parseGovernanceCommunityDiscussionMetricsCsv(
   return parseGovernanceLedgerMetricsCsv(csvData, {
     fileName,
     ledgerColumn: 'discussion_source',
-    columns: GOVERNANCE_PROPOSAL_COLUMNS
+    columns: [
+      ...GOVERNANCE_PROPOSAL_COLUMNS,
+      ...GOVERNANCE_COMMUNITY_DISCUSSION_ACTIVITY_COLUMNS
+    ]
   })
 }
 
@@ -766,9 +786,15 @@ export function parseGovernanceRatificationOverviewMetricsCsv(
       }
 
       const isAllowedLedger =
-        entry.ledger && (GOVERNANCE_LEDGER_NAMES as readonly string[]).includes(entry.ledger)
+        entry.ledger &&
+        (GOVERNANCE_LEDGER_NAMES as readonly string[]).includes(entry.ledger)
 
-      if (entry.ledger && entry.date && typeof entry[metric] === 'number' && isAllowedLedger) {
+      if (
+        entry.ledger &&
+        entry.date &&
+        typeof entry[metric] === 'number' &&
+        isAllowedLedger
+      ) {
         data.push(entry as DataEntry)
         return true
       }
@@ -798,7 +824,10 @@ export function parseGovernanceRatificationDecentralisationMetricsCsv(
 ): DataEntry[] {
   return parseGovernanceLedgerMetricsCsv(csvData, {
     fileName,
-    columns: [...GOVERNANCE_RATIFICATION_COLUMNS, ...GOVERNANCE_RATIFICATION_ACTIVITY_COLUMNS],
+    columns: [
+      ...GOVERNANCE_RATIFICATION_COLUMNS,
+      ...GOVERNANCE_RATIFICATION_ACTIVITY_COLUMNS
+    ],
     stringColumns: GOVERNANCE_RATIFICATION_CORE_EDITOR_COLUMNS,
     seriesFilter: {
       discriminatorColumn: 'status_changed_to',

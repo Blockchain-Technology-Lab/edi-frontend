@@ -65,6 +65,16 @@ const COMMUNITY_ROLE_ITEMS: Array<{
   { label: 'Participant', value: 'participant' }
 ]
 
+// Tooltip wording for n_users / n_activities, per community role.
+const COMMUNITY_ROLE_ACTIVITY_LABELS: Record<
+  GovernanceCommunityDiscussionRole,
+  { users: string; activities: string }
+> = {
+  poster: { users: 'posters', activities: 'posts' },
+  commenter: { users: 'commenters', activities: 'comments' },
+  participant: { users: 'participants', activities: 'activities' }
+}
+
 const RATIFICATION_OVERVIEW_METRIC_ITEMS: Array<{
   label: string
   value: GovernanceRatificationOverviewMetric
@@ -259,14 +269,14 @@ export function Governance() {
         description={
           <>
             These charts display four decentralisation metrics (Gini
-            coefficient, Nakamoto coefficient, normalised Shannon entropy, and
-            HHI) computed annually over the distribution of community discussion
+            coefficient, Nakamoto coefficient, Shannon entropy, and HHI)
+            computed annually over the distribution of community discussion
             activity for each blockchain, corresponding to the Community
             Deliberation phase, which runs concurrently with Stages 1-3 of the
             governance lifecycle. Activity refers to the number of posts or
             replies contributed by each participant. Users can toggle between
-            participant roles (poster, replier, or participant, where
-            participant includes both posters and repliers).
+            participant roles (poster, commenter, or participant, where
+            participant includes both posters and commenters).
           </>
         }
         layout="default"
@@ -288,6 +298,17 @@ export function Governance() {
         keyPrefix="community"
         timeUnit="month"
         selectedSystems={allowedDiscussionSources}
+        tooltipExtraLines={(point) => {
+          const users = point.n_users
+          const activities = point.n_activities
+          if (typeof users !== 'number' || typeof activities !== 'number')
+            return []
+          const labels =
+            COMMUNITY_ROLE_ACTIVITY_LABELS[selectedCommunityRole.value]
+          return [
+            `${users.toLocaleString('en-GB')} ${labels.users}, ${activities.toLocaleString('en-GB')} ${labels.activities}`
+          ]
+        }}
       />
       {/* Ends - Community Discussion Decentralisation Merics*/}
       {/* Start - GitHub Decentralisation Merics*/}
