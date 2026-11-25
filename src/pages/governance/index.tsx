@@ -381,8 +381,8 @@ export function Governance() {
         description={
           <>
             These charts display four decentralisation metrics (Gini
-            coefficient, Nakamoto coefficient, normalised Shannon entropy, and
-            HHI) computed annually over the distribution of weighted proposal
+            coefficient, Nakamoto coefficient, Shannon entropy, and HHI)
+            computed annually over the distribution of weighted proposal
             authorship. A higher Nakamoto coefficient and Shannon entropy
             indicate a more distributed author base, while a higher Gini
             coefficient and HHI indicate greater concentration. Users can toggle
@@ -400,6 +400,14 @@ export function Governance() {
         keyPrefix="proposal"
         timeUnit="month"
         selectedSystems={selectedSystems}
+        tooltipExtraLines={(point) =>
+          typeof point.n_proposals === 'number' &&
+          typeof point.n_authors === 'number'
+            ? [
+                `${point.n_proposals.toLocaleString('en-GB')} proposals, ${point.n_authors.toLocaleString('en-GB')} authors`
+              ]
+            : []
+        }
       />
       {/* Ends - Proposal Decentralisation Merics*/}
       {/* Start - Contributor Activity Concentration */}

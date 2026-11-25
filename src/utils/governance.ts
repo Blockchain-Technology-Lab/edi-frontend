@@ -29,6 +29,8 @@ const GOVERNANCE_RATIFICATION_COLUMNS = [
 const GOVERNANCE_RATIFICATION_ACTIVITY_COLUMNS = ['n_approvers', 'n_proposals']
 // Per-role user/activity counts (GitHub and community discussion files).
 const GOVERNANCE_USER_ACTIVITY_COLUMNS = ['n_users', 'n_activities']
+// Tooltip-only counts in the proposal-authorship files.
+const GOVERNANCE_PROPOSAL_ACTIVITY_COLUMNS = ['n_proposals', 'n_authors']
 const GOVERNANCE_RATIFICATION_CORE_EDITOR_COLUMNS: Record<string, string> = {
   'serving editors approved': 'serving_editors_approved',
   'No approvals:': 'no_approvals'
@@ -685,7 +687,10 @@ export function parseGovernanceProposalMetricsCsv(
           if (date) {
             entry.date = date
           }
-        } else if (GOVERNANCE_PROPOSAL_COLUMNS.includes(header)) {
+        } else if (
+          GOVERNANCE_PROPOSAL_COLUMNS.includes(header) ||
+          GOVERNANCE_PROPOSAL_ACTIVITY_COLUMNS.includes(header)
+        ) {
           const parsed = parseFloat(value)
           entry[header] = Number.isNaN(parsed) ? null : parsed
         }
