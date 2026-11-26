@@ -87,17 +87,61 @@ const COMMUNITY_ROLE_ACTIVITY_LABELS: Record<
   participant: { users: 'participants', activities: 'activities' }
 }
 
-// e.g. "2,241 commenters, 8,109 comments"; omitted when either count is empty.
+// Tooltip context lines, shared by every governance section.
+
+// ["2,241 commenters · 8,109 comments"], or [] when any count is missing.
+function countsLines(
+  ...parts: Array<[value: unknown, noun: string]>
+): string[] {
+  if (parts.some(([value]) => typeof value !== 'number')) return []
+  return [
+    parts
+      .map(
+        ([value, noun]) =>
+          `${(value as number).toLocaleString('en-GB')} ${noun}`
+      )
+      .join(' · ')
+  ]
+}
+
 function userActivityTooltipLines(
   point: DataEntry,
   labels: UserActivityLabels
 ): string[] {
-  const users = point.n_users
-  const activities = point.n_activities
-  if (typeof users !== 'number' || typeof activities !== 'number') return []
+  return countsLines(
+    [point.n_users, labels.users],
+    [point.n_activities, labels.activities]
+  )
+}
+
+function proposalTooltipLines(point: DataEntry): string[] {
+  return countsLines(
+    [point.n_proposals, 'proposals'],
+    [point.n_authors, 'authors']
+  )
+}
+
+function ratificationTooltipLines(
+  point: DataEntry,
+  scope: GovernanceRatificationApproverScope
+): string[] {
+  if (scope === 'all_approvers') {
+    return countsLines(
+      [point.n_approvers, 'approvers'],
+      [point.n_proposals, 'proposals']
+    )
+  }
+  const proposals = countsLines([point.n_proposals, 'proposals'])[0]
   return [
-    `${users.toLocaleString('en-GB')} ${labels.users}, ${activities.toLocaleString('en-GB')} ${labels.activities}`
+    `${point.serving_editors_approved ?? '?'} serving editors approved · ${proposals ?? '? proposals'}`,
+    ...(point.no_approvals && point.no_approvals !== '0'
+      ? [`No approvals: ${point.no_approvals}`]
+      : [])
   ]
+}
+
+function ratificationEmptyLabel(point: DataEntry): string | null {
+  return point.n_proposals === 0 ? 'No ratification events' : null
 }
 
 const RATIFICATION_OVERVIEW_METRIC_ITEMS: Array<{
@@ -154,6 +198,7 @@ function GovernanceMetricsGrid({
   timeUnit,
   headerControl,
   tooltipExtraLines,
+  tooltipEmptyLabel,
   selectedSystems
 }: {
   metrics: Metric[]
@@ -164,6 +209,7 @@ function GovernanceMetricsGrid({
   timeUnit: 'year' | 'month' | 'day'
   headerControl?: ReactNode
   tooltipExtraLines?: (point: DataEntry) => string[]
+  tooltipEmptyLabel?: (point: DataEntry) => string | null
   selectedSystems?: Set<string>
 }) {
   return (
@@ -180,6 +226,7 @@ function GovernanceMetricsGrid({
               timeUnit={timeUnit}
               headerControl={headerControl}
               tooltipExtraLines={tooltipExtraLines}
+              tooltipEmptyLabel={tooltipEmptyLabel}
               selectedSystems={selectedSystems}
             />
           ))}
@@ -321,7 +368,7 @@ export function Governance() {
         loading={communityDiscussionLoading}
         error={communityDiscussionError}
         keyPrefix="community"
-        timeUnit="month"
+        timeUnit="year"
         selectedSystems={allowedDiscussionSources}
         tooltipExtraLines={(point) =>
           userActivityTooltipLines(
@@ -364,7 +411,7 @@ export function Governance() {
         loading={githubLoading}
         error={githubError}
         keyPrefix="github"
-        timeUnit="month"
+        timeUnit="year"
         selectedSystems={selectedSystems}
         tooltipExtraLines={(point) =>
           userActivityTooltipLines(
@@ -398,16 +445,9 @@ export function Governance() {
         loading={proposalLoading}
         error={proposalError}
         keyPrefix="proposal"
-        timeUnit="month"
+        timeUnit="year"
         selectedSystems={selectedSystems}
-        tooltipExtraLines={(point) =>
-          typeof point.n_proposals === 'number' &&
-          typeof point.n_authors === 'number'
-            ? [
-                `${point.n_proposals.toLocaleString('en-GB')} proposals, ${point.n_authors.toLocaleString('en-GB')} authors`
-              ]
-            : []
-        }
+        tooltipExtraLines={proposalTooltipLines}
       />
       {/* Ends - Proposal Decentralisation Merics*/}
       {/* Start - Contributor Activity Concentration */}
@@ -418,7 +458,7 @@ export function Governance() {
         loading={loading}
         error={error}
         keyPrefix="concentration"
-        timeUnit="month"
+        timeUnit={selectedGranularity === 'yearly' ? 'year' : 'month'}
         selectedSystems={selectedSystems}
         headerControl={
           <BinaryToggle
@@ -549,17 +589,9 @@ export function Governance() {
         timeUnit="year"
         selectedSystems={selectedSystems}
         tooltipExtraLines={(point) =>
-          selectedApproverScope.value === 'core_editors'
-            ? [
-                `${point.serving_editors_approved ?? '?'} serving editors approved, ${Number(point.n_proposals)} proposals`,
-                ...(point.no_approvals && point.no_approvals !== '0'
-                  ? [`No approvals: ${point.no_approvals}`]
-                  : [])
-              ]
-            : [
-                `${Number(point.n_approvers)} approvers, ${Number(point.n_proposals)} proposals`
-              ]
+          ratificationTooltipLines(point, selectedApproverScope.value)
         }
+        tooltipEmptyLabel={ratificationEmptyLabel}
       />
       {/* Ends - Ratification Approver Concentration */}
     </div>

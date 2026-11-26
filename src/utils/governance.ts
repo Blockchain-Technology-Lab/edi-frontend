@@ -123,6 +123,7 @@ function parseGovernanceLedgerMetricsCsv(
           const date = parseCsvDate(value)
           if (date) {
             entry.date = date
+            entry.csv_date = value
           }
         } else if (header === ledgerColumn) {
           entry.ledger = value
@@ -686,6 +687,7 @@ export function parseGovernanceProposalMetricsCsv(
           const date = parseCsvDate(`${value}-01-01`)
           if (date) {
             entry.date = date
+            entry.csv_date = value
           }
         } else if (
           GOVERNANCE_PROPOSAL_COLUMNS.includes(header) ||
@@ -782,6 +784,7 @@ export function parseGovernanceRatificationOverviewMetricsCsv(
           const date = parseCsvDate(value)
           if (date) {
             entry.date = date
+            entry.csv_date = value
           }
         } else if (header === 'value') {
           const parsed = parseFloat(value)

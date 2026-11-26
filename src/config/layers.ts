@@ -45,6 +45,16 @@ export type LayerKey =
   | 'geography'
   | 'governance'
 
+// Line-chart behaviour for the layer's charts.
+export type LayerChartConfig = {
+  // Join the line across empty periods instead of leaving a gap.
+  spanGaps: boolean
+  // HTML tooltip (chartHtmlTooltip) instead of Chart.js's canvas one.
+  htmlTooltip: boolean
+  // X-axis ticks on the data dates, so every point sits on a gridline.
+  ticksOnData: boolean
+}
+
 export type LayerConfig = {
   enabled: boolean
   label: string
@@ -55,6 +65,7 @@ export type LayerConfig = {
   cardImage: string
   github: string
   content: ComponentType<Record<string, unknown>>
+  chart: LayerChartConfig
 }
 
 export const LAYER_CONFIG: Record<LayerKey, LayerConfig> = {
@@ -66,8 +77,10 @@ export const LAYER_CONFIG: Record<LayerKey, LayerConfig> = {
     icon: faCubes,
     desc: 'This layer describes the decentralisation of block production over time.',
     cardImage: CONSENSUS_CARD,
-    github: 'https://github.com/Blockchain-Technology-Lab/consensus-decentralization',
-    content: ConsensusContent
+    github:
+      'https://github.com/Blockchain-Technology-Lab/consensus-decentralization',
+    content: ConsensusContent,
+    chart: { spanGaps: true, htmlTooltip: false, ticksOnData: false }
   },
   tokenomics: {
     enabled: true,
@@ -77,8 +90,10 @@ export const LAYER_CONFIG: Record<LayerKey, LayerConfig> = {
     icon: faCoins,
     desc: 'This layer describes the decentralisation of token ownership over time.',
     cardImage: TOKENOMICS_CARD,
-    github: 'https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization',
-    content: TokenomicsContent
+    github:
+      'https://github.com/Blockchain-Technology-Lab/tokenomics-decentralization',
+    content: TokenomicsContent,
+    chart: { spanGaps: true, htmlTooltip: false, ticksOnData: false }
   },
   software: {
     enabled: true,
@@ -88,8 +103,10 @@ export const LAYER_CONFIG: Record<LayerKey, LayerConfig> = {
     icon: faCode,
     desc: 'This layer describes the decentralisation of the development of full node software projects over time.',
     cardImage: SOFTWARE_CARD,
-    github: 'https://github.com/Blockchain-Technology-Lab/software-decentralization',
-    content: SoftwareContent
+    github:
+      'https://github.com/Blockchain-Technology-Lab/software-decentralization',
+    content: SoftwareContent,
+    chart: { spanGaps: true, htmlTooltip: false, ticksOnData: false }
   },
   network: {
     enabled: true,
@@ -99,8 +116,10 @@ export const LAYER_CONFIG: Record<LayerKey, LayerConfig> = {
     icon: faNetworkWired,
     desc: 'This layer describes the decentralisation of nodes over time, in terms of the service providers (organisations) they use.',
     cardImage: NETWORK_CARD,
-    github: 'https://github.com/Blockchain-Technology-Lab/network-decentralization',
-    content: NetworkContent
+    github:
+      'https://github.com/Blockchain-Technology-Lab/network-decentralization',
+    content: NetworkContent,
+    chart: { spanGaps: true, htmlTooltip: false, ticksOnData: false }
   },
   geography: {
     enabled: true,
@@ -110,8 +129,10 @@ export const LAYER_CONFIG: Record<LayerKey, LayerConfig> = {
     icon: faGlobe,
     desc: 'This layer describes the geographic decentralisation of nodes over time.',
     cardImage: GEOGRAPHY_CARD,
-    github: 'https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin',
-    content: GeographyContent
+    github:
+      'https://github.com/Blockchain-Technology-Lab/network-decentralization/tree/main/bitcoin',
+    content: GeographyContent,
+    chart: { spanGaps: true, htmlTooltip: false, ticksOnData: false }
   },
   governance: {
     enabled: true,
@@ -121,8 +142,10 @@ export const LAYER_CONFIG: Record<LayerKey, LayerConfig> = {
     icon: faGavel,
     desc: 'This layer describes the governance structures and processes in place within blockchain networks. We plan to publish this layer soon.',
     cardImage: GOVERNANCE_CARD,
-    github: 'https://github.com/Blockchain-Technology-Lab/governance-decentralization',
-    content: GovernanceContent
+    github:
+      'https://github.com/Blockchain-Technology-Lab/governance-decentralization',
+    content: GovernanceContent,
+    chart: { spanGaps: true, htmlTooltip: true, ticksOnData: true }
   }
 }
 

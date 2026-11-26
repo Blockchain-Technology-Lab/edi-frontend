@@ -57,6 +57,7 @@ interface MetricsCardProps {
   // See LineChart for both of these.
   selectedSystems?: Set<string>
   tooltipExtraLines?: (raw: DataEntry) => string[]
+  tooltipEmptyLabel?: (raw: DataEntry) => string | null
 }
 
 // (Metric already declared above)
@@ -70,7 +71,8 @@ export function MetricsCard({
   padYAxis = false,
   headerControl,
   selectedSystems,
-  tooltipExtraLines
+  tooltipExtraLines,
+  tooltipEmptyLabel
 }: MetricsCardProps) {
   return (
     <div className="card border border-base-300 shadow-sm overflow-hidden bg-base-100" key={metric.metric}>
@@ -111,6 +113,8 @@ export function MetricsCard({
           multiAxis={metric.multiAxis}
           selectedSystems={selectedSystems}
           tooltipExtraLines={tooltipExtraLines}
+          metricTitle={metric.title}
+          tooltipEmptyLabel={tooltipEmptyLabel}
         />
       </div>
     </div>

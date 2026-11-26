@@ -14,9 +14,19 @@ import {
 } from 'chart.js'
 import { useChartData, useExportChart } from '@/hooks'
 import { RangeSlider } from '@/components'
-import { createWatermarkPlugin, type LayerType, CHART_FONT, getChartThemeTokens } from '@/utils'
+import {
+  createWatermarkPlugin,
+  type LayerType,
+  CHART_FONT,
+  getChartThemeTokens
+} from '@/utils'
+import { LAYER_CONFIG, type LayerChartConfig } from '@/config/layers'
 import { ThemeContext } from '@/contexts'
 import type { DataEntry } from '@/utils/types'
+import {
+  createHtmlTooltipHandler,
+  type HtmlTooltipOptions
+} from './chartHtmlTooltip'
 
 import 'chartjs-adapter-date-fns'
 import { format } from 'date-fns'
@@ -52,6 +62,10 @@ type LineProps = {
   selectedSystems?: Set<string>
   // Extra tooltip lines per point, under that ledger's value line.
   tooltipExtraLines?: (raw: DataEntry) => string[]
+  // HTML tooltip only (see chartHtmlTooltip.ts): header text, and the reason
+  // shown for a ledger with an empty value at the hovered period.
+  metricTitle?: string
+  tooltipEmptyLabel?: (raw: DataEntry) => string | null
 }
 
 export function LineChart({
@@ -65,7 +79,9 @@ export function LineChart({
   yAxisDecimals,
   multiAxis,
   selectedSystems,
-  tooltipExtraLines
+  tooltipExtraLines,
+  metricTitle,
+  tooltipEmptyLabel
 }: LineProps) {
   const { theme: resolvedTheme } = useContext(ThemeContext)
   const { chartData, sliderValue, sliderRange, setSliderValue } = useChartData(
@@ -191,6 +207,17 @@ export function LineChart({
   const options = useMemo(() => {
     if (!resolvedTheme || !chartData) return undefined
 
+    const layerChart = LAYER_CONFIG[type].chart
+    const htmlTooltip: HtmlTooltipOptions | undefined =
+      layerChart.htmlTooltip && !multiAxis
+        ? {
+            metricTitle,
+            formatValue: (value) => formatTooltipValue(value, tooltipDecimals),
+            extraLines: tooltipExtraLines,
+            emptyLabel: tooltipEmptyLabel
+          }
+        : undefined
+
     return getChartOptions(
       metric,
       resolvedTheme,
@@ -199,9 +226,14 @@ export function LineChart({
       tooltipDecimals,
       yAxisDecimals,
       multiAxis,
-      tooltipExtraLines
+      tooltipExtraLines,
+      htmlTooltip,
+      layerChart
     )
   }, [
+    type,
+    metricTitle,
+    tooltipEmptyLabel,
     metric,
     resolvedTheme,
     timeUnit,
@@ -346,6 +378,15 @@ function LineChartSkeleton() {
 }
 
 // Enhanced getChartOptions function with multi-axis support
+function formatTooltipValue(value: number, decimals?: number): string {
+  return typeof decimals === 'number'
+    ? value.toLocaleString(undefined, {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      })
+    : String(value)
+}
+
 function getChartOptions(
   metric: string,
   theme: string,
@@ -354,12 +395,15 @@ function getChartOptions(
   tooltipDecimals?: number,
   yAxisDecimals?: number | null,
   multiAxis?: MultiAxisConfig,
-  tooltipExtraLines?: (raw: DataEntry) => string[]
+  tooltipExtraLines?: (raw: DataEntry) => string[],
+  htmlTooltip?: HtmlTooltipOptions,
+  layerChart?: LayerChartConfig
 ): ChartOptions<'line'> {
   const t = getChartThemeTokens(theme)
 
   const baseOptions: ChartOptions<'line'> = {
     responsive: true,
+    spanGaps: layerChart?.spanGaps ?? false,
     maintainAspectRatio: false,
     animation: {
       duration: 1000,
@@ -370,6 +414,9 @@ function getChartOptions(
       tooltip: {
         mode: 'x',
         intersect: false,
+        ...(htmlTooltip
+          ? { enabled: false, external: createHtmlTooltipHandler(htmlTooltip) }
+          : {}),
         backgroundColor: t.tooltipBg,
         titleColor: t.tooltipTitle,
         bodyColor: t.tooltipBody,
@@ -399,13 +446,7 @@ function getChartOptions(
             if (value === null || value === undefined) return ''
             const label = context.dataset.label || ''
 
-            const formatted =
-              typeof tooltipDecimals === 'number'
-                ? value.toLocaleString(undefined, {
-                    minimumFractionDigits: tooltipDecimals,
-                    maximumFractionDigits: tooltipDecimals
-                  })
-                : value
+            const formatted = formatTooltipValue(value, tooltipDecimals)
 
             const line = `${label}: ${formatted}`
             if (!tooltipExtraLines) return line
@@ -444,6 +485,9 @@ function getChartOptions(
           }
         },
         ticks: {
+          // Governance: ticks on the data dates, so every point sits on a
+          // gridline (e.g. half-yearly Jun/Dec).
+          ...(layerChart?.ticksOnData ? { source: 'data' as const } : {}),
           color: t.tickColor,
           font: { family: CHART_FONT, size: 11 }
         },

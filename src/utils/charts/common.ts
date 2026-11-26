@@ -13,7 +13,7 @@ type LedgerDataset = {
   label: string
   // null y = no value for that point (e.g. Gini undefined with only one
   // approver) - keeps the x position with no point drawn; the line shows a
-  // gap there unless spanGaps is set.
+  // gap there unless the chart's spanGaps is set (LAYER_CONFIG chart).
   data: { x: Date; y: number | null; raw?: DataEntry }[]
   borderColor: string
   backgroundColor: string
@@ -23,8 +23,6 @@ type LedgerDataset = {
   pointBorderWidth?: number | ((ctx: ScriptableContext<'line'>) => number)
   pointHoverBorderWidth?: number | ((ctx: ScriptableContext<'line'>) => number)
   pointBorderColor?: string | ((ctx: ScriptableContext<'line'>) => string)
-  // Join the line across null values (no point is drawn at the null itself).
-  spanGaps?: boolean
   hidden?: boolean
 }
 
@@ -52,7 +50,7 @@ function isIsolatedPoint(ctx: ScriptableContext<'line'>): boolean {
   const data = ctx.dataset.data as unknown as { y: number | null }[]
   // With spanGaps the line joins across nulls, so a point is only isolated
   // when it is the series' sole value.
-  if ((ctx.dataset as { spanGaps?: boolean }).spanGaps) {
+  if ((ctx.chart.options as { spanGaps?: boolean | number }).spanGaps) {
     return data.filter((p) => p.y !== null && p.y !== undefined).length === 1
   }
   const prev = data[ctx.dataIndex - 1]?.y
@@ -196,8 +194,6 @@ function buildDatasets(
         pointHoverBorderWidth: (ctx) => (isSparseSeries(ctx) ? 2 : 1),
         pointBorderColor: (ctx) =>
           isSparseSeries(ctx) ? getPointHaloColor(ctx) : ledgerColorMap[ledger],
-        // Governance interpolates across empty years; other layers keep gaps.
-        spanGaps: layer === 'governance',
         hidden: selectedSystems ? !selectedSystems.has(ledger) : false
       }
     }
